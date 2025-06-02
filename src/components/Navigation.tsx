@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,17 +19,21 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+    <nav className="fixed top-0 w-full  backdrop-blur-sm  z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">SFJ</span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-xl font-bold text-gray-900">SFJ Business Solutions</span>
-              <p className="text-sm text-gray-600">Empowering Global Talent</p>
-            </div>
+        <div className="flex  justify-between items-center my-1">
+          <Link href="/" className="flex flex-col items-center space-x-2">
+            <Image
+              src="/app/sfjlogo.png"
+              alt="sfjlogo"
+              className="w-16  object-cover "
+              quality={100}
+              width={100}
+              height={100}
+            />
+            <p className="text-xs font-semibold -m-1">
+              Let&apos;s <span className="">Transform</span>
+            </p>
           </Link>
 
           {/* Desktop Navigation */}
@@ -39,8 +44,8 @@ const Navigation = () => {
                 href={item.path}
                 className={`text-sm font-medium transition-colors hover:text-blue-600 ${
                   location === item.path
-                    ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-                    : "text-gray-700"
+                    ? "text-black bg-white p-2 rounded-md  pb-1"
+                    : "text-black"
                 }`}
               >
                 {item.label}
@@ -58,7 +63,11 @@ const Navigation = () => {
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
@@ -82,7 +91,10 @@ const Navigation = () => {
                 </Link>
               ))}
               <div className="px-3 py-2">
-                <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700">
+                <Button
+                  size="sm"
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                >
                   Contact Us
                 </Button>
               </div>

@@ -1,83 +1,118 @@
-
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building, GraduationCap, Globe, Users, Award, Handshake } from "lucide-react";
+import {
+  Building,
+  GraduationCap,
+  Globe,
+  Users,
+  Award,
+  Handshake,
+} from "lucide-react";
 
 const Partners = () => {
   const technologyPartners = [
     {
       category: "Cloud Computing",
-      partners: ["Microsoft Azure", "Amazon Web Services (AWS)", "Google Cloud Platform"],
-      description: "Authorized training partnerships for cloud platform solutions"
+      partners: [
+        "Microsoft Azure",
+        "Amazon Web Services (AWS)",
+        "Google Cloud Platform",
+      ],
+      description:
+        "Authorized training partnerships for cloud platform solutions",
     },
     {
       category: "Enterprise Software",
       partners: ["SAP", "Oracle", "Microsoft", "Salesforce"],
-      description: "Comprehensive enterprise application training authorization"
+      description:
+        "Comprehensive enterprise application training authorization",
     },
     {
       category: "Cybersecurity & Certification",
       partners: ["CompTIA", "PeopleCert", "PMI"],
-      description: "Leading certification training and professional assessment"
-    }
+      description: "Leading certification training and professional assessment",
+    },
   ];
 
   const corporateClients = [
     {
       category: "Global Consulting Leaders",
       companies: ["Accenture", "Capgemini", "KPMG", "Ernst & Young"],
-      focus: "Workforce transformation and digital skills development"
+      focus: "Workforce transformation and digital skills development",
     },
     {
-      category: "Technology Service Providers", 
-      companies: ["Tata Consultancy Services", "Wipro", "Tech Mahindra", "Mphasis"],
-      focus: "Enterprise-scale training program delivery"
+      category: "Technology Service Providers",
+      companies: [
+        "Tata Consultancy Services",
+        "Wipro",
+        "Tech Mahindra",
+        "Mphasis",
+      ],
+      focus: "Enterprise-scale training program delivery",
     },
     {
       category: "Technology Infrastructure",
       companies: ["Atos Syntel", "Hexaware", "NTTData"],
-      focus: "Infrastructure management and digital platform development"
-    }
+      focus: "Infrastructure management and digital platform development",
+    },
   ];
 
   const governmentPartners = [
     {
       name: "NSDC (National Skill Development Corporation)",
-      description: "Strategic partnership for nationwide skill development initiatives",
-      impact: "4,000 learners in Cloud Computing and Generative AI"
+      description:
+        "Strategic partnership for nationwide skill development initiatives",
+      impact: "4,000 learners in Cloud Computing and Generative AI",
     },
     {
       name: "Karnataka Skill Development Corporation",
-      description: "Regional training program delivery and workforce development",
-      impact: "500 learners in emerging technology domains"
+      description:
+        "Regional training program delivery and workforce development",
+      impact: "500 learners in emerging technology domains",
     },
     {
       name: "Tamil Nadu Skill Development Corporation",
-      description: "Large-scale digital literacy and skill enhancement programs",
-      impact: "27,000 learners in comprehensive digital skills"
+      description:
+        "Large-scale digital literacy and skill enhancement programs",
+      impact: "27,000 learners in comprehensive digital skills",
     },
     {
       name: "MP State Skill Development Mission",
       description: "Specialized AI and emerging technology training programs",
-      impact: "1,600 learners in Generative AI applications"
-    }
+      impact: "1,600 learners in Generative AI applications",
+    },
   ];
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
-      
-      {/* Hero Section */}
-      <section className="pt-24 pb-12 bg-gradient-to-br from-blue-900 to-blue-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative h-[70vh] pt-24 pb-12 text-white overflow-hidden flex items-center">
+        {/* Background Video */}
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onError={(e) => console.log("Video error:", e)}
+        >
+          <source src="/app/home/hero-section.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Overlay for readability */}
+        {/* <div className="absolute inset-0 bg-black/30 z-10" /> */}
+
+        {/* Content */}
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Strategic Partnerships & Collaborations
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Building transformative alliances with global technology leaders, government institutions, and industry innovators
+              Building transformative alliances with global technology leaders,
+              government institutions, and industry innovators
             </p>
           </div>
         </div>
@@ -91,30 +126,41 @@ const Partners = () => {
               Global Technology Partners
             </h2>
             <p className="text-xl text-gray-600">
-              Authorized training partnerships with industry-leading technology companies
+              Authorized training partnerships with industry-leading technology
+              companies
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {technologyPartners.map((category, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+              <Card
+                key={index}
+                className="p-6 hover:shadow-lg transition-shadow"
+              >
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="p-2 bg-blue-100 rounded-lg">
                       <Building className="h-6 w-6 text-blue-600" />
                     </div>
-                    <CardTitle className="text-lg">{category.category}</CardTitle>
+                    <CardTitle className="text-lg">
+                      {category.category}
+                    </CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2 mb-4">
                     {category.partners.map((partner, idx) => (
-                      <div key={idx} className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700 inline-block mr-2 mb-2">
+                      <div
+                        key={idx}
+                        className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700 inline-block mr-2 mb-2"
+                      >
                         {partner}
                       </div>
                     ))}
                   </div>
-                  <p className="text-gray-600 text-sm">{category.description}</p>
+                  <p className="text-gray-600 text-sm">
+                    {category.description}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -130,13 +176,17 @@ const Partners = () => {
               Government & Institutional Collaborations
             </h2>
             <p className="text-xl text-gray-600">
-              Strategic partnerships driving nationwide skill development initiatives
+              Strategic partnerships driving nationwide skill development
+              initiatives
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {governmentPartners.map((partner, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+              <Card
+                key={index}
+                className="p-6 hover:shadow-lg transition-shadow"
+              >
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="p-2 bg-green-100 rounded-lg">
@@ -149,7 +199,9 @@ const Partners = () => {
                   <p className="text-gray-600 mb-3">{partner.description}</p>
                   <div className="flex items-center space-x-2">
                     <Users className="h-4 w-4 text-blue-600" />
-                    <span className="text-sm font-medium text-blue-600">{partner.impact}</span>
+                    <span className="text-sm font-medium text-blue-600">
+                      {partner.impact}
+                    </span>
                   </div>
                 </CardContent>
               </Card>
@@ -166,7 +218,8 @@ const Partners = () => {
               Corporate Client Portfolio
             </h2>
             <p className="text-xl text-gray-600">
-              Trusted by global consulting leaders and technology service providers
+              Trusted by global consulting leaders and technology service
+              providers
             </p>
           </div>
 
@@ -178,15 +231,22 @@ const Partners = () => {
                     <Handshake className="h-8 w-8 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">{category.category}</h3>
+                    <h3 className="text-xl font-bold text-gray-900">
+                      {category.category}
+                    </h3>
                     <p className="text-gray-600">{category.focus}</p>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {category.companies.map((company, idx) => (
-                    <div key={idx} className="p-4 bg-gray-50 rounded-lg text-center">
-                      <span className="font-medium text-gray-800">{company}</span>
+                    <div
+                      key={idx}
+                      className="p-4 bg-gray-50 rounded-lg text-center"
+                    >
+                      <span className="font-medium text-gray-800">
+                        {company}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -218,7 +278,9 @@ const Partners = () => {
               <p className="text-gray-600 mb-4">
                 Future Skills Prime and Digital 101 initiatives
               </p>
-              <div className="text-2xl font-bold text-blue-600">6,000+ learners</div>
+              <div className="text-2xl font-bold text-blue-600">
+                6,000+ learners
+              </div>
             </Card>
 
             <Card className="p-8 text-center">
@@ -233,7 +295,9 @@ const Partners = () => {
               <p className="text-gray-600 mb-4">
                 Academic institution collaborations for curriculum development
               </p>
-              <div className="text-2xl font-bold text-green-600">Multiple Institutions</div>
+              <div className="text-2xl font-bold text-green-600">
+                Multiple Institutions
+              </div>
             </Card>
           </div>
         </div>
@@ -247,14 +311,17 @@ const Partners = () => {
               Partnership Value Proposition
             </h2>
             <p className="text-xl text-gray-600">
-              Creating mutual value through strategic collaboration and shared expertise
+              Creating mutual value through strategic collaboration and shared
+              expertise
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="p-6 text-center">
               <Globe className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-4">For Technology Partners</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                For Technology Partners
+              </h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Market expansion opportunities</li>
                 <li>• Direct access to skilled talent pipeline</li>
@@ -264,7 +331,9 @@ const Partners = () => {
 
             <Card className="p-6 text-center">
               <Building className="h-12 w-12 text-green-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-4">For Corporate Clients</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                For Corporate Clients
+              </h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Rapid skill development programs</li>
                 <li>• Cost-optimized training delivery</li>
@@ -274,7 +343,9 @@ const Partners = () => {
 
             <Card className="p-6 text-center">
               <GraduationCap className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-4">For Educational Institutions</h3>
+              <h3 className="text-lg font-semibold mb-4">
+                For Educational Institutions
+              </h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li>• Industry-relevant curriculum</li>
                 <li>• Expert faculty access</li>
@@ -292,15 +363,15 @@ const Partners = () => {
             Become a Strategic Partner
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join our network of technology leaders, educational institutions, and industry innovators to transform workforce capabilities together.
+            Join our network of technology leaders, educational institutions,
+            and industry innovators to transform workforce capabilities
+            together.
           </p>
           <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50">
             Partner With Us
           </Button>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };
