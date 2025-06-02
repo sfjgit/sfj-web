@@ -9,7 +9,7 @@ import FootprintSection from "./_components/FootprintSection";
 import TalentServicesSection from "./_components/TalentServicesSection";
 import PartnersSection from "./_components/PartnersSection";
 import GlobalPresenceSection from "./_components/GlobalPresenceSection";
-import BlogSection from "./_components/BlogSection";
+// import BlogSection from "./_components/BlogSection";
 import CTASection from "./_components/CTASection";
 import FloatingActionButton from "./_components/FloatingActionButton";
 import SEOHead from "./_components/SeoHead";
@@ -28,7 +28,7 @@ const HomePage = () => {
       <TalentServicesSection />
       <PartnersSection />
       <GlobalPresenceSection />
-      <BlogSection />
+      {/* <BlogSection /> */}
       <CTASection />
       <FloatingActionButton />
     </div>
