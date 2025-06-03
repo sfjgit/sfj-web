@@ -10,7 +10,7 @@ const OfferingsSection = () => {
       id: 1,
       name1: "Knowledge",
       name2: "As A Service",
-      image: "/app/home/knowledge-as-service.jpeg",
+      image: "/app/home/knowledge-as-service.png",
       link: "/solutions/knowledge",
       description:
         "Comprehensive training programs across 640+ specialized courses",
@@ -19,7 +19,7 @@ const OfferingsSection = () => {
       id: 2,
       name1: "Talent",
       name2: "As A Service",
-      image: "/app/home/talent-as-service.jpeg",
+      image: "/app/home/talent-as-service.png",
       link: "/solutions/talent",
       description: "15,000+ IT placements with top-tier professionals",
     },

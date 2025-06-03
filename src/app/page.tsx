@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React from "react";
 import HeroSection from "./_components/HeroSection";
 import OfferingsSection from "./_components/Offerings";
 import ClientsSection from "./_components/Clients";
-import TimelineSection from "./_components/TimelineSection";
 import WhyWorkWithUsSection from "./_components/WhyWorkWithUsSection";
 import FootprintSection from "./_components/FootprintSection";
 import TalentServicesSection from "./_components/TalentServicesSection";
@@ -24,7 +24,14 @@ const HomePage = () => {
       <ClientsSection />
       <WhyWorkWithUsSection />
       <FootprintSection />
-      <TimelineSection />
+      {/* <TimelineSection /> */}
+      <div className="max-w-7xl mx-auto py-5 px-3">
+        <img
+          src="/app/about/Timeline-of-SFJ.png"
+          alt=""
+          className="w-full object-cover"
+        />
+      </div>
       <TalentServicesSection />
       <PartnersSection />
       <GlobalPresenceSection />
