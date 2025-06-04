@@ -1,8 +1,14 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 // app/csr/page.tsx
-import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import {
   Users,
   GraduationCap,
@@ -17,98 +23,72 @@ import {
   ArrowRight,
   Quote,
 } from "lucide-react";
+import {
+  CSRStrategyFramework,
+  SkillDevelopmentDashboard,
+} from "./_components/stats";
+import React from "react";
+import Autoplay from "embla-carousel-autoplay";
+import IndustriesSection from "./_components/Industries";
+import CSRHeroSection from "./_components/CSRHeroSection";
 
-// Industries array
-const industries = [
-  "Automotive",
-  "Communications",
-  "Construction and Engineering",
-  "Consumer Packaged Goods",
-  "Defense and Intelligence",
-  "Education",
-  "Financial Services",
-  "Government",
-  "Health",
-  "High Technology",
-  "Hospitality",
-  "Industrial Manufacturing",
-  "Life Sciences",
-  "Media and Entertainment",
-  "Oil and Gas",
-  "Professional Services",
-  "Public Safety",
-  "Restaurants",
-  "Retail",
-  "Transportation and Logistics",
-  "Utilities",
-  "Wholesale Distribution",
-  "Aerospace and Defence",
-  "Agribusiness",
-  "Banking",
-  "Chemicals",
-  "Consumer Products",
-  "Defence and Security",
-  "Insurance",
-  "Mining",
-];
-
-export const metadata: Metadata = {
-  title: "Corporate Social Responsibility | SFJ Business Solutions",
-  description:
-    "Empowering Futures, Building a Skilled India. Learn about SFJ Business Solutions' commitment to creating positive societal impact through skilling, education, and sustainable development.",
-  keywords: [
-    "CSR",
-    "Corporate Social Responsibility",
-    "Skill India",
-    "SFJ Business Solutions",
-    "Skills Development",
-    "Education",
-    "Community Development",
-    "Sustainable Development",
-    "Training Programs",
-    "Employment",
-    "Social Impact",
-  ],
-  authors: [{ name: "SFJ Business Solutions" }],
-  openGraph: {
-    title: "Corporate Social Responsibility | SFJ Business Solutions",
-    description:
-      "Empowering Futures, Building a Skilled India through comprehensive CSR initiatives.",
-    url: "https://sfjbusiness.com/csr",
-    siteName: "SFJ Business Solutions",
-    images: [
-      {
-        url: "/images/csr-hero.jpg",
-        width: 1200,
-        height: 630,
-        alt: "SFJ Business Solutions CSR Impact",
-      },
-    ],
-    locale: "en_IN",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Corporate Social Responsibility | SFJ Business Solutions",
-    description:
-      "Empowering Futures, Building a Skilled India through comprehensive CSR initiatives.",
-    images: ["/images/csr-hero.jpg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  alternates: {
-    canonical: "https://sfjbusiness.com/csr",
-  },
-};
+// export const metadata: Metadata = {
+//   title: "Corporate Social Responsibility | SFJ Business Solutions",
+//   description:
+//     "Empowering Futures, Building a Skilled India. Learn about SFJ Business Solutions' commitment to creating positive societal impact through skilling, education, and sustainable development.",
+//   keywords: [
+//     "CSR",
+//     "Corporate Social Responsibility",
+//     "Skill India",
+//     "SFJ Business Solutions",
+//     "Skills Development",
+//     "Education",
+//     "Community Development",
+//     "Sustainable Development",
+//     "Training Programs",
+//     "Employment",
+//     "Social Impact",
+//   ],
+//   authors: [{ name: "SFJ Business Solutions" }],
+//   openGraph: {
+//     title: "Corporate Social Responsibility | SFJ Business Solutions",
+//     description:
+//       "Empowering Futures, Building a Skilled India through comprehensive CSR initiatives.",
+//     url: "https://sfjbusiness.com/csr",
+//     siteName: "SFJ Business Solutions",
+//     images: [
+//       {
+//         url: "/images/csr-hero.jpg",
+//         width: 1200,
+//         height: 630,
+//         alt: "SFJ Business Solutions CSR Impact",
+//       },
+//     ],
+//     locale: "en_IN",
+//     type: "website",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Corporate Social Responsibility | SFJ Business Solutions",
+//     description:
+//       "Empowering Futures, Building a Skilled India through comprehensive CSR initiatives.",
+//     images: ["/images/csr-hero.jpg"],
+//   },
+//   robots: {
+//     index: true,
+//     follow: true,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       "max-video-preview": -1,
+//       "max-image-preview": "large",
+//       "max-snippet": -1,
+//     },
+//   },
+//   alternates: {
+//     canonical: "https://sfjbusiness.com/csr",
+//   },
+// };
 
 // Statistics data
 const impactStats = [
@@ -220,187 +200,44 @@ const csrPillars = [
   },
 ];
 
-const IndustriesSection = () => {
-  return (
-    <section className="py-20 lg:py-32 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            Industries We <span className="text-blue-600">Serve</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Delivering excellence across diverse sectors with tailored solutions
-            that drive growth and innovation
-          </p>
-        </div>
-
-        {/* Industries Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 bg-black">
-          {industries.map((industry, index) => (
-            <div key={index}>
-              <img
-                src={`/app/CSR/${index + 1}.png`}
-                alt={industry}
-                className="w-20  object-cover transition-transform duration-500 group-hover:scale-110 "
-              />
-              <p className="text-lg font-semibold text-white mt-4">
-                {industry}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 export default function CSRPage() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
+
   return (
     <div className="min-h-screen bg-white">
-      <section className="relative bg-gradient-to-br from-sky-50 via-blue-50 to-white text-slate-800 overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-200/20 via-transparent to-blue-200/20"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,_theme(colors.sky.300/0.1)_0%,_transparent_50%)]"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,_theme(colors.blue.300/0.1)_0%,_transparent_50%)]"></div>
-        </div>
-
-        {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.03)_1px,transparent_1px)] bg-[size:64px_64px]"></div>
-
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16 lg:py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Content Section */}
-            <div className="space-y-6">
-              {/* Badge */}
-              <div className="inline-flex items-center px-3 py-1.5 bg-sky-100/10 border border-sky-300/30 rounded-full text-sm font-medium text-sky-200 backdrop-blur-sm">
-                <div className="w-2 h-2 bg-sky-400 rounded-full mr-2 animate-pulse"></div>
-                Transforming Education & Skills
-              </div>
-
-              {/* Main Heading */}
-              <h1 className="text-3xl lg:text-5xl font-bold leading-tight">
-                Empowering Futures,{" "}
-                <span className="bg-gradient-to-r from-sky-300 to-blue-400 bg-clip-text text-transparent">
-                  Building a Skilled India
-                </span>
-              </h1>
-
-              {/* Description */}
-              <p className="text-lg text-slate-200 leading-relaxed max-w-xl">
-                At SFJ Business Solutions, we create transformative societal
-                impact through comprehensive skilling initiatives and
-                sustainable development programs.
-              </p>
-
-              {/* Statistics */}
-              <div className="grid grid-cols-3 gap-6 py-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-sky-300 mb-1">
-                    50K+
-                  </div>
-                  <div className="text-xs text-slate-400">Lives Impacted</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-300 mb-1">
-                    200+
-                  </div>
-                  <div className="text-xs text-slate-400">Programs</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-sky-400 mb-1">
-                    15+
-                  </div>
-                  <div className="text-xs text-slate-400">States</div>
-                </div>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Link
-                  href="#impact"
-                  className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white font-medium rounded-lg hover:from-sky-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-[1.02]"
-                >
-                  Learn Our Impact
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  href="#initiatives"
-                  className="group inline-flex items-center px-6 py-3 bg-white/5 border border-sky-300/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
-                >
-                  View Initiatives
-                  <svg
-                    className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-
-            {/* Image Section */}
-            <div className="relative">
-              {/* Decorative Elements */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-sky-300/30 to-blue-300/30 rounded-full blur-xl"></div>
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-blue-300/30 to-sky-300/30 rounded-full blur-xl"></div>
-
-              {/* Main Image Container */}
-              <div className="relative">
-                <div className="aspect-[4/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-sky-200/50">
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent z-10"></div>
-                  <Image
-                    src="/images/csr-hero.jpg"
-                    alt="Modern training facility with people learning technology skills"
-                    width={600}
-                    height={450}
-                    className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
-                    priority
-                  />
-
-                  {/* Floating Card */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md border border-sky-200/50 rounded-lg p-3 z-20">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-xs font-medium text-slate-600">
-                          Next Training Batch
-                        </div>
-                        <div className="text-sm font-semibold text-slate-800">
-                          Starts June 15, 2025
-                        </div>
-                      </div>
-                      <div className="flex -space-x-1.5">
-                        <div className="w-6 h-6 bg-sky-400 rounded-full border-2 border-white"></div>
-                        <div className="w-6 h-6 bg-blue-400 rounded-full border-2 border-white"></div>
-                        <div className="w-6 h-6 bg-sky-500 rounded-full border-2 border-white"></div>
-                        <div className="w-6 h-6 bg-slate-400 rounded-full border-2 border-white flex items-center justify-center">
-                          <span className="text-xs font-medium text-white">
-                            +5
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
-      </section>
-
+      <CSRHeroSection />
+      <SkillDevelopmentDashboard />
+      <CSRStrategyFramework />
       <section>
         <IndustriesSection />
+      </section>
+
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Carousel
+          plugins={[plugin.current]}
+          className="w-full m-0 p-0"
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+        >
+          <CarouselContent>
+            <CarouselItem className="md:basis-1/3">
+              <img src="/app/CSR/gallery/1.jpeg" alt="naan-mudhalvan gallery" />
+            </CarouselItem>
+            <CarouselItem className="md:basis-1/3">
+              <img src="/app/CSR/gallery/2.jpeg" alt="images" />
+            </CarouselItem>
+            <CarouselItem className="md:basis-1/3">
+              <img src="/app/CSR/gallery/3.jpeg" alt="images" />
+            </CarouselItem>
+            <CarouselItem className="md:basis-1/3">
+              <img src="/app/CSR/gallery/4.jpeg" alt="images" />
+            </CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious className="md:flex hidden" />
+          <CarouselNext className="md:flex hidden" />
+        </Carousel>
       </section>
 
       {/* Impact Statistics */}
