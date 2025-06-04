@@ -2,13 +2,14 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = usePathname();
+  const router = useRouter();
 
   const navItems = [
     { path: "/", label: "Home" },
@@ -51,7 +52,11 @@ const Navigation = () => {
                 {item.label}
               </Link>
             ))}
-            <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+            <Button
+              onClick={() => router.push("/contact")}
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700"
+            >
               Contact Us
             </Button>
           </div>
