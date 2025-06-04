@@ -25,7 +25,7 @@ const HomePage = () => {
       <WhyWorkWithUsSection />
       <FootprintSection />
       {/* <TimelineSection /> */}
-      <div className="max-w-7xl mx-auto py-5 px-3">
+      <div className="max-w-7xl mx-auto py-5 px-3 mb-20">
         <img
           src="/app/about/Timeline-of-SFJ.png"
           alt=""
