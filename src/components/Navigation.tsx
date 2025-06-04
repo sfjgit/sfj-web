@@ -14,6 +14,9 @@ const Navigation = () => {
   const navItems = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
+    { path: "/solutions/corporate-training", label: "Corporate Training" },
+    { path: "/corporate-social-responsibility", label: "CSR" },
+
     { path: "/solutions", label: "Solutions" },
     { path: "/impact", label: "Impact" },
     { path: "/partners", label: "Partners" },

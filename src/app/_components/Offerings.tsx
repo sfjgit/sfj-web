@@ -11,7 +11,7 @@ const OfferingsSection = () => {
       name1: "Knowledge",
       name2: "As A Service",
       image: "/app/home/knowledge-as-service.png",
-      link: "/solutions/knowledge",
+      link: "/solutions/corporate-training",
       description:
         "Comprehensive training programs across 640+ specialized courses",
     },
