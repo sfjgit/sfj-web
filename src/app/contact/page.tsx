@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,11 +12,14 @@ import {
   Send,
   Building,
   GraduationCap,
-  Users,
   Globe,
   Check,
   ChevronDown,
 } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
+import { handleErrors } from "@/lib/handleError";
 
 // Validation Schema
 const contactSchema = z
@@ -105,11 +109,11 @@ const ContactForm = () => {
       gradient: "from-green-500 to-green-600",
     },
     {
-      value: "b2g",
-      title: "Government Programs",
-      description: "Public sector training initiatives",
-      icon: <Users className="w-6 h-6" />,
-      gradient: "from-purple-500 to-purple-600",
+      value: "it-staffing",
+      title: "IT Staffing",
+      description: "Hiring IT professionals for your organization",
+      icon: <Globe className="w-6 h-6" />,
+      gradient: "from-orange-500 to-orange-600",
     },
   ];
 
@@ -140,12 +144,41 @@ const ContactForm = () => {
     setValue("subCategory", subCategory as "jobs" | "skills");
   };
 
+  const submitMutation = useMutation({
+    mutationFn: async (data: ContactFormData) => {
+      await axios.post(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/lead", {
+        ...data,
+      });
+    },
+    onSuccess: () => {
+      // Show success message
+      setTimeout(() => {
+        reset(); // Reset form
+        // onClose(); // Close dialog
+      }, 2000);
+    },
+    onError: (err) => {
+      console.error(err);
+      toast.error(
+        handleErrors(err as any) ?? "Something went wrong. Please try again."
+      );
+    },
+  });
+
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
+      // Convert empty strings to undefined
+      const cleanedData = Object.fromEntries(
+        Object.entries(data).map(([key, value]) => [
+          key,
+          typeof value === "string" && value.trim() === "" ? undefined : value,
+        ])
+      ) as ContactFormData;
+
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Form submitted:", data);
+      await submitMutation.mutateAsync(cleanedData);
+
       setIsSuccess(true);
       setTimeout(() => {
         setIsSuccess(false);
@@ -162,7 +195,7 @@ const ContactForm = () => {
 
   if (isSuccess) {
     return (
-      <div className="w-full mx-auto">
+      <div className="w-full mx-auto h-screen flex items-center justify-center">
         <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Check className="w-10 h-10 text-green-600" />
@@ -392,18 +425,6 @@ const ContactForm = () => {
                 {errors.websiteUrl.message}
               </p>
             )}
-          </div>
-
-          {/* Course (Optional) */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
-              Specific Course Interest (Optional)
-            </label>
-            <input
-              {...register("course")}
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              placeholder="Enter course name or area of interest"
-            />
           </div>
 
           {/* Message */}

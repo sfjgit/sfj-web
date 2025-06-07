@@ -1,119 +1,558 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
+
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { Metadata } from "next";
 
-const About = () => {
-  const [visibleItems, setVisibleItems] = useState(new Set());
-  // @ts-expect-error `entry.target` is of type `Element`
-  const observerRef = useRef();
+// Types
+interface TeamMember {
+  name: string;
+  image: string;
+  role: string;
+  description: string;
+}
+
+interface Stakeholder {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+interface Office {
+  flag: string;
+  country: string;
+  role: string;
+  desc: string;
+  color: string;
+}
+
+interface VisibleItems {
+  [key: string]: boolean;
+}
+
+// Data
+const teamData: TeamMember[] = [
+  {
+    name: "Nisha Menon",
+    image: "/about/nisha.png",
+    role: "Delivery Manager",
+    description: "https://www.linkedin.com/in/nisha-menon-2a328924/",
+  },
+  {
+    name: "Swati Sharma",
+    image: "/about/swathi.jpg",
+    role: "Manager(Talent Acquisition)",
+    description: "https://www.linkedin.com/in/swati-sharma-aa944113/",
+  },
+  {
+    name: "Rakhi Dujrayan",
+    image: "/about/rakhi.png",
+    role: "Senior Business Development Manager",
+    description: "https://www.linkedin.com/in/rakhi-dujrayan-69192273/",
+  },
+  {
+    name: "Yatin Anand",
+    image: "/about/yatin.jpg",
+    role: "Manager – Key Accounts",
+    description: "https://www.linkedin.com/in/peter-tc",
+  },
+];
+
+const stakeholdersData: Stakeholder[] = [
+  {
+    title: "Aspirational Learners",
+    description:
+      "Students and job-seekers gaining future-ready skills through our comprehensive programs.",
+    icon: "🎓",
+  },
+  {
+    title: "Academic Institutions",
+    description:
+      "Educational partners providing micro-credentials and infrastructure support for enhanced learning outcomes.",
+    icon: "🏫",
+  },
+  {
+    title: "IT Organizations",
+    description:
+      "Technology companies offering infrastructure, mentoring, and real-world project opportunities.",
+    icon: "💼",
+  },
+  {
+    title: "Industry Partners",
+    description:
+      "Businesses sharing knowledge and providing career opportunities for our program graduates.",
+    icon: "🏭",
+  },
+];
+
+const officesData: Office[] = [
+  {
+    flag: "🇮🇳",
+    country: "India",
+    role: "Global Headquarters",
+    desc: "Primary delivery center",
+    color: "from-orange-400 to-green-500",
+  },
+  {
+    flag: "🇸🇬",
+    country: "Singapore",
+    role: "Asia-Pacific Hub",
+    desc: "Regional training center",
+    color: "from-red-400 to-red-600",
+  },
+  {
+    flag: "🇦🇪",
+    country: "UAE",
+    role: "Middle East Operations",
+    desc: "MENA market focus",
+    color: "from-green-400 to-red-500",
+  },
+  {
+    flag: "🇺🇸",
+    country: "USA",
+    role: "North America",
+    desc: "Market development",
+    color: "from-blue-400 to-red-500",
+  },
+];
+
+// Components
+const HeroSection: React.FC = () => (
+  <section className="relative h-[60vh] sm:h-[70vh] pt-16 sm:pt-24 pb-8 sm:pb-16 text-gray-800 overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100">
+    <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+      <div className="text-left">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          Our Journey
+        </h1>
+        <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mb-4 rounded-full"></div>
+        <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl leading-relaxed">
+          From Vision to Global Impact – Founded in 2011, SFJ Business Solutions
+          began with a simple yet powerful vision: to bridge the global skills
+          gap through innovative technology training.
+        </p>
+      </div>
+    </div>
+  </section>
+);
+
+const WhoWeAreSection: React.FC = () => (
+  <section className="md:pt-14 text-gray-800 bg-white" id="WhoWe-Are">
+    <div className="p-4 md:container flex flex-wrap gap-10 mx-auto">
+      <div className="w-auto lg:min-w-[700px] flex-1 pb-10">
+        <h1 className="text-4xl text-center tracking-wide text-green-700">
+          Who We Are
+        </h1>
+        <p className="prose pt-8 text-gray-700">
+          Founded in 2011, SFJ Business Solutions has been a trusted knowledge
+          and talent services partner for several multi-national organizations.
+          Driven by a core team with a wealth of passion and expertise, we have
+          built long-lasting relationships with customers all over the globe,
+          helping them scale their businesses with just-in-time and
+          cost-effective talent transformation services and IT services.
+        </p>
+        <p className="pt-8 text-gray-700">
+          We have an exceptional track record in workforce training, staffing,
+          consulting and implementations on several key technical capabilities
+          including SAP and Oracle. Over the last decade, we have created
+          tremendous value for our customers through our strong network of
+          staff, consultants, trainers and partners.
+        </p>
+        <p className="pt-8 text-gray-700">
+          Our Motto: <b className="text-lg text-green-700">S</b>olve business
+          challenges. <b className="text-lg text-green-700">F</b>oster agility
+          and growth. <b className="text-lg text-green-700">J</b>ubilate
+          customer success.
+        </p>
+      </div>
+
+      <div className="w-full flex lg:flex-row flex-1 lg:w-full md:h-fit lg:gap-0 gap-10 items-center justify-center md:flex-col flex-col">
+        <div className="lg:w-1/2 max-w-[400px] flex lg:min-w-[357px] lg:h-full md:h-[400px] h-[300px] relative">
+          <Image
+            fill
+            alt="Our Vision"
+            className="object-cover"
+            src="/aboutus/visionn.png"
+          />
+          <div className="w-full h-full text-white lg:p-20 p-24 flex flex-col justify-center items-center relative">
+            <p className="text-center text-xl mb-2 font-semibold">Our Vision</p>
+            <p className="text-center">
+              To be a market leader in creating a technology workforce for the
+              future through disruptions in upskilling and staffing.
+            </p>
+          </div>
+        </div>
+
+        <div className="lg:w-1/2 max-w-[400px] lg:min-w-[357px] lg:h-full md:h-[400px] h-[300px] relative">
+          <Image
+            fill
+            alt="Our Mission"
+            className="object-cover"
+            src="/aboutus/mission.png"
+          />
+          <div className="w-full h-full text-white gap-10 lg:p-20 p-24 flex flex-col justify-center items-center relative">
+            <div>
+              <p className="text-center text-xl mb-2 font-semibold">
+                Our Mission
+              </p>
+              <p className="text-center">
+                To help our customers achieve scale through innovative, agile
+                and efficient talent transformation solutions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const CoreValuesSection: React.FC = () => (
+  <>
+    <div className="w-full h-[100px]" id="Core-values"></div>
+    <section className="lg:container mx-auto text-black bg-gray-50 py-12">
+      <h1 className="text-4xl tracking-wide mb-10 text-center text-green-700">
+        Core Values
+      </h1>
+
+      <div className="lg:container mb-10 mx-auto">
+        <div className="flex tablet:flex-row flex-col gap-5 justify-center items-center">
+          {[
+            {
+              title: "Passion",
+              image: "/aboutus/passion.jpg",
+              description:
+                "A driving force behind our continuous innovation and value creation",
+            },
+            {
+              title: "Expertise",
+              image: "/aboutus/expertise.jpg",
+              description:
+                "A blend of experiences from the past and thought leadership focused on future",
+            },
+            {
+              title: "Empathy",
+              image: "/aboutus/empathy.jpg",
+              description:
+                "A customer-first approach that enables us to understand businesses and people better than most",
+            },
+          ].map((value, index) => (
+            <div key={index} className="p-4 lg:w-[400px]">
+              <div className="h-full rounded-lg">
+                <div className="h-60 w-full flex justify-center relative">
+                  <div className="w-[300px] h-full relative">
+                    <Image
+                      className="absolute inset-0 object-cover rounded-lg"
+                      fill
+                      alt={value.title}
+                      src={value.image}
+                    />
+                  </div>
+                  <div className="absolute inset-0 p-8 flex items-center justify-center">
+                    <p className="text-3xl font-semibold text-white">
+                      {value.title}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 text-center">
+                  <p className="leading-relaxed md:px-5 mb-3">
+                    {value.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </>
+);
+
+const TimelineSection: React.FC = () => (
+  <div className="max-w-7xl mx-auto py-5 px-3 mb-20">
+    <Image
+      src="/app/about/Timeline-of-SFJ.png"
+      alt="Timeline of SFJ"
+      width={1200}
+      height={600}
+      className="w-full object-cover"
+    />
+  </div>
+);
+
+const FounderSection: React.FC = () => (
+  <>
+    <div className="w-full h-[50px]" id="MeetOur-Founder"></div>
+    <section className="bg-blue-50 py-10 md:py-24">
+      <div className="container mx-auto text-center">
+        <h1 className="text-3xl md:text-5xl font-bold mb-6 text-gray-800">
+          Meet Our Founder
+        </h1>
+        <div className="flex justify-center mb-6">
+          <Image
+            src="/founder.jpeg"
+            alt="Founder"
+            width={240}
+            height={240}
+            className="h-60 w-60 rounded-full object-cover"
+          />
+        </div>
+        <div className="max-w-3xl mx-auto mt-10">
+          <div className="text-lg md:text-xl leading-relaxed space-y-4 text-gray-700">
+            <div className="mb-8 px-4 md:px-0">
+              <h3 className="font-bold text-center mb-6 text-gray-800">
+                Introducing Our Visionary CEO
+              </h3>
+              <p className="text-justify">
+                Mr. Sivasarathy, the leader behind SFJ Business Solutions. A
+                seasoned professional with diverse expertise. Mr. Sivasarathy,
+                or Siva as he is fondly called, is the founder and CEO of SFJ
+                Business Solutions Pvt Ltd, a leading provider of IT consulting,
+                outsourcing, and skilling solutions. With over two decades of
+                experience in various technical domains such as SAP and Oracle,
+                Siva has managed projects, delivered implementations, and
+                provided consulting services. Before starting SFJ Business
+                Solutions in 2011, he worked as a SAP consultant at TCS, one of
+                the largest IT companies in the world.
+              </p>
+            </div>
+            <div className="mb-4 px-4 md:px-0">
+              <h3 className="font-bold text-center mb-6 text-gray-800">
+                A visionary leader with a passion for education
+              </h3>
+              <p className="text-justify">
+                Siva is not only an expert in IT but also a passionate educator
+                who believes in transforming learning experiences with
+                innovative solutions. He guides SFJ Business Solutions with his
+                deep insight into the IT industry and his strong commitment to
+                excellence. Under his leadership, SFJ Business Solutions has
+                become a top player in the market, known for its quality
+                services and customer satisfaction. Siva invites you to join our
+                journey to revolutionize education with a CEO who understands
+                the needs and challenges of the industry.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </>
+);
+
+interface TeamCardProps {
+  member: TeamMember;
+}
+
+const TeamCard: React.FC<TeamCardProps> = ({ member }) => (
+  <div className="flex flex-col items-center p-5">
+    <div className="relative lg:w-[200px] lg:h-[200px] md:w-[200px] md:h-[200px] w-[200px] h-[200px] rounded-full">
+      <Image
+        className="rounded-full object-cover"
+        alt={`${member.name} profile`}
+        src={member.image}
+        fill
+      />
+    </div>
+    <h2 className="mt-4 text-2xl text-black capitalize font-bold">
+      {member.name}
+    </h2>
+    <div className="flex flex-col gap-5 justify-center">
+      <p className="text-black h-[60px] mt-2 capitalize text-center">
+        {member.role}
+      </p>
+    </div>
+
+    <a
+      className="hover:scale-105 mt-5 transition-all"
+      href={member.description}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`${member.name} LinkedIn profile`}
+    >
+      <svg
+        className="w-8 h-8"
+        width="100"
+        height="100"
+        viewBox="0 0 201 201"
+        aria-hidden="true"
+      >
+        <rect width="201" height="201" fill="#0072b1" rx="19" ry="19" />
+        <polygon
+          fill="#fefefe"
+          points="39 102 39 162 68 162 68 97 68 80 39 80"
+        />
+        <path
+          fill="#fefefe"
+          d="M54 39c-8 0-15 7-15 15 0 7 7 14 15 14 7 0 14-7 14-14 0-8-7-15-14-15zM161 105c-2-15-9-25-30-25-12 0-20 5-24 11l0 0 0-11-23 0 0 16 0 66 24 0 0-41c0-10 2-21 15-21 13 0 14 13 14 22l0 40 25 0 0-45 0 0c0-4 0-8-1-12z"
+        />
+      </svg>
+    </a>
+  </div>
+);
+
+const TeamSection: React.FC = () => (
+  <>
+    <div className="w-full h-[50px]" id="MeetOur-Team"></div>
+    <section className="bg-white md:pt-24 md:pb-10">
+      <div className="container px-6 mx-auto">
+        <h1 className="text-3xl text-center text-black capitalize lg:text-4xl">
+          Meet Our Team
+        </h1>
+
+        <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-4">
+          {teamData.map((member, index) => (
+            <TeamCard key={index} member={member} />
+          ))}
+        </div>
+      </div>
+    </section>
+  </>
+);
+
+interface StakeholderCardProps {
+  stakeholder: Stakeholder;
+  index: number;
+}
+
+const StakeholderCard: React.FC<StakeholderCardProps> = ({
+  stakeholder,
+  index,
+}) => (
+  <div
+    className="group bg-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-100"
+    style={{ animationDelay: `${index * 200}ms` }}
+  >
+    <div className="text-4xl sm:text-5xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+      {stakeholder.icon}
+    </div>
+    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">
+      {stakeholder.title}
+    </h3>
+    <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+      {stakeholder.description}
+    </p>
+    <div className="w-8 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mt-4 group-hover:w-12 transition-all duration-300"></div>
+  </div>
+);
+
+const StakeholdersSection: React.FC = () => (
+  <section className="py-12 sm:py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-12 sm:mb-16">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+          Our Collaborative Ecosystem
+        </h2>
+        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
+        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
+          Success in workforce development requires a collaborative ecosystem of
+          learners, institutions, technology partners, and industry leaders.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {stakeholdersData.map((stakeholder, index) => (
+          <StakeholderCard
+            key={index}
+            stakeholder={stakeholder}
+            index={index}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+interface OfficeCardProps {
+  office: Office;
+}
+
+const OfficeCard: React.FC<OfficeCardProps> = ({ office }) => (
+  <div className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-100">
+    <div className="text-5xl sm:text-6xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+      {office.flag}
+    </div>
+    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+      {office.country}
+    </h3>
+    <p
+      className={`font-semibold text-sm mb-3 bg-gradient-to-r ${office.color} bg-clip-text text-transparent`}
+    >
+      {office.role}
+    </p>
+    <p className="text-gray-600 text-sm sm:text-base">{office.desc}</p>
+    <div
+      className={`w-8 h-1 bg-gradient-to-r ${office.color} rounded-full mx-auto mt-4 group-hover:w-12 transition-all duration-300`}
+    ></div>
+  </div>
+);
+
+const GlobalPresenceSection: React.FC = () => (
+  <section className="py-12 sm:py-20 bg-white">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-12 sm:mb-16">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+          Global Presence, Local Impact
+        </h2>
+        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
+        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
+          With offices strategically located across Singapore, UAE, and the
+          United States, SFJ delivers consistent, high-quality training
+          experiences while adapting to local market needs.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        {officesData.map((office, index) => (
+          <OfficeCard key={index} office={office} />
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const Footer: React.FC = () => (
+  <footer className="bg-gradient-to-br from-slate-200 to-gray-300 text-gray-800 py-8 sm:py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p className="text-gray-600 text-sm sm:text-base">
+        © 2024 SFJ Business Solutions. Bridging the global skills gap through
+        innovative technology training.
+      </p>
+    </div>
+  </footer>
+);
+
+// Main Component
+const AboutPage: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setVideoLoaded] = React.useState(false);
-
-  const milestones = [
-    {
-      year: "2011",
-      title: "Foundation Year",
-      description:
-        "Established with a strong focus on IT training excellence and industry-relevant curriculum development.",
-      icon: "🏁",
-      color: "from-blue-500 to-purple-600",
-    },
-    {
-      year: "2015-2018",
-      title: "Training Scale Achievement",
-      description:
-        "Reached the significant milestone of training 300,000+ IT professionals across diverse technology domains.",
-      icon: "📊",
-      color: "from-green-500 to-teal-600",
-    },
-    {
-      year: "2019-2021",
-      title: "Curriculum Expansion",
-      description:
-        "Developed and launched 640+ specialized courses covering emerging technologies and industry best practices.",
-      icon: "📚",
-      color: "from-orange-500 to-red-600",
-    },
-    {
-      year: "2022",
-      title: "Strategic Partnerships",
-      description:
-        "Formed alliances with universities, skill development missions, NSDC, and NASSCOM, training 50,000+ professionals.",
-      icon: "🤝",
-      color: "from-purple-500 to-pink-600",
-    },
-    {
-      year: "2023",
-      title: "Global Expansion",
-      description:
-        "Established international presence with offices in Singapore, UAE, and the United States.",
-      icon: "🌍",
-      color: "from-cyan-500 to-blue-600",
-    },
-    {
-      year: "2024",
-      title: "Digital Innovation",
-      description:
-        "Launched comprehensive digital literacy programs and CSR initiatives, training 35,000 professionals.",
-      icon: "💻",
-      color: "from-indigo-500 to-purple-600",
-    },
-  ];
-
-  const stakeholders = [
-    {
-      title: "Aspirational Learners",
-      description:
-        "Students and job-seekers gaining future-ready skills through our comprehensive programs.",
-      icon: "🎓",
-    },
-    {
-      title: "Academic Institutions",
-      description:
-        "Educational partners providing micro-credentials and infrastructure support for enhanced learning outcomes.",
-      icon: "🏫",
-    },
-    {
-      title: "IT Organizations",
-      description:
-        "Technology companies offering infrastructure, mentoring, and real-world project opportunities.",
-      icon: "💼",
-    },
-    {
-      title: "Industry Partners",
-      description:
-        "Businesses sharing knowledge and providing career opportunities for our program graduates.",
-      icon: "🏭",
-    },
-  ];
+  const [visibleItems, setVisibleItems] = useState<Set<string>>(new Set());
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            const target = entry.target as HTMLElement;
             setVisibleItems(
-              // @ts-expect-error `entry.target` is of type `Element`
-              (prev) => new Set([...prev, entry.target.dataset.index])
+              (prev) => new Set([...prev, target.dataset.index || ""])
             );
           }
         });
       },
       { threshold: 0.2, rootMargin: "0px 0px -100px 0px" }
     );
-    // @ts-expect-error `entry.target` is of type `Element`
+
     return () => observerRef.current?.disconnect();
   }, []);
 
   useEffect(() => {
     const timelineItems = document.querySelectorAll(".timeline-item");
     timelineItems.forEach((item) => {
-      // @ts-expect-error `entry.target` is of type `Element`
       observerRef.current?.observe(item);
     });
 
     return () => {
       timelineItems.forEach((item) => {
-        // @ts-expect-error `entry.target` is of type `Element`
         observerRef.current?.unobserve(item);
       });
     };
@@ -121,324 +560,17 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
-      {/* Hero Section */}
-      <section className="relative h-[60vh] sm:h-[70vh] pt-16 sm:pt-24 pb-8 sm:pb-16 text-white overflow-hidden">
-        {/* Background Video */}
-        <video
-          className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          onCanPlay={() => setVideoLoaded(true)}
-          onError={(e) => console.log("Video error:", e)}
-        >
-          <source src="/app/home/hero-section.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
-        {/* Overlay */}
-        {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-900/70 to-indigo-900/80 z-10"></div> */}
-
-        {/* Content */}
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-          <div className="text-left animate-fade-in">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-              Our Journey
-            </h1>
-            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mb-4 rounded-full"></div>
-            <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-3xl leading-relaxed">
-              From Vision to Global Impact – Founded in 2011, SFJ Business
-              Solutions began with a simple yet powerful vision: to bridge the
-              global skills gap through innovative technology training.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline Section */}
-      <section className="py-12 sm:py-20 relative">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-20">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Milestones That Define Our Growth
-            </h2>
-            <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
-              Over more than a decade, we have evolved from a focused IT
-              training provider to a comprehensive workforce development
-              partner.
-            </p>
-          </div>
-
-          {/* Timeline Container - Mobile First Design */}
-          <div className="relative">
-            {/* Mobile Timeline Line (Left side) */}
-            <div className="absolute left-6 sm:left-1/2 sm:transform sm:-translate-x-0.5 w-1 h-full bg-gradient-to-b from-blue-200 via-purple-200 to-indigo-200 rounded-full"></div>
-
-            {milestones.map((milestone, index) => {
-              const isVisible = visibleItems.has(index.toString());
-              const isLeft = index % 2 === 0;
-
-              return (
-                <div
-                  key={index}
-                  className={`timeline-item relative mb-8 sm:mb-16 ${
-                    // Mobile: all cards on right side, Desktop: alternating
-                    "sm:flex sm:items-center " +
-                    (isLeft ? "sm:flex-row-reverse" : "sm:flex-row")
-                  }`}
-                  data-index={index}
-                >
-                  {/* Timeline Node */}
-                  <div className="absolute left-6 sm:left-1/2 transform -translate-x-1/2 z-10">
-                    <div
-                      className={`
-                      w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br ${
-                        milestone.color
-                      } 
-                      flex items-center justify-center text-xl sm:text-2xl shadow-lg
-                      transition-all duration-700 ease-out
-                      ${isVisible ? "scale-100 rotate-0" : "scale-0 rotate-180"}
-                    `}
-                    >
-                      <span className="filter drop-shadow-sm">
-                        {milestone.icon}
-                      </span>
-                    </div>
-
-                    {/* Pulse Animation */}
-                    <div
-                      className={`
-                      absolute inset-0 rounded-full bg-gradient-to-br ${
-                        milestone.color
-                      } 
-                      animate-ping opacity-20 transition-opacity duration-700
-                      ${isVisible ? "opacity-20" : "opacity-0"}
-                    `}
-                    ></div>
-                  </div>
-
-                  {/* Content Card */}
-                  <div
-                    className={`
-                    ml-20 sm:ml-0 sm:w-5/12 transition-all duration-700 ease-out delay-200
-                    ${
-                      isVisible
-                        ? "opacity-100 translate-x-0 translate-y-0"
-                        : `opacity-0 translate-x-4 sm:${
-                            isLeft ? "translate-x-8" : "-translate-x-8"
-                          } translate-y-4`
-                    }
-                  `}
-                  >
-                    <div
-                      className={`
-                      bg-white rounded-2xl shadow-xl p-6 sm:p-8 relative
-                      hover:shadow-2xl hover:-translate-y-2 transition-all duration-300
-                      border border-gray-100
-                    `}
-                    >
-                      {/* Arrow pointing to timeline - Hidden on mobile */}
-                      <div
-                        className={`
-                        hidden sm:block absolute top-8 w-0 h-0 
-                        ${
-                          isLeft
-                            ? "right-0 translate-x-full border-l-[20px] border-l-white border-y-[15px] border-y-transparent"
-                            : "left-0 -translate-x-full border-r-[20px] border-r-white border-y-[15px] border-y-transparent"
-                        }
-                      `}
-                      ></div>
-
-                      {/* Mobile Arrow (pointing left to timeline) */}
-                      <div className="sm:hidden absolute left-0 top-6 -translate-x-full w-0 h-0 border-r-[15px] border-r-white border-y-[12px] border-y-transparent"></div>
-
-                      <div className="flex items-start space-x-4">
-                        <div
-                          className={`
-                          text-2xl sm:text-3xl font-bold bg-gradient-to-br ${milestone.color} 
-                          bg-clip-text text-transparent
-                        `}
-                        >
-                          {milestone.year}
-                        </div>
-                      </div>
-
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 mt-2">
-                        {milestone.title}
-                      </h3>
-                      <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
-                        {milestone.description}
-                      </p>
-
-                      {/* Decorative gradient line */}
-                      <div
-                        className={`w-12 h-1 bg-gradient-to-r ${milestone.color} rounded-full mt-4`}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Stakeholders Section */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Our Collaborative Ecosystem
-            </h2>
-            <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
-              Success in workforce development requires a collaborative
-              ecosystem of learners, institutions, technology partners, and
-              industry leaders.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {stakeholders.map((stakeholder, index) => (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-100"
-                style={{ animationDelay: `${index * 200}ms` }}
-              >
-                <div className="text-4xl sm:text-5xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {stakeholder.icon}
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">
-                  {stakeholder.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
-                  {stakeholder.description}
-                </p>
-                <div className="w-8 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mt-4 group-hover:w-12 transition-all duration-300"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Global Presence Section */}
-      <section className="py-12 sm:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Global Presence, Local Impact
-            </h2>
-            <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
-              With offices strategically located across Singapore, UAE, and the
-              United States, SFJ delivers consistent, high-quality training
-              experiences while adapting to local market needs.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {[
-              {
-                flag: "🇮🇳",
-                country: "India",
-                role: "Global Headquarters",
-                desc: "Primary delivery center",
-                color: "from-orange-400 to-green-500",
-              },
-              {
-                flag: "🇸🇬",
-                country: "Singapore",
-                role: "Asia-Pacific Hub",
-                desc: "Regional training center",
-                color: "from-red-400 to-red-600",
-              },
-              {
-                flag: "🇦🇪",
-                country: "UAE",
-                role: "Middle East Operations",
-                desc: "MENA market focus",
-                color: "from-green-400 to-red-500",
-              },
-              {
-                flag: "🇺🇸",
-                country: "USA",
-                role: "North America",
-                desc: "Market development",
-                color: "from-blue-400 to-red-500",
-              },
-            ].map((office, index) => (
-              <div
-                key={index}
-                className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-100"
-              >
-                <div className="text-5xl sm:text-6xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {office.flag}
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
-                  {office.country}
-                </h3>
-                <p
-                  className={`font-semibold text-sm mb-3 bg-gradient-to-r ${office.color} bg-clip-text text-transparent`}
-                >
-                  {office.role}
-                </p>
-                <p className="text-gray-600 text-sm sm:text-base">
-                  {office.desc}
-                </p>
-                <div
-                  className={`w-8 h-1 bg-gradient-to-r ${office.color} rounded-full mx-auto mt-4 group-hover:w-12 transition-all duration-300`}
-                ></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gradient-to-br from-slate-900 to-gray-900 text-white py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-300 text-sm sm:text-base">
-            © 2024 SFJ Business Solutions. Bridging the global skills gap
-            through innovative technology training.
-          </p>
-        </div>
-      </footer>
-
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fade-in 1s ease-out;
-        }
-
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-
-        .group:hover .animate-float {
-          animation: float 2s ease-in-out infinite;
-        }
-      `}</style>
+      <HeroSection />
+      <WhoWeAreSection />
+      <CoreValuesSection />
+      <TimelineSection />
+      <FounderSection />
+      <TeamSection />
+      <StakeholdersSection />
+      <GlobalPresenceSection />
+      <Footer />
     </div>
   );
 };
 
-export default About;
+export default AboutPage;

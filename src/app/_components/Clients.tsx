@@ -6,15 +6,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Star,
-  Users,
-  Building2,
-  Award,
-  ArrowRight,
-  CheckCircle,
-  Globe,
-} from "lucide-react";
+import { Star, Users, Building2, Globe } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -135,7 +127,7 @@ const ClientsSection = () => {
   return (
     <section
       id="clients"
-      className="py-24 pt-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden"
+      className="py-5 pt-0 -mt-5 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden"
     >
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-100 to-transparent rounded-full blur-3xl opacity-30 translate-x-48 -translate-y-48"></div>
@@ -163,19 +155,76 @@ const ClientsSection = () => {
           </div>
 
           {/* Main Heading */}
-          <div className="mb-12">
-            <h2 className="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6 tracking-tight">
+          <div className="mb-1">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900  tracking-tight">
               Our{" "}
               <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
                 Clients
               </span>
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-teal-500 mx-auto rounded-full mb-8"></div>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            {/* <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-teal-500 mx-auto rounded-full mb-8"></div> */}
+            {/* <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Trusted by industry leaders worldwide to deliver exceptional
               results and drive digital transformation
-            </p>
+            </p> */}
           </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="-mt-4"
+          >
+            <div>
+              <Swiper
+                modules={[Autoplay]}
+                slidesPerView={2}
+                spaceBetween={30}
+                autoplay={{
+                  delay: 0,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: false,
+                  reverseDirection: false,
+                }}
+                speed={3000}
+                loop={true}
+                allowTouchMove={false}
+                breakpoints={{
+                  640: { slidesPerView: 3, spaceBetween: 40 },
+                  768: { slidesPerView: 4, spaceBetween: 50 },
+                  1024: { slidesPerView: 5, spaceBetween: 60 },
+                  1280: { slidesPerView: 6, spaceBetween: 70 },
+                }}
+                className="client-flow-swiper"
+              >
+                {duplicatedLogos.map((client, index) => (
+                  <SwiperSlide key={index}>
+                    <motion.div
+                      whileHover={{ scale: 1.1, y: -8 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      className="group cursor-pointer"
+                    >
+                      <div className="flex flex-col items-center justify-center p-6 group">
+                        <div className="w-32 h-32 mb-4">
+                          <Image
+                            src={client.src}
+                            alt={client.name}
+                            width={128}
+                            height={128}
+                            className="object-contain transition-all duration-500 group-hover:scale-110 w-full h-full"
+                            style={{
+                              filter:
+                                "contrast(1.2) saturate(1.3) brightness(1.2)",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </motion.div>
 
           {/* Stats Cards Layout */}
           <motion.div
@@ -207,63 +256,6 @@ const ClientsSection = () => {
           </motion.div>
         </motion.div>
         {/* Client Logos Carousel - Enhanced with larger images and better colors */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="mb-20"
-        >
-          <div>
-            <Swiper
-              modules={[Autoplay]}
-              slidesPerView={2}
-              spaceBetween={30}
-              autoplay={{
-                delay: 0,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: false,
-                reverseDirection: false,
-              }}
-              speed={3000}
-              loop={true}
-              allowTouchMove={false}
-              breakpoints={{
-                640: { slidesPerView: 3, spaceBetween: 40 },
-                768: { slidesPerView: 4, spaceBetween: 50 },
-                1024: { slidesPerView: 5, spaceBetween: 60 },
-                1280: { slidesPerView: 6, spaceBetween: 70 },
-              }}
-              className="client-flow-swiper"
-            >
-              {duplicatedLogos.map((client, index) => (
-                <SwiperSlide key={index}>
-                  <motion.div
-                    whileHover={{ scale: 1.1, y: -8 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                    className="group cursor-pointer"
-                  >
-                    <div className="flex flex-col items-center justify-center p-6 group">
-                      <div className="w-32 h-32 mb-4">
-                        <Image
-                          src={client.src}
-                          alt={client.name}
-                          width={128}
-                          height={128}
-                          className="object-contain transition-all duration-500 group-hover:scale-110 w-full h-full"
-                          style={{
-                            filter:
-                              "contrast(1.2) saturate(1.3) brightness(1.2)",
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </motion.div>
 
         {/* Testimonials Section */}
         <motion.div
@@ -271,7 +263,7 @@ const ClientsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="mb-16"
+          className=""
         >
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-gray-900 mb-4">
@@ -331,50 +323,6 @@ const ClientsSection = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-        </motion.div>
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <Card className="bg-gradient-to-r from-blue-600 to-purple-600 border-0 text-white">
-            <CardContent className="p-12">
-              <div className="max-w-3xl mx-auto">
-                <div className="flex items-center justify-center gap-3 mb-6">
-                  <CheckCircle className="w-8 h-8" />
-                  <h3 className="text-3xl font-bold">
-                    Join Our Success Stories
-                  </h3>
-                </div>
-                <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-                  Ready to transform your business with proven expertise?
-                  Let&#39;s discuss how we can help you achieve your goals.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-2 bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
-                  >
-                    Start Your Journey
-                    <ArrowRight className="w-5 h-5" />
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-2 border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-full font-semibold transition-all duration-300"
-                  >
-                    <Award className="w-5 h-5" />
-                    View Case Studies
-                  </motion.button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </motion.div>
       </div>
 

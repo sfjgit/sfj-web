@@ -140,6 +140,21 @@
   --font-sans: "Segoe UI Variable", sans-serif;
 }
 
+/* Hide scrollbar for webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Hide scrollbar for Firefox */
+html {
+  scrollbar-width: none;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

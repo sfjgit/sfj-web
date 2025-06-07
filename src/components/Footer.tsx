@@ -139,17 +139,17 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-3">
-              <li>
+              {/* <li>
                 <Link
                   href="/about"
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   About
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
-                  href="/solutions/knowledge"
+                  href="/services/knowledge-as-service"
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   Solutions

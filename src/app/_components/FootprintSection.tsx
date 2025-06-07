@@ -219,7 +219,7 @@ const FootprintSection = () => {
   };
 
   return (
-    <section className="py-24 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden">
+    <section className="py-24 pt-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100 to-transparent rounded-full blur-3xl opacity-20 -translate-x-48 -translate-y-48"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-purple-100 to-transparent rounded-full blur-3xl opacity-20 translate-x-48 translate-y-48"></div>
@@ -244,7 +244,7 @@ const FootprintSection = () => {
             </Badge>
             <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-purple-600 rounded-full"></div>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-4xl font-bold text-gray-900 mb-4">
             Our Global{" "}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Impact

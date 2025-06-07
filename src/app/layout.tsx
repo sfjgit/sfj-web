@@ -1,7 +1,8 @@
 import Footer from "@/components/Footer";
 import "./globals.css";
-import Navigation from "@/components/Navigation";
 import { Metadata } from "next";
+import ClientProvider from "./_components/ClientProvider";
+import Navigation from "@/components/Navigation";
 
 export const metadata: Metadata = {
   title:
@@ -40,9 +41,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans">
-        <Navigation />
-        {children}
-        <Footer />
+        <ClientProvider>
+          <Navigation />
+          {children}
+          <Footer />
+        </ClientProvider>
       </body>
     </html>
   );
