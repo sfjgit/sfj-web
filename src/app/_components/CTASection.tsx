@@ -1,6 +1,7 @@
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 const CTASection = () => {
   return (
@@ -16,7 +17,7 @@ const CTASection = () => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "linear"
+            ease: "linear",
           }}
         />
         <motion.div
@@ -28,11 +29,11 @@ const CTASection = () => {
           transition={{
             duration: 25,
             repeat: Infinity,
-            ease: "linear"
+            ease: "linear",
           }}
         />
       </div>
-      
+
       <div className="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -49,7 +50,7 @@ const CTASection = () => {
           >
             Ready to Transform Your Workforce?
           </motion.h2>
-          
+
           <motion.p
             className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
@@ -57,9 +58,10 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            Join 300,000+ professionals who have advanced their careers with SFJ Business Solutions
+            Join 300,000+ professionals who have advanced their careers with SFJ
+            Business Solutions
           </motion.p>
-          
+
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
             initial={{ opacity: 0, y: 30 }}
@@ -74,14 +76,16 @@ const CTASection = () => {
             >
               Start Learning Today
             </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all duration-300"
-            >
-              Contact Our Team
-            </motion.button>
+
+            <Link href={"/contact"}>
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all duration-300"
+              >
+                Contact Our Team
+              </motion.button>
+            </Link>
           </motion.div>
         </motion.div>
 
@@ -96,7 +100,7 @@ const CTASection = () => {
           {[
             { number: "300,000+", label: "Professionals Trained" },
             { number: "640+", label: "Specialized Courses" },
-            { number: "50+", label: "Global Clients" }
+            { number: "50+", label: "Global Clients" },
           ].map((stat, index) => (
             <motion.div
               key={index}

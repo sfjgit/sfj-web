@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
@@ -20,7 +21,7 @@ const ties = [
     name: "Karnataka Skill Development Corporation",
     description:
       "In partnership with bSkilling, we drive impactful programs focused on innovation and skill development.",
-    img: "/new-image/ksdc.png",
+    img: "/app/b2g/ksdc.png",
     details: {
       programs: [
         "Digital Skills Training",
@@ -37,7 +38,7 @@ const ties = [
     name: "Naan Mudhalvan",
     description:
       "A transformative initiative aimed at empowering youth with industry-relevant skills, career guidance, and opportunities.",
-    img: "/new-image/naan-logo.png",
+    img: "/app/b2g/naan-logo.png",
     details: {
       programs: [
         "Career Guidance",
@@ -54,7 +55,7 @@ const ties = [
     name: "Future Skills",
     description:
       "A premier trade body driving innovation, policy advocacy, and skill development to foster India's digital transformation.",
-    img: "/new-image/future-skills.png",
+    img: "/app/b2g/future-skills.png",
     details: {
       programs: ["AI/ML Training", "Cloud Computing", "Data Science Bootcamps"],
       participants: "30K+ Professionals",
@@ -67,7 +68,7 @@ const ties = [
     name: "NSDC",
     description:
       "The National Skill Development Corporation focuses on empowering India's workforce through skill development initiatives.",
-    img: "/new-image/nsdc.png",
+    img: "/app/b2g/nsdc.png",
     details: {
       programs: [
         "National Skill Certification",
@@ -101,12 +102,7 @@ export default function GovernmentTrainingRedesign() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 to-white py-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-64 h-64 bg-blue-100 rounded-full opacity-50"></div>
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-50 rounded-full opacity-30"></div>
-        </div>
-
+      <section className="relative bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 py-20 pt-32 overflow-hidden">
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
           {/* Badge */}
           <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-600 text-sm font-medium mb-8">
@@ -115,18 +111,21 @@ export default function GovernmentTrainingRedesign() {
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
             Create Industry-Ready
             <br />
             <span className="text-blue-600">AI-Driven Graduates</span>
             <br />
-            <span className="text-2xl md:text-3xl font-normal text-gray-600">
-              Not Just Graduates
-            </span>
+            <div className="mx-auto text-center">
+              <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">
+                'Not Just Graduates'
+              </span>
+              <div className="mt-3 w-[20%] h-1 mx-auto bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full shadow-lg"></div>
+            </div>
           </h1>
 
           {/* Description */}
-          <p className="text-xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-white mb-12 max-w-4xl mx-auto leading-relaxed">
             Partner with prestigious government bodies to transform education
             and build the workforce of tomorrow through cutting-edge AI and
             digital skills training.
@@ -142,7 +141,7 @@ export default function GovernmentTrainingRedesign() {
             </button>
             <button
               onClick={() => scrollToSection("about")}
-              className="px-8 py-4 border border-gray-300 text-gray-700 rounded-lg font-semibold text-lg hover:border-gray-400 transition-colors"
+              className="px-8 py-4 border border-gray-300 text-white rounded-lg font-semibold text-lg hover:border-gray-400 transition-colors"
             >
               Learn More
             </button>

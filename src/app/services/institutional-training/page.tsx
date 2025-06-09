@@ -4,7 +4,6 @@ import HeroSection from "./_components/HeroSection";
 import BFSIPrograms from "./_components/BFSIPrograms";
 import EngineeringPathways from "./_components/EngineeringPathways";
 import LeadershipTraining from "./_components/LeadershipTraining";
-import ContactFooter from "./_components/ContactFooter";
 import ArtsAndScienceCourses from "./_components/ArtsAndScienceCourses";
 import HorizontalScrollNavbar from "./_components/Scroller";
 import MBACourses from "./_components/MBA";
@@ -52,7 +51,7 @@ const InstitutionalTrainingPage = () => {
       <LeadershipTraining />
 
       {/* Contact & Footer Component */}
-      <ContactFooter />
+      {/* <ContactFooter /> */}
     </div>
   );
 };

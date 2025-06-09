@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Menu,
   X,
@@ -26,12 +26,26 @@ import Image from "next/image";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = usePathname();
   const router = useRouter();
+
+  // Scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50); // Change threshold as needed
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Single navigation array with children and without children
   const navigationItems = [
     { path: "/", label: "Home", hasChildren: false },
+    { path: "/about", label: "About Us", hasChildren: false },
+
     {
       path: "/services",
       label: "Services",
@@ -112,7 +126,11 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-transparent backdrop-blur-md  border-gray-200/50 z-50">
+    <nav
+      className={`fixed top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white/95 shadow-md" : "bg-transparent"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3">
           {/* Logo */}
@@ -121,14 +139,26 @@ const Navigation = () => {
             className="flex flex-col items-center group transition-transform hover:scale-105"
           >
             <div className="relative">
-              <Image
-                src="/app/sfjlogo.png"
-                alt="SFJ Logo"
-                className="w-14 h-14 object-cover"
-                quality={100}
-                width={64}
-                height={64}
-              />
+              {isScrolled ? (
+                <Image
+                  src="/app/sfjlogo.png"
+                  alt="SFJ Logo"
+                  className="w-16 h-16 object-cover"
+                  quality={100}
+                  width={64}
+                  height={64}
+                />
+              ) : (
+                <Image
+                  src="/app/SFJ.png"
+                  alt="SFJ Logo"
+                  className="w-16 h-16 object-cover"
+                  quality={100}
+                  width={64}
+                  height={64}
+                />
+              )}
+
               <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
             {/* <p className="text-xs font-semibold text-gray-700 mt-1 group-hover:text-blue-600 transition-colors">
@@ -144,10 +174,12 @@ const Navigation = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button
-                        className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
+                        className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
                           isActiveItem(item)
                             ? "text-blue-600 bg-blue-50 shadow-sm"
-                            : "text-gray-700"
+                            : isScrolled
+                            ? "text-black"
+                            : "text-white"
                         }`}
                       >
                         {item.label}
@@ -166,7 +198,7 @@ const Navigation = () => {
                         >
                           <Link
                             href={child.path}
-                            className="flex items-start p-2  rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
+                            className="flex items-start p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
                           >
                             {/* <div className="flex-shrink-0 mr-3">
                               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
@@ -189,10 +221,12 @@ const Navigation = () => {
                 ) : (
                   <Link
                     href={item.path}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
                       isActiveItem(item)
                         ? "text-blue-600 bg-blue-50 shadow-sm"
-                        : "text-gray-700"
+                        : isScrolled
+                        ? "text-black"
+                        : "text-white"
                     }`}
                   >
                     {item.label}
@@ -222,12 +256,12 @@ const Navigation = () => {
                 <Menu
                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
                     isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-                  }`}
+                  } ${isScrolled ? "text-black" : "text-white"}`}
                 />
                 <X
                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
                     isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-                  }`}
+                  } ${isScrolled ? "text-black" : "text-white"}`}
                 />
               </div>
             </Button>

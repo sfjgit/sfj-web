@@ -35,25 +35,25 @@ interface VisibleItems {
 const teamData: TeamMember[] = [
   {
     name: "Nisha Menon",
-    image: "/about/nisha.png",
+    image: "/app/about/nisha.png",
     role: "Delivery Manager",
     description: "https://www.linkedin.com/in/nisha-menon-2a328924/",
   },
   {
     name: "Swati Sharma",
-    image: "/about/swathi.jpg",
+    image: "/app/about/swathi.jpg",
     role: "Manager(Talent Acquisition)",
     description: "https://www.linkedin.com/in/swati-sharma-aa944113/",
   },
   {
     name: "Rakhi Dujrayan",
-    image: "/about/rakhi.png",
+    image: "/app/about/rakhi.png",
     role: "Senior Business Development Manager",
     description: "https://www.linkedin.com/in/rakhi-dujrayan-69192273/",
   },
   {
     name: "Yatin Anand",
-    image: "/about/yatin.jpg",
+    image: "/app/about/yatin.jpg",
     role: "Manager – Key Accounts",
     description: "https://www.linkedin.com/in/peter-tc",
   },
@@ -92,41 +92,41 @@ const officesData: Office[] = [
     country: "India",
     role: "Global Headquarters",
     desc: "Primary delivery center",
-    color: "from-orange-400 to-green-500",
+    color: "from-orange-600 to-green-600",
   },
   {
     flag: "🇸🇬",
     country: "Singapore",
     role: "Asia-Pacific Hub",
     desc: "Regional training center",
-    color: "from-red-400 to-red-600",
+    color: "from-red-600 to-red-700",
   },
   {
     flag: "🇦🇪",
     country: "UAE",
     role: "Middle East Operations",
     desc: "MENA market focus",
-    color: "from-green-400 to-red-500",
+    color: "from-green-600 to-red-600",
   },
   {
     flag: "🇺🇸",
     country: "USA",
     role: "North America",
     desc: "Market development",
-    color: "from-blue-400 to-red-500",
+    color: "from-blue-600 to-red-600",
   },
 ];
 
 // Components
 const HeroSection: React.FC = () => (
-  <section className="relative h-[60vh] sm:h-[70vh] pt-16 sm:pt-24 pb-8 sm:pb-16 text-gray-800 overflow-hidden bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100">
+  <section className="relative h-[60vh] sm:h-[70vh] pt-16 sm:pt-24 pb-8 sm:pb-16 text-gray-900 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-800 to-purple-900">
     <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
       <div className="text-left">
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
           Our Journey
         </h1>
-        <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mb-4 rounded-full"></div>
-        <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl leading-relaxed">
+        <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mb-4 rounded-full"></div>
+        <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl leading-relaxed font-medium">
           From Vision to Global Impact – Founded in 2011, SFJ Business Solutions
           began with a simple yet powerful vision: to bridge the global skills
           gap through innovative technology training.
@@ -135,15 +135,14 @@ const HeroSection: React.FC = () => (
     </div>
   </section>
 );
-
 const WhoWeAreSection: React.FC = () => (
   <section className="md:pt-14 text-gray-800 bg-white" id="WhoWe-Are">
     <div className="p-4 md:container flex flex-wrap gap-10 mx-auto">
       <div className="w-auto lg:min-w-[700px] flex-1 pb-10">
-        <h1 className="text-4xl text-center tracking-wide text-green-700">
+        <h1 className="text-4xl text-center tracking-wide text-blue-700 font-bold">
           Who We Are
         </h1>
-        <p className="prose pt-8 text-gray-700">
+        <p className="prose pt-8 text-gray-800 text-lg leading-relaxed">
           Founded in 2011, SFJ Business Solutions has been a trusted knowledge
           and talent services partner for several multi-national organizations.
           Driven by a core team with a wealth of passion and expertise, we have
@@ -151,18 +150,18 @@ const WhoWeAreSection: React.FC = () => (
           helping them scale their businesses with just-in-time and
           cost-effective talent transformation services and IT services.
         </p>
-        <p className="pt-8 text-gray-700">
+        <p className="pt-8 text-gray-800 text-lg leading-relaxed">
           We have an exceptional track record in workforce training, staffing,
           consulting and implementations on several key technical capabilities
           including SAP and Oracle. Over the last decade, we have created
           tremendous value for our customers through our strong network of
           staff, consultants, trainers and partners.
         </p>
-        <p className="pt-8 text-gray-700">
-          Our Motto: <b className="text-lg text-green-700">S</b>olve business
-          challenges. <b className="text-lg text-green-700">F</b>oster agility
-          and growth. <b className="text-lg text-green-700">J</b>ubilate
-          customer success.
+        <p className="pt-8 text-gray-800 text-lg leading-relaxed">
+          Our Motto: <b className="text-xl text-blue-700">S</b>olve business
+          challenges. <b className="text-xl text-blue-700">F</b>oster agility
+          and growth. <b className="text-xl text-blue-700">J</b>ubilate customer
+          success.
         </p>
       </div>
 
@@ -172,11 +171,13 @@ const WhoWeAreSection: React.FC = () => (
             fill
             alt="Our Vision"
             className="object-cover"
-            src="/aboutus/visionn.png"
+            src="/app/about/Our-Vision.png"
           />
-          <div className="w-full h-full text-white lg:p-20 p-24 flex flex-col justify-center items-center relative">
-            <p className="text-center text-xl mb-2 font-semibold">Our Vision</p>
-            <p className="text-center">
+          <div className="w-full h-full text-white lg:p-20 p-24 flex flex-col justify-center items-center relative bg-black/40">
+            <p className="text-center text-xl mb-2 font-bold drop-shadow-lg">
+              Our Vision
+            </p>
+            <p className="text-center font-medium drop-shadow-md">
               To be a market leader in creating a technology workforce for the
               future through disruptions in upskilling and staffing.
             </p>
@@ -188,14 +189,14 @@ const WhoWeAreSection: React.FC = () => (
             fill
             alt="Our Mission"
             className="object-cover"
-            src="/aboutus/mission.png"
+            src="/app/about/Our-Mission.png"
           />
-          <div className="w-full h-full text-white gap-10 lg:p-20 p-24 flex flex-col justify-center items-center relative">
+          <div className="w-full h-full text-white gap-10 lg:p-20 p-24 flex flex-col justify-center items-center relative bg-black/40">
             <div>
-              <p className="text-center text-xl mb-2 font-semibold">
+              <p className="text-center text-xl mb-2 font-bold drop-shadow-lg">
                 Our Mission
               </p>
-              <p className="text-center">
+              <p className="text-center font-medium drop-shadow-md">
                 To help our customers achieve scale through innovative, agile
                 and efficient talent transformation solutions.
               </p>
@@ -211,7 +212,7 @@ const CoreValuesSection: React.FC = () => (
   <>
     <div className="w-full h-[100px]" id="Core-values"></div>
     <section className="lg:container mx-auto text-black bg-gray-50 py-12">
-      <h1 className="text-4xl tracking-wide mb-10 text-center text-green-700">
+      <h1 className="text-4xl tracking-wide mb-10 text-center text-blue-700 font-bold">
         Core Values
       </h1>
 
@@ -220,19 +221,19 @@ const CoreValuesSection: React.FC = () => (
           {[
             {
               title: "Passion",
-              image: "/aboutus/passion.jpg",
+              image: "/app/about/Passion.png",
               description:
                 "A driving force behind our continuous innovation and value creation",
             },
             {
               title: "Expertise",
-              image: "/aboutus/expertise.jpg",
+              image: "/app/about/Expertise.png",
               description:
                 "A blend of experiences from the past and thought leadership focused on future",
             },
             {
               title: "Empathy",
-              image: "/aboutus/empathy.jpg",
+              image: "/app/about/Empathy.png",
               description:
                 "A customer-first approach that enables us to understand businesses and people better than most",
             },
@@ -248,14 +249,14 @@ const CoreValuesSection: React.FC = () => (
                       src={value.image}
                     />
                   </div>
-                  <div className="absolute inset-0 p-8 flex items-center justify-center">
-                    <p className="text-3xl font-semibold text-white">
+                  <div className="absolute inset-0 p-8 flex items-center justify-center bg-black/50 rounded-lg">
+                    <p className="text-3xl font-bold text-white drop-shadow-lg">
                       {value.title}
                     </p>
                   </div>
                 </div>
                 <div className="mt-5 text-center">
-                  <p className="leading-relaxed md:px-5 mb-3">
+                  <p className="leading-relaxed md:px-5 mb-3 text-gray-800 text-lg">
                     {value.description}
                   </p>
                 </div>
@@ -285,12 +286,12 @@ const FounderSection: React.FC = () => (
     <div className="w-full h-[50px]" id="MeetOur-Founder"></div>
     <section className="bg-blue-50 py-10 md:py-24">
       <div className="container mx-auto text-center">
-        <h1 className="text-3xl md:text-5xl font-bold mb-6 text-gray-800">
+        <h1 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900">
           Meet Our Founder
         </h1>
         <div className="flex justify-center mb-6">
           <Image
-            src="/founder.jpeg"
+            src="/CEO.jpg"
             alt="Founder"
             width={240}
             height={240}
@@ -298,9 +299,9 @@ const FounderSection: React.FC = () => (
           />
         </div>
         <div className="max-w-3xl mx-auto mt-10">
-          <div className="text-lg md:text-xl leading-relaxed space-y-4 text-gray-700">
+          <div className="text-lg md:text-xl leading-relaxed space-y-4 text-gray-800">
             <div className="mb-8 px-4 md:px-0">
-              <h3 className="font-bold text-center mb-6 text-gray-800">
+              <h3 className="font-bold text-center mb-6 text-gray-900 text-2xl">
                 Introducing Our Visionary CEO
               </h3>
               <p className="text-justify">
@@ -317,7 +318,7 @@ const FounderSection: React.FC = () => (
               </p>
             </div>
             <div className="mb-4 px-4 md:px-0">
-              <h3 className="font-bold text-center mb-6 text-gray-800">
+              <h3 className="font-bold text-center mb-6 text-gray-900 text-2xl">
                 A visionary leader with a passion for education
               </h3>
               <p className="text-justify">
@@ -353,11 +354,11 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => (
         fill
       />
     </div>
-    <h2 className="mt-4 text-2xl text-black capitalize font-bold">
+    <h2 className="mt-4 text-2xl text-gray-900 capitalize font-bold">
       {member.name}
     </h2>
     <div className="flex flex-col gap-5 justify-center">
-      <p className="text-black h-[60px] mt-2 capitalize text-center">
+      <p className="text-gray-700 h-[60px] mt-2 capitalize text-center font-medium">
         {member.role}
       </p>
     </div>
@@ -395,7 +396,7 @@ const TeamSection: React.FC = () => (
     <div className="w-full h-[50px]" id="MeetOur-Team"></div>
     <section className="bg-white md:pt-24 md:pb-10">
       <div className="container px-6 mx-auto">
-        <h1 className="text-3xl text-center text-black capitalize lg:text-4xl">
+        <h1 className="text-3xl text-center text-gray-900 capitalize lg:text-4xl font-bold">
           Meet Our Team
         </h1>
 
@@ -419,7 +420,7 @@ const StakeholderCard: React.FC<StakeholderCardProps> = ({
   index,
 }) => (
   <div
-    className="group bg-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-100"
+    className="group bg-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-200"
     style={{ animationDelay: `${index * 200}ms` }}
   >
     <div className="text-4xl sm:text-5xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -428,10 +429,10 @@ const StakeholderCard: React.FC<StakeholderCardProps> = ({
     <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">
       {stakeholder.title}
     </h3>
-    <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+    <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
       {stakeholder.description}
     </p>
-    <div className="w-8 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mt-4 group-hover:w-12 transition-all duration-300"></div>
+    <div className="w-8 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto mt-4 group-hover:w-12 transition-all duration-300"></div>
   </div>
 );
 
@@ -442,8 +443,8 @@ const StakeholdersSection: React.FC = () => (
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
           Our Collaborative Ecosystem
         </h2>
-        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
+        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 sm:mb-6 rounded-full"></div>
+        <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-4 font-medium">
           Success in workforce development requires a collaborative ecosystem of
           learners, institutions, technology partners, and industry leaders.
         </p>
@@ -467,7 +468,7 @@ interface OfficeCardProps {
 }
 
 const OfficeCard: React.FC<OfficeCardProps> = ({ office }) => (
-  <div className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-100">
+  <div className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg p-6 sm:p-8 text-center hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-gray-200">
     <div className="text-5xl sm:text-6xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
       {office.flag}
     </div>
@@ -475,11 +476,13 @@ const OfficeCard: React.FC<OfficeCardProps> = ({ office }) => (
       {office.country}
     </h3>
     <p
-      className={`font-semibold text-sm mb-3 bg-gradient-to-r ${office.color} bg-clip-text text-transparent`}
+      className={`font-bold text-sm mb-3 bg-gradient-to-r ${office.color} bg-clip-text text-transparent`}
     >
       {office.role}
     </p>
-    <p className="text-gray-600 text-sm sm:text-base">{office.desc}</p>
+    <p className="text-gray-700 text-sm sm:text-base font-medium">
+      {office.desc}
+    </p>
     <div
       className={`w-8 h-1 bg-gradient-to-r ${office.color} rounded-full mx-auto mt-4 group-hover:w-12 transition-all duration-300`}
     ></div>
@@ -493,8 +496,8 @@ const GlobalPresenceSection: React.FC = () => (
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
           Global Presence, Local Impact
         </h2>
-        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-4">
+        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 sm:mb-6 rounded-full"></div>
+        <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-4 font-medium">
           With offices strategically located across Singapore, UAE, and the
           United States, SFJ delivers consistent, high-quality training
           experiences while adapting to local market needs.
@@ -513,7 +516,7 @@ const GlobalPresenceSection: React.FC = () => (
 const Footer: React.FC = () => (
   <footer className="bg-gradient-to-br from-slate-200 to-gray-300 text-gray-800 py-8 sm:py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p className="text-gray-600 text-sm sm:text-base">
+      <p className="text-gray-700 text-sm sm:text-base font-medium">
         © 2024 SFJ Business Solutions. Bridging the global skills gap through
         innovative technology training.
       </p>
@@ -565,7 +568,7 @@ const AboutPage: React.FC = () => {
       <CoreValuesSection />
       <TimelineSection />
       <FounderSection />
-      <TeamSection />
+      {/* <TeamSection /> */}
       <StakeholdersSection />
       <GlobalPresenceSection />
       <Footer />

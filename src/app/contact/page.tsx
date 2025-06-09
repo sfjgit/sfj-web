@@ -15,6 +15,10 @@ import {
   Globe,
   Check,
   ChevronDown,
+  ArrowDown,
+  MessageCircle,
+  Headphones,
+  Clock,
 } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -215,7 +219,7 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="w-full mx-auto p-6">
+    <div className="w-full mx-auto p-6" id="contact-form">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-8 py-12 text-white">
@@ -472,22 +476,93 @@ const ContactForm = () => {
   );
 };
 
-// export default ContactForm;
+// Header Section Component
+const HeaderSection = () => {
+  const scrollToContactForm = () => {
+    const contactForm = document.getElementById("contact-form");
+    if (contactForm) {
+      contactForm.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section className="relative h-[50vh] min-h-[400px] bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 overflow-hidden pt-20">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-300 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 h-full flex items-center justify-center px-4">
+        <div className="text-center max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-4xl font-bold text-white mb-6 leading-tight">
+            Let&apos;s Start a
+            <span className="bg-gradient-to-r from-blue-200 to-cyan-200 bg-clip-text text-transparent">
+              {" "}
+              Conversation
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Ready to transform your business with our expertise? We&apos;re here
+            to help you achieve your goals.
+          </p>
+          {/* Features */}
+          <div className="flex flex-wrap justify-center items-center gap-6 mb-10 text-blue-100">
+            <div className="flex items-center gap-2">
+              <MessageCircle className="w-5 h-5" />
+              <span>Quick Response</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Headphones className="w-5 h-5" />
+              <span>Expert Support</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-5 h-5" />
+              <span>24/7 Available</span>
+            </div>
+          </div>
+          {/* CTA Button */}
+          <button
+            onClick={scrollToContactForm}
+            className="group inline-flex items-center gap-3 bg-white text-blue-900 font-semibold px-8 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          >
+            <span className="text-lg">Get Started</span>
+            <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform duration-300" />
+          </button>
+          {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+            </div>
+          </div> */}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default function page() {
   return (
-    <div className="pt-20 flex flex-col max-w-7xl mx-auto">
-      <ContactForm />
-      <section className="w-full pt-20">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.2856438459257!2d77.63598241536467!3d12.889345220163921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae14b089698d85%3A0x9b02d066823e0b2d!2sSFJ%20Business%20Solutions%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1657910713116!5m2!1sen!2sin"
-          width="100%"
-          height="600"
-          //   allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </section>
+    <div className=" flex flex-col  mx-auto">
+      {/* Header Section */}
+      <HeaderSection />
+
+      {/* Contact Form */}
+      <div className="container mx-auto px-4 py-12">
+        <ContactForm />
+
+        {/* Map Section */}
+        <section className="w-full pt-20">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.2856438459257!2d77.63598241536467!3d12.889345220163921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae14b089698d85%3A0x9b02d066823e0b2d!2sSFJ%20Business%20Solutions%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1657910713116!5m2!1sen!2sin"
+            width="100%"
+            height="600"
+            //   allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </section>
+      </div>
     </div>
   );
 }

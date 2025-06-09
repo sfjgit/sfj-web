@@ -54,9 +54,9 @@ const stagger = {
 export default function CorporateTrainingClient() {
   const router = useRouter();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 mt-20">
+    <div className="min-h-screen ">
       {/* Hero Section */}
-      <section className="relative px-20 flex items-center overflow-hidden bg-gradient-to-br  from-purple-600 via-blue-600 to-teal-500 text-white">
+      <section className="relative px-20 flex items-center overflow-hidden bg-gradient-to-br  from-purple-600 via-blue-600 to-teal-500 text-white pt-10">
         <div className="w-full relative container mx-auto px-4 py-24">
           <motion.div
             className="max-w-4xl mx-auto text-center"

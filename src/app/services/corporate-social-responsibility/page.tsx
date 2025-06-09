@@ -190,7 +190,7 @@ const csrPillars = [
 
 export default function CSRPage() {
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white ">
       <CSRLandingPage />
       {/* <CSRHeroSection /> */}
 

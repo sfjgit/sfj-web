@@ -327,106 +327,137 @@ const CSRLandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="min-h-screen ">
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-white/50"></div>
+      <div className="relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-800 to-cyan-600 pt-20">
+        {/* Enhanced Background Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(167,243,208,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(167,243,208,0.1)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+
+        {/* Floating Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl animate-pulse"></div>
+          <div
+            className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "2s" }}
+          ></div>
+          <div
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "1s" }}
+          ></div>
+        </div>
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-full text-sm font-semibold mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
               <Zap className="w-4 h-4 mr-2" />
               Skilling India for the AI Future
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-              Empowering Through
-              <span className="text-blue-600"> Gen AI Training</span>
+
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              <span className="text-white">Empowering Through</span>
+              <br />
+              <span className="bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
+                Gen AI Training
+              </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
+
+            <p className="text-xl text-cyan-100 mb-8 max-w-3xl mx-auto leading-relaxed font-medium">
               Transforming school students, educators, rural youth, and
               government employees through CSR-led initiatives with global
               certifications.
             </p>
 
+            {/* Feature Pills */}
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
+                Global Certifications
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
+                AI-Powered Learning
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
+                CSR Initiatives
+              </div>
+            </div>
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button
                 onClick={() => router.push("/contact")}
-                className="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center"
+                className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-cyan-600 hover:to-blue-700 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl"
               >
                 Enquire Us
                 <ArrowRight className="w-5 h-5 ml-2" />
               </button>
-              {/* <button className="border-2 border-gray-300 text-gray-700 px-8 py-3 rounded-full font-semibold hover:border-blue-500 hover:text-blue-600 transition-all duration-200 flex items-center justify-center">
-                Explore Our Programs
-                <ChevronRight className="w-5 h-5 ml-2" />
-              </button> */}
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Tabbed Content Section */}
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-            {/* Tab Navigation */}
-            <div className="border-b border-gray-200 bg-gray-50">
-              <div className="flex overflow-x-auto">
-                {tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`flex-shrink-0 flex items-center px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 ${
-                        activeTab === tab.id
-                          ? `border-blue-500 text-blue-600 bg-white`
-                          : "border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                      }`}
+      <div className="py-10 max-w-7xl mx-auto">
+        {/* Tabbed Content Section */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          {/* Tab Navigation */}
+          <div className="border-b border-gray-200 bg-gray-50">
+            <div className="flex overflow-x-auto">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex-shrink-0 flex items-center px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 ${
+                      activeTab === tab.id
+                        ? `border-blue-500 text-blue-600 bg-white`
+                        : "border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    <div
+                      className={`w-6 h-6 rounded-full ${tab.color} bg-opacity-20 flex items-center justify-center mr-2`}
                     >
-                      <div
-                        className={`w-6 h-6 rounded-full ${tab.color} bg-opacity-20 flex items-center justify-center mr-2`}
-                      >
-                        <Icon
-                          className={`w-3 h-3 ${
-                            activeTab === tab.id
-                              ? "text-blue-600"
-                              : "text-gray-500"
-                          }`}
-                        />
-                      </div>
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Tab Content */}
-            <div className="p-6">
-              <TabContent id={activeTab} />
+                      <Icon
+                        className={`w-3 h-3 ${
+                          activeTab === tab.id
+                            ? "text-blue-600"
+                            : "text-gray-500"
+                        }`}
+                      />
+                    </div>
+                    {tab.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Bottom CTA */}
-          <div className="text-center mt-8">
-            <div className="bg-blue-600 rounded-2xl p-6 text-white">
-              <div className="flex items-center justify-center mb-4">
-                <Globe className="w-8 h-8 mr-3" />
-                <h2 className="text-2xl font-bold">
-                  Join Us in Shaping India&#39;s Tech Future
-                </h2>
-              </div>
-              <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-                From schools to rural communities — together, we can unlock
-                future-ready opportunities and create measurable impact across
-                India.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {/* <button className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+          {/* Tab Content */}
+          <div className="p-6">
+            <TabContent id={activeTab} />
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-8">
+          <div className="bg-blue-600 rounded-2xl p-6 text-white">
+            <div className="flex items-center justify-center mb-4">
+              <Globe className="w-8 h-8 mr-3" />
+              <h2 className="text-2xl font-bold">
+                Join Us in Shaping India&#39;s Tech Future
+              </h2>
+            </div>
+            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+              From schools to rural communities — together, we can unlock
+              future-ready opportunities and create measurable impact across
+              India.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* <button className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200">
                   Contact Our CSR Team
                 </button> */}
-                <button className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
-                  Download CSR Brochure
-                </button>
-              </div>
+              <button className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
+                Download CSR Brochure
+              </button>
             </div>
           </div>
         </div>

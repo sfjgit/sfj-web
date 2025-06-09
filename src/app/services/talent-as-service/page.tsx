@@ -56,9 +56,9 @@ export default function ITStaffingPage() {
   ];
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 pt-10">
+    <div className=" ">
       {/* Hero Section - Compact */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 pt-28">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             {/* Left Content */}
@@ -68,12 +68,12 @@ export default function ITStaffingPage() {
                 Global IT Staffing Leader
               </Badge>
 
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
                 Your Trusted Global
                 <span className="text-blue-600"> IT Staffing</span>
               </h1>
 
-              <div className="space-y-3 text-gray-700">
+              <div className="space-y-3 text-white">
                 <div className="flex items-start gap-3">
                   <TrendingUp className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
                   <p>
