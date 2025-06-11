@@ -136,9 +136,9 @@
   font-display: swap;
 }
 
-@theme {
+/* @theme {
   --font-sans: "Segoe UI Variable", sans-serif;
-}
+} */
 
 /* Hide scrollbar for webkit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {

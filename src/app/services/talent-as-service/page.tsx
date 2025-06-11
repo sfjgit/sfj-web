@@ -106,29 +106,7 @@ export default function ITStaffingPage() {
 
             {/* Right Content - Key Points */}
             <div className="space-y-4">
-              <Card className="border-l-4 border-l-blue-600 shadow-md">
-                <CardContent className="pt-0">
-                  <p>
-                    <span className="font-semibold">Global Reach</span>
-                  </p>
-                  <p className="text-gray-700 text-sm mt-2">
-                    SFJBS connects you with exceptional IT professionals who fit
-                    your exact requirements anywhere
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-l-4 border-l-green-600 shadow-md">
-                <CardContent className="pt-0">
-                  <p>
-                    <span className="font-semibold"> Bangalore Expertise</span>
-                  </p>
-                  <p className="text-gray-700 text-sm mt-2">
-                    Leading IT staffing services with strong presence in
-                    Bangalore and global reach
-                  </p>
-                </CardContent>
-              </Card>
+              <img src="" alt="" />
             </div>
           </div>
         </div>

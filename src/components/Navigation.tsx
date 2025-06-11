@@ -44,7 +44,6 @@ const Navigation = () => {
   // Single navigation array with children and without children
   const navigationItems = [
     { path: "/", label: "Home", hasChildren: false },
-    { path: "/about", label: "About Us", hasChildren: false },
 
     {
       path: "/services",
@@ -100,6 +99,8 @@ const Navigation = () => {
       label: "Industries",
       hasChildren: false,
     },
+    { path: "/about", label: "About Us", hasChildren: false },
+    { path: "/careers", label: "Careers", hasChildren: false },
     { path: "/partners", label: "Partners", hasChildren: false },
     {
       path: "/impact",

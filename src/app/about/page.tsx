@@ -164,39 +164,46 @@ const WhoWeAreSection: React.FC = () => (
           success.
         </p>
       </div>
-
-      <div className="w-full flex lg:flex-row flex-1 lg:w-full md:h-fit lg:gap-0 gap-10 items-center justify-center md:flex-col flex-col">
-        <div className="lg:w-1/2 max-w-[400px] flex lg:min-w-[357px] lg:h-full md:h-[400px] h-[300px] relative">
-          <Image
-            fill
-            alt="Our Vision"
-            className="object-cover"
-            src="/app/about/Our-Vision.png"
-          />
-          <div className="w-full h-full text-white lg:p-20 p-24 flex flex-col justify-center items-center relative bg-black/40">
-            <p className="text-center text-xl mb-2 font-bold drop-shadow-lg">
-              Our Vision
-            </p>
-            <p className="text-center font-medium drop-shadow-md">
-              To be a market leader in creating a technology workforce for the
-              future through disruptions in upskilling and staffing.
-            </p>
+      <div className="w-full flex lg:flex-row flex-col gap-8 items-stretch justify-center max-w-6xl mx-auto px-4">
+        {/* Our Vision Card */}
+        <div className="flex-1 max-w-md mx-auto lg:mx-0">
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+            <div className="h-48 relative overflow-hidden">
+              <Image
+                fill
+                alt="Our Vision"
+                className="object-cover hover:scale-105 transition-transform duration-300"
+                src="/app/about/Our-Vision.png"
+              />
+            </div>
+            <div className="p-6 flex flex-col justify-center items-center text-center">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Our Vision
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                To be a market leader in creating a technology workforce for the
+                future through disruptions in upskilling and staffing.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="lg:w-1/2 max-w-[400px] lg:min-w-[357px] lg:h-full md:h-[400px] h-[300px] relative">
-          <Image
-            fill
-            alt="Our Mission"
-            className="object-cover"
-            src="/app/about/Our-Mission.png"
-          />
-          <div className="w-full h-full text-white gap-10 lg:p-20 p-24 flex flex-col justify-center items-center relative bg-black/40">
-            <div>
-              <p className="text-center text-xl mb-2 font-bold drop-shadow-lg">
+        {/* Our Mission Card */}
+        <div className="flex-1 max-w-md mx-auto lg:mx-0">
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden h-full border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+            <div className="h-48 relative overflow-hidden">
+              <Image
+                fill
+                alt="Our Mission"
+                className="object-cover hover:scale-105 transition-transform duration-300"
+                src="/app/about/Our-Mission.png"
+              />
+            </div>
+            <div className="p-6 flex flex-col justify-center items-center text-center">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
                 Our Mission
-              </p>
-              <p className="text-center font-medium drop-shadow-md">
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
                 To help our customers achieve scale through innovative, agile
                 and efficient talent transformation solutions.
               </p>
@@ -217,7 +224,7 @@ const CoreValuesSection: React.FC = () => (
       </h1>
 
       <div className="lg:container mb-10 mx-auto">
-        <div className="flex tablet:flex-row flex-col gap-5 justify-center items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             {
               title: "Passion",
