@@ -117,7 +117,7 @@ const OfferingsSection = () => {
           <div className="flex items-center justify-center mb-6">
             <div className="w-20 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
             <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mx-6">
-              Our Offerings
+              Our Offerings asasa
             </h2>
             <div className="w-20 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
           </div>

@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Metadata } from "next";
+import GlobalPresenceSection from "./_components/Global";
 
 // Types
 interface TeamMember {
@@ -312,32 +313,39 @@ const FounderSection: React.FC = () => (
                 Introducing Our Visionary CEO
               </h3>
               <p className="text-justify">
-                Mr. Sivasarathy, the leader behind SFJ Business Solutions. A
-                seasoned professional with diverse expertise. Mr. Sivasarathy,
-                or Siva as he is fondly called, is the founder and CEO of SFJ
-                Business Solutions Pvt Ltd, a leading provider of IT consulting,
-                outsourcing, and skilling solutions. With over two decades of
-                experience in various technical domains such as SAP and Oracle,
-                Siva has managed projects, delivered implementations, and
-                provided consulting services. Before starting SFJ Business
-                Solutions in 2011, he worked as a SAP consultant at TCS, one of
-                the largest IT companies in the world.
+                Mr. Sivasarathy is the visionary leader behind SFJ Business
+                Solutions. A seasoned expert with a wealth of experience, Mr.
+                Sivasarathy—affectionately known as Siva—is the Founder and CEO
+                of SFJ Business Solutions Pvt. Ltd., a premier provider of IT
+                consulting, outsourcing, and workforce skilling services. With
+                more than 20 years of experience across key technical domains
+                like SAP and Oracle, he has successfully led numerous projects,
+                implemented complex solutions, and delivered strategic
+                consulting services. Prior to founding SFJ Business Solutions in
+                2011, he served as an Head of SAP Practice at Tata Consultancy
+                Services (TCS), one of the world’s largest IT firms.
               </p>
             </div>
             <div className="mb-4 px-4 md:px-0">
               <h3 className="font-bold text-center mb-6 text-gray-900 text-2xl">
-                A visionary leader with a passion for education
+                A Visionary Leader Driving the Future of Inclusive Gen AI
+                Education
               </h3>
               <p className="text-justify">
-                Siva is not only an expert in IT but also a passionate educator
-                who believes in transforming learning experiences with
-                innovative solutions. He guides SFJ Business Solutions with his
-                deep insight into the IT industry and his strong commitment to
-                excellence. Under his leadership, SFJ Business Solutions has
-                become a top player in the market, known for its quality
-                services and customer satisfaction. Siva invites you to join our
-                journey to revolutionize education with a CEO who understands
-                the needs and challenges of the industry.
+                Siva is not only a distinguished IT expert but also a passionate
+                advocate for transforming education through innovation. As the
+                driving force behind SFJ Business Solutions, he is leading the
+                charge in democratizing Generative AI training for all—school
+                students, polytechnic and college learners, university
+                graduates, persons with disabilities (PwD), and the LGBTQ+
+                community. With a strong commitment to excellence and inclusion,
+                Siva envisions building a future-ready, Gen AI–skilled workforce
+                that meets global demand. Under his leadership, SFJ Business
+                Solutions has emerged as a trusted leader, delivering impactful
+                training solutions that empower learners from every background.
+                Join us in shaping an equitable, AI-powered future with a CEO
+                who truly understands the evolving needs of the education and
+                technology landscape.
               </p>
             </div>
           </div>
@@ -443,33 +451,6 @@ const StakeholderCard: React.FC<StakeholderCardProps> = ({
   </div>
 );
 
-const StakeholdersSection: React.FC = () => (
-  <section className="py-12 sm:py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-12 sm:mb-16">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-          Our Collaborative Ecosystem
-        </h2>
-        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-        <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-4 font-medium">
-          Success in workforce development requires a collaborative ecosystem of
-          learners, institutions, technology partners, and industry leaders.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-        {stakeholdersData.map((stakeholder, index) => (
-          <StakeholderCard
-            key={index}
-            stakeholder={stakeholder}
-            index={index}
-          />
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
 interface OfficeCardProps {
   office: Office;
 }
@@ -496,35 +477,11 @@ const OfficeCard: React.FC<OfficeCardProps> = ({ office }) => (
   </div>
 );
 
-const GlobalPresenceSection: React.FC = () => (
-  <section className="py-12 sm:py-20 bg-white">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-12 sm:mb-16">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-          Global Presence, Local Impact
-        </h2>
-        <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 sm:mb-6 rounded-full"></div>
-        <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-4 font-medium">
-          With offices strategically located across Singapore, UAE, and the
-          United States, SFJ delivers consistent, high-quality training
-          experiences while adapting to local market needs.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-        {officesData.map((office, index) => (
-          <OfficeCard key={index} office={office} />
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
 const Footer: React.FC = () => (
   <footer className="bg-gradient-to-br from-slate-200 to-gray-300 text-gray-800 py-8 sm:py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <p className="text-gray-700 text-sm sm:text-base font-medium">
-        © 2024 SFJ Business Solutions. Bridging the global skills gap through
+        © 2025 SFJ Business Solutions. Bridging the global skills gap through
         innovative technology training.
       </p>
     </div>
@@ -533,7 +490,6 @@ const Footer: React.FC = () => (
 
 // Main Component
 const AboutPage: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [visibleItems, setVisibleItems] = useState<Set<string>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);
 
@@ -576,7 +532,7 @@ const AboutPage: React.FC = () => {
       <TimelineSection />
       <FounderSection />
       {/* <TeamSection /> */}
-      <StakeholdersSection />
+      {/* <StakeholdersSection /> */}
       <GlobalPresenceSection />
       <Footer />
     </div>

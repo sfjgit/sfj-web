@@ -127,7 +127,7 @@ const ClientsSection = () => {
   return (
     <section
       id="clients"
-      className="py-5 pt-0 -mt-5 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden"
+      className="py-5 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden"
     >
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-100 to-transparent rounded-full blur-3xl opacity-30 translate-x-48 -translate-y-48"></div>

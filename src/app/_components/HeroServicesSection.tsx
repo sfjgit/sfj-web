@@ -247,7 +247,7 @@ const HeroServicesSection = () => {
                   className="text-blue-700 border-blue-300 bg-blue-50 px-5 py-1.5 text-sm font-semibold rounded-full shadow-sm"
                 >
                   <BookOpen className="w-4 h-4 mr-2" />
-                  Our Offerings
+                  Our Offerings asas
                 </Badge>
               </div>
               <p className="text-sm text-gray-600">

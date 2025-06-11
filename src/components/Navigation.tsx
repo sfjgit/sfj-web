@@ -51,26 +51,12 @@ const Navigation = () => {
       hasChildren: true,
       children: [
         {
-          path: "/services/knowledge-as-service",
-          label: "Knowledge as a Service",
-          icon: BookOpen,
+          path: "/services/corporate-social-responsibility",
+          label: "Corporate Social Responsibility",
+          icon: Heart,
           description:
-            "640+ specialized courses to boost your career and skills",
+            "CSR initiatives focused on education and skill development",
         },
-        {
-          path: "/services/talent-as-service",
-          label: "Talent as a Service",
-          icon: Users,
-          description:
-            "15,000+ successful placements with top-tier IT professionals",
-        },
-        // {
-        //   path: "/services/it-services",
-        //   label: "IT Services",
-        //   icon: Settings,
-        //   description:
-        //     "Enterprise solutions across SAP, Oracle, and cloud platforms",
-        // },
         {
           path: "/services/government-initiatives",
           label: "Government Initiatives",
@@ -85,12 +71,26 @@ const Navigation = () => {
           description:
             "Training for engineering, MBA, and arts & science students",
         },
+        // {
+        //   path: "/services/it-services",
+        //   label: "IT Services",
+        //   icon: Settings,
+        //   description:
+        //     "Enterprise solutions across SAP, Oracle, and cloud platforms",
+        // },
         {
-          path: "/services/corporate-social-responsibility",
-          label: "Corporate Social Responsibility",
-          icon: Heart,
+          path: "/services/knowledge-as-service",
+          label: "Knowledge as a Service",
+          icon: BookOpen,
           description:
-            "CSR initiatives focused on education and skill development",
+            "640+ specialized courses to boost your career and skills",
+        },
+        {
+          path: "/services/talent-as-service",
+          label: "Talent as a Service",
+          icon: Users,
+          description:
+            "15,000+ successful placements with top-tier IT professionals",
         },
       ],
     },
@@ -125,22 +125,26 @@ const Navigation = () => {
     }
     return location === item.path;
   };
+  console.log(location, "location");
 
   return (
     <nav
       className={`fixed top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/95 shadow-md" : "bg-transparent"
+        isScrolled || location == "/"
+          ? "bg-white/95 shadow-md"
+          : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3">
           {/* Logo */}
+
           <Link
             href="/"
             className="flex flex-col items-center group transition-transform hover:scale-105"
           >
             <div className="relative">
-              {isScrolled ? (
+              {isScrolled || location === "/" ? (
                 <Image
                   src="/app/sfjlogo.png"
                   alt="SFJ Logo"
@@ -166,7 +170,6 @@ const Navigation = () => {
               Let&apos;s <span className="text-blue-600">Transform</span>
             </p> */}
           </Link>
-
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navigationItems.map((item) => (
@@ -178,7 +181,7 @@ const Navigation = () => {
                         className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
                           isActiveItem(item)
                             ? "text-blue-600 bg-blue-50 shadow-sm"
-                            : isScrolled
+                            : isScrolled || location == "/"
                             ? "text-black"
                             : "text-white"
                         }`}
@@ -225,7 +228,7 @@ const Navigation = () => {
                     className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
                       isActiveItem(item)
                         ? "text-blue-600 bg-blue-50 shadow-sm"
-                        : isScrolled
+                        : isScrolled || location == "/"
                         ? "text-black"
                         : "text-white"
                     }`}
@@ -244,7 +247,6 @@ const Navigation = () => {
               Contact Us
             </Button>
           </div>
-
           {/* Mobile menu button */}
           <div className="md:hidden">
             <Button
@@ -257,12 +259,16 @@ const Navigation = () => {
                 <Menu
                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
                     isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-                  } ${isScrolled ? "text-black" : "text-white"}`}
+                  } ${
+                    isScrolled || location == "/" ? "text-black" : "text-white"
+                  }`}
                 />
                 <X
                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
                     isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-                  } ${isScrolled ? "text-black" : "text-white"}`}
+                  } ${
+                    isScrolled || location == "/" ? "text-black" : "text-white"
+                  }`}
                 />
               </div>
             </Button>
