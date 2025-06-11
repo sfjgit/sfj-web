@@ -41,10 +41,10 @@ const HeroSection: React.FC = () => {
       icon: <School className="h-5 w-5" />,
       description: "Institution-wide training programs",
       highlights: [
-        "Faculty Development",
-        "Curriculum Enhancement",
-        "Digital Learning",
-        "Career Counseling",
+        "AI-Enhanced Pedagogy",
+        "Generative AI for Content Creation",
+        "AI Ethics in Education",
+        "Prompt Engineering for Educators",
       ],
       students: "200+",
       programs: "8+",
@@ -67,10 +67,10 @@ const HeroSection: React.FC = () => {
       icon: <BookOpen className="h-5 w-5" />,
       description: "Comprehensive skill development for liberal arts students",
       highlights: [
-        "Digital Marketing",
-        "Data Analytics",
-        "Content Creation",
-        "Business Intelligence",
+        "AI-Assisted Creative Writing",
+        "Generative Art & Design Tools",
+        "AI in Music Composition",
+        "Digital Storytelling with AI",
       ],
       students: "3,800+",
       programs: "15+",
@@ -80,10 +80,10 @@ const HeroSection: React.FC = () => {
       icon: <Cpu className="h-5 w-5" />,
       description: "Specialized training for all engineering branches",
       highlights: [
-        "Full Stack Development",
-        "Data Science & AI",
-        "Cybersecurity",
-        "Cloud Computing",
+        "AI/ML Model Development",
+        "Prompt Engineering & Fine-tuning",
+        "AI System Architecture",
+        "Responsible AI Development",
       ],
       students: "8,500+",
       programs: "25+",
@@ -94,7 +94,7 @@ const HeroSection: React.FC = () => {
       icon: <GraduationCap className="h-5 w-5" />,
       description: "Advanced management and leadership training",
       highlights: [
-        "Strategic Management",
+        "AI Strategy & Business Transformation",
         "Digital Transformation",
         "Leadership Skills",
         "Business Analytics",
@@ -116,7 +116,7 @@ const HeroSection: React.FC = () => {
       programs: "15+",
     },
     paramedical: {
-      title: "Para Medical & Allied Health",
+      title: "Para-Medical & Allied Health",
       icon: <Users className="h-5 w-5" />,
       description:
         "Essential healthcare support and technical medical training",
@@ -140,12 +140,9 @@ const HeroSection: React.FC = () => {
   const currentSegment: EducationSegment = educationSegments[activeTab];
 
   return (
-    <section
-      id="overview"
-      className="pt-16  bg-gradient-to-br from-blue-200 to-indigo-300"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+    <section id="overview" className="pt-20 ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start pt-5">
           {/* Left Column - Main Content */}
           <div className="space-y-6">
             <div className="flex items-center space-x-2 text-blue-600">

@@ -16,7 +16,8 @@ const offerings = [
     id: 1,
     icon: BookOpen,
     title: "Corporate Training",
-    subtitle: "Professional Training Excellence Program",
+    subtitle:
+      "Empowering professionals through Gen AI corporate upskilling and reskilling  programs.",
     description:
       "640+ specialized courses designed by industry experts to accelerate your career growth.",
     cta: "Start Learning",

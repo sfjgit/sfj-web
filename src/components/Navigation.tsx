@@ -127,10 +127,17 @@ const Navigation = () => {
   };
   console.log(location, "location");
 
+  const isLocationBlack = () => {
+    if (location === "/services/institutional-training" || location === "/") {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <nav
       className={`fixed top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
-        isScrolled || location == "/"
+        isScrolled || isLocationBlack()
           ? "bg-white/95 shadow-md"
           : "bg-transparent"
       }`}
@@ -181,7 +188,7 @@ const Navigation = () => {
                         className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
                           isActiveItem(item)
                             ? "text-blue-600 bg-blue-50 shadow-sm"
-                            : isScrolled || location == "/"
+                            : isScrolled || isLocationBlack()
                             ? "text-black"
                             : "text-white"
                         }`}
@@ -228,7 +235,7 @@ const Navigation = () => {
                     className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
                       isActiveItem(item)
                         ? "text-blue-600 bg-blue-50 shadow-sm"
-                        : isScrolled || location == "/"
+                        : isScrolled || isLocationBlack()
                         ? "text-black"
                         : "text-white"
                     }`}
@@ -260,14 +267,18 @@ const Navigation = () => {
                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
                     isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
                   } ${
-                    isScrolled || location == "/" ? "text-black" : "text-white"
+                    isScrolled || isLocationBlack()
+                      ? "text-black"
+                      : "text-white"
                   }`}
                 />
                 <X
                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
                     isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
                   } ${
-                    isScrolled || location == "/" ? "text-black" : "text-white"
+                    isScrolled || isLocationBlack()
+                      ? "text-black"
+                      : "text-white"
                   }`}
                 />
               </div>
