@@ -14,6 +14,7 @@ import {
   FaChartLine,
 } from "react-icons/fa";
 import PartnershipsCarousel from "./Hero";
+import CourseCatalog from "./CourseCatalog";
 
 const ties = [
   {
@@ -129,6 +130,7 @@ export default function GovernmentTrainingRedesign() {
           </div>
         </div>
       </section>
+      <CourseCatalog />
 
       {/* Government Partnerships Section */}
       <section id="partnerships" className="py-20 bg-gray-50">

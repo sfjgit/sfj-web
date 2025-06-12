@@ -8,6 +8,7 @@ export default function page() {
     <div className="min-h-screen">
       {/* <div className="h-28"></div> */}
       <GovernmentTrainingRedesign />
+
       <Naan />
       <Ksdc />
       <section
