@@ -163,7 +163,7 @@ const Footer = () => {
                   Capabilities
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="https://www.bskilling.com"
                   target="_blank"
@@ -172,7 +172,7 @@ const Footer = () => {
                 >
                   Education
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="https://sfjbs.talentrecruit.com/"
@@ -185,7 +185,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/life"
+                  href="/life-at-sfjbs"
                   className="text-gray-300 hover:text-white transition-colors text-sm"
                 >
                   Life@SFJ

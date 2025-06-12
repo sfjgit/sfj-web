@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import {
   FaCode,
@@ -85,9 +84,6 @@ export default function GenerativeAIRoles() {
           <h1 className="text-3xl font-bold text-gray-800">
             Generative AI Roles
           </h1>
-          <p className="text-blue-600 text-lg font-medium">
-            Salary Ranging from Rs. 15,000 to 35,000 / Month
-          </p>
         </div>
       </div>
 
@@ -117,7 +113,7 @@ export default function GenerativeAIRoles() {
       </div>
 
       {/* Alternative Compact Version */}
-      <div className="mt-12 p-6 bg-gray-50 rounded-xl">
+      {/* <div className="mt-12 p-6 bg-gray-50 rounded-xl">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">
           Career Paths Enabled in Generative AI
         </h3>
@@ -144,7 +140,7 @@ export default function GenerativeAIRoles() {
             ₹35,000 per month
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

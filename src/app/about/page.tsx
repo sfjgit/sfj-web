@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -128,41 +129,43 @@ const HeroSection: React.FC = () => (
         </h1>
         <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mb-4 rounded-full"></div>
         <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl leading-relaxed font-medium">
-          From Vision to Global Impact – Founded in 2011, SFJ Business Solutions
-          began with a simple yet powerful vision: to bridge the global skills
-          gap through innovative technology training.
+          Empower AI-driven solutions. Accelerate agile growth. Elevate client
+          success through Generative AI expertise.
         </p>
       </div>
     </div>
   </section>
 );
 const WhoWeAreSection: React.FC = () => (
-  <section className="md:pt-14 text-gray-800 bg-white" id="WhoWe-Are">
+  <section className="md:pt-14 max-w-7xl mx-auto text-gray-800 " id="WhoWe-Are">
     <div className="p-4 md:container flex flex-wrap gap-10 mx-auto">
-      <div className="w-auto lg:min-w-[700px] flex-1 pb-10">
+      <div className=" flex-1 pb-10">
         <h1 className="text-4xl text-center tracking-wide text-blue-700 font-bold">
           Who We Are
         </h1>
         <p className="prose pt-8 text-gray-800 text-lg leading-relaxed">
-          Founded in 2011, SFJ Business Solutions has been a trusted knowledge
-          and talent services partner for several multi-national organizations.
-          Driven by a core team with a wealth of passion and expertise, we have
-          built long-lasting relationships with customers all over the globe,
-          helping them scale their businesses with just-in-time and
-          cost-effective talent transformation services and IT services.
+          SFJ Business Solutions Pvt. Ltd. is a global technology and skilling
+          leader, established in 2011, dedicated to empowering individuals with
+          the skills needed for today's digital economy. We specialize in
+          delivering cutting-edge, industry-aligned training across critical
+          domains including IT, FinTech, Generative AI, Cloud, Cybersecurity,
+          and ERP, along with specialized programs that culminate in global
+          certifications.
         </p>
         <p className="pt-8 text-gray-800 text-lg leading-relaxed">
-          We have an exceptional track record in workforce training, staffing,
-          consulting and implementations on several key technical capabilities
-          including SAP and Oracle. Over the last decade, we have created
-          tremendous value for our customers through our strong network of
-          staff, consultants, trainers and partners.
+          Our job-ready learning paths are delivered through a dynamic blended
+          approach, leveraging instructor-led sessions, robust LMS-based
+          tracking, and advanced AI-powered assessments to ensure measurable
+          talent transformation. SFJ's end-to-end training lifecycle, from needs
+          analysis to deployment, positions us as a preferred partner for
+          workforce enablement across B2B, B2G, and CSR segments.
         </p>
         <p className="pt-8 text-gray-800 text-lg leading-relaxed">
-          Our Motto: <b className="text-xl text-blue-700">S</b>olve business
-          challenges. <b className="text-xl text-blue-700">F</b>oster agility
-          and growth. <b className="text-xl text-blue-700">J</b>ubilate customer
-          success.
+          With a proven track record of training over 300,000 learners and
+          successful CSR collaborations with partners like NSDC, NASSCOM, and
+          Microsoft, we are committed to driving scalable, inclusive skilling
+          initiatives across India, the UAE, the US, and Singapore, preparing
+          diverse talent for the AI-powered future.
         </p>
       </div>
       <div className="w-full flex lg:flex-row flex-col gap-8 items-stretch justify-center max-w-6xl mx-auto px-4">

@@ -1,8 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 // app/corporate-training/CorporateTrainingClient.tsx
 
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -19,7 +19,6 @@ import {
   BookOpen,
   Monitor,
   Globe,
-  Award,
   Building2,
   Lightbulb,
   BarChart3,
@@ -32,10 +31,9 @@ import {
   Shield,
   Smartphone,
   ChevronRight,
-  Star,
+  Building,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -52,65 +50,198 @@ const stagger = {
 };
 
 export default function CorporateTrainingClient() {
-  const router = useRouter();
   return (
     <div className="min-h-screen ">
       {/* Hero Section */}
-      <section className="relative px-20 flex items-center overflow-hidden bg-gradient-to-br  from-purple-600 via-blue-600 to-teal-500 text-white pt-10">
-        <div className="w-full relative container mx-auto px-4 py-24">
-          <motion.div
-            className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+      <section className="bg-white overflow-hidden pt-10">
+        {/* Geometric Background Pattern */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <svg
+            className="absolute top-0 right-0 w-1/2 h-full opacity-5"
+            viewBox="0 0 400 400"
           >
-            <Badge className="mb-4 bg-white/20 text-white border-white/30 backdrop-blur-sm">
-              Corporate Training Solutions
-            </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Transform Your{" "}
-              <span className="text-gradient bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
-                Workforce
-              </span>{" "}
-              with AI-Powered Skilling
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-purple-100 leading-relaxed">
-              Comprehensive Corporate Training programs designed to bridge skill
-              gaps and accelerate organizational growth
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                onClick={() => {
-                  router.push("/contact");
-                }}
-                className="bg-white text-purple-600 hover:bg-purple-50 shadow-lg"
+            <defs>
+              <pattern
+                id="geometric"
+                patternUnits="userSpaceOnUse"
+                width="50"
+                height="50"
               >
-                Get Started <ChevronRight className="ml-2 h-5 w-5" />
-              </Button>
+                <polygon points="25,0 50,25 25,50 0,25" fill="url(#gradient)" />
+              </pattern>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#3B82F6" />
+                <stop offset="100%" stopColor="#4F46E5" />
+              </linearGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#geometric)" />
+          </svg>
+
+          {/* Floating geometric shapes */}
+          <div className="absolute top-20 right-20 w-20 h-20 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full opacity-10 animate-pulse"></div>
+          <div className="absolute top-40 right-60 w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 transform rotate-45 opacity-10 animate-bounce"></div>
+          <div className="absolute bottom-40 right-40 w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full opacity-10 animate-pulse"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 py-8 relative">
+          <div className="grid lg:grid-cols-2 gap-8 h-full items-center">
+            {/* Left Content */}
+            <div className="space-y-4 pt-10">
+              {/* Header Section */}
+              <motion.div
+                className="space-y-3"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <div className="space-y-2">
+                  {/* Main Title as Badge */}
+                  <div className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full shadow-lg">
+                    Corporate Training Solutions
+                  </div>
+                  {/* Subtitle - Bigger Text */}
+                  <h2 className="text-2xl lg:text-3xl text-gray-800 font-bold leading-tight mt-3">
+                    Transform Your{" "}
+                    <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text">
+                      Workforce
+                    </span>
+                    <br />
+                    <span className="text-blue-600">
+                      'Bridge Every Skill Gap'
+                    </span>
+                  </h2>
+                </div>
+              </motion.div>
+
+              {/* Description */}
+              <motion.p
+                className="text-base text-gray-600 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                Comprehensive Corporate Training programs designed to bridge
+                skill gaps and accelerate organizational growth through
+                cutting-edge AI and digital transformation.
+              </motion.p>
+
+              {/* Features */}
+              <motion.div
+                className="grid grid-cols-2 gap-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {[
+                  "AI-Driven Learning",
+                  "Custom Curricula",
+                  "Skills Assessment",
+                  "Progress Tracking",
+                  "Industry Experts",
+                  "Certification Programs",
+                ].map((feature, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-50 to-indigo-50 p-2 rounded border border-blue-100"
+                  >
+                    <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full"></div>
+                    <span className="text-sm font-medium text-gray-700">
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+
+              {/* CTA Buttons */}
+              <motion.div
+                className="flex flex-col sm:flex-row gap-3 pt-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
+                <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center text-sm group">
+                  Get Started
+                  <ChevronRight className="ml-2 h-4 w-4 inline group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button className="bg-white/90 hover:cursor-pointer backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md text-sm">
+                  Learn More
+                </button>
+              </motion.div>
             </div>
-          </motion.div>
+
+            {/* Right Content - Image with Geometric Background */}
+            <motion.div
+              className="relative h-full flex-col flex justify-center items-end"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
+              {/* Geometric shapes behind image */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute top-10 right-10 w-24 h-24 bg-gradient-to-br from-blue-400 to-indigo-400 transform rotate-45 opacity-10"></div>
+                <div className="absolute bottom-20 left-10 w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full opacity-15"></div>
+              </div>
+
+              {/* Main Image */}
+              <div className="relative z-10">
+                <img
+                  src="/app/corporate-training/Corporate.png"
+                  alt="Corporate Training Program"
+                  className="w-[80%] object-cover rounded-lg shadow-2xl border-4 border-white transform hover:scale-105 transition-transform duration-500"
+                />
+
+                {/* Floating stats cards */}
+                <div className="absolute -top-4 -left-4 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
+                  <div className="text-xs text-gray-500">Success Rate</div>
+                  <div className="text-lg font-bold text-blue-600">95%</div>
+                </div>
+
+                <div className="absolute -bottom-4 -right-4 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
+                  <div className="text-xs text-gray-500">Companies Trained</div>
+                  <div className="text-lg font-bold text-blue-600">500+</div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
-        <div className="w-[70vw]">
-          <img
-            src="/app/corporate-training/Corporate.png"
-            alt="corporate-training"
-            className=" object-cover w-full h-full rounded-md border-4 border-white"
-          />
-        </div>
-        {/* <div className="absolute inset-0 bg-black/30"></div> */}
       </section>
 
       {/* Training Mandate Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div className="text-center mb-16" {...fadeInUp}>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Our Corporate Training Mandate
+      {/* Training Mandate Section - Enhanced */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <svg className="w-full h-full" viewBox="0 0 100 100">
+            <defs>
+              <pattern
+                id="training-grid"
+                patternUnits="userSpaceOnUse"
+                width="20"
+                height="20"
+              >
+                <circle cx="10" cy="10" r="2" fill="#3B82F6" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#training-grid)" />
+          </svg>
+        </div>
+
+        <div className="container mx-auto px-4 relative">
+          <motion.div className="text-center mb-20" {...fadeInUp}>
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 border border-blue-200 rounded-full text-blue-700 text-sm font-medium mb-6">
+              <Target className="mr-2 h-4 w-4" />
+              Strategic Training Framework
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              Our Corporate Training
+              <span className="block text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text">
+                Transformation Journey
+              </span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               A systematic approach to people supply chain management that
-              transforms your workforce from assessment to deployment
+              transforms your workforce from assessment to deployment through
+              data-driven methodologies
             </p>
           </motion.div>
 
@@ -121,71 +252,174 @@ export default function CorporateTrainingClient() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-              {[
-                {
-                  step: "1",
-                  title: "Assess Workforce Readiness",
-                  description: "Evaluate current skills and competencies",
-                  icon: BarChart3,
-                  color: "from-blue-500 to-cyan-500",
-                },
-                {
-                  step: "2",
-                  title: "Training Need Analysis",
-                  description: "Determine areas needing improvement",
-                  icon: Target,
-                  color: "from-emerald-500 to-teal-500",
-                },
-                {
-                  step: "3",
-                  title: "Curate Training Programs",
-                  description: "Develop tailored learning experiences",
-                  icon: BookOpen,
-                  color: "from-yellow-500 to-orange-500",
-                },
-                {
-                  step: "4",
-                  title: "Monitor Learning Outcomes",
-                  description: "Track effectiveness through ILT & VLT methods",
-                  icon: TrendingUp,
-                  color: "from-purple-500 to-pink-500",
-                },
-                {
-                  step: "5",
-                  title: "People Supply Chain Management",
-                  description: "Strategically allocate skilled talent",
-                  icon: Users,
-                  color: "from-red-500 to-rose-500",
-                },
-              ].map((item, index) => (
-                <motion.div key={index} variants={fadeInUp}>
-                  <Card className="relative h-full border-2 hover:border-blue-200 transition-all duration-300 hover:shadow-lg">
-                    <CardHeader className="text-center pb-4">
+            {/* Process Flow */}
+            <div className="relative">
+              {/* Connection Lines */}
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-indigo-300 to-blue-200 hidden lg:block transform -translate-y-1/2 z-0"></div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 relative z-10">
+                {[
+                  {
+                    step: "01",
+                    title: "Assess Workforce Readiness",
+                    description:
+                      "Comprehensive skill mapping and competency evaluation using AI-driven analytics",
+                    icon: BarChart3,
+                    gradient: "from-blue-500 to-cyan-500",
+                    bgGradient: "from-blue-50 to-cyan-50",
+                    features: [
+                      "Skills Assessment",
+                      "Gap Analysis",
+                      "Baseline Metrics",
+                    ],
+                  },
+                  {
+                    step: "02",
+                    title: "Training Need Analysis",
+                    description:
+                      "Strategic identification of learning priorities aligned with business objectives",
+                    icon: Target,
+                    gradient: "from-emerald-500 to-teal-500",
+                    bgGradient: "from-emerald-50 to-teal-50",
+                    features: [
+                      "Business Alignment",
+                      "Priority Matrix",
+                      "ROI Planning",
+                    ],
+                  },
+                  {
+                    step: "03",
+                    title: "Curate Training Programs",
+                    description:
+                      "Design personalized learning pathways with industry-leading methodologies",
+                    icon: BookOpen,
+                    gradient: "from-yellow-500 to-orange-500",
+                    bgGradient: "from-yellow-50 to-orange-50",
+                    features: [
+                      "Custom Curriculum",
+                      "Multi-Modal Learning",
+                      "Expert Instructors",
+                    ],
+                  },
+                  {
+                    step: "04",
+                    title: "Monitor Learning Outcomes",
+                    description:
+                      "Real-time tracking and analytics through advanced ILT & VLT frameworks",
+                    icon: TrendingUp,
+                    gradient: "from-purple-500 to-pink-500",
+                    bgGradient: "from-purple-50 to-pink-50",
+                    features: [
+                      "Progress Tracking",
+                      "Performance Analytics",
+                      "Adaptive Learning",
+                    ],
+                  },
+                  {
+                    step: "05",
+                    title: "People Supply Chain",
+                    description:
+                      "Strategic talent deployment and continuous workforce optimization",
+                    icon: Users,
+                    gradient: "from-indigo-500 to-blue-500",
+                    bgGradient: "from-indigo-50 to-blue-50",
+                    features: [
+                      "Talent Allocation",
+                      "Career Pathing",
+                      "Succession Planning",
+                    ],
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    variants={fadeInUp}
+                    className="relative"
+                  >
+                    {/* Step Number Circle */}
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
                       <div
-                        className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-r ${item.color} flex items-center justify-center mb-4`}
+                        className={`w-12 h-12 rounded-full bg-gradient-to-r ${item.gradient} flex items-center justify-center shadow-lg border-4 border-white`}
+                      >
+                        <span className="text-white font-bold text-sm">
+                          {item.step}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Main Card */}
+                    <div
+                      className={`bg-gradient-to-br ${item.bgGradient} rounded-2xl p-6 pt-12 h-full border border-white shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group`}
+                    >
+                      {/* Icon */}
+                      <div
+                        className={`w-16 h-16 mx-auto rounded-xl bg-gradient-to-r ${item.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
                       >
                         <item.icon className="h-8 w-8 text-white" />
                       </div>
-                      <Badge
-                        variant="secondary"
-                        className="w-8 h-8 rounded-full p-0 flex items-center justify-center mx-auto mb-2"
-                      >
-                        {item.step}
-                      </Badge>
-                      <CardTitle className="text-lg font-semibold text-gray-900">
-                        {item.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-center text-gray-600">
-                        {item.description}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+
+                      {/* Content */}
+                      <div className="text-center space-y-4">
+                        <h3 className="text-xl font-bold text-gray-900 leading-tight">
+                          {item.title}
+                        </h3>
+                        <p className="text-gray-600 leading-relaxed text-sm">
+                          {item.description}
+                        </p>
+
+                        {/* Features List */}
+                        <div className="space-y-2 pt-4">
+                          {item.features.map((feature, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-center space-x-2"
+                            >
+                              <div
+                                className={`w-2 h-2 rounded-full bg-gradient-to-r ${item.gradient}`}
+                              ></div>
+                              <span className="text-xs font-medium text-gray-700">
+                                {feature}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Bottom Accent */}
+                      <div
+                        className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${item.gradient} rounded-b-2xl`}
+                      ></div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
+
+            {/* Bottom Stats */}
+            <motion.div
+              className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
+              variants={fadeInUp}
+            >
+              {[
+                { number: "500+", label: "Companies Trained", icon: Building },
+                { number: "95%", label: "Success Rate", icon: TrendingUp },
+                {
+                  number: "50K+",
+                  label: "Professionals Upskilled",
+                  icon: Users,
+                },
+              ].map((stat, index) => (
+                <div
+                  key={index}
+                  className="text-center p-6 bg-white rounded-xl shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300"
+                >
+                  <stat.icon className="h-8 w-8 text-blue-600 mx-auto mb-3" />
+                  <div className="text-3xl font-bold text-gray-900 mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-gray-600 font-medium">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -212,35 +446,10 @@ export default function CorporateTrainingClient() {
           >
             {[
               {
-                title: "Skilling Youths",
-                description:
-                  "Equipping young individuals with essential tech skills for future readiness",
-                icon: Users,
-                level: "1",
-                color: "blue",
-              },
-              {
-                title: "CSR - Digital Literacy",
-                description:
-                  "Enhancing digital awareness and literacy among school students and teachers",
-                icon: Monitor,
-                level: "2",
-                color: "purple",
-              },
-              {
-                title: "B2I - Employability",
-                description:
-                  "Equipping graduates with industry-relevant skills through expert faculty",
-                icon: Building2,
-                level: "3",
-                color: "yellow",
-              },
-              {
                 title: "Corporate Training - Upskilling",
                 description:
                   "Providing advanced training to working professionals for career growth",
                 icon: TrendingUp,
-                level: "4",
                 color: "purple",
               },
               {
@@ -248,7 +457,6 @@ export default function CorporateTrainingClient() {
                 description:
                   "Enabling professionals to acquire skills in diverse fields with global certifications",
                 icon: Globe,
-                level: "5",
                 color: "orange",
               },
               {
@@ -256,19 +464,12 @@ export default function CorporateTrainingClient() {
                 description:
                   "Helping professionals adapt to new roles and technologies with global certifications",
                 icon: Lightbulb,
-                level: "6",
                 color: "blue",
               },
             ].map((service, index) => (
               <motion.div key={index} variants={fadeInUp}>
                 <Card className="h-full hover:shadow-xl transition-all duration-300 border-l-4 border-l-blue-500">
                   <CardHeader>
-                    <div className="flex items-center gap-3 mb-2">
-                      <Badge className={`bg-${service.color}-500 text-white`}>
-                        {service.level}
-                      </Badge>
-                      <service.icon className="h-6 w-6 text-blue-600" />
-                    </div>
                     <CardTitle className="text-xl font-semibold text-gray-900">
                       {service.title}
                     </CardTitle>
@@ -286,7 +487,7 @@ export default function CorporateTrainingClient() {
       </section>
 
       {/* Journey Section */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -389,7 +590,7 @@ export default function CorporateTrainingClient() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* Collaborative Curriculum Development */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">

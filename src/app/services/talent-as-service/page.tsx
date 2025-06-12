@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import {

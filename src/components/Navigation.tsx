@@ -131,7 +131,9 @@ const Navigation = () => {
     if (
       location === "/services/institutional-training" ||
       location === "/" ||
-      location === "/services/government-initiatives"
+      location === "/services/government-initiatives" ||
+      location === "/services/knowledge-as-service" ||
+      location === "/life-at-sfjbs"
     ) {
       return true;
     }
@@ -155,7 +157,7 @@ const Navigation = () => {
             className="flex flex-col items-center group transition-transform hover:scale-105"
           >
             <div className="relative">
-              {isScrolled || location === "/" ? (
+              {isScrolled || isLocationBlack() ? (
                 <Image
                   src="/app/sfjlogo.png"
                   alt="SFJ Logo"
