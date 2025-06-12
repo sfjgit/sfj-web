@@ -22,7 +22,7 @@ const offerings = [
       "640+ specialized courses designed by industry experts to accelerate your career growth.",
     cta: "Start Learning",
     secondaryCta: "Browse Courses",
-    img: "/app/home/knowledge-as-service.png",
+    img: "/app/home/B2B.png",
     link: "/services/knowledge-as-service",
     clients: "200+",
     features: [

@@ -133,7 +133,8 @@ const Navigation = () => {
       location === "/" ||
       location === "/services/government-initiatives" ||
       location === "/services/knowledge-as-service" ||
-      location === "/life-at-sfjbs"
+      location === "/life-at-sfjbs" ||
+      location.split("/").includes("careers")
     ) {
       return true;
     }
