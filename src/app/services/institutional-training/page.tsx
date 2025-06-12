@@ -38,11 +38,13 @@ const InstitutionalTrainingPage = () => {
       <section id="engineering">
         <EngineeringPathways />
       </section>
-      <section id="arts"></section>
-      <ArtsAndScienceCourses />
-      <section id="mba"></section>
 
-      <MBACourses />
+      <section id="arts">
+        <ArtsAndScienceCourses />
+      </section>
+      <section id="mba">
+        <MBACourses />
+      </section>
 
       {/* Impact & Stats Component */}
       {/* <ImpactStats /> */}

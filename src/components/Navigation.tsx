@@ -52,14 +52,14 @@ const Navigation = () => {
       children: [
         {
           path: "/services/corporate-social-responsibility",
-          label: "Corporate Social Responsibility",
+          label: "Corporate Social Responsibility Skilling Partner",
           icon: Heart,
           description:
             "CSR initiatives focused on education and skill development",
         },
         {
           path: "/services/government-initiatives",
-          label: "Government Initiatives",
+          label: "Government-Led Skilling Missions – National and Regional",
           icon: Building,
           description:
             "KSDC, Naan Mudhalavan and other state skill development initiatives",
@@ -99,7 +99,6 @@ const Navigation = () => {
       label: "Industries",
       hasChildren: false,
     },
-    { path: "/about", label: "About Us", hasChildren: false },
     { path: "/careers", label: "Careers", hasChildren: false },
     { path: "/partners", label: "Partners", hasChildren: false },
     {
@@ -107,6 +106,7 @@ const Navigation = () => {
       label: "Impact",
       hasChildren: false,
     },
+    { path: "/about", label: "About Us", hasChildren: false },
   ];
 
   // Check if current path matches any service item
@@ -128,7 +128,11 @@ const Navigation = () => {
   console.log(location, "location");
 
   const isLocationBlack = () => {
-    if (location === "/services/institutional-training" || location === "/") {
+    if (
+      location === "/services/institutional-training" ||
+      location === "/" ||
+      location === "/services/government-initiatives"
+    ) {
       return true;
     }
     return false;
@@ -136,10 +140,10 @@ const Navigation = () => {
 
   return (
     <nav
-      className={`fixed top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
+      className={`fixed   top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
         isScrolled || isLocationBlack()
-          ? "bg-white/95 shadow-md"
-          : "bg-transparent"
+          ? "bg-white/95 border-b"
+          : "bg-transparent "
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -199,7 +203,7 @@ const Navigation = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="start"
-                      className="w-80 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
+                      className="w-96 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
                     >
                       {item.children?.map((child) => (
                         <DropdownMenuItem

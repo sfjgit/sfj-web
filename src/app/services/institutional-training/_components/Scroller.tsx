@@ -26,12 +26,7 @@ const HorizontalScrollNavbar = () => {
       icon: <Building className="h-5 w-5" />,
       href: "#polytechnic",
     },
-    {
-      id: "arts",
-      label: "Arts",
-      icon: <BookOpen className="h-5 w-5" />,
-      href: "#arts",
-    },
+
     {
       id: "bcom",
       label: "B.Com",
@@ -44,7 +39,12 @@ const HorizontalScrollNavbar = () => {
       icon: <Settings className="h-5 w-5" />,
       href: "#engineering",
     },
-
+    {
+      id: "arts",
+      label: "Arts",
+      icon: <BookOpen className="h-5 w-5" />,
+      href: "#arts",
+    },
     {
       id: "mba",
       label: "MBA",

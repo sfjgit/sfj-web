@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -386,9 +387,12 @@ const CareersPage = () => {
               <Card>
                 <CardContent className="text-center py-12">
                   <Building className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No jobs found</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Currently not hiring for this position
+                  </h3>
                   <p className="text-gray-600">
-                    Try adjusting your filters or search terms
+                    We're not actively recruiting for roles matching your
+                    criteria at this time
                   </p>
                 </CardContent>
               </Card>

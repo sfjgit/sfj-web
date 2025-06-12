@@ -127,7 +127,7 @@ const ClientsSection = () => {
   return (
     <section
       id="clients"
-      className="py-5 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden"
+      className="py-5 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden 2xl:-mt-5"
     >
       {/* Background Decorations */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-100 to-transparent rounded-full blur-3xl opacity-30 translate-x-48 -translate-y-48"></div>
@@ -144,15 +144,15 @@ const ClientsSection = () => {
           className="text-center mb-24"
         >
           {/* Top Badge Section */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <Badge
               variant="outline"
               className="text-indigo-700 border-indigo-300 bg-indigo-50 px-6 py-2 text-sm font-semibold rounded-full shadow-sm"
             >
               <Users className="w-4 h-4 mr-2" />
-              Trusted Partnerships
+              Trusted Partnerships  
             </Badge>
-          </div>
+          </div> */}
 
           {/* Main Heading */}
           <div className="mb-1">

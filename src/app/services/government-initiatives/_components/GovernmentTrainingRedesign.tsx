@@ -14,6 +14,7 @@ import {
   FaHandshake,
   FaChartLine,
 } from "react-icons/fa";
+import PartnershipsCarousel from "./Hero";
 
 const ties = [
   {
@@ -83,10 +84,10 @@ const ties = [
 ];
 
 const stats = [
-  { id: 1, number: "50+", label: "Government Partners", icon: FaHandshake },
+  { id: 1, number: "5+", label: "Government Partners", icon: FaHandshake },
   { id: 2, number: "120K+", label: "Students Trained", icon: FaGraduationCap },
   { id: 3, number: "95%", label: "Placement Rate", icon: FaChartLine },
-  { id: 4, number: "500+", label: "Training Programs", icon: FaCertificate },
+  { id: 4, number: "10+", label: "Training Programs", icon: FaCertificate },
 ];
 
 export default function GovernmentTrainingRedesign() {
@@ -102,52 +103,8 @@ export default function GovernmentTrainingRedesign() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 py-20 pt-32 overflow-hidden">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-600 text-sm font-medium mb-8">
-            <FaGlobe className="mr-2" />
-            Trusted Government Partnerships
-          </div>
-
-          {/* Main Heading */}
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Create Industry-Ready
-            <br />
-            <span className="text-blue-600">AI-Driven Graduates</span>
-            <br />
-            <div className="mx-auto text-center">
-              <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">
-                'Not Just Graduates'
-              </span>
-              <div className="mt-3 w-[20%] h-1 mx-auto bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full shadow-lg"></div>
-            </div>
-          </h1>
-
-          {/* Description */}
-          <p className="text-xl text-white mb-12 max-w-4xl mx-auto leading-relaxed">
-            Partner with prestigious government bodies to transform education
-            and build the workforce of tomorrow through cutting-edge AI and
-            digital skills training.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => scrollToSection("partnerships")}
-              className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold text-lg hover:bg-blue-700 transition-colors shadow-lg"
-            >
-              Explore Partnerships
-            </button>
-            <button
-              onClick={() => scrollToSection("about")}
-              className="px-8 py-4 border border-gray-300 text-white rounded-lg font-semibold text-lg hover:border-gray-400 transition-colors"
-            >
-              Learn More
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section - Redesigned */}
+      <PartnershipsCarousel />
 
       {/* Stats Section */}
       <section className="py-16 bg-white">

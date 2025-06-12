@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
         destination: "/services/talent-as-service",
         permanent: true,
       },
+      {
+        source: "/career",
+        destination: "/careers",
+        permanent: true,
+      },
     ];
   },
   /* config options here */

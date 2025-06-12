@@ -133,21 +133,21 @@ const offerings = [
 
 const HeroCarousel = () => {
   return (
-    <div className="relative  pt-8 pb-4 overflow-hidden">
+    <div className="  relative  pt-8 pb-4 overflow-hidden border-b">
       <Carousel
-        className="w-full  mx-auto px-4 h-full "
+        className="w-full  px-4 h-full "
         opts={{
           align: "start",
           loop: true,
         }}
       >
-        <CarouselContent className="h-full">
+        <CarouselContent className="h-full ">
           {offerings.map((offering) => {
             // const IconComponent = offering.icon;
             return (
-              <CarouselItem key={offering.id} className="h-full">
+              <CarouselItem key={offering.id} className="h-full ">
                 <div
-                  className={`bg-white rounded-2xl overflow-hidden  h-full pt-10`}
+                  className={`bg-white rounded-2xl overflow-hidden  h-full pt-10 max-w-7xl mx-auto`}
                 >
                   <div className="container mx-auto px-6 py-8 ">
                     <div className="grid lg:grid-cols-2 gap-8  h-full">
