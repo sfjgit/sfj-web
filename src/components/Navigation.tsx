@@ -52,14 +52,14 @@ const Navigation = () => {
       children: [
         {
           path: "/services/corporate-social-responsibility",
-          label: "Corporate Social Responsibility Skilling Partner",
+          label: "CSR Skilling Partner",
           icon: Heart,
           description:
             "CSR initiatives focused on education and skill development",
         },
         {
           path: "/services/government-initiatives",
-          label: "Government-Led Skilling Missions – National and Regional",
+          label: "Government-Led Skilling Missions",
           icon: Building,
           description:
             "KSDC, Naan Mudhalavan and other state skill development initiatives",
@@ -99,13 +99,14 @@ const Navigation = () => {
       label: "Industries",
       hasChildren: false,
     },
-    { path: "/careers", label: "Careers", hasChildren: false },
-    // { path: "/partners", label: "Partners", hasChildren: false },
     {
       path: "/impact",
       label: "Impact",
       hasChildren: false,
     },
+    { path: "/careers", label: "Careers", hasChildren: false },
+    // { path: "/partners", label: "Partners", hasChildren: false },
+
     { path: "/about", label: "About Us", hasChildren: false },
   ];
 
@@ -134,7 +135,8 @@ const Navigation = () => {
       location === "/services/government-initiatives" ||
       location === "/services/knowledge-as-service" ||
       location === "/life-at-sfjbs" ||
-      location.split("/").includes("careers")
+      location.split("/").includes("careers") ||
+      location === "/contact"
     ) {
       return true;
     }
@@ -206,7 +208,7 @@ const Navigation = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="start"
-                      className="w-96 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
+                      className="w-80 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
                     >
                       {item.children?.map((child) => (
                         <DropdownMenuItem

@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BookOpen, Building, GraduationCap, Handshake } from "lucide-react";
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -17,7 +18,7 @@ const offerings = [
     icon: BookOpen,
     title: "Corporate Training",
     subtitle:
-      "Empowering professionals through Gen AI corporate upskilling and reskilling  programs.",
+      "Empowering professionals through Gen AI corporate upskilling, cross-skilling and reskilling  programs.",
     description:
       "640+ specialized courses designed by industry experts to accelerate your career growth.",
     cta: "Start Learning",
@@ -112,7 +113,7 @@ const offerings = [
     icon: Handshake,
     title: "Corporate Social Responsibility",
     subtitle:
-      "Partnering with leading CSR organizations to create opportunities for inclusive groups like Women, PWD, LGBTQ+ communities.",
+      "Partnering with leading CSR organizations to create opportunities for inclusive groups.",
     description: "",
     cta: "Learn More",
     secondaryCta: "Our Partners",
@@ -132,43 +133,95 @@ const offerings = [
 ];
 
 const HeroCarousel = () => {
+  const [api, setApi] = useState<CarouselApi>();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isHoveredRef = useRef(false);
+
+  // Optimized autoplay function
+  const startAutoplay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      if (api && !isHoveredRef.current) {
+        api.scrollNext();
+      }
+    }, 3000);
+  }, [api]);
+
+  const stopAutoplay = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  // Handle mouse events
+  const handleMouseEnter = useCallback(() => {
+    isHoveredRef.current = true;
+    stopAutoplay();
+  }, [stopAutoplay]);
+
+  const handleMouseLeave = useCallback(() => {
+    isHoveredRef.current = false;
+    startAutoplay();
+  }, [startAutoplay]);
+
+  useEffect(() => {
+    if (!api) return;
+
+    // Start autoplay
+    startAutoplay();
+
+    // Add event listeners
+    const carouselElement = api.rootNode();
+    carouselElement.addEventListener("mouseenter", handleMouseEnter);
+    carouselElement.addEventListener("mouseleave", handleMouseLeave);
+
+    // Cleanup
+    return () => {
+      stopAutoplay();
+      carouselElement.removeEventListener("mouseenter", handleMouseEnter);
+      carouselElement.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [api, startAutoplay, stopAutoplay, handleMouseEnter, handleMouseLeave]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopAutoplay();
+    };
+  }, [stopAutoplay]);
+
   return (
-    <div className="  relative  pt-8 pb-4 overflow-hidden border-b">
+    <div className="relative pt-8 pb-4 overflow-hidden border-b">
       <Carousel
-        className="w-full  px-4 h-full "
+        setApi={setApi}
+        className="w-full px-4 h-full"
         opts={{
           align: "start",
           loop: true,
         }}
       >
-        <CarouselContent className="h-full ">
+        <CarouselContent className="h-full">
           {offerings.map((offering) => {
-            // const IconComponent = offering.icon;
             return (
-              <CarouselItem key={offering.id} className="h-full ">
+              <CarouselItem key={offering.id} className="h-full">
                 <div
-                  className={`bg-white rounded-2xl overflow-hidden  h-full pt-10 max-w-7xl mx-auto`}
+                  className={`bg-white rounded-2xl overflow-hidden h-full pt-10 max-w-7xl mx-auto`}
                 >
-                  <div className="container mx-auto px-6 py-8 ">
-                    <div className="grid lg:grid-cols-2 gap-8  h-full">
+                  <div className="container mx-auto px-6 py-8">
+                    <div className="grid lg:grid-cols-2 gap-8 h-full">
                       {/* Left Content */}
                       <div className="space-y-4 pt-10">
                         {/* Header Section */}
                         <div className="space-y-3">
                           <div className="flex items-center space-x-3 flex-wrap gap-2">
-                            {/* <div
-                              className={`${offering.iconColor} p-2 rounded-lg shadow-lg`}
-                            >
-                              <IconComponent size={20} className="text-white" />
-                            </div> */}
-                            {/* <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
-                              {offering.clients} Clients
-                            </span> */}
+                            {/* Icon and client info commented out as in original */}
                           </div>
 
                           <div className="space-y-2">
                             {/* Main Title as Badge */}
-                            <div className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full   shadow-lg">
+                            <div className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full shadow-lg">
                               {offering.title}
                             </div>
                             {/* Subtitle - Bigger Text */}
@@ -215,11 +268,11 @@ const HeroCarousel = () => {
                       </div>
 
                       {/* Right Content - Image & Stats */}
-                      <div className="relative h-full  flex-col flex justify-end items-end">
+                      <div className="relative h-full flex-col flex justify-end items-end">
                         <img
                           src={offering.img}
                           alt={offering.title}
-                          className="w-[80%]  object-cover rounded-lg"
+                          className="w-[80%] object-cover rounded-lg"
                         />
                       </div>
                     </div>

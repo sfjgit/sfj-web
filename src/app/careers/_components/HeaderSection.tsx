@@ -35,7 +35,7 @@ const SimpleHeader = ({ totalJobs = 0 }) => {
             <div className="hidden sm:block w-1 h-1 bg-blue-200 rounded-full"></div>
             <div className="flex items-center gap-2 text-blue-100">
               <Award className="w-5 h-5" />
-              <span className="font-medium">Best places to work 2024</span>
+              <span className="font-medium">Best places to work</span>
             </div>
           </div>
         </div>

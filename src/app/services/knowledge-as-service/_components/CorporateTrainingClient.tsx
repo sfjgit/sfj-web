@@ -164,14 +164,16 @@ export default function CorporateTrainingClient() {
                 />
 
                 {/* Floating stats cards */}
-                <div className="absolute -top-4 -left-4 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
+                <div className="absolute -top-4 -left-10 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
                   <div className="text-xs text-gray-500">Success Rate</div>
                   <div className="text-lg font-bold text-blue-600">95%</div>
                 </div>
 
-                <div className="absolute -bottom-4 -right-4 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
-                  <div className="text-xs text-gray-500">Companies Trained</div>
-                  <div className="text-lg font-bold text-blue-600">500+</div>
+                <div className="absolute -bottom-4 right-10 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
+                  <div className="text-xs text-gray-500">
+                    Enterprise Clients
+                  </div>
+                  <div className="text-lg font-bold text-blue-600">350+</div>
                 </div>
               </div>
             </motion.div>

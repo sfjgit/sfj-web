@@ -88,39 +88,6 @@ const CTASection = () => {
             </Link>
           </motion.div>
         </motion.div>
-
-        {/* Floating Statistics */}
-        <motion.div
-          className="grid grid-cols-3 gap-8 mt-16 opacity-70"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 0.7, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          viewport={{ once: true }}
-        >
-          {[
-            { number: "300,000+", label: "Professionals Trained" },
-            { number: "640+", label: "Specialized Courses" },
-            { number: "50+", label: "Global Clients" },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.div
-                className="text-2xl md:text-3xl font-bold text-white mb-2"
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                {stat.number}
-              </motion.div>
-              <div className="text-gray-300 text-sm">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

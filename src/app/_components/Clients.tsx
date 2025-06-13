@@ -80,7 +80,7 @@ const ClientsSection = () => {
   const stats = [
     {
       icon: <Building2 className="w-6 h-6" />,
-      number: "500+",
+      number: "350+",
       label: "Enterprise Clients",
     },
     {
