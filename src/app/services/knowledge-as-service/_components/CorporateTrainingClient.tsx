@@ -55,33 +55,6 @@ export default function CorporateTrainingClient() {
       {/* Hero Section */}
       <section className="bg-white overflow-hidden pt-10">
         {/* Geometric Background Pattern */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <svg
-            className="absolute top-0 right-0 w-1/2 h-full opacity-5"
-            viewBox="0 0 400 400"
-          >
-            <defs>
-              <pattern
-                id="geometric"
-                patternUnits="userSpaceOnUse"
-                width="50"
-                height="50"
-              >
-                <polygon points="25,0 50,25 25,50 0,25" fill="url(#gradient)" />
-              </pattern>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#3B82F6" />
-                <stop offset="100%" stopColor="#4F46E5" />
-              </linearGradient>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#geometric)" />
-          </svg>
-
-          {/* Floating geometric shapes */}
-          <div className="absolute top-20 right-20 w-20 h-20 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full opacity-10 animate-pulse"></div>
-          <div className="absolute top-40 right-60 w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 transform rotate-45 opacity-10 animate-bounce"></div>
-          <div className="absolute bottom-40 right-40 w-12 h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full opacity-10 animate-pulse"></div>
-        </div>
 
         <div className="max-w-7xl mx-auto px-6 py-8 relative">
           <div className="grid lg:grid-cols-2 gap-8 h-full items-center">

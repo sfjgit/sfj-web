@@ -319,26 +319,13 @@ const CareersPage = () => {
     router.push(`/careers?${params.toString()}`);
   };
 
-  if (error) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-red-600">
-            Error loading jobs
-          </h2>
-          <p className="text-gray-600 mt-2">Please try again later</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <CareersHeader
         // companyName="SFJ Business Solutions"
         totalJobs={data?.data?.total}
       />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container lg:max-w-7xl sm:max-w-6xl mx-auto sm:px-16 lg:px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Careers</h1>
@@ -383,19 +370,43 @@ const CareersPage = () => {
                   </Card>
                 ))}
               </div>
-            ) : data?.data.jobs.length === 0 ? (
-              <Card>
-                <CardContent className="text-center py-12">
-                  <Building className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">
-                    Currently not hiring for this position
-                  </h3>
-                  <p className="text-gray-600">
-                    We're not actively recruiting for roles matching your
-                    criteria at this time
-                  </p>
-                </CardContent>
-              </Card>
+            ) : data?.data.jobs.length === 0 || error ? (
+              error ? (
+                <>
+                  {" "}
+                  <Card>
+                    <CardContent className="text-center py-12">
+                      <Building className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold mb-2">
+                        {error.message ?? "Failed to fetch jobs"}
+                      </h3>
+                      <div className="container mx-auto px-4 py-8">
+                        <div className="text-center">
+                          <h2 className="text-xl font-semibold text-red-600">
+                            Error loading jobs
+                          </h2>
+                          <p className="text-gray-600 mt-2">
+                            Please try again later
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : (
+                <Card>
+                  <CardContent className="text-center py-12">
+                    <Building className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">
+                      Currently not hiring for this position
+                    </h3>
+                    <p className="text-gray-600">
+                      We're not actively recruiting for roles matching your
+                      criteria at this time
+                    </p>
+                  </CardContent>
+                </Card>
+              )
             ) : (
               <div className="grid gap-6">
                 {data?.data?.jobs.map((job) => (

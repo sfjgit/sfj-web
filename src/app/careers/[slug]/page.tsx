@@ -5,7 +5,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   MapPin,
@@ -17,6 +23,7 @@ import {
   Calendar,
   Briefcase,
 } from "lucide-react";
+import JobApplicationForm from "@/components/forms/JobApplicationForm";
 
 // Client-side fetching function
 async function fetchJobBySlug(slug: any) {
@@ -257,9 +264,9 @@ export default function JobPage() {
             </div>
           </div>
 
-          <Button size="lg" className="px-8">
+          {/* <Button size="lg" className="px-8">
             Apply Now
-          </Button>
+          </Button> */}
         </div>
       </div>
 
@@ -329,6 +336,22 @@ export default function JobPage() {
                   </div>
                 )}
               </CardContent>
+              <CardFooter className="flex justify-end mt-5">
+                <div className="flex justify-end">
+                  <JobApplicationForm
+                    jobId={job._id}
+                    companyName={"SFJBS"}
+                    jobTitle={job.title}
+                    onError={(error) => console.log(error)}
+                    onSuccess={(application) => console.log(application)}
+                    trigger={
+                      <Button size="lg" className="px-8">
+                        Apply Now
+                      </Button>
+                    }
+                  />
+                </div>
+              </CardFooter>
             </Card>
           )}
         </div>
@@ -344,9 +367,18 @@ export default function JobPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button className="w-full" size="lg">
-                Apply Now
-              </Button>
+              <JobApplicationForm
+                jobId={job._id}
+                companyName={"SFJBS"}
+                jobTitle={job.title}
+                onError={(error) => console.log(error)}
+                onSuccess={(application) => console.log(application)}
+                trigger={
+                  <Button className="w-full" size="lg">
+                    Apply Now
+                  </Button>
+                }
+              />
 
               <div className="text-sm text-gray-600 space-y-2">
                 <p>Application Requirements:</p>
