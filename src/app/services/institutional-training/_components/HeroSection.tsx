@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState } from "react";
 import {
@@ -197,9 +199,13 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column - Tabbed Content */}
+          <img
+            src="/app/b2i/hero.png"
+            alt="b2i"
+            className="w-full rounded-md object-cover mt-5"
+          />
+          {/* 
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            {/* Tab Navigation */}
             <div className="border-b border-gray-200">
               <div className="grid grid-cols-3 lg:grid-cols-6">
                 {tabs.map((tab: TabKey) => (
@@ -224,7 +230,6 @@ const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Tab Content */}
             <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
@@ -275,14 +280,13 @@ const HeroSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Placeholder for segment image */}
               <div className="mt-4 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
                 <span className="text-gray-400 text-xs">
                   {currentSegment.title} Visual
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

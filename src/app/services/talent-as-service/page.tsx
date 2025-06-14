@@ -107,7 +107,11 @@ export default function ITStaffingPage() {
 
             {/* Right Content - Key Points */}
             <div className="space-y-4">
-              <img src="" alt="" />
+              <img
+                src="/app/it/hero.png"
+                alt="It-staffing"
+                className="w-full object-cover rounded-md border-4 border-white"
+              />
             </div>
           </div>
         </div>

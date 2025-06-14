@@ -17,17 +17,18 @@ const offerings = [
     id: 1,
     icon: BookOpen,
     title: "Corporate Training",
+    type: "b2b",
     subtitle:
       "Empowering working professionals through Gen AI corporate upskilling, cross-skilling and reskilling  programs.",
     description:
       "640+ specialized courses designed by industry experts to accelerate your career growth.",
-    cta: "Start Learning",
+    cta: "Explore",
     secondaryCta: "Browse Courses",
     img: "/app/home/B2B.png",
     link: "/services/knowledge-as-service",
     clients: "200+",
     features: [
-      "640+ Courses",
+      "AI-Driven Learning",
       "Industry Experts",
       "Flexible Learning",
       "Global Certifications",
@@ -68,6 +69,7 @@ const offerings = [
   {
     id: 4,
     icon: Building,
+    type: "b2g",
     title: "Government Initiatives",
     subtitle: "Public Sector Excellence Program",
     description:
@@ -88,6 +90,7 @@ const offerings = [
   },
   {
     id: 5,
+    type: "b2i",
     icon: GraduationCap,
     title: "Institutional Training",
     subtitle:
@@ -110,6 +113,7 @@ const offerings = [
   },
   {
     id: 6,
+    type: "csr",
     icon: Handshake,
     title: "Corporate Social Responsibility",
     subtitle:
@@ -145,7 +149,7 @@ const HeroCarousel = () => {
       if (api && !isHoveredRef.current) {
         api.scrollNext();
       }
-    }, 3000);
+    }, 4500);
   }, [api]);
 
   const stopAutoplay = useCallback(() => {
@@ -259,7 +263,7 @@ const HeroCarousel = () => {
                           >
                             {offering.cta}
                           </a>
-                          <Link href="/contact">
+                          <Link href={`/contact?type=${offering.type}`}>
                             <button className="bg-white/90 hover:cursor-pointer backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md text-sm">
                               Reach Us
                             </button>

@@ -51,6 +51,24 @@ const HorizontalScrollNavbar = () => {
       icon: <GraduationCap className="h-5 w-5" />,
       href: "#mba",
     },
+    {
+      id: "medical",
+      label: "Medical",
+      icon: <GraduationCap className="h-5 w-5" />,
+      href: "#medical",
+    },
+    {
+      id: "paramedical",
+      label: "Paramedical",
+      icon: <GraduationCap className="h-5 w-5" />,
+      href: "#paramedical",
+    },
+    {
+      id: "faculty",
+      label: "Faculty on Demand",
+      icon: <Briefcase className="h-5 w-5" />,
+      href: "#faculty",
+    },
   ];
 
   const handleSectionClick = (
@@ -95,7 +113,7 @@ const HorizontalScrollNavbar = () => {
 
   return (
     <nav className="w-full bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-3">
+      <div className="max-w-7xl mx-auto  pl-8 py-3">
         {/* Horizontal Scroll Container */}
         <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
           {sections.map((section) => (

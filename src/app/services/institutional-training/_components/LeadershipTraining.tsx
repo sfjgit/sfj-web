@@ -143,13 +143,6 @@ const LeadershipTraining = () => {
 
                 <div className="p-6">
                   <p className="text-gray-600 mb-4">{area.description}</p>
-
-                  {/* Placeholder for leadership visual */}
-                  <div className="h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-                    <span className="text-gray-400 text-sm">
-                      Leadership Visual
-                    </span>
-                  </div>
                 </div>
               </div>
             ))}
@@ -243,7 +236,7 @@ const LeadershipTraining = () => {
 
         {/* Change Strategies Addition */}
         <div className="mt-12 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-8 text-white">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div className="grid grid-cols-1  gap-8 items-center">
             <div>
               <h3 className="text-2xl font-bold mb-4">Change Strategies</h3>
               <p className="text-blue-100 mb-6">
@@ -257,12 +250,6 @@ const LeadershipTraining = () => {
                 <span className="font-semibold">
                   Advanced Change Management Models
                 </span>
-              </div>
-            </div>
-            <div className="relative">
-              {/* Placeholder for change strategies visual */}
-              <div className="h-48 bg-white/10 rounded-xl flex items-center justify-center">
-                <span className="text-white/60">Change Strategies Visual</span>
               </div>
             </div>
           </div>

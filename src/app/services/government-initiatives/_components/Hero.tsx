@@ -155,11 +155,11 @@ const PartnershipsCarousel = () => {
           </div>
 
           {/* Right Content - Image */}
-          <div className="relative h-full flex-col flex justify-end items-end">
+          <div className="relative h-full flex-col flex justify-center items-end">
             <img
-              src="/app/b2g/govt.avif"
+              src="/app/b2g/govt.png"
               alt="Government Partnership Program"
-              className="w-[80%] object-cover rounded-lg shadow-lg"
+              className="w-full object-cover rounded-lg shadow-lg"
             />
           </div>
         </div>

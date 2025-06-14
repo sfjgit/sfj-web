@@ -1,27 +1,14 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { useState } from "react";
 import Link from "next/link";
-import {
-  ChevronDown,
-  Phone,
-  Mail,
-  FileAxis3D,
-  Heart,
-  Building,
-  GraduationCap,
-  BookOpen,
-  Users,
-} from "lucide-react";
+import { Heart, Building, GraduationCap, BookOpen, Users } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
+import OfficeSelector from "./Location";
 
 const Footer = () => {
-  const [selectedOffice, setSelectedOffice] = useState("india");
-  const [isOfficeDropdownOpen, setIsOfficeDropdownOpen] = useState(false);
-
   // Navigation items from your array
   const navigationItems = [
     { path: "/", label: "Home", hasChildren: false },
@@ -361,93 +348,27 @@ const Footer = () => {
                 </a>
               ))}
             </div>
-
+            <div className="w-60 h-60">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.2856438459257!2d77.63598241536467!3d12.889345220163921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae14b089698d85%3A0x9b02d066823e0b2d!2sSFJ%20Business%20Solutions%20Pvt%20Ltd!5e0!3m2!1sen!2sin!4v1657910713116!5m2!1sen!2sin"
+                loading="lazy"
+                width="100%"
+                height="100%"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="rounded-2xl border-2 border-white/20 shadow-xl"
+                title="SFJ Business Solutions Location"
+              ></iframe>
+            </div>
             {/* Office Address Selector */}
-            <h4 className="font-semibold text-sm mb-3">Office Locations</h4>
-            <div className="relative mb-4">
-              <button
-                onClick={() => setIsOfficeDropdownOpen(!isOfficeDropdownOpen)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-left flex items-center justify-between hover:bg-gray-750 transition-colors"
-              >
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">
-                    {offices[selectedOffice].flag}
-                  </span>
-                  <span className="text-xs">
-                    {offices[selectedOffice].name}
-                  </span>
-                </div>
-                <ChevronDown
-                  className={`w-3 h-3 transition-transform ${
-                    isOfficeDropdownOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {isOfficeDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10">
-                  {Object.entries(offices).map(([key, office]) => (
-                    <button
-                      key={key}
-                      onClick={() => {
-                        setSelectedOffice(key);
-                        setIsOfficeDropdownOpen(false);
-                      }}
-                      className="w-full px-3 py-2 text-left hover:bg-gray-700 transition-colors flex items-center space-x-2"
-                    >
-                      <span className="text-sm">
-                        {
-                          // @ts-ignore
-                          office?.flag
-                        }
-                      </span>
-                      <span className="text-xs">
-                        {
-                          // @ts-ignore
-                          office.name
-                        }
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Selected Office Address - One/Two Line Format */}
-            <div className="bg-gray-800 rounded-lg p-3">
-              <div className="space-y-1 text-xs text-gray-300">
-                <p className="font-medium">{offices[selectedOffice].company}</p>
-                <p>{offices[selectedOffice].address.join(" ")}</p>
-
-                <div className="flex flex-col space-y-1 pt-2">
-                  {offices[selectedOffice].phone && (
-                    <div className="flex items-center space-x-2">
-                      <Phone className="w-3 h-3" />
-                      <p>{offices[selectedOffice].phone}</p>
-                    </div>
-                  )}
-
-                  {offices[selectedOffice].email && (
-                    <div className="flex items-center space-x-2">
-                      <Mail className="w-3 h-3" />
-                      <p>{offices[selectedOffice].email}</p>
-                    </div>
-                  )}
-
-                  {offices[selectedOffice].fax && (
-                    <div className="flex items-center space-x-2">
-                      <FileAxis3D className="w-3 h-3" />
-                      <p>Fax: {offices[selectedOffice].fax}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
+        <div className=" flex items-center justify-center p-4 max-w-6xl mx-auto">
+          <OfficeSelector />
+        </div>
+
         {/* Bottom Section */}
-        <div className="border-t border-gray-800 mt-12 pt-8">
+        <div className="border-t border-gray-800 pt-5">
           <div className="text-center">
             <p className="text-sm text-gray-400 mb-2">
               SFJ Business Solutions Pvt Ltd | +91-9845348601 | sfjbs@sfjbs.com
