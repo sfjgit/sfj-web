@@ -5,14 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import {
   MapPin,
@@ -22,7 +14,6 @@ import {
   Search,
   Filter,
 } from "lucide-react";
-import CareersHeader from "./HeaderSection";
 
 // Types
 interface JobPosting {
@@ -100,52 +91,116 @@ const JobCard = ({ job }: { job: JobPosting }) => {
 
   return (
     <Card
-      className="hover:shadow-md transition-shadow cursor-pointer"
+      className="hover:shadow-lg transition-all duration-300 cursor-pointer border-gray-200"
       onClick={handleViewJob}
     >
-      <CardHeader>
+      <CardHeader className="pb-3">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="text-lg font-semibold">{job.title}</CardTitle>
-            <p className="text-sm text-gray-600 mt-1">{job.department}</p>
+            <CardTitle className="text-lg font-semibold text-gray-900">
+              {job.title}
+            </CardTitle>
+            <p className="text-sm text-gray-600 mt-1 font-medium">
+              {job.department}
+            </p>
           </div>
-          <Badge variant="secondary">
+          <Badge
+            variant="secondary"
+            className="bg-gray-100 text-gray-700 hover:bg-gray-200"
+          >
             {formatEmploymentType(job.employmentType)}
           </Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-700 mb-4 line-clamp-3">
+        <p className="text-gray-700 mb-4 line-clamp-3 leading-relaxed">
           {job.shortDescription}
         </p>
 
         <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
-          <div className="flex items-center gap-1">
-            <MapPin className="w-4 h-4" />
+          <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-md">
+            <MapPin className="w-4 h-4 text-gray-500" />
             <span>
               {job.location.type === "REMOTE"
                 ? "Remote"
                 : job.location.address.country}
             </span>
           </div>
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
+          <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-md">
+            <Clock className="w-4 h-4 text-gray-500" />
             <span>{job.requirements.experience.minimumYears}+ years</span>
           </div>
-          <div className="flex items-center gap-1">
-            <DollarSign className="w-4 h-4" />
+          <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-md">
+            <DollarSign className="w-4 h-4 text-gray-500" />
             <span>{formatSalary(job.salary)}</span>
           </div>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center pt-2 border-t border-gray-200">
           <span className="text-xs text-gray-500">
             Posted {new Date(job.createdAt).toLocaleDateString()}
           </span>
-          <Button size="sm">View Details</Button>
+          <Button
+            size="sm"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            View Details
+          </Button>
         </div>
       </CardContent>
     </Card>
+  );
+};
+
+// Radio Button Group Component
+const RadioGroup = ({
+  label,
+  name,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (value: string) => void;
+}) => {
+  return (
+    <div className="space-y-3">
+      <label className="text-sm font-semibold text-gray-900 block">
+        {label}
+      </label>
+      <div className="space-y-2">
+        <label className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors">
+          <input
+            type="radio"
+            name={name}
+            value=""
+            checked={value === ""}
+            onChange={() => onChange("")}
+            className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+          />
+          <span className="text-gray-700">All {label}</span>
+        </label>
+        {options.map((option) => (
+          <label
+            key={option.value}
+            className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <input
+              type="radio"
+              name={name}
+              value={option.value}
+              checked={value === option.value}
+              onChange={() => onChange(option.value)}
+              className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+            />
+            <span className="text-gray-700">{option.label}</span>
+          </label>
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -154,7 +209,6 @@ const JobFilters = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
   const [department, setDepartment] = useState(
     searchParams.get("department") || ""
   );
@@ -177,117 +231,86 @@ const JobFilters = () => {
     [searchParams, router]
   );
 
-  const handleSearch = () => {
-    updateURL("q", searchTerm);
-  };
-
   const clearFilters = () => {
-    setSearchTerm("");
     setDepartment("");
     setEmploymentType("");
     setLocation("");
     router.push("/careers");
   };
 
+  const departmentOptions = [
+    { value: "Engineering", label: "Engineering" },
+    { value: "Marketing", label: "Marketing" },
+    { value: "Sales", label: "Sales" },
+    { value: "HR", label: "HR" },
+    { value: "Finance", label: "Finance" },
+  ];
+
+  const employmentTypeOptions = [
+    { value: "FULL_TIME", label: "Full Time" },
+    { value: "PART_TIME", label: "Part Time" },
+    { value: "CONTRACT", label: "Contract" },
+    { value: "INTERNSHIP", label: "Internship" },
+  ];
+
+  const locationOptions = [
+    { value: "REMOTE", label: "Remote" },
+    { value: "HYBRID", label: "Hybrid" },
+    { value: "ONSITE", label: "On-site" },
+  ];
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Filter className="w-5 h-5" />
+    <Card className="border-gray-200">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-2 text-gray-900">
+          <Filter className="w-5 h-5 text-gray-600" />
           Filters
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Search */}
-        <div>
-          <label className="text-sm font-medium mb-2 block">Search Jobs</label>
-          <div className="flex gap-2">
-            <Input
-              placeholder="Job title, keywords..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-            />
-            <Button size="sm" onClick={handleSearch}>
-              <Search className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
+      <CardContent className="space-y-6">
         {/* Department */}
-        <div>
-          <label className="text-sm font-medium mb-2 block">Department</label>
-          <Select
-            value={department}
-            onValueChange={(value) => {
-              setDepartment(value);
-              updateURL("department", value);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="All Departments" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* <SelectItem value="">All Departments</SelectItem> */}
-              <SelectItem value="Engineering">Engineering</SelectItem>
-              <SelectItem value="Marketing">Marketing</SelectItem>
-              <SelectItem value="Sales">Sales</SelectItem>
-              <SelectItem value="HR">HR</SelectItem>
-              <SelectItem value="Finance">Finance</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <RadioGroup
+          label="Departments"
+          name="department"
+          options={departmentOptions}
+          value={department}
+          onChange={(value) => {
+            setDepartment(value);
+            updateURL("department", value);
+          }}
+        />
 
         {/* Employment Type */}
-        <div>
-          <label className="text-sm font-medium mb-2 block">
-            Employment Type
-          </label>
-          <Select
-            value={employmentType}
-            onValueChange={(value) => {
-              setEmploymentType(value);
-              updateURL("employmentType", value);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="All Types" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* <SelectItem value="">All Types</SelectItem> */}
-              <SelectItem value="FULL_TIME">Full Time</SelectItem>
-              <SelectItem value="PART_TIME">Part Time</SelectItem>
-              <SelectItem value="CONTRACT">Contract</SelectItem>
-              <SelectItem value="INTERNSHIP">Internship</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <RadioGroup
+          label="Employment Types"
+          name="employmentType"
+          options={employmentTypeOptions}
+          value={employmentType}
+          onChange={(value) => {
+            setEmploymentType(value);
+            updateURL("employmentType", value);
+          }}
+        />
 
         {/* Location */}
-        <div>
-          <label className="text-sm font-medium mb-2 block">Location</label>
-          <Select
-            value={location}
-            onValueChange={(value) => {
-              setLocation(value);
-              updateURL("location", value);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="All Locations" />
-            </SelectTrigger>
-            <SelectContent>
-              {/* <SelectItem value="">All Locations</SelectItem> */}
-              <SelectItem value="REMOTE">Remote</SelectItem>
-              <SelectItem value="HYBRID">Hybrid</SelectItem>
-              <SelectItem value="ONSITE">On-site</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <RadioGroup
+          label="Locations"
+          name="location"
+          options={locationOptions}
+          value={location}
+          onChange={(value) => {
+            setLocation(value);
+            updateURL("location", value);
+          }}
+        />
 
         {/* Clear Filters */}
-        <Button variant="outline" onClick={clearFilters} className="w-full">
-          Clear Filters
+        <Button
+          variant="outline"
+          onClick={clearFilters}
+          className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"
+        >
+          Clear All Filters
         </Button>
       </CardContent>
     </Card>
@@ -299,11 +322,31 @@ const CareersPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
+
   // Build query parameters
   const queryParams = new URLSearchParams();
   searchParams.forEach((value, key) => {
     queryParams.set(key, value);
   });
+
+  const updateURL = useCallback(
+    (key: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+      params.delete("skip"); // Reset pagination
+      router.push(`/careers?${params.toString()}`);
+    },
+    [searchParams, router]
+  );
+
+  const handleSearch = () => {
+    updateURL("q", searchTerm);
+  };
 
   // Fetch jobs using React Query
   const { data, isLoading, error } = useQuery({
@@ -320,16 +363,39 @@ const CareersPage = () => {
   };
 
   return (
-    <>
-      <CareersHeader
-        // companyName="SFJ Business Solutions"
-        totalJobs={data?.data?.total}
-      />
+    <div className="min-h-screen bg-gray-50 pt-20">
       <div className="container lg:max-w-7xl sm:max-w-6xl mx-auto sm:px-16 lg:px-4 py-8">
-        {/* Header */}
+        {/* Header with Search */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Careers</h1>
-          <p className="text-gray-600">Find your next opportunity with us</p>
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-4 text-gray-900">
+              Find Your Dream Job
+            </h1>
+            <p className="text-gray-600 text-lg mb-6">
+              Discover exciting opportunities and join our team
+            </p>
+
+            {/* Search Bar */}
+            <div className="max-w-2xl mx-auto">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search for jobs, keywords, positions..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+                  className="w-full pl-12 pr-28 py-4 text-lg border border-gray-300 rounded-lg bg-white shadow-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <button
+                  onClick={handleSearch}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition-colors"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -346,7 +412,7 @@ const CareersPage = () => {
                 {isLoading ? (
                   <p className="text-gray-600">Loading jobs...</p>
                 ) : (
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 font-medium">
                     {data?.data?.total || 0} job
                     {data?.data?.total !== 1 ? "s" : ""} found
                   </p>
@@ -358,46 +424,34 @@ const CareersPage = () => {
             {isLoading ? (
               <div className="grid gap-6">
                 {[...Array(3)].map((_, i) => (
-                  <Card key={i} className="animate-pulse">
+                  <Card key={i} className="animate-pulse border-gray-200">
                     <CardHeader>
                       <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-                      <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                      <div className="h-4 bg-gray-100 rounded w-1/4"></div>
                     </CardHeader>
                     <CardContent>
-                      <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                      <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                      <div className="h-4 bg-gray-100 rounded w-full mb-2"></div>
+                      <div className="h-4 bg-gray-100 rounded w-2/3"></div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
             ) : data?.data.jobs.length === 0 || error ? (
               error ? (
-                <>
-                  {" "}
-                  <Card>
-                    <CardContent className="text-center py-12">
-                      <Building className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">
-                        {error.message ?? "Failed to fetch jobs"}
-                      </h3>
-                      <div className="container mx-auto px-4 py-8">
-                        <div className="text-center">
-                          <h2 className="text-xl font-semibold text-red-600">
-                            Error loading jobs
-                          </h2>
-                          <p className="text-gray-600 mt-2">
-                            Please try again later
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </>
+                <Card className="border-red-200 bg-red-50">
+                  <CardContent className="text-center py-12">
+                    <Building className="w-12 h-12 text-red-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold mb-2 text-red-700">
+                      {error.message ?? "Failed to fetch jobs"}
+                    </h3>
+                    <p className="text-red-600">Please try again later</p>
+                  </CardContent>
+                </Card>
               ) : (
-                <Card>
+                <Card className="border-gray-200">
                   <CardContent className="text-center py-12">
                     <Building className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold mb-2">
+                    <h3 className="text-lg font-semibold mb-2 text-gray-900">
                       Currently not hiring for this position
                     </h3>
                     <p className="text-gray-600">
@@ -422,6 +476,7 @@ const CareersPage = () => {
                   variant="outline"
                   onClick={() => handlePageChange(data?.data?.page - 1)}
                   disabled={data?.data?.page <= 1}
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50"
                 >
                   Previous
                 </Button>
@@ -431,7 +486,11 @@ const CareersPage = () => {
                     key={i + 1}
                     variant={data?.data?.page === i + 1 ? "default" : "outline"}
                     onClick={() => handlePageChange(i + 1)}
-                    className="w-10"
+                    className={`w-10 ${
+                      data?.data?.page === i + 1
+                        ? "bg-blue-600 hover:bg-blue-700 text-white"
+                        : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                    }`}
                   >
                     {i + 1}
                   </Button>
@@ -441,6 +500,7 @@ const CareersPage = () => {
                   variant="outline"
                   onClick={() => handlePageChange(data?.data?.page + 1)}
                   disabled={data?.data?.page >= data?.data?.totalPages}
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50"
                 >
                   Next
                 </Button>
@@ -449,7 +509,7 @@ const CareersPage = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

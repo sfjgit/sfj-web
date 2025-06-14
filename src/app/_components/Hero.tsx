@@ -18,7 +18,7 @@ const offerings = [
     icon: BookOpen,
     title: "Corporate Training",
     subtitle:
-      "Empowering professionals through Gen AI corporate upskilling, cross-skilling and reskilling  programs.",
+      "Empowering working professionals through Gen AI corporate upskilling, cross-skilling and reskilling  programs.",
     description:
       "640+ specialized courses designed by industry experts to accelerate your career growth.",
     cta: "Start Learning",
