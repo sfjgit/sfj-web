@@ -34,6 +34,7 @@ import {
   Building,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Scroller from "./Scroller";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -180,6 +181,8 @@ export default function CorporateTrainingClient() {
           </div>
         </div>
       </section>
+
+      <Scroller />
 
       {/* Training Mandate Section */}
       {/* Training Mandate Section - Enhanced */}

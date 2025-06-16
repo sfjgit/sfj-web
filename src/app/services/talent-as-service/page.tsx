@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import ITStaffingSolutions from "./_components/Section";
 import SFJStatsSection from "./_components/SFJStatsSection";
+import TaasScroller from "./_components/Taas";
 
 export const metadata: Metadata = {
   title: "IT Staffing in Bangalore | IT Staffing Services Bangalore | SFJBS",
@@ -116,6 +117,8 @@ export default function ITStaffingPage() {
           </div>
         </div>
       </section>
+
+      <TaasScroller />
 
       {/* Services Section */}
       <section className="py-12 px-4 bg-white">

@@ -219,67 +219,6 @@ const WhoWeAreSection: React.FC = () => (
   </section>
 );
 
-const CoreValuesSection: React.FC = () => (
-  <>
-    <div className="w-full h-[100px]" id="Core-values"></div>
-    <section className="lg:container mx-auto text-black bg-gray-50 py-12">
-      <h1 className="text-4xl tracking-wide mb-10 text-center text-blue-700 font-bold">
-        Core Values
-      </h1>
-
-      <div className="lg:container mb-10 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            {
-              title: "Passion",
-              image: "/app/about/Passion.png",
-              description:
-                "A driving force behind our continuous innovation and value creation",
-            },
-            {
-              title: "Expertise",
-              image: "/app/about/Expertise.png",
-              description:
-                "A blend of experiences from the past and thought leadership focused on future",
-            },
-            {
-              title: "Empathy",
-              image: "/app/about/Empathy.png",
-              description:
-                "A customer-first approach that enables us to understand businesses and people better than most",
-            },
-          ].map((value, index) => (
-            <div key={index} className="p-4 lg:w-[400px]">
-              <div className="h-full rounded-lg">
-                <div className="h-60 w-full flex justify-center relative">
-                  <div className="w-[300px] h-full relative">
-                    <Image
-                      className="absolute inset-0 object-cover rounded-lg"
-                      fill
-                      alt={value.title}
-                      src={value.image}
-                    />
-                  </div>
-                  <div className="absolute inset-0 p-8 flex items-center justify-center bg-black/50 rounded-lg">
-                    <p className="text-3xl font-bold text-white drop-shadow-lg">
-                      {value.title}
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-5 text-center">
-                  <p className="leading-relaxed md:px-5 mb-3 text-gray-800 text-lg">
-                    {value.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  </>
-);
-
 const TimelineSection: React.FC = () => (
   <div className="max-w-7xl mx-auto py-5 px-3 mb-20">
     <Image
@@ -531,7 +470,6 @@ const AboutPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
       <HeroSection />
       <WhoWeAreSection />
-      <CoreValuesSection />
       <TimelineSection />
       <FounderSection />
       {/* <TeamSection /> */}
