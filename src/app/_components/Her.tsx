@@ -187,24 +187,6 @@ const AnimatedHeader = () => {
               </div>
             </div>
 
-            {/* Description with Typewriter Effect */}
-            <motion.p
-              className="text-base text-gray-600 leading-relaxed"
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 1.5 }}
-            >
-              <motion.span
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 2, delay: 1.5 }}
-                className="inline-block overflow-hidden whitespace-nowrap"
-              >
-                Next-generation AI will transform work for everyone
-              </motion.span>
-            </motion.p>
-
             {/* Services with Stagger Animation */}
             <motion.div
               className="grid grid-cols-2 gap-3"
