@@ -11,6 +11,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
+import AnimatedHeader from "./Her";
 
 const offerings = [
   {
@@ -207,6 +208,9 @@ const HeroCarousel = () => {
         }}
       >
         <CarouselContent className="h-full">
+          <CarouselItem className="h-full">
+            <AnimatedHeader />
+          </CarouselItem>
           {offerings.map((offering) => {
             return (
               <CarouselItem key={offering.id} className="h-full">
