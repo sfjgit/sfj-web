@@ -151,7 +151,7 @@ const HeroCarousel = () => {
       if (api && !isHoveredRef.current) {
         api.scrollNext();
       }
-    }, 45500);
+    }, 3500);
   }, [api]);
 
   const stopAutoplay = useCallback(() => {
