@@ -150,14 +150,14 @@ const HeroCarousel = () => {
       if (api && !isHoveredRef.current) {
         api.scrollNext();
       }
-    }, 4500);
+    }, 2500);
   }, [api]);
 
   const stopAutoplay = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+    // if (intervalRef.current) {
+    //   clearInterval(intervalRef.current);
+    //   intervalRef.current = null;
+    // }
   }, []);
 
   // Handle mouse events
@@ -179,13 +179,13 @@ const HeroCarousel = () => {
 
     // Add event listeners
     const carouselElement = api.rootNode();
-    carouselElement.addEventListener("mouseenter", handleMouseEnter);
+    carouselElement.addEventListener("mouseenter", handleMouseLeave);
     carouselElement.addEventListener("mouseleave", handleMouseLeave);
 
     // Cleanup
     return () => {
       stopAutoplay();
-      carouselElement.removeEventListener("mouseenter", handleMouseEnter);
+      carouselElement.removeEventListener("mouseenter", handleMouseLeave);
       carouselElement.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [api, startAutoplay, stopAutoplay, handleMouseEnter, handleMouseLeave]);
