@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 import {
@@ -15,75 +13,36 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { CSRStrategyFramework } from "./_components/stats";
-import React from "react";
+
 import IndustryImpact from "./_components/IndustryImpact";
 import CSRLandingPage from "./_components/HeroSection";
+import { Metadata } from "next";
 
-// export const metadata: Metadata = {
-//   title: "Corporate Social Responsibility | SFJ Business Solutions",
-//   description:
-//     "Empowering Futures, Building a Skilled India. Learn about SFJ Business Solutions' commitment to creating positive societal impact through skilling, education, and sustainable development.",
-//   keywords: [
-//     "CSR",
-//     "Corporate Social Responsibility",
-//     "Skill India",
-//     "SFJ Business Solutions",
-//     "Skills Development",
-//     "Education",
-//     "Community Development",
-//     "Sustainable Development",
-//     "Training Programs",
-//     "Employment",
-//     "Social Impact",
-//   ],
-//   authors: [{ name: "SFJ Business Solutions" }],
-//   openGraph: {
-//     title: "Corporate Social Responsibility | SFJ Business Solutions",
-//     description:
-//       "Empowering Futures, Building a Skilled India through comprehensive CSR initiatives.",
-//     url: "https://sfjbusiness.com/csr",
-//     siteName: "SFJ Business Solutions",
-//     images: [
-//       {
-//         url: "/images/csr-hero.jpg",
-//         width: 1200,
-//         height: 630,
-//         alt: "SFJ Business Solutions CSR Impact",
-//       },
-//     ],
-//     locale: "en_IN",
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Corporate Social Responsibility | SFJ Business Solutions",
-//     description:
-//       "Empowering Futures, Building a Skilled India through comprehensive CSR initiatives.",
-//     images: ["/images/csr-hero.jpg"],
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-video-preview": -1,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//     },
-//   },
-//   alternates: {
-//     canonical: "https://sfjbusiness.com/csr",
-//   },
-// };
-
-// Statistics data
-// const impactStats = [
-//   { number: "50,000+", label: "Individuals Trained", icon: Users },
-//   { number: "150+", label: "Government Projects", icon: Building2 },
-//   { number: "85%", label: "Placement Success Rate", icon: Award },
-//   { number: "25+", label: "Partner Organizations", icon: Heart },
-// ];
+export const metadata: Metadata = {
+  title: "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
+  description:
+    "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
+  keywords:
+    "corporate social responsibility, CSR programs, community initiatives, social impact, skill development CSR, educational support, corporate citizenship, social upliftment",
+  openGraph: {
+    title:
+      "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
+    description:
+      "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
+    url: "https://www.sfjbs.com/services/corporate-social-responsibility",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
+    description:
+      "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
+  },
+  alternates: {
+    canonical: "https://www.sfjbs.com/services/corporate-social-responsibility",
+  },
+};
 
 // Industry impact data
 const industryImpacts = [

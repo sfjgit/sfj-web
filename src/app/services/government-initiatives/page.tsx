@@ -2,7 +2,30 @@ import React from "react";
 import Naan from "./_components/Naan";
 import Ksdc from "./_components/Ksdc";
 import GovernmentTrainingRedesign from "./_components/GovernmentTrainingRedesign";
-
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Government Programs & Skill Development | SFJBS Initiatives",
+  description:
+    "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
+  keywords:
+    "government initiatives, government training programs, government skill development, IT training for government, public sector skilling, national skill development, government partnerships, government projects IT",
+  openGraph: {
+    title: "Government Programs & Skill Development | SFJBS Initiatives",
+    description:
+      "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
+    url: "https://www.sfjbs.com/services/government-initiatives",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Government Programs & Skill Development | SFJBS Initiatives",
+    description:
+      "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
+  },
+  alternates: {
+    canonical: "https://www.sfjbs.com/services/government-initiatives",
+  },
+};
 export default function page() {
   return (
     <div className="min-h-screen">

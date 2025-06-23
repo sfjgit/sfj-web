@@ -21,15 +21,31 @@ import {
 import ITStaffingSolutions from "./_components/Section";
 import SFJStatsSection from "./_components/SFJStatsSection";
 import TaasScroller from "./_components/Taas";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "IT Staffing in Bangalore | IT Staffing Services Bangalore | SFJBS",
+  title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
   description:
-    "Premier IT staffing  in Bangalore providing comprehensive IT staffing services. Connect with top IT professionals through permanent, contract & temporary staffing solutions.",
+    "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
   keywords:
-    "IT staffing  in Bangalore, IT staffing services Bangalore, IT recruitment , professional IT staffing, contract IT staffing",
+    "IT staffing, IT services, tech staffing, technology staffing, IT recruitment, IT staffing company, Bengaluru IT staffing",
+  openGraph: {
+    title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
+    description:
+      "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
+    url: "https://www.sfjbs.com/services/it-staffing-company",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
+    description:
+      "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
+  },
+  alternates: {
+    canonical: "https://www.sfjbs.com/services/it-staffing-company",
+  },
 };
-
 export default function ITStaffingPage() {
   const services = [
     {
@@ -94,15 +110,14 @@ export default function ITStaffingPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  size="lg"
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700"
-                >
-                  Find IT Talent
-                </Button>
-                <Button variant="outline" size="lg" className="px-6 py-2">
-                  Learn More
-                </Button>
+                <Link href={"/contact?type=it-staffing"}>
+                  <Button
+                    size="lg"
+                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700"
+                  >
+                    Find IT Talent
+                  </Button>
+                </Link>
               </div>
             </div>
 

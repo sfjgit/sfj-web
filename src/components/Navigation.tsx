@@ -71,22 +71,16 @@ const Navigation = () => {
           description:
             "Training for engineering, MBA, and arts & science students",
         },
-        // {
-        //   path: "/services/it-services",
-        //   label: "IT Services",
-        //   icon: Settings,
-        //   description:
-        //     "Enterprise solutions across SAP, Oracle, and cloud platforms",
-        // },
+
         {
-          path: "/services/knowledge-as-service",
-          label: "Knowledge as a Service",
+          path: "/services/corporate-it-training-programs",
+          label: "Corporate IT Training Programs",
           icon: BookOpen,
           description:
             "640+ specialized courses to boost your career and skills",
         },
         {
-          path: "/services/talent-as-service",
+          path: "/services/it-staffing-company",
           label: "Talent as a Service",
           icon: Users,
           description:
@@ -133,7 +127,7 @@ const Navigation = () => {
       location === "/services/institutional-training" ||
       location === "/" ||
       location === "/services/government-initiatives" ||
-      location === "/services/knowledge-as-service" ||
+      location === "/services/corporate-it-training-programs" ||
       location === "/life-at-sfjbs" ||
       location.split("/").includes("careers") ||
       location === "/contact"

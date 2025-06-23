@@ -12,6 +12,7 @@ import {
   Heart,
   Users,
 } from "lucide-react";
+import Link from "next/link";
 
 interface EducationSegment {
   title: string;
@@ -183,19 +184,21 @@ const HeroSection: React.FC = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                type="button"
-                className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center text-sm"
-              >
-                Explore Programs
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </button>
-              <button
+              <Link href="/contact?type=b2i">
+                <button
+                  type="button"
+                  className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center text-sm"
+                >
+                  Contact Us
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </button>
+              </Link>
+              {/* <button
                 type="button"
                 className="border border-blue-600 text-blue-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-50 transition-colors text-sm"
               >
                 Schedule Demo
-              </button>
+              </button> */}
             </div>
           </div>
 

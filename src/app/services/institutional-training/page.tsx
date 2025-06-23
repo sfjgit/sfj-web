@@ -1,5 +1,3 @@
-"use client";
-import React from "react";
 import HeroSection from "./_components/HeroSection";
 import BFSIPrograms from "./_components/BFSIPrograms";
 import EngineeringPathways from "./_components/EngineeringPathways";
@@ -9,6 +7,34 @@ import HorizontalScrollNavbar from "./_components/Scroller";
 import MBACourses from "./_components/MBA";
 import SkillgenAISummary from "./_components/School";
 import PolytechnicSummary from "./_components/Polytechic";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "Institutional Training Programs | Skill Development for Students | SFJBS",
+  description:
+    "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
+  keywords:
+    "institutional training programs, student skill development, IT training for students, educational institution training, college IT training, university IT programs, student career readiness, industry-relevant skills",
+  openGraph: {
+    title:
+      "Institutional Training Programs | Skill Development for Students | SFJBS",
+    description:
+      "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
+    url: "https://www.sfjbs.com/services/institutional-training",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Institutional Training Programs | Skill Development for Students | SFJBS",
+    description:
+      "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
+  },
+  alternates: {
+    canonical: "https://www.sfjbs.com/services/institutional-training",
+  },
+};
 
 // Import all the modular components
 // Note: In a real Next.js project, these would be separate files

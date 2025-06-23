@@ -384,7 +384,7 @@ const CSRLandingPage = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <button
-                onClick={() => router.push("/contact")}
+                onClick={() => router.push("/contact?type=csr")}
                 className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-cyan-600 hover:to-blue-700 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl"
               >
                 Enquire Us

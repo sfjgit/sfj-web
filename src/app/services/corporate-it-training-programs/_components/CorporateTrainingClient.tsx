@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Scroller from "./Scroller";
+import Link from "next/link";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -133,13 +134,15 @@ export default function CorporateTrainingClient() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center text-sm group">
-                  Get Started
-                  <ChevronRight className="ml-2 h-4 w-4 inline group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button className="bg-white/90 hover:cursor-pointer backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md text-sm">
+                <Link href={"/contact?type=b2b"}>
+                  <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center text-sm group">
+                    Contact Us
+                    <ChevronRight className="ml-2 h-4 w-4 inline group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </Link>
+                {/* <button className="bg-white/90 hover:cursor-pointer backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md text-sm">
                   Learn More
-                </button>
+                </button> */}
               </motion.div>
             </div>
 

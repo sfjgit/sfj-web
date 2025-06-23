@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Building2, MapPin, Globe, Users } from "lucide-react";
 
