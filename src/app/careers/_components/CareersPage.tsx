@@ -59,7 +59,7 @@ const fetchJobs = async (
   params: URLSearchParams
 ): Promise<{ data: JobsResponse }> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/jobs?${params.toString()}`
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/hr/jobs?${params.toString()}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch jobs");

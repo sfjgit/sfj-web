@@ -30,9 +30,7 @@ const InstitutionalTrainingPage = () => {
       <section id="polytechnic">
         <PolytechnicSummary />
       </section>
-      <section id="bcom">
-        <BFSIPrograms />
-      </section>
+
       {/* Engineering Pathways Component */}
 
       <section id="engineering">
@@ -41,6 +39,7 @@ const InstitutionalTrainingPage = () => {
 
       <section id="arts">
         <ArtsAndScienceCourses />
+        <BFSIPrograms />
       </section>
       <section id="mba">
         <MBACourses />

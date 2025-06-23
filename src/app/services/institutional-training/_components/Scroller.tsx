@@ -27,12 +27,12 @@ const HorizontalScrollNavbar = () => {
       href: "#polytechnic",
     },
 
-    {
-      id: "bcom",
-      label: "B.Com",
-      icon: <Briefcase className="h-5 w-5" />,
-      href: "#bcom",
-    },
+    // {
+    //   id: "bcom",
+    //   label: "B.Com",
+    //   icon: <Briefcase className="h-5 w-5" />,
+    //   href: "#bcom",
+    // },
     {
       id: "engineering",
       label: "Engineering",

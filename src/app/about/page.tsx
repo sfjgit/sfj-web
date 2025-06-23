@@ -185,8 +185,8 @@ const WhoWeAreSection: React.FC = () => (
                 Our Vision
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                To be a market leader in creating a technology workforce for the
-                future through disruptions in upskilling and staffing.
+                To be a market leader in creating a future-ready technology
+                workforce through disruptions in AI and upskilling
               </p>
             </div>
           </div>

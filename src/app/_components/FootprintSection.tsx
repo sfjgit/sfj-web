@@ -35,7 +35,7 @@ const FootprintSection = () => {
   const footprintStats = [
     {
       id: 1,
-      number: "50+",
+      number: "400+",
       title: "Clients",
       icon: <Users className="w-6 h-6" />,
       gradient: "from-blue-500 to-cyan-500",
