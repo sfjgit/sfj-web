@@ -7,29 +7,26 @@ import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title:
-    "IT Staffing, Services & Corporate Training | 14+ Years Experience | SFJBS",
+  title: "IT Corporate Training | 14+ Years Experience | SFJBS",
   description:
-    "SFJBS is a trusted leader in IT staffing, professional services, and corporate training, leveraging over 14 years of expertise to connect businesses with top tech talent and enhance team capabilities across industries.",
+    "SFJBS is a trusted leader in IT corporate training and professional services. With over 14 years of experience, we empower organizations by delivering cutting-edge training solutions tailored to upskill teams, boost productivity, and drive innovation across industries.",
   keywords:
-    "IT staffing, IT services, corporate training, technology solutions, IT consulting, tech recruitment, IT skill development, professional services, enterprise training, IT talent solutions, Bengaluru IT company",
+    "IT Services, Corporate Training, Technology Solutions, IT Consulting, Tech Recruitment, IT Skill Development, Professional Services, Enterprise Training, IT Talent Solutions, Bengaluru IT Company",
   openGraph: {
-    title:
-      "IT Staffing, Services & Corporate Training | 14+ Years Experience | SFJBS",
+    title: "IT Corporate Training | 14+ Years Experience | SFJBS",
     description:
-      "SFJBS is a trusted leader in IT staffing, professional services, and corporate training, leveraging over 14 years of expertise to connect businesses with top tech talent and enhance team capabilities across industries.",
-    url: "https://www.sfjbs.com/",
+      "SFJBS is a trusted leader in IT corporate training and professional services. With over 14 years of experience, we empower organizations by delivering cutting-edge training solutions tailored to upskill teams, boost productivity, and drive innovation across industries.",
+    url: "https://www.sfjbs.com",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "IT Staffing, Services & Corporate Training | 14+ Years Experience | SFJBS",
+    title: "IT Corporate Training | 14+ Years Experience | SFJBS",
     description:
-      "SFJBS is a trusted leader in IT staffing, professional services, and corporate training, leveraging over 14 years of expertise to connect businesses with top tech talent and enhance team capabilities across industries.",
+      "SFJBS is a trusted leader in IT corporate training and professional services. With over 14 years of experience, we empower organizations by delivering cutting-edge training solutions tailored to upskill teams, boost productivity, and drive innovation across industries.",
   },
   alternates: {
-    canonical: "https://www.sfjbs.com/",
+    canonical: "https://www.sfjbs.com",
   },
 };
 
