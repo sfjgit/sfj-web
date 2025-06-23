@@ -7,23 +7,26 @@ import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "IT Corporate Training | 14+ Years Experience | SFJBS",
+  title:
+    "Upskilling India for the AI Era | Enterprise Training & Tech Solutions | SFJBS",
   description:
-    "SFJBS is a trusted leader in IT corporate training and professional services. With over 14 years of experience, we empower organizations by delivering cutting-edge training solutions tailored to upskill teams, boost productivity, and drive innovation across industries.",
+    "SFJBS is committed to upskilling India for the AI era through enterprise training and cutting-edge technology solutions. With over 14 years of expertise, we empower organizations with tailored learning programs, IT consulting, and tech-driven strategies to build future-ready teams and accelerate innovation across industries.",
   keywords:
     "IT Services, Corporate Training, Technology Solutions, IT Consulting, Tech Recruitment, IT Skill Development, Professional Services, Enterprise Training, IT Talent Solutions, Bengaluru IT Company",
   openGraph: {
-    title: "IT Corporate Training | 14+ Years Experience | SFJBS",
+    title:
+      "Upskilling India for the AI Era | Enterprise Training & Tech Solutions | SFJBS",
     description:
-      "SFJBS is a trusted leader in IT corporate training and professional services. With over 14 years of experience, we empower organizations by delivering cutting-edge training solutions tailored to upskill teams, boost productivity, and drive innovation across industries.",
+      "SFJBS is committed to upskilling India for the AI era through enterprise training and cutting-edge technology solutions. With over 14 years of expertise, we empower organizations with tailored learning programs, IT consulting, and tech-driven strategies to build future-ready teams and accelerate innovation across industries.",
     url: "https://www.sfjbs.com",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "IT Corporate Training | 14+ Years Experience | SFJBS",
+    title:
+      "Upskilling India for the AI Era | Enterprise Training & Tech Solutions | SFJBS",
     description:
-      "SFJBS is a trusted leader in IT corporate training and professional services. With over 14 years of experience, we empower organizations by delivering cutting-edge training solutions tailored to upskill teams, boost productivity, and drive innovation across industries.",
+      "SFJBS is committed to upskilling India for the AI era through enterprise training and cutting-edge technology solutions. With over 14 years of expertise, we empower organizations with tailored learning programs, IT consulting, and tech-driven strategies to build future-ready teams and accelerate innovation across industries.",
   },
   alternates: {
     canonical: "https://www.sfjbs.com",
