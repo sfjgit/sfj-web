@@ -10,12 +10,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/solutions/knowledge",
-        destination: "/services/knowledge-as-service",
+        destination: "/services/corporate-it-training-programs",
         permanent: true,
       },
       {
         source: "/solutions/talent",
-        destination: "/services/talent-as-service",
+        destination: "/services/it-staffing-company",
         permanent: true,
       },
       {
