@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/carousel";
 import Link from "next/link";
 import AnimatedHeader from "./Her";
+import AnimatedHeader1 from "./home/AnimatedHeader";
 
 const offerings = [
   {
@@ -150,7 +151,7 @@ const HeroCarousel = () => {
       if (api && !isHoveredRef.current) {
         api.scrollNext();
       }
-    }, 3500);
+    }, 45500);
   }, [api]);
 
   const stopAutoplay = useCallback(() => {
@@ -210,6 +211,9 @@ const HeroCarousel = () => {
         <CarouselContent className="h-full">
           <CarouselItem className="h-full">
             <AnimatedHeader />
+          </CarouselItem>
+          <CarouselItem className="h-full">
+            <AnimatedHeader1 />
           </CarouselItem>
           {offerings.map((offering) => {
             return (
