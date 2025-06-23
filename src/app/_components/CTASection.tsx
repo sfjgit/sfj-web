@@ -69,14 +69,6 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
           >
-            <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-900 px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-xl"
-            >
-              Start Learning Today
-            </motion.button>
-
             <Link href={"/contact"}>
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
