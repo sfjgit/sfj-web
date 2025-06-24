@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { useState, useCallback } from "react";
@@ -66,27 +67,69 @@ const fetchJobs = async (
   }
   return response.json();
 };
-
-// Job Card Component
-const JobCard = ({ job }: { job: JobPosting }) => {
+const SimpleJobCard = ({ job }: { job: any }) => {
   const router = useRouter();
 
-  const formatSalary = (salary: JobPosting["salary"]) => {
-    if (!salary.displayPublicly) return "Salary not disclosed";
-    const min = (salary.min / 100000).toFixed(0);
-    const max = (salary.max / 100000).toFixed(0);
-    return `$${min}K - $${max}K ${salary.type.toLowerCase()}`;
+  // Simple format functions
+  const formatSalary = (salary: any) => {
+    if (!salary || !salary.displayPublicly) {
+      return "Salary not disclosed";
+    }
+    const min = Math.floor(salary.min / 100000);
+    const max = Math.floor(salary.max / 100000);
+    return `$${min}K - $${max}K ${salary.type?.toLowerCase() || "monthly"}`;
   };
 
   const formatEmploymentType = (type: string) => {
+    if (!type) return "Not specified";
     return type
       .replace("_", " ")
       .toLowerCase()
       .replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
+  const getLocation = () => {
+    if (!job.location) return "Location not specified";
+    if (job.location.type === "REMOTE") return "Remote";
+    if (job.location.type === "ON_SITE" || job.location.type === "ONSITE") {
+      return (
+        job.location.address?.city + ", " + job.location.address?.country ||
+        "On-site"
+      );
+    }
+    return job.location.address?.country || "Location not specified";
+  };
+
+  const getDepartmentName = () => {
+    if (
+      job.department &&
+      typeof job.department === "object" &&
+      job.department.name
+    ) {
+      return job.department.name;
+    }
+    if (typeof job.department === "string") {
+      return job.department;
+    }
+    return "Department Not Specified";
+  };
+
+  const getExperienceYears = () => {
+    return job.requirements?.experience?.minimumYears || 0;
+  };
+
+  const formatDate = () => {
+    try {
+      return new Date(job.createdAt).toLocaleDateString();
+    } catch {
+      return "Date not available";
+    }
+  };
+
   const handleViewJob = () => {
-    router.push(`/careers/${job.slug}`);
+    if (job.slug) {
+      router.push(`/careers/${job.slug}`);
+    }
   };
 
   return (
@@ -98,10 +141,10 @@ const JobCard = ({ job }: { job: JobPosting }) => {
         <div className="flex justify-between items-start">
           <div>
             <CardTitle className="text-lg font-semibold text-gray-900">
-              {job.title}
+              {job.title || "Job Title Not Available"}
             </CardTitle>
             <p className="text-sm text-gray-600 mt-1 font-medium">
-              {job.department}
+              {getDepartmentName()}
             </p>
           </div>
           <Badge
@@ -114,21 +157,17 @@ const JobCard = ({ job }: { job: JobPosting }) => {
       </CardHeader>
       <CardContent>
         <p className="text-gray-700 mb-4 line-clamp-3 leading-relaxed">
-          {job.shortDescription}
+          {job.shortDescription || "No description available"}
         </p>
 
         <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
           <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-md">
             <MapPin className="w-4 h-4 text-gray-500" />
-            <span>
-              {job.location.type === "REMOTE"
-                ? "Remote"
-                : job.location.address.country}
-            </span>
+            <span>{getLocation()}</span>
           </div>
           <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-md">
             <Clock className="w-4 h-4 text-gray-500" />
-            <span>{job.requirements.experience.minimumYears}+ years</span>
+            <span>{getExperienceYears()}+ years</span>
           </div>
           <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-md">
             <DollarSign className="w-4 h-4 text-gray-500" />
@@ -137,9 +176,7 @@ const JobCard = ({ job }: { job: JobPosting }) => {
         </div>
 
         <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-          <span className="text-xs text-gray-500">
-            Posted {new Date(job.createdAt).toLocaleDateString()}
-          </span>
+          <span className="text-xs text-gray-500">Posted {formatDate()}</span>
           <Button
             size="sm"
             className="bg-blue-600 hover:bg-blue-700 text-white"
@@ -463,8 +500,10 @@ const CareersPage = () => {
               )
             ) : (
               <div className="grid gap-6">
-                {data?.data?.jobs.map((job) => (
-                  <JobCard key={job._id} job={job} />
+                {/* {JSON.stringify(data?.data?.jobs)} */}
+
+                {data?.data?.jobs?.map((job) => (
+                  <SimpleJobCard key={job?._id} job={job} />
                 ))}
               </div>
             )}
