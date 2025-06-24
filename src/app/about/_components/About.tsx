@@ -185,8 +185,9 @@ const WhoWeAreSection: React.FC = () => (
                 Our Vision
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                To be a market leader in creating a future-ready technology
-                workforce through disruptions in AI and upskilling
+                To be the catalyst for AI-driven talent transformation, bridging
+                skill gaps and preparing every learner to thrive in the
+                AI-powered future.
               </p>
             </div>
           </div>
@@ -208,8 +209,8 @@ const WhoWeAreSection: React.FC = () => (
                 Our Mission
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                To help our customers achieve scale through innovative, agile
-                and efficient talent transformation solutions.
+                To drive workforce and academic transformation by equipping
+                every learner with practical AI skills for real-world succes
               </p>
             </div>
           </div>
