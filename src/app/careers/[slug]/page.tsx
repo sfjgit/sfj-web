@@ -22,6 +22,7 @@ import {
   Users,
   Calendar,
   Briefcase,
+  Factory,
 } from "lucide-react";
 import JobApplicationForm from "@/components/forms/JobApplicationForm";
 
@@ -29,7 +30,7 @@ import JobApplicationForm from "@/components/forms/JobApplicationForm";
 async function fetchJobBySlug(slug: any) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/jobs/slug/${slug}`,
+      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/hr/jobs/slug/${slug}`,
       {
         method: "GET",
         headers: {
@@ -58,13 +59,24 @@ async function fetchJobBySlug(slug: any) {
   }
 }
 
+interface Department {
+  _id: string;
+  name: string;
+}
+
+interface Industry {
+  _id: string;
+  name: string;
+}
+
 interface JobData {
   _id: string;
   title: string;
   category: string;
   description: string;
   shortDescription: string;
-  department: string;
+  department: Department | string; // Can be populated object or string ID
+  industry: Industry | string; // Can be populated object or string ID
   employmentType: string;
   location: {
     type: string;
@@ -147,6 +159,21 @@ export default function JobPage() {
     }
   }, [slug]);
 
+  // Helper functions to get department and industry names
+  const getDepartmentName = (department: Department | string): string => {
+    if (typeof department === "object" && department !== null) {
+      return department.name;
+    }
+    return typeof department === "string" ? department : "Not specified";
+  };
+
+  const getIndustryName = (industry: Industry | string): string => {
+    if (typeof industry === "object" && industry !== null) {
+      return industry.name;
+    }
+    return typeof industry === "string" ? industry : "Not specified";
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -211,7 +238,12 @@ export default function JobPage() {
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
               <div className="flex items-center gap-1">
                 <Building2 className="w-4 h-4" />
-                <span>{job.department}</span>
+                <span>{getDepartmentName(job.department)}</span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <Factory className="w-4 h-4" />
+                <span>{getIndustryName(job.industry)}</span>
               </div>
 
               <div className="flex items-center gap-1">
@@ -409,7 +441,16 @@ export default function JobPage() {
 
               <div className="flex justify-between">
                 <span className="text-gray-600">Department:</span>
-                <span className="font-medium">{job.department}</span>
+                <span className="font-medium">
+                  {getDepartmentName(job.department)}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-gray-600">Industry:</span>
+                <span className="font-medium">
+                  {getIndustryName(job.industry)}
+                </span>
               </div>
 
               <div className="flex justify-between">
