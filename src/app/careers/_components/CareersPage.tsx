@@ -55,18 +55,39 @@ interface JobsResponse {
   totalPages: number;
 }
 
-// Fetch jobs function
+interface Department {
+  _id: string;
+  name: string;
+}
+
+// Fetch functions
 const fetchJobs = async (
   params: URLSearchParams
 ): Promise<{ data: JobsResponse }> => {
+  const newParams = new URLSearchParams(params);
+  newParams.set("status", "PUBLISHED");
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/hr/jobs?${params.toString()}`
+    `${
+      process.env.NEXT_PUBLIC_FRONTEND_URL
+    }/api/hr/jobs?${newParams.toString()}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch jobs");
   }
   return response.json();
 };
+
+const fetchDepartments = async (): Promise<Department[]> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/hr/departments`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch departments");
+  }
+  const data = await response.json();
+  return data.departments || [];
+};
+
 const SimpleJobCard = ({ job }: { job: any }) => {
   const router = useRouter();
 
@@ -196,12 +217,14 @@ const RadioGroup = ({
   options,
   value,
   onChange,
+  loading = false,
 }: {
   label: string;
   name: string;
   options: { value: string; label: string }[];
   value: string;
   onChange: (value: string) => void;
+  loading?: boolean;
 }) => {
   return (
     <div className="space-y-3">
@@ -217,25 +240,37 @@ const RadioGroup = ({
             checked={value === ""}
             onChange={() => onChange("")}
             className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+            disabled={loading}
           />
           <span className="text-gray-700">All {label}</span>
         </label>
-        {options.map((option) => (
-          <label
-            key={option.value}
-            className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            <input
-              type="radio"
-              name={name}
-              value={option.value}
-              checked={value === option.value}
-              onChange={() => onChange(option.value)}
-              className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-            />
-            <span className="text-gray-700">{option.label}</span>
-          </label>
-        ))}
+        {loading ? (
+          <div className="space-y-2">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex items-center space-x-3 p-2">
+                <div className="w-4 h-4 bg-gray-200 rounded-full animate-pulse" />
+                <div className="h-4 bg-gray-200 rounded w-24 animate-pulse" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          options.map((option) => (
+            <label
+              key={option.value}
+              className="flex items-center space-x-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <input
+                type="radio"
+                name={name}
+                value={option.value}
+                checked={value === option.value}
+                onChange={() => onChange(option.value)}
+                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+              />
+              <span className="text-gray-700">{option.label}</span>
+            </label>
+          ))
+        )}
       </div>
     </div>
   );
@@ -253,6 +288,13 @@ const JobFilters = () => {
     searchParams.get("employmentType") || ""
   );
   const [location, setLocation] = useState(searchParams.get("location") || "");
+
+  // Fetch departments
+  const { data: departments, isLoading: departmentsLoading } = useQuery({
+    queryKey: ["departments"],
+    queryFn: fetchDepartments,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  });
 
   const updateURL = useCallback(
     (key: string, value: string) => {
@@ -275,13 +317,12 @@ const JobFilters = () => {
     router.push("/careers");
   };
 
-  const departmentOptions = [
-    { value: "Engineering", label: "Engineering" },
-    { value: "Marketing", label: "Marketing" },
-    { value: "Sales", label: "Sales" },
-    { value: "HR", label: "HR" },
-    { value: "Finance", label: "Finance" },
-  ];
+  // Convert departments to options format
+  const departmentOptions =
+    departments?.map((dept) => ({
+      value: dept._id,
+      label: dept.name,
+    })) || [];
 
   const employmentTypeOptions = [
     { value: "FULL_TIME", label: "Full Time" },
@@ -311,6 +352,7 @@ const JobFilters = () => {
           name="department"
           options={departmentOptions}
           value={department}
+          loading={departmentsLoading}
           onChange={(value) => {
             setDepartment(value);
             updateURL("department", value);
@@ -387,7 +429,7 @@ const CareersPage = () => {
 
   // Fetch jobs using React Query
   const { data, isLoading, error } = useQuery({
-    queryKey: ["jobs", queryParams.toString()],
+    queryKey: ["jobs", queryParams],
     queryFn: () => fetchJobs(queryParams),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
@@ -500,8 +542,6 @@ const CareersPage = () => {
               )
             ) : (
               <div className="grid gap-6">
-                {/* {JSON.stringify(data?.data?.jobs)} */}
-
                 {data?.data?.jobs?.map((job) => (
                   <SimpleJobCard key={job?._id} job={job} />
                 ))}

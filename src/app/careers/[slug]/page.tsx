@@ -440,13 +440,6 @@ export default function JobPage() {
               </div>
 
               <div className="flex justify-between">
-                <span className="text-gray-600">Department:</span>
-                <span className="font-medium">
-                  {getDepartmentName(job.department)}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
                 <span className="text-gray-600">Industry:</span>
                 <span className="font-medium">
                   {getIndustryName(job.industry)}
