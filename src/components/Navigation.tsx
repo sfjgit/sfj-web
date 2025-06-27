@@ -130,6 +130,7 @@ const Navigation = () => {
       location === "/services/corporate-it-training-programs" ||
       location === "/life-at-sfjbs" ||
       location.split("/").includes("careers") ||
+      location.split("/").includes("blog") ||
       location === "/contact"
     ) {
       return true;
