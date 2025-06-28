@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 
 interface ContentBlock {
   type:
@@ -111,6 +112,27 @@ interface SeriesBlog {
   order: number;
 }
 
+interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+  color?: string;
+  blogCount: number;
+}
+
+const fetchCategories = async (): Promise<Category[]> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/categories`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  const data = await response.json();
+  return data.data || data;
+};
+
 export default function SingleBlogPage() {
   const params = useParams();
   const slug = params?.slug as string;
@@ -124,6 +146,17 @@ export default function SingleBlogPage() {
   const [allSeries, setAllSeries] = useState<Series[]>([]);
   const [currentSeries, setCurrentSeries] = useState<SeriesBlog[]>([]);
   const [seriesLoading, setSeriesLoading] = useState(true);
+
+  const {
+    data: categories = [],
+    isLoading: categoriesLoading,
+    error: categoriesError,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
+  });
 
   const fetchBlog = async () => {
     try {
@@ -841,7 +874,81 @@ export default function SingleBlogPage() {
               </div>
             )}
 
+            <>
+              {/* Categories */}
+              {!categoriesLoading && categories.length > 0 && (
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                  <div className="p-6 border-b border-gray-100">
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        Categories
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="p-4">
+                    <div className="space-y-2">
+                      {categories.map((category) => (
+                        <button
+                          key={category._id}
+                          className="w-full group relative px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-gray-50 border border-transparent hover:border-gray-200"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-2 h-2 rounded-full bg-gray-400 group-hover:bg-blue-500 transition-colors duration-200"></div>
+                              <span className="font-medium text-gray-700 group-hover:text-gray-900 transition-colors duration-200">
+                                {category.name}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full group-hover:bg-blue-50 group-hover:text-blue-600 transition-all duration-200">
+                                {category.blogCount}
+                              </span>
+                              <svg
+                                className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-all duration-200 transform group-hover:translate-x-1"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 5l7 7-7 7"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="px-6 py-4 bg-gray-50/50 border-t border-gray-100">
+                    <button className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200 flex items-center gap-1">
+                      <span>View all categories</span>
+                      <svg
+                        className="w-3 h-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+
             {/* Other Series */}
+
             {!seriesLoading && allSeries.length > 0 && (
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-gray-900 mb-4 flex items-center">

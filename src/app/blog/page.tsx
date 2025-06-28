@@ -229,7 +229,7 @@ export default function BlogLandingPage() {
   // Show loading state only on initial load
   if (blogsLoading && !blogs.length) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
         <div className="flex justify-center items-center min-h-96">
           <div className="relative">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200"></div>
@@ -241,282 +241,27 @@ export default function BlogLandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 mt-20">
+      {/* Hero Section - Calm gradient */}
+      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-              Discover Amazing Content
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+              Empowering You with AI & Future Skills Insights
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed">
-              Explore our curated collection of articles, tutorials, and
-              insights designed to inspire and educate.
+            <p className="text-xl md:text-2xl mb-8 leading-relaxed text-blue-100">
+              Dive into expert articles, industry trends, and practical guides
+              on Generative AI, emerging technologies, and workforce
+              transformation. Stay ahead with knowledge that drives growth,
+              innovation, and impact.
             </p>
-
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto relative">
-              <input
-                type="text"
-                placeholder="Search articles, tutorials, guides..."
-                value={searchQuery}
-                onChange={(e) => handleSearchChange(e.target.value)}
-                className="w-full px-6 py-4 text-lg rounded-2xl text-gray-900 placeholder-gray-500 shadow-xl border-0 focus:ring-4 focus:ring-white/30 transition-all"
-              />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <svg
-                  className="w-6 h-6 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </div>
-            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Series Showcase */}
-        {!seriesLoading && series.length > 0 && (
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Featured Series
-              </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Dive deep into comprehensive learning paths designed to take you
-                from beginner to expert.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-              {series.slice(0, 6).map((seriesItem) => (
-                <div
-                  key={seriesItem._id}
-                  className="group cursor-pointer"
-                  onClick={() => handleSeriesChange(seriesItem._id)}
-                >
-                  <div
-                    className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 ${
-                      activeSeries === seriesItem._id
-                        ? "border-blue-500 ring-4 ring-blue-100"
-                        : "border-transparent hover:border-blue-200"
-                    }`}
-                  >
-                    <div className="relative h-48 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
-                      {seriesItem.thumbnail ? (
-                        <img
-                          src={seriesItem.thumbnail}
-                          alt={seriesItem.name}
-                          className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-full"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <div className="text-center text-white">
-                            <div className="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center">
-                              <svg
-                                className="w-8 h-8"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                            </div>
-                            <p className="font-semibold">
-                              {seriesItem.blogCount} Articles
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                      <div className="absolute top-4 right-4">
-                        <span className="bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
-                          {seriesItem.blogCount} articles
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                        {seriesItem.name}
-                      </h3>
-                      <p className="text-gray-600 mb-4 line-clamp-2">
-                        {seriesItem.description}
-                      </p>
-
-                      <div className="flex items-center justify-between">
-                        {seriesItem.difficulty && (
-                          <span
-                            className={`px-3 py-1 rounded-full text-sm font-medium border ${getDifficultyColor(
-                              seriesItem.difficulty
-                            )}`}
-                          >
-                            {seriesItem.difficulty}
-                          </span>
-                        )}
-                        <div className="text-blue-600 font-medium text-sm group-hover:translate-x-1 transition-transform">
-                          Explore Series →
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Sidebar */}
-          <div className="lg:w-80 flex-shrink-0">
-            <div className="sticky top-8 space-y-8">
-              {/* Active Filters */}
-              {(activeCategory || activeSeries || searchQuery) && (
-                <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-gray-900">Active Filters</h3>
-                    <button
-                      onClick={clearFilters}
-                      className="text-sm text-blue-600 hover:text-blue-800 font-medium"
-                    >
-                      Clear All
-                    </button>
-                  </div>
-                  <div className="space-y-2">
-                    {activeCategory && (
-                      <div className="flex items-center justify-between bg-blue-50 px-3 py-2 rounded-lg">
-                        <span className="text-sm text-blue-800">
-                          Category:{" "}
-                          {
-                            categories.find((c) => c._id === activeCategory)
-                              ?.name
-                          }
-                        </span>
-                        <button
-                          onClick={() => handleCategoryChange("")}
-                          className="text-blue-600 hover:text-blue-800"
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    )}
-                    {activeSeries && (
-                      <div className="flex items-center justify-between bg-purple-50 px-3 py-2 rounded-lg">
-                        <span className="text-sm text-purple-800">
-                          Series:{" "}
-                          {series.find((s) => s._id === activeSeries)?.name}
-                        </span>
-                        <button
-                          onClick={() => handleSeriesChange("")}
-                          className="text-purple-600 hover:text-purple-800"
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    )}
-                    {searchQuery && (
-                      <div className="flex items-center justify-between bg-green-50 px-3 py-2 rounded-lg">
-                        <span className="text-sm text-green-800">
-                          Search: "{searchQuery}"
-                        </span>
-                        <button
-                          onClick={() => handleSearchChange("")}
-                          className="text-green-600 hover:text-green-800"
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Categories */}
-              {!categoriesLoading && categories.length > 0 && (
-                <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">
-                    Categories
-                  </h3>
-                  <div className="space-y-3">
-                    {categories.map((category) => (
-                      <button
-                        key={category._id}
-                        onClick={() => handleCategoryChange(category._id)}
-                        className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center justify-between group ${
-                          activeCategory === category._id
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "hover:bg-gray-50 text-gray-700 hover:text-gray-900"
-                        }`}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <div
-                            className={`w-3 h-3 rounded-full ${
-                              activeCategory === category._id ? "bg-white" : ""
-                            }`}
-                            style={{
-                              backgroundColor:
-                                activeCategory === category._id
-                                  ? "white"
-                                  : category.color || "#e5e7eb",
-                            }}
-                          />
-                          <span className="font-medium">{category.name}</span>
-                        </div>
-                        <span
-                          className={`text-sm px-2 py-1 rounded-full ${
-                            activeCategory === category._id
-                              ? "bg-white/20 text-white"
-                              : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
-                          }`}
-                        >
-                          {category.blogCount}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Main Content */}
+      <div className="w-full  mx-auto  sm:px-6 lg:px-10 py-12 2xl:px-20 xl:px-12">
+        <div className="flex flex-col xl:flex-row gap-12">
+          {/* Main Content - Blog Grid */}
           <div className="flex-1">
             {/* Results Header */}
             <div className="flex items-center justify-between mb-8">
@@ -541,7 +286,7 @@ export default function BlogLandingPage() {
 
             {/* Blog Grid */}
             {blogsLoading && !blogs.length ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {[...Array(6)].map((_, i) => (
                   <div
                     key={i}
@@ -560,7 +305,7 @@ export default function BlogLandingPage() {
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-12">
                 {blogs.map((blog) => (
                   <article
                     key={blog._id}
@@ -575,7 +320,7 @@ export default function BlogLandingPage() {
                           className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-full"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center">
+                        <div className="w-full h-full bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 flex items-center justify-center">
                           <div className="text-white text-center">
                             <svg
                               className="w-12 h-12 mx-auto mb-2 opacity-80"
@@ -596,7 +341,7 @@ export default function BlogLandingPage() {
                       )}
 
                       {/* Badges */}
-                      <div className="absolute top-4 left-4 flex gap-2">
+                      {/* <div className="absolute top-4 left-4 flex gap-2">
                         {blog.isPinned && (
                           <span className="bg-red-500 text-white px-3 py-1 text-xs font-medium rounded-full shadow-lg">
                             📌 Pinned
@@ -612,13 +357,13 @@ export default function BlogLandingPage() {
                             🏆 Top Pick
                           </span>
                         )}
-                      </div>
+                      </div> */}
 
                       {/* Difficulty Badge */}
                       {blog.difficulty && (
                         <div className="absolute top-4 right-4">
                           <span
-                            className={`px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm border ${getDifficultyColor(
+                            className={`px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm border capitalize ${getDifficultyColor(
                               blog.difficulty
                             )}`}
                           >
@@ -629,9 +374,9 @@ export default function BlogLandingPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
+                    <div className="p-6 border-t border-gray-300">
                       {/* Categories */}
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      {/* <div className="flex flex-wrap gap-2 mb-4">
                         {blog.categories.slice(0, 2).map((category) => (
                           <button
                             key={category._id}
@@ -645,7 +390,7 @@ export default function BlogLandingPage() {
                             {category.name}
                           </button>
                         ))}
-                      </div>
+                      </div> */}
 
                       {/* Title */}
                       <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
@@ -787,6 +532,240 @@ export default function BlogLandingPage() {
                 >
                   Next →
                 </button>
+              </div>
+            )}
+          </div>
+
+          {/* Right Sidebar - Series Section */}
+          <div className="xl:w-80 flex-shrink-0">
+            {/* Left Sidebar - Categories and Filters */}
+            <div className="xl:w-80 flex-shrink-0">
+              <div className="sticky top-8 space-y-8">
+                {/* Active Filters */}
+                {(activeCategory || activeSeries || searchQuery) && (
+                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-bold text-gray-900">
+                        Active Filters
+                      </h3>
+                      <button
+                        onClick={clearFilters}
+                        className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                      >
+                        Clear All
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {activeCategory && (
+                        <div className="flex items-center justify-between bg-blue-50 px-3 py-2 rounded-lg">
+                          <span className="text-sm text-blue-800">
+                            Category:{" "}
+                            {
+                              categories.find((c) => c._id === activeCategory)
+                                ?.name
+                            }
+                          </span>
+                          <button
+                            onClick={() => handleCategoryChange("")}
+                            className="text-blue-600 hover:text-blue-800"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+                      {activeSeries && (
+                        <div className="flex items-center justify-between bg-purple-50 px-3 py-2 rounded-lg">
+                          <span className="text-sm text-purple-800">
+                            Series:{" "}
+                            {series.find((s) => s._id === activeSeries)?.name}
+                          </span>
+                          <button
+                            onClick={() => handleSeriesChange("")}
+                            className="text-purple-600 hover:text-purple-800"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+                      {searchQuery && (
+                        <div className="flex items-center justify-between bg-green-50 px-3 py-2 rounded-lg">
+                          <span className="text-sm text-green-800">
+                            Search: "{searchQuery}"
+                          </span>
+                          <button
+                            onClick={() => handleSearchChange("")}
+                            className="text-green-600 hover:text-green-800"
+                          >
+                            <svg
+                              className="w-4 h-4"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Categories */}
+                {!categoriesLoading && categories.length > 0 && (
+                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <h3 className="text-xl font-bold text-gray-900 mb-6">
+                      Categories
+                    </h3>
+                    <div className="space-y-3">
+                      {categories.map((category) => (
+                        <button
+                          key={category._id}
+                          onClick={() => handleCategoryChange(category._id)}
+                          className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center justify-between group ${
+                            activeCategory === category._id
+                              ? "bg-blue-600 text-white shadow-lg"
+                              : "hover:bg-gray-50 text-gray-700 hover:text-gray-900"
+                          }`}
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div
+                              className={`w-3 h-3 rounded-full ${
+                                activeCategory === category._id
+                                  ? "bg-white"
+                                  : ""
+                              }`}
+                              style={{
+                                backgroundColor:
+                                  activeCategory === category._id
+                                    ? "white"
+                                    : category.color || "#e5e7eb",
+                              }}
+                            />
+                            <span className="font-medium">{category.name}</span>
+                          </div>
+                          <span
+                            className={`text-sm px-2 py-1 rounded-full ${
+                              activeCategory === category._id
+                                ? "bg-white/20 text-white"
+                                : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
+                            }`}
+                          >
+                            {category.blogCount}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {!seriesLoading && series.length > 0 && (
+              <div className="sticky top-8 mt-10">
+                <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                  <div className="text-center mb-6">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                      Related Blogs
+                    </h3>
+                    <p className="text-gray-600">
+                      Explore comprehensive learning paths
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {series.slice(0, 4).map((seriesItem) => (
+                      <div
+                        key={seriesItem._id}
+                        className="group cursor-pointer"
+                        onClick={() => handleSeriesChange(seriesItem._id)}
+                      >
+                        <div
+                          className={`bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-all duration-200 border-2 ${
+                            activeSeries === seriesItem._id
+                              ? "border-blue-500 bg-blue-50"
+                              : "border-transparent"
+                          }`}
+                        >
+                          <div className="flex items-start space-x-3">
+                            <div className="flex-shrink-0">
+                              {seriesItem.thumbnail ? (
+                                <img
+                                  src={seriesItem.thumbnail}
+                                  alt={seriesItem.name}
+                                  className="w-12 h-12 rounded-lg object-cover"
+                                />
+                              ) : (
+                                <div className="w-12 h-12 bg-gradient-to-br from-slate-400 to-slate-500 rounded-lg flex items-center justify-center">
+                                  <svg
+                                    className="w-6 h-6 text-white"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  </svg>
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                                {seriesItem.name}
+                              </h4>
+                              <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+                                {seriesItem.description}
+                              </p>
+                              <div className="flex items-center justify-between mt-2">
+                                <span className="text-xs text-blue-600 font-medium">
+                                  {seriesItem.blogCount} articles
+                                </span>
+                                {seriesItem.difficulty && (
+                                  <span
+                                    className={`px-2 py-1 text-xs font-medium rounded-full ${getDifficultyColor(
+                                      seriesItem.difficulty
+                                    )}`}
+                                  >
+                                    {seriesItem.difficulty}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {series.length > 4 && (
+                    <div className="mt-6 text-center">
+                      <button className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors">
+                        View All Series →
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
