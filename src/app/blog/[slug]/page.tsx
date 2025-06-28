@@ -111,16 +111,12 @@ interface SeriesBlog {
   order: number;
 }
 
-interface SingleBlogProps {
-  initialBlog?: Blog;
-}
-
-export default function SingleBlogPage({ initialBlog }: SingleBlogProps) {
+export default function SingleBlogPage() {
   const params = useParams();
   const slug = params?.slug as string;
 
-  const [blog, setBlog] = useState<Blog | null>(initialBlog || null);
-  const [loading, setLoading] = useState(!initialBlog);
+  const [blog, setBlog] = useState<Blog | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeToC, setActiveToC] = useState<string>("");
   const [isLiked, setIsLiked] = useState(false);
@@ -212,7 +208,7 @@ export default function SingleBlogPage({ initialBlog }: SingleBlogProps) {
   }, [blog]);
 
   useEffect(() => {
-    if (!initialBlog && slug) {
+    if (!blog && slug) {
       fetchBlog();
     }
     fetchSeries();

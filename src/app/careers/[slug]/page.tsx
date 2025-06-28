@@ -24,7 +24,7 @@ import {
   Briefcase,
   Factory,
 } from "lucide-react";
-import JobApplicationForm from "@/components/forms/JobApplicationForm";
+import JobApplicationForm from "@/app/careers/[slug]/_components/JobApplicationForm";
 
 // Client-side fetching function
 async function fetchJobBySlug(slug: any) {

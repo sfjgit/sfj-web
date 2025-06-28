@@ -12,11 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "../../../../components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../../../components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -31,16 +31,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "../ui/alert";
+import { Alert, AlertDescription } from "../../../../components/ui/alert";
 import { Loader2, File } from "lucide-react";
-import FileUploadInput from "./FileUploadInput";
+import FileUploadInput from "../../../../components/forms/FileUploadInput";
 import axios from "axios";
 // import { env } from "node:process";
 // import { env } from "process";
 // import type { ApplicationCreate } from "@/types/careers";
 
 const backend_url =
-  process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:3001";
+  process.env.NEXT_PUBLIC_FRONTEND_URL ?? "http://localhost:3001";
 
 interface JobApplicationFormProps {
   jobId: string;
@@ -201,7 +201,7 @@ const JobApplicationForm: React.FC<JobApplicationFormProps> = ({
       {}
     );
     try {
-      const response = await fetch(backend_url + "/api/applications", {
+      const response = await fetch(backend_url + "/api/hr/applications", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 interface Blog {
   _id: string;
@@ -40,6 +40,15 @@ interface Blog {
   };
 }
 
+interface BlogsResponse {
+  data: Blog[];
+  meta?: {
+    totalPages: number;
+    currentPage: number;
+    total: number;
+  };
+}
+
 interface Series {
   _id: string;
   name: string;
@@ -59,97 +68,115 @@ interface Category {
   blogCount: number;
 }
 
-interface BlogListProps {
-  initialBlogs?: Blog[];
-}
+// API functions
+const fetchBlogs = async (params: {
+  page: number;
+  categoryId?: string;
+  seriesId?: string;
+  search?: string;
+}): Promise<BlogsResponse> => {
+  const queryParams = new URLSearchParams({
+    page: params.page.toString(),
+    limit: "12",
+    status: "published",
+  });
 
-export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
-  const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
-  const [series, setSeries] = useState<Series[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(!initialBlogs.length);
-  const [seriesLoading, setSeriesLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  if (params.categoryId) queryParams.append("categoryId", params.categoryId);
+  if (params.seriesId) queryParams.append("seriesId", params.seriesId);
+  if (params.search) queryParams.append("search", params.search);
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs?${queryParams}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch blogs");
+  }
+
+  const data = await response.json();
+  return {
+    data: data.data || data,
+    meta: data.meta,
+  };
+};
+
+const fetchSeries = async (): Promise<Series[]> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch series");
+  }
+
+  const data = await response.json();
+  return data.data || data;
+};
+
+const fetchCategories = async (): Promise<Category[]> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/categories`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  const data = await response.json();
+  return data.data || data;
+};
+
+export default function BlogLandingPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [activeSeries, setActiveSeries] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchBlogs = async (page = 1) => {
-    try {
-      setLoading(true);
-      const queryParams = new URLSearchParams({
-        page: page.toString(),
-        limit: "12",
-        status: "published",
-      });
+  // Query for blogs with dependencies on filters
+  const {
+    data: blogsData,
+    isLoading: blogsLoading,
+    error: blogsError,
+    // refetch: refetchBlogs,
+  } = useQuery({
+    queryKey: ["blogs", currentPage, activeCategory, activeSeries, searchQuery],
+    queryFn: () =>
+      fetchBlogs({
+        page: currentPage,
+        categoryId: activeCategory || undefined,
+        seriesId: activeSeries || undefined,
+        search: searchQuery || undefined,
+      }),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+  });
 
-      if (activeCategory) queryParams.append("categoryId", activeCategory);
-      if (activeSeries) queryParams.append("seriesId", activeSeries);
-      if (searchQuery) queryParams.append("search", searchQuery);
+  // Query for series
+  const {
+    data: series = [],
+    isLoading: seriesLoading,
+    error: seriesError,
+  } = useQuery({
+    queryKey: ["series"],
+    queryFn: fetchSeries,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
+  });
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs?${queryParams}`
-      );
+  // Query for categories
+  const {
+    data: categories = [],
+    isLoading: categoriesLoading,
+    error: categoriesError,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
+  });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch blogs");
-      }
-
-      const data = await response.json();
-      setBlogs(data.data || data);
-      setTotalPages(data.meta?.totalPages || 1);
-      setCurrentPage(page);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchSeries = async () => {
-    try {
-      setSeriesLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setSeries(data.data || data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch series:", err);
-    } finally {
-      setSeriesLoading(false);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/categories`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setCategories(data.data || data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch categories:", err);
-    }
-  };
-
-  useEffect(() => {
-    if (!initialBlogs.length) {
-      fetchBlogs();
-    }
-    fetchSeries();
-    fetchCategories();
-  }, []);
-
-  useEffect(() => {
-    fetchBlogs(1);
-  }, [activeCategory, activeSeries, searchQuery]);
+  const blogs = blogsData?.data || [];
+  const totalPages = blogsData?.meta?.totalPages || 1;
 
   const getDifficultyColor = (difficulty?: string) => {
     switch (difficulty) {
@@ -176,9 +203,31 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
     setActiveCategory("");
     setActiveSeries("");
     setSearchQuery("");
+    setCurrentPage(1);
   };
 
-  if (loading && !blogs.length) {
+  const handleCategoryChange = (categoryId: string) => {
+    setActiveCategory(activeCategory === categoryId ? "" : categoryId);
+    setCurrentPage(1);
+  };
+
+  const handleSeriesChange = (seriesId: string) => {
+    setActiveSeries(activeSeries === seriesId ? "" : seriesId);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Show loading state only on initial load
+  if (blogsLoading && !blogs.length) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
         <div className="flex justify-center items-center min-h-96">
@@ -211,7 +260,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                 type="text"
                 placeholder="Search articles, tutorials, guides..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => handleSearchChange(e.target.value)}
                 className="w-full px-6 py-4 text-lg rounded-2xl text-gray-900 placeholder-gray-500 shadow-xl border-0 focus:ring-4 focus:ring-white/30 transition-all"
               />
               <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -253,11 +302,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                 <div
                   key={seriesItem._id}
                   className="group cursor-pointer"
-                  onClick={() =>
-                    setActiveSeries(
-                      activeSeries === seriesItem._id ? "" : seriesItem._id
-                    )
-                  }
+                  onClick={() => handleSeriesChange(seriesItem._id)}
                 >
                   <div
                     className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 ${
@@ -271,7 +316,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                         <img
                           src={seriesItem.thumbnail}
                           alt={seriesItem.name}
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-full"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
@@ -355,7 +400,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                           }
                         </span>
                         <button
-                          onClick={() => setActiveCategory("")}
+                          onClick={() => handleCategoryChange("")}
                           className="text-blue-600 hover:text-blue-800"
                         >
                           <svg
@@ -379,8 +424,31 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                           {series.find((s) => s._id === activeSeries)?.name}
                         </span>
                         <button
-                          onClick={() => setActiveSeries("")}
+                          onClick={() => handleSeriesChange("")}
                           className="text-purple-600 hover:text-purple-800"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                    {searchQuery && (
+                      <div className="flex items-center justify-between bg-green-50 px-3 py-2 rounded-lg">
+                        <span className="text-sm text-green-800">
+                          Search: "{searchQuery}"
+                        </span>
+                        <button
+                          onClick={() => handleSearchChange("")}
+                          className="text-green-600 hover:text-green-800"
                         >
                           <svg
                             className="w-4 h-4"
@@ -401,7 +469,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
               )}
 
               {/* Categories */}
-              {categories.length > 0 && (
+              {!categoriesLoading && categories.length > 0 && (
                 <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                   <h3 className="text-xl font-bold text-gray-900 mb-6">
                     Categories
@@ -410,11 +478,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                     {categories.map((category) => (
                       <button
                         key={category._id}
-                        onClick={() =>
-                          setActiveCategory(
-                            activeCategory === category._id ? "" : category._id
-                          )
-                        }
+                        onClick={() => handleCategoryChange(category._id)}
                         className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center justify-between group ${
                           activeCategory === category._id
                             ? "bg-blue-600 text-white shadow-lg"
@@ -467,10 +531,16 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                   found
                 </p>
               </div>
+              {blogsLoading && (
+                <div className="flex items-center text-blue-600">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-600 border-t-transparent mr-2"></div>
+                  Loading...
+                </div>
+              )}
             </div>
 
             {/* Blog Grid */}
-            {loading ? (
+            {blogsLoading && !blogs.length ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {[...Array(6)].map((_, i) => (
                   <div
@@ -500,13 +570,9 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                     <div className="relative h-56 overflow-hidden">
                       {blog.featuredImage || blog.banner ? (
                         <img
-                          src={
-                            blog.banner ||
-                            blog.banner ||
-                            "/placeholder-blog.jpg"
-                          }
+                          src={blog.featuredImage || blog.banner}
                           alt={blog.title}
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-full"
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center">
@@ -569,7 +635,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                         {blog.categories.slice(0, 2).map((category) => (
                           <button
                             key={category._id}
-                            onClick={() => setActiveCategory(category._id)}
+                            onClick={() => handleCategoryChange(category._id)}
                             className="px-3 py-1 text-xs font-medium rounded-full transition-colors hover:scale-105"
                             style={{
                               backgroundColor: category.color || "#e5e7eb",
@@ -649,7 +715,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
             )}
 
             {/* No Results */}
-            {!loading && blogs.length === 0 && (
+            {!blogsLoading && blogs.length === 0 && (
               <div className="text-center py-16">
                 <div className="max-w-md mx-auto">
                   <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
@@ -685,10 +751,10 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
             )}
 
             {/* Pagination */}
-            {totalPages > 1 && (
+            {totalPages > 1 && !blogsLoading && (
               <div className="flex justify-center items-center gap-3 mt-12">
                 <button
-                  onClick={() => fetchBlogs(currentPage - 1)}
+                  onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                   className="px-6 py-3 bg-white border border-gray-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium shadow-sm"
                 >
@@ -701,7 +767,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                     return (
                       <button
                         key={page}
-                        onClick={() => fetchBlogs(page)}
+                        onClick={() => handlePageChange(page)}
                         className={`w-10 h-10 rounded-lg font-medium transition-colors ${
                           currentPage === page
                             ? "bg-blue-600 text-white shadow-lg"
@@ -715,7 +781,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                 </div>
 
                 <button
-                  onClick={() => fetchBlogs(currentPage + 1)}
+                  onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                   className="px-6 py-3 bg-white border border-gray-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium shadow-sm"
                 >
@@ -728,7 +794,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
       </div>
 
       {/* Error Toast */}
-      {error && (
+      {(blogsError || seriesError || categoriesError) && (
         <div className="fixed bottom-4 right-4 bg-red-500 text-white px-6 py-4 rounded-xl shadow-lg">
           <div className="flex items-center">
             <svg
@@ -742,7 +808,7 @@ export default function BlogLandingPage({ initialBlogs = [] }: BlogListProps) {
                 clipRule="evenodd"
               />
             </svg>
-            Error: {error}
+            Error: {(blogsError || seriesError || categoriesError)?.message}
           </div>
         </div>
       )}
