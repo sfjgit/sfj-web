@@ -315,11 +315,13 @@ export default function BlogLandingPage() {
                     {/* Featured Image */}
                     <div className="relative h-56 overflow-hidden">
                       {blog.featuredImage || blog.banner ? (
-                        <img
-                          src={blog.featuredImage || blog.banner}
-                          alt={blog.title}
-                          className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-full"
-                        />
+                        <Link href={`/blog/${blog.slug}`}>
+                          <img
+                            src={blog.featuredImage || blog.banner}
+                            alt={blog.title}
+                            className=" group-hover:scale-105 transition-transform duration-300 w-full h-56"
+                          />
+                        </Link>
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 flex items-center justify-center">
                           <div className="text-white text-center">
@@ -434,20 +436,6 @@ export default function BlogLandingPage() {
                               />
                             </svg>
                             {blog.viewCount}
-                          </span>
-                          <span className="flex items-center">
-                            <svg
-                              className="w-4 h-4 mr-1"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            {blog.likeCount}
                           </span>
                         </div>
                         <time className="text-gray-500">

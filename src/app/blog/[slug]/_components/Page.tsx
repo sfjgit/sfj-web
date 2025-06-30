@@ -73,12 +73,7 @@ interface Blog {
     readTime: number;
     publishedAt?: string;
   }>;
-  series?: {
-    seriesId: string;
-    order: number;
-    name?: string;
-    totalBlogs?: number;
-  };
+  series?: string;
   seo: {
     metaTitle: string;
     metaDescription: string;
@@ -87,6 +82,17 @@ interface Blog {
   };
   createdAt: string;
   updatedAt: string;
+}
+
+interface SeriesRelatedBlog {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  banner?: string;
+  featuredImage?: string;
+  readTime: number;
+  publishedAt?: string;
 }
 
 interface Series {
@@ -133,6 +139,32 @@ const fetchCategories = async (): Promise<Category[]> => {
   return data.data || data;
 };
 
+// New function to fetch related blogs by series ID
+const fetchSeriesRelatedBlogs = async (
+  seriesId: string,
+  currentBlogId: string
+): Promise<SeriesRelatedBlog[]> => {
+  const queryParams = new URLSearchParams({
+    seriesId: seriesId,
+    status: "published",
+    limit: "10",
+  });
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs?${queryParams}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch series related blogs");
+  }
+
+  const data = await response.json();
+  const blogs = data.data || data;
+
+  // Filter out the current blog
+  return blogs.filter((blog: SeriesRelatedBlog) => blog._id !== currentBlogId);
+};
+
 export default function SingleBlogPage() {
   const params = useParams();
   const slug = params?.slug as string;
@@ -146,6 +178,9 @@ export default function SingleBlogPage() {
   const [allSeries, setAllSeries] = useState<Series[]>([]);
   const [currentSeries, setCurrentSeries] = useState<SeriesBlog[]>([]);
   const [seriesLoading, setSeriesLoading] = useState(true);
+  const [seriesRelatedBlogs, setSeriesRelatedBlogs] = useState<
+    SeriesRelatedBlog[]
+  >([]);
 
   const {
     data: categories = [],
@@ -216,6 +251,22 @@ export default function SingleBlogPage() {
     }
   };
 
+  // New function to load series related blogs
+  const loadSeriesRelatedBlogs = async (
+    seriesId: string,
+    currentBlogId: string
+  ) => {
+    try {
+      const relatedBlogs = await fetchSeriesRelatedBlogs(
+        seriesId,
+        currentBlogId
+      );
+      setSeriesRelatedBlogs(relatedBlogs);
+    } catch (err) {
+      console.error("Failed to fetch series related blogs:", err);
+    }
+  };
+
   // Track scroll for table of contents
   useEffect(() => {
     if (!blog?.tableOfContents?.length) return;
@@ -248,8 +299,10 @@ export default function SingleBlogPage() {
   }, [slug]);
 
   useEffect(() => {
-    if (blog?.series?.seriesId) {
-      fetchCurrentSeries(blog.series.seriesId);
+    if (blog?.series) {
+      fetchCurrentSeries(blog.series);
+      // Load series related blogs
+      loadSeriesRelatedBlogs(blog.series, blog._id);
     }
   }, [blog]);
 
@@ -511,43 +564,6 @@ export default function SingleBlogPage() {
       {/* Header Section */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8">
-          {/* Breadcrumb */}
-          {/* <nav className="text-sm text-gray-500 mb-6">
-            <Link
-              href="/blog"
-              className="hover:text-blue-600 transition-colors"
-            >
-              Blog
-            </Link>
-            {blog.categories.length > 0 && (
-              <>
-                <span className="mx-2">/</span>
-                <Link
-                  href={`/blog/category/${blog.categories[0].slug}`}
-                  className="hover:text-blue-600 transition-colors"
-                >
-                  {blog.categories[0].name}
-                </Link>
-              </>
-            )}
-          </nav> */}
-
-          {/* Categories */}
-          {/* <div className="flex flex-wrap gap-2 mb-6">
-            {blog.categories.map((category) => (
-              <Link
-                key={category._id}
-                href={`/blog/category/${category.slug}`}
-                className="px-3 py-1 rounded-full text-sm font-medium transition-all hover:scale-105"
-                style={{
-                  backgroundColor: category.color || "#e5e7eb",
-                  color: category.color ? "#fff" : "#374151",
-                }}
-              >
-                {category.name}
-              </Link>
-            ))}
-          </div> */}
           <div className="flex items-center gap-8">
             <div>
               {/* Title */}
@@ -600,23 +616,10 @@ export default function SingleBlogPage() {
                   </svg>
                   {blog.viewCount} views
                 </span>
-                <span className="flex items-center">
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  {likeCount} likes
-                </span>
+
                 {blog.difficulty && (
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium border ${getDifficultyColor(
+                    className={`px-3 py-1 rounded-full text-sm font-medium border capitalize ${getDifficultyColor(
                       blog.difficulty
                     )}`}
                   >
@@ -624,23 +627,6 @@ export default function SingleBlogPage() {
                   </span>
                 )}
               </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleShare}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                </svg>
-                Share
-              </button>
             </div>
           </div>
         </div>
@@ -659,29 +645,6 @@ export default function SingleBlogPage() {
                   alt={blog.title}
                   className="w-full h-full object-cover"
                 />
-              </div>
-            )}
-
-            {/* Series Info */}
-            {blog.series && (
-              <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-lg font-semibold text-purple-900 mb-2">
-                      📚 Part of "{blog.series.name}" Series
-                    </h3>
-                    <p className="text-purple-700">
-                      Article {blog.series.order} of{" "}
-                      {blog.series.totalBlogs || "many"}
-                    </p>
-                  </div>
-                  <Link
-                    href={`/blog/series/${blog.series.seriesId}`}
-                    className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
-                  >
-                    View Series
-                  </Link>
-                </div>
               </div>
             )}
 
@@ -739,24 +702,12 @@ export default function SingleBlogPage() {
                     .map(renderContentBlock)
                 ) : (
                   <>
-                    <div
-                      className="content-html leading-relaxed text-gray-700 prose prose-lg max-w-none
-    prose-headings:font-bold prose-headings:text-gray-900 
-    prose-h1:text-3xl prose-h1:mb-6 prose-h1:mt-8
-    prose-h2:text-2xl prose-h2:mb-5 prose-h2:mt-8  
-    prose-h3:text-xl prose-h3:mb-4 prose-h3:mt-6
-    prose-p:mb-4 prose-p:leading-relaxed
-    prose-ul:mb-4 prose-ol:mb-4 prose-li:mb-2
-    prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-4 prose-blockquote:my-6
-    prose-img:rounded-lg prose-img:my-6
-    prose-pre:bg-gray-900 prose-pre:text-green-400 prose-pre:my-6
-    prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded"
-                      dangerouslySetInnerHTML={{ __html: blog.content }}
-                    />
-                    {/* <div
-                      className="content-html leading-relaxed text-gray-700"
-                      dangerouslySetInnerHTML={{ __html: blog.content }}
-                    /> */}
+                    <div className="">
+                      <div
+                        className="prose prose-lg max-w-none [&_p]:mb-4 [&_h1]:my-6 [&_h1]:first:mt-0 [&_h2]:my-6 [&_h2]:first:mt-0 [&_h3]:my-6 [&_h3]:first:mt-0 [&_h4]:my-4 [&_h4]:first:mt-0 [&_h5]:my-4 [&_h5]:first:mt-0 [&_h6]:my-4 [&_h6]:first:mt-0 [&_ul]:mb-4 [&_ol]:mb-4 [&_li]:mb-1 [&_blockquote]:my-6 [&_pre]:my-6 [&_img]:my-6 [&_table]:my-6 [&_hr]:my-6"
+                        dangerouslySetInnerHTML={{ __html: blog.content }}
+                      />
+                    </div>
                   </>
                 )}
               </div>
@@ -816,7 +767,7 @@ export default function SingleBlogPage() {
                   >
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  {blog.series.name} Series
+                  {blog.series} Series
                 </h3>
                 <div className="space-y-3">
                   {currentSeries.slice(0, 5).map((seriesBlog) => (
@@ -860,7 +811,7 @@ export default function SingleBlogPage() {
 
                 {currentSeries.length > 5 && (
                   <Link
-                    href={`/blog/series/${blog.series.seriesId}`}
+                    href={`/blog/series/${blog.series}`}
                     className="block w-full text-center py-2 mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm"
                   >
                     View all {currentSeries.length} articles
@@ -869,84 +820,111 @@ export default function SingleBlogPage() {
               </div>
             )}
 
-            {/* Other Series */}
-
-            {!seriesLoading && allSeries.length > 0 && (
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="font-bold text-gray-900 mb-4 flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                  </svg>
-                  Related Posts
+            {/* Series Related Articles */}
+            {seriesRelatedBlogs.length > 0 && (
+              <div className="   rounded-lg p-6">
+                <h3 className="font-bold text-gray-900 mb-6 flex items-center">
+                  More from this Topics
                 </h3>
-                <div className="space-y-3">
-                  {allSeries
-                    .filter((series) => series._id !== blog?.series?.seriesId)
-                    .slice(0, 4)
-                    .map((series) => (
-                      <Link
-                        key={series._id}
-                        href={`/blog/series/${series._id}`}
-                        className="block p-3 hover:bg-gray-50 rounded-lg transition-colors"
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
-                            {series.thumbnail ? (
-                              <img
-                                src={series.thumbnail}
-                                alt={series.name}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-blue-500 flex items-center justify-center">
+                <div className="space-y-4">
+                  {seriesRelatedBlogs.slice(0, 4).map((relatedBlog) => (
+                    <Link
+                      key={relatedBlog._id}
+                      href={`/blog/${relatedBlog.slug}`}
+                      className="block group"
+                    >
+                      <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden hover:border-gray-300">
+                        {/* Card Image */}
+                        <div className="relative h-32 overflow-hidden">
+                          {relatedBlog.banner || relatedBlog.featuredImage ? (
+                            <img
+                              src={
+                                relatedBlog.banner ||
+                                relatedBlog.featuredImage ||
+                                ""
+                              }
+                              alt={relatedBlog.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                              <svg
+                                className="w-8 h-8 text-white opacity-80"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Card Content */}
+                        <div className="p-4">
+                          <h4 className="font-semibold text-sm text-gray-900 group-hover:text-blue-600 line-clamp-2 transition-colors mb-2 leading-tight">
+                            {relatedBlog.title}
+                          </h4>
+
+                          {relatedBlog.summary && (
+                            <p className="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed">
+                              {relatedBlog.summary}
+                            </p>
+                          )}
+
+                          {/* Card Meta */}
+                          <div className="flex items-center justify-between">
+                            {relatedBlog.readTime && (
+                              <div className="flex items-center text-xs text-gray-400">
                                 <svg
-                                  className="w-6 h-6 text-white"
+                                  className="w-3 h-3 mr-1"
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                 >
-                                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                    clipRule="evenodd"
+                                  />
                                 </svg>
+                                {relatedBlog.readTime} min read
                               </div>
                             )}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold text-sm text-gray-900 group-hover:text-blue-600 line-clamp-2">
-                              {series.name}
-                            </h4>
-                            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                              {series.description}
-                            </p>
-                            <div className="flex items-center mt-2 text-xs text-gray-400">
-                              <span>{series.blogCount} articles</span>
-                              {series.difficulty && (
-                                <>
-                                  <span className="mx-1">•</span>
-                                  <span className="capitalize">
-                                    {series.difficulty}
-                                  </span>
-                                </>
-                              )}
-                            </div>
+
+                            {relatedBlog.publishedAt && (
+                              <span className="text-xs text-gray-400">
+                                {new Date(
+                                  relatedBlog.publishedAt
+                                ).toLocaleDateString("en-US", {
+                                  month: "short",
+                                  day: "numeric",
+                                })}
+                              </span>
+                            )}
                           </div>
                         </div>
-                      </Link>
-                    ))}
+                      </div>
+                    </Link>
+                  ))}
                 </div>
 
-                <Link
-                  href="/blog/series"
-                  className="block w-full text-center py-2 mt-4 text-blue-600 hover:text-blue-700 font-medium text-sm"
-                >
-                  View All posts
-                </Link>
+                {seriesRelatedBlogs.length > 4 && (
+                  <div className="mt-6 pt-4 border-t border-gray-100">
+                    <Link
+                      href={`/blog/series/${blog.series}`}
+                      className="block w-full text-center py-3 px-4 bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700 font-medium text-sm rounded-lg transition-colors"
+                    >
+                      View {seriesRelatedBlogs.length - 4} more articles →
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Related Articles */}
+            {/* Original Related Articles (if available) */}
             {blog.relatedBlogs && blog.relatedBlogs.length > 0 && (
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-gray-900 mb-4 flex items-center">
