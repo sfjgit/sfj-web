@@ -629,27 +629,6 @@ export default function SingleBlogPage() {
             {/* Actions */}
             <div className="flex items-center gap-3">
               <button
-                onClick={handleLike}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                  isLiked
-                    ? "bg-red-500 text-white hover:bg-red-600"
-                    : "bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600"
-                }`}
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {isLiked ? "Liked" : "Like"} ({likeCount})
-              </button>
-              <button
                 onClick={handleShare}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
