@@ -91,7 +91,7 @@ const AnimatedHeader = () => {
 
   const services = [
     {
-      path: "/services/knowledge-as-service",
+      path: "/services/corporate-it-training-programs",
       label: "Corporate Training",
       description: "640+ specialized courses to boost your career and skills",
     },

@@ -27,7 +27,7 @@ const offerings = [
     cta: "Explore",
     secondaryCta: "Browse Courses",
     img: "/app/home/B2B.png",
-    link: "/services/knowledge-as-service",
+    link: "/services/corporate-it-training-programs",
     clients: "200+",
     features: [
       "AI-Driven Learning",

@@ -63,7 +63,7 @@ const HeroServicesSection = () => {
       description: "640+ specialized courses to boost your career and skills",
       cta: "Start Learning",
       img: "/app/home/knowledge-as-service.png",
-      link: "/services/knowledge-as-service",
+      link: "/services/corporate-it-training-programs",
       clients: "200+",
     },
     {
