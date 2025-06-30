@@ -45,6 +45,26 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.sfjbs.com/services/it-staffing-company",
   },
+  other: {
+    "script:ld+json": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.sfjbs.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "IT Staffing Company",
+          item: "https://www.sfjbs.com/services/it-staffing-company",
+        },
+      ],
+    }),
+  },
 };
 export default function ITStaffingPage() {
   const services = [

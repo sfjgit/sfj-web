@@ -4,7 +4,6 @@ import { Metadata } from "next";
 import ClientProvider from "./_components/ClientProvider";
 import Navigation from "@/components/Navigation";
 import Script from "next/script";
-
 export const metadata: Metadata = {
   title:
     "SFJ Business Solutions | IT Training, Talent Services & Digital Transformation",
@@ -31,6 +30,67 @@ export const metadata: Metadata = {
   other: {
     googlebot:
       "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
+    // Organization Schema
+    "script:ld+json:organization": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "SFJ Business Solutions",
+      url: "https://www.sfjbs.com",
+      logo: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/public/image/1751274803180_so6m88f31ti_SFJ_.png",
+      description:
+        "SFJBS is committed to upskilling India for the AI era through enterprise training and cutting-edge technology solutions. With over 14 years of expertise, we empower organizations with tailored learning programs, IT consulting, and tech-driven strategies to build future-ready teams and accelerate innovation across industries.",
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: "+91-9845348601",
+          contactType: "customer service",
+          areaServed: "IN",
+          availableLanguage: ["English"],
+        },
+      ],
+      sameAs: [
+        "https://www.linkedin.com/company/sfj-business-solutions-pvt-ltd-/",
+        "https://www.facebook.com/SFJBusinessSolutions",
+        "https://www.facebook.com/sfjbsofficial",
+      ],
+    }),
+    // Local Business / Educational Organization Schema
+    "script:ld+json:localbusiness": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      name: "SFJ Business Solutions",
+      image:
+        "https://bskilling-documents.s3.ap-south-1.amazonaws.com/public/image/1751274803180_so6m88f31ti_SFJ_.png",
+      url: "https://www.sfjbs.com",
+      telephone: "+91-9845348601",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress:
+          "Uma Sree Dream World, Unit -2, B-Block, 4th Floor, Kudlu Gate, Hosur Main Road",
+        addressLocality: "Bangalore",
+        addressRegion: "Karnataka",
+        postalCode: "560068",
+        addressCountry: "IN",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 12.891054,
+        longitude: 77.647187,
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "09:00",
+          closes: "18:30",
+        },
+      ],
+      sameAs: [
+        "https://www.linkedin.com/company/sfj-business-solutions-pvt-ltd-/",
+        "https://www.facebook.com/SFJBusinessSolutions",
+        "https://www.facebook.com/sfjbsofficial",
+      ],
+    }),
   },
 };
 

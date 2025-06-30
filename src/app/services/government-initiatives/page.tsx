@@ -25,6 +25,26 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.sfjbs.com/services/government-initiatives",
   },
+  other: {
+    "script:ld+json": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.sfjbs.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Government Initiatives",
+          item: "https://www.sfjbs.com/services/government-initiatives",
+        },
+      ],
+    }),
+  },
 };
 export default function page() {
   return (

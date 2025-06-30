@@ -1,6 +1,7 @@
 import React from "react";
 import CareersWrapper from "./_components/CareersWrapper";
 import { Metadata } from "next";
+
 export const metadata: Metadata = {
   title: "IT Careers & Job Openings | Join the SFJBS Team",
   description:
@@ -22,6 +23,26 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://www.sfjbs.com/careers",
+  },
+  other: {
+    "script:ld+json": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.sfjbs.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Careers",
+          item: "https://www.sfjbs.com/careers",
+        },
+      ],
+    }),
   },
 };
 export default function page() {

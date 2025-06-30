@@ -49,14 +49,14 @@ const Footer = () => {
             "Training for engineering, MBA, and arts & science students",
         },
         {
-          path: "/services/knowledge-as-service",
+          path: "/services/corporate-it-training-programs",
           label: "Knowledge as a Service",
           icon: BookOpen,
           description:
             "640+ specialized courses to boost your career and skills",
         },
         {
-          path: "/services/talent-as-service",
+          path: "/services/it-staffing-company",
           label: "Talent as a Service",
           icon: Users,
           description:
