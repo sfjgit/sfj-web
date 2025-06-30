@@ -81,8 +81,8 @@ const fetchBlogs = async (params: {
     status: "published",
   });
 
-  if (params.categoryId) queryParams.append("categoryId", params.categoryId);
-  if (params.seriesId) queryParams.append("seriesId", params.seriesId);
+  if (params.categoryId) queryParams.append("category", params.categoryId);
+  if (params.seriesId) queryParams.append("series", params.seriesId);
   if (params.search) queryParams.append("search", params.search);
 
   const response = await fetch(
@@ -319,7 +319,7 @@ export default function BlogLandingPage() {
                           <img
                             src={blog.featuredImage || blog.banner}
                             alt={blog.title}
-                            className=" group-hover:scale-105 transition-transform duration-300 w-full h-56"
+                            className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-56"
                           />
                         </Link>
                       ) : (
@@ -343,25 +343,6 @@ export default function BlogLandingPage() {
                         </div>
                       )}
 
-                      {/* Badges */}
-                      {/* <div className="absolute top-4 left-4 flex gap-2">
-                        {blog.isPinned && (
-                          <span className="bg-red-500 text-white px-3 py-1 text-xs font-medium rounded-full shadow-lg">
-                            📌 Pinned
-                          </span>
-                        )}
-                        {blog.isFeatured && (
-                          <span className="bg-amber-500 text-white px-3 py-1 text-xs font-medium rounded-full shadow-lg">
-                            ⭐ Featured
-                          </span>
-                        )}
-                        {blog.isTopPick && (
-                          <span className="bg-emerald-500 text-white px-3 py-1 text-xs font-medium rounded-full shadow-lg">
-                            🏆 Top Pick
-                          </span>
-                        )}
-                      </div> */}
-
                       {/* Difficulty Badge */}
                       {blog.difficulty && (
                         <div className="absolute top-4 right-4">
@@ -378,23 +359,6 @@ export default function BlogLandingPage() {
 
                     {/* Content */}
                     <div className="p-6 border-t border-gray-300">
-                      {/* Categories */}
-                      {/* <div className="flex flex-wrap gap-2 mb-4">
-                        {blog.categories.slice(0, 2).map((category) => (
-                          <button
-                            key={category._id}
-                            onClick={() => handleCategoryChange(category._id)}
-                            className="px-3 py-1 text-xs font-medium rounded-full transition-colors hover:scale-105"
-                            style={{
-                              backgroundColor: category.color || "#e5e7eb",
-                              color: category.color ? "#fff" : "#374151",
-                            }}
-                          >
-                            {category.name}
-                          </button>
-                        ))}
-                      </div> */}
-
                       {/* Title */}
                       <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                         <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
