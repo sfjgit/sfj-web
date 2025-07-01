@@ -25,7 +25,7 @@ const OfficeSelector = () => {
         "Hosur Main Road,",
         "Bangalore – 560068. Karnataka, INDIA",
       ],
-      phone: "+91 80 4158333",
+      phone: "+91 9845348601 ",
       email: "sales@sfjbs.com",
     },
     uae: {
