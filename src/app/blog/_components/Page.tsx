@@ -306,27 +306,30 @@ export default function BlogLandingPage() {
                 ))}
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {blogs.map((blog) => (
                   <article
                     key={blog._id}
-                    className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200"
+                    className="group bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-gray-200 hover:-translate-y-2"
                   >
-                    {/* Featured Image */}
-                    <div className="relative h-56 overflow-hidden">
+                    {/* Featured Image Container */}
+                    <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
                       {blog.featuredImage || blog.banner ? (
-                        <Link href={`/blog/${blog.slug}`}>
+                        <Link
+                          href={`/blog/${blog.slug}`}
+                          className="block w-full h-full"
+                        >
                           <img
                             src={blog.featuredImage || blog.banner}
                             alt={blog.title}
-                            className="object-cover group-hover:scale-105 transition-transform duration-300 w-full h-56"
+                            className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 p-4"
                           />
                         </Link>
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 flex items-center justify-center">
-                          <div className="text-white text-center">
+                        <div className="w-full h-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center">
+                          <div className="text-gray-400 text-center">
                             <svg
-                              className="w-12 h-12 mx-auto mb-2 opacity-80"
+                              className="w-16 h-16 mx-auto mb-3 opacity-60"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -336,8 +339,8 @@ export default function BlogLandingPage() {
                                 clipRule="evenodd"
                               />
                             </svg>
-                            <span className="text-sm font-medium opacity-90">
-                              No Image
+                            <span className="text-sm font-medium">
+                              No Image Available
                             </span>
                           </div>
                         </div>
@@ -347,7 +350,7 @@ export default function BlogLandingPage() {
                       {blog.difficulty && (
                         <div className="absolute top-4 right-4">
                           <span
-                            className={`px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm border capitalize ${getDifficultyColor(
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-full backdrop-blur-md border shadow-lg capitalize ${getDifficultyColor(
                               blog.difficulty
                             )}`}
                           >
@@ -355,26 +358,35 @@ export default function BlogLandingPage() {
                           </span>
                         </div>
                       )}
+
+                      {/* Gradient Overlay for better text readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6 border-t border-gray-300">
+                    {/* Content Section */}
+                    <div className="p-6">
                       {/* Title */}
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        <Link href={`/blog/${blog.slug}`}>{blog.title}</Link>
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-indigo-600 transition-colors duration-300 leading-tight">
+                        <Link
+                          href={`/blog/${blog.slug}`}
+                          className="hover:underline"
+                        >
+                          {blog.title}
+                        </Link>
                       </h3>
 
                       {/* Summary */}
-                      <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+                      <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed text-sm">
                         {blog.summary}
                       </p>
 
                       {/* Meta Info */}
-                      <div className="flex items-center justify-between text-sm text-gray-500 border-t border-gray-100 pt-4">
-                        <div className="flex items-center space-x-4">
-                          <span className="flex items-center">
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div className="flex items-center space-x-4 text-sm text-gray-500">
+                          {/* Read Time */}
+                          <div className="flex items-center space-x-1">
                             <svg
-                              className="w-4 h-4 mr-1"
+                              className="w-4 h-4 text-gray-400"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -384,11 +396,15 @@ export default function BlogLandingPage() {
                                 clipRule="evenodd"
                               />
                             </svg>
-                            {blog.readTime} min
-                          </span>
-                          <span className="flex items-center">
+                            <span className="font-medium">
+                              {blog.readTime}m
+                            </span>
+                          </div>
+
+                          {/* View Count */}
+                          <div className="flex items-center space-x-1">
                             <svg
-                              className="w-4 h-4 mr-1"
+                              className="w-4 h-4 text-gray-400"
                               fill="currentColor"
                               viewBox="0 0 20 20"
                             >
@@ -399,13 +415,40 @@ export default function BlogLandingPage() {
                                 clipRule="evenodd"
                               />
                             </svg>
-                            {blog.viewCount}
-                          </span>
+                            <span className="font-medium">
+                              {blog.viewCount > 1000
+                                ? `${(blog.viewCount / 1000).toFixed(1)}k`
+                                : blog.viewCount}
+                            </span>
+                          </div>
                         </div>
-                        <time className="text-gray-500">
+
+                        {/* Date */}
+                        <time className="text-xs text-gray-400 font-medium">
                           {formatDate(blog.publishedAt || blog.createdAt)}
                         </time>
                       </div>
+                    </div>
+
+                    {/* Optional: Read More Button */}
+                    <div className="px-6 pb-6">
+                      <Link
+                        href={`/blog/${blog.slug}`}
+                        className="inline-flex items-center text-indigo-600 hover:text-indigo-700 text-sm font-semibold group/link"
+                      >
+                        Read Article
+                        <svg
+                          className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-200"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </Link>
                     </div>
                   </article>
                 ))}

@@ -99,6 +99,7 @@ const Navigation = () => {
       hasChildren: false,
     },
     { path: "/careers", label: "Careers", hasChildren: false },
+    { path: "/blog", label: "Blogs", hasChildren: false },
     // { path: "/partners", label: "Partners", hasChildren: false },
 
     { path: "/about", label: "About Us", hasChildren: false },
