@@ -243,444 +243,393 @@ export default function BlogLandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 mt-20">
-      {/* Hero Section - Calm gradient */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
-              Empowering You with AI & Future Skills Insights
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 leading-relaxed text-blue-100">
-              Dive into expert articles, industry trends, and practical guides
-              on Generative AI, emerging technologies, and workforce
-              transformation. Stay ahead with knowledge that drives growth,
-              innovation, and impact.
-            </p>
-          </div>
+      <div className="w-full mx-auto sm:px-6 lg:px-10 py-12 2xl:px-20 xl:px-12">
+        {/* Main Heading */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+            Blogs
+          </h1>
         </div>
-      </div>
 
-      <div className="w-full  mx-auto  sm:px-6 lg:px-10 py-12 2xl:px-20 xl:px-12">
-        <div className="flex flex-col xl:flex-row gap-12">
-          {/* Main Content - Blog Grid */}
-          <div className="flex-1">
-            {/* Results Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900">
-                  {activeCategory || activeSeries || searchQuery
-                    ? "Filtered Results"
-                    : "Latest Articles"}
-                </h2>
-                <p className="text-gray-600 mt-2">
-                  {blogs.length} {blogs.length === 1 ? "article" : "articles"}{" "}
-                  found
-                </p>
-              </div>
-              {blogsLoading && (
-                <div className="flex items-center text-blue-600">
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-600 border-t-transparent mr-2"></div>
-                  Loading...
+        {/* Categories Section */}
+        {!categoriesLoading && categories.length > 0 && (
+          <div className="mb-8">
+            <div className="flex flex-wrap justify-center gap-3">
+              {categories.map((category) => (
+                <button
+                  key={category._id}
+                  onClick={() => handleCategoryChange(category._id)}
+                  className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center space-x-2 ${
+                    activeCategory === category._id
+                      ? "bg-blue-600 text-white"
+                      : "bg-white/70 backdrop-blur-sm text-gray-700 hover:bg-white hover:text-gray-900 border border-gray-200"
+                  }`}
+                >
+                  <div
+                    className={`w-2 h-2 rounded-full ${
+                      activeCategory === category._id ? "bg-white" : ""
+                    }`}
+                    style={{
+                      backgroundColor:
+                        activeCategory === category._id
+                          ? "white"
+                          : category.color || "#e5e7eb",
+                    }}
+                  />
+                  <span className="font-medium text-sm">{category.name}</span>
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full ${
+                      activeCategory === category._id
+                        ? "bg-white/20 text-white"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {category.blogCount}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Active Filters */}
+        {(activeCategory || activeSeries || searchQuery) && (
+          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-gray-900">Active Filters</h3>
+              <button
+                onClick={clearFilters}
+                className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+              >
+                Clear All
+              </button>
+            </div>
+            <div className="space-y-2">
+              {activeCategory && (
+                <div className="flex items-center justify-between bg-blue-50 px-3 py-2 rounded-lg">
+                  <span className="text-sm text-blue-800">
+                    Category:{" "}
+                    {categories.find((c) => c._id === activeCategory)?.name}
+                  </span>
+                  <button
+                    onClick={() => handleCategoryChange("")}
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              )}
+              {activeSeries && (
+                <div className="flex items-center justify-between bg-purple-50 px-3 py-2 rounded-lg">
+                  <span className="text-sm text-purple-800">
+                    Series: {series.find((s) => s._id === activeSeries)?.name}
+                  </span>
+                  <button
+                    onClick={() => handleSeriesChange("")}
+                    className="text-purple-600 hover:text-purple-800"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              )}
+              {searchQuery && (
+                <div className="flex items-center justify-between bg-green-50 px-3 py-2 rounded-lg">
+                  <span className="text-sm text-green-800">
+                    Search: "{searchQuery}"
+                  </span>
+                  <button
+                    onClick={() => handleSearchChange("")}
+                    className="text-green-600 hover:text-green-800"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
                 </div>
               )}
             </div>
+          </div>
+        )}
 
-            {/* Blog Grid */}
-            {blogsLoading && !blogs.length ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {[...Array(6)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
-                  >
-                    <div className="h-48 bg-gray-200"></div>
-                    <div className="p-6 space-y-4">
-                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                      <div className="space-y-2">
-                        <div className="h-3 bg-gray-200 rounded"></div>
-                        <div className="h-3 bg-gray-200 rounded w-5/6"></div>
-                      </div>
-                    </div>
+        {/* Results Header */}
+        <div className="flex items-center justify-between mb-6">
+          <p className="text-gray-600">
+            {blogs.length} {blogs.length === 1 ? "article" : "articles"} found
+          </p>
+          {blogsLoading && (
+            <div className="flex items-center text-blue-600">
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent mr-2"></div>
+              Loading...
+            </div>
+          )}
+        </div>
+
+        {/* Blog Grid */}
+        {blogsLoading && !blogs.length ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
+              >
+                <div className="h-48 bg-gray-200"></div>
+                <div className="p-6 space-y-4">
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-gray-200 rounded"></div>
+                    <div className="h-3 bg-gray-200 rounded w-5/6"></div>
                   </div>
-                ))}
+                </div>
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {blogs.map((blog) => (
-                  <article
-                    key={blog._id}
-                    className="group bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 hover:border-gray-200 hover:-translate-y-2"
-                  >
-                    {/* Featured Image Container */}
-                    <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
-                      {blog.featuredImage || blog.banner ? (
-                        <Link
-                          href={`/blog/${blog.slug}`}
-                          className="block w-full h-full"
-                        >
-                          <img
-                            src={blog.featuredImage || blog.banner}
-                            alt={blog.title}
-                            className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 p-4"
-                          />
-                        </Link>
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center">
-                          <div className="text-gray-400 text-center">
-                            <svg
-                              className="w-16 h-16 mx-auto mb-3 opacity-60"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span className="text-sm font-medium">
-                              No Image Available
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Difficulty Badge */}
-                      {blog.difficulty && (
-                        <div className="absolute top-4 right-4">
-                          <span
-                            className={`px-3 py-1.5 text-xs font-semibold rounded-full backdrop-blur-md border shadow-lg capitalize ${getDifficultyColor(
-                              blog.difficulty
-                            )}`}
-                          >
-                            {blog.difficulty}
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Gradient Overlay for better text readability */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-
-                    {/* Content Section */}
-                    <div className="p-6">
-                      {/* Title */}
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-indigo-600 transition-colors duration-300 leading-tight">
-                        <Link
-                          href={`/blog/${blog.slug}`}
-                          className="hover:underline"
-                        >
-                          {blog.title}
-                        </Link>
-                      </h3>
-
-                      {/* Summary */}
-                      <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed text-sm">
-                        {blog.summary}
-                      </p>
-
-                      {/* Meta Info */}
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                        <div className="flex items-center space-x-4 text-sm text-gray-500">
-                          {/* Read Time */}
-                          <div className="flex items-center space-x-1">
-                            <svg
-                              className="w-4 h-4 text-gray-400"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span className="font-medium">
-                              {blog.readTime}m
-                            </span>
-                          </div>
-
-                          {/* View Count */}
-                          <div className="flex items-center space-x-1">
-                            <svg
-                              className="w-4 h-4 text-gray-400"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                              <path
-                                fillRule="evenodd"
-                                d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span className="font-medium">
-                              {blog.viewCount > 1000
-                                ? `${(blog.viewCount / 1000).toFixed(1)}k`
-                                : blog.viewCount}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Date */}
-                        <time className="text-xs text-gray-400 font-medium">
-                          {formatDate(blog.publishedAt || blog.createdAt)}
-                        </time>
-                      </div>
-                    </div>
-
-                    {/* Optional: Read More Button */}
-                    <div className="px-6 pb-6">
-                      <Link
-                        href={`/blog/${blog.slug}`}
-                        className="inline-flex items-center text-indigo-600 hover:text-indigo-700 text-sm font-semibold group/link"
-                      >
-                        Read Article
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mb-12">
+            {blogs.map((blog) => (
+              <article
+                key={blog._id}
+                className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 hover:-translate-y-1"
+              >
+                {/* Featured Image Container */}
+                <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                  {blog.featuredImage || blog.banner ? (
+                    <Link
+                      href={`/blog/${blog.slug}`}
+                      className="block w-full h-full"
+                    >
+                      <img
+                        src={blog.featuredImage || blog.banner}
+                        alt={blog.title}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </Link>
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+                      <div className="text-gray-400 text-center">
                         <svg
-                          className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform duration-200"
+                          className="w-12 h-12 mx-auto mb-2 opacity-50"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
                           <path
                             fillRule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
                             clipRule="evenodd"
                           />
                         </svg>
-                      </Link>
+                        <span className="text-xs font-medium">No Image</span>
+                      </div>
                     </div>
-                  </article>
-                ))}
-              </div>
-            )}
+                  )}
 
-            {/* No Results */}
-            {!blogsLoading && blogs.length === 0 && (
-              <div className="text-center py-16">
-                <div className="max-w-md mx-auto">
-                  <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                  {/* Difficulty Badge */}
+                  {blog.difficulty && (
+                    <div className="absolute top-3 right-3">
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-full backdrop-blur-sm border shadow-sm capitalize ${getDifficultyColor(
+                          blog.difficulty
+                        )}`}
+                      >
+                        {blog.difficulty}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Content Section */}
+                <div className="p-5">
+                  {/* Title */}
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200 leading-snug">
+                    <Link
+                      href={`/blog/${blog.slug}`}
+                      className="hover:underline"
+                    >
+                      {blog.title}
+                    </Link>
+                  </h3>
+
+                  {/* Summary */}
+                  <p className="text-gray-600 mb-4 line-clamp-2 leading-relaxed text-sm">
+                    {blog.summary}
+                  </p>
+
+                  {/* Meta Info */}
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                    <div className="flex items-center space-x-3 text-xs text-gray-500">
+                      {/* Read Time */}
+                      <div className="flex items-center space-x-1">
+                        <svg
+                          className="w-3 h-3 text-gray-400"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span className="font-medium">{blog.readTime}m</span>
+                      </div>
+
+                      {/* View Count */}
+                      <div className="flex items-center space-x-1">
+                        <svg
+                          className="w-3 h-3 text-gray-400"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                          <path
+                            fillRule="evenodd"
+                            d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span className="font-medium">
+                          {blog.viewCount > 1000
+                            ? `${(blog.viewCount / 1000).toFixed(1)}k`
+                            : blog.viewCount}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Date */}
+                    <time className="text-xs text-gray-400 font-medium">
+                      {formatDate(blog.publishedAt || blog.createdAt)}
+                    </time>
+                  </div>
+                </div>
+
+                {/* Read More Button */}
+                <div className="px-5 pb-4">
+                  <Link
+                    href={`/blog/${blog.slug}`}
+                    className="inline-flex items-center text-blue-600 hover:text-blue-700 text-sm font-medium group/link"
+                  >
+                    Read More
                     <svg
-                      className="w-12 h-12 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                      className="w-3 h-3 ml-1 group-hover/link:translate-x-0.5 transition-transform duration-200"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
                     >
                       <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.239 0-4.236-.884-5.808-2.325C4.774 11.296 3 9.259 3 7a4 4 0 118 0c0 .738-.404 1.319-.95 1.95"
+                        fillRule="evenodd"
+                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                        clipRule="evenodd"
                       />
                     </svg>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    No articles found
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    Try adjusting your filters or search terms to find what
-                    you're looking for.
-                  </p>
-                  <button
-                    onClick={clearFilters}
-                    className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium"
-                  >
-                    Clear Filters
-                  </button>
+                  </Link>
                 </div>
-              </div>
-            )}
-
-            {/* Pagination */}
-            {totalPages > 1 && !blogsLoading && (
-              <div className="flex justify-center items-center gap-3 mt-12">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="px-6 py-3 bg-white border border-gray-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium shadow-sm"
-                >
-                  ← Previous
-                </button>
-
-                <div className="flex items-center gap-2">
-                  {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                    const page = i + 1;
-                    return (
-                      <button
-                        key={page}
-                        onClick={() => handlePageChange(page)}
-                        className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                          currentPage === page
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="px-6 py-3 bg-white border border-gray-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium shadow-sm"
-                >
-                  Next →
-                </button>
-              </div>
-            )}
+              </article>
+            ))}
           </div>
+        )}
 
-          {/* Right Sidebar - Series Section */}
-          <div className="xl:w-80 flex-shrink-0">
-            {/* Left Sidebar - Categories and Filters */}
-            <div className="xl:w-80 flex-shrink-0">
-              <div className="sticky top-8 space-y-8">
-                {/* Active Filters */}
-                {(activeCategory || activeSeries || searchQuery) && (
-                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-bold text-gray-900">
-                        Active Filters
-                      </h3>
-                      <button
-                        onClick={clearFilters}
-                        className="text-sm text-blue-600 hover:text-blue-800 font-medium"
-                      >
-                        Clear All
-                      </button>
-                    </div>
-                    <div className="space-y-2">
-                      {activeCategory && (
-                        <div className="flex items-center justify-between bg-blue-50 px-3 py-2 rounded-lg">
-                          <span className="text-sm text-blue-800">
-                            Category:{" "}
-                            {
-                              categories.find((c) => c._id === activeCategory)
-                                ?.name
-                            }
-                          </span>
-                          <button
-                            onClick={() => handleCategoryChange("")}
-                            className="text-blue-600 hover:text-blue-800"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      )}
-                      {activeSeries && (
-                        <div className="flex items-center justify-between bg-purple-50 px-3 py-2 rounded-lg">
-                          <span className="text-sm text-purple-800">
-                            Series:{" "}
-                            {series.find((s) => s._id === activeSeries)?.name}
-                          </span>
-                          <button
-                            onClick={() => handleSeriesChange("")}
-                            className="text-purple-600 hover:text-purple-800"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      )}
-                      {searchQuery && (
-                        <div className="flex items-center justify-between bg-green-50 px-3 py-2 rounded-lg">
-                          <span className="text-sm text-green-800">
-                            Search: "{searchQuery}"
-                          </span>
-                          <button
-                            onClick={() => handleSearchChange("")}
-                            className="text-green-600 hover:text-green-800"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Categories */}
-                {!categoriesLoading && categories.length > 0 && (
-                  <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-                    <h3 className="text-xl font-bold text-gray-900 mb-6">
-                      Categories
-                    </h3>
-                    <div className="space-y-3">
-                      {categories.map((category) => (
-                        <button
-                          key={category._id}
-                          onClick={() => handleCategoryChange(category._id)}
-                          className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center justify-between group ${
-                            activeCategory === category._id
-                              ? "bg-blue-600 text-white shadow-lg"
-                              : "hover:bg-gray-50 text-gray-700 hover:text-gray-900"
-                          }`}
-                        >
-                          <div className="flex items-center space-x-3">
-                            <div
-                              className={`w-3 h-3 rounded-full ${
-                                activeCategory === category._id
-                                  ? "bg-white"
-                                  : ""
-                              }`}
-                              style={{
-                                backgroundColor:
-                                  activeCategory === category._id
-                                    ? "white"
-                                    : category.color || "#e5e7eb",
-                              }}
-                            />
-                            <span className="font-medium">{category.name}</span>
-                          </div>
-                          <span
-                            className={`text-sm px-2 py-1 rounded-full ${
-                              activeCategory === category._id
-                                ? "bg-white/20 text-white"
-                                : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
-                            }`}
-                          >
-                            {category.blogCount}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+        {/* No Results */}
+        {!blogsLoading && blogs.length === 0 && (
+          <div className="text-center py-16">
+            <div className="max-w-md mx-auto">
+              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-12 h-12 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.239 0-4.236-.884-5.808-2.325C4.774 11.296 3 9.259 3 7a4 4 0 118 0c0 .738-.404 1.319-.95 1.95"
+                  />
+                </svg>
               </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No articles found
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Try adjusting your filters or search terms to find what you're
+                looking for.
+              </p>
+              <button
+                onClick={clearFilters}
+                className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium"
+              >
+                Clear Filters
+              </button>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && !blogsLoading && (
+          <div className="flex justify-center items-center gap-3 mt-12">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-6 py-3 bg-white border border-gray-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium shadow-sm"
+            >
+              ← Previous
+            </button>
+
+            <div className="flex items-center gap-2">
+              {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                const page = i + 1;
+                return (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                      currentPage === page
+                        ? "bg-blue-600 text-white shadow-lg"
+                        : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-6 py-3 bg-white border border-gray-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium shadow-sm"
+            >
+              Next →
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Error Toast */}
