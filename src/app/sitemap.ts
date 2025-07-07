@@ -35,8 +35,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact?type=it-staffing",
   ];
 
+  // Blog routes
+  const blogRoutes = [
+    "/blog/the-secret-ai-tool-hierarchy-google-doesnt-want-you-to-know-about",
+    "/blog/how-ai-is-shaping-the-future-of-corporate-training-in-2025",
+    "/blog/ai-is-the-future-of-corporate-training-in-2025",
+    "/real-secret-to-unlocking-generative-ai-for-everyone-how-sfjbs-is-empowering-millions",
+  ];
+
   // Combine all routes
-  const allRoutes = [...staticRoutes, ...serviceRoutes, ...contactRoutes];
+  const allRoutes = [
+    ...staticRoutes,
+    ...serviceRoutes,
+    ...contactRoutes,
+    ...blogRoutes,
+  ];
 
   return allRoutes.map((route) => ({
     url: `${baseUrl}${route}`,

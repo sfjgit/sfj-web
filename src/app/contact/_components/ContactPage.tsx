@@ -56,22 +56,6 @@ const ContactForm = () => {
     { value: "+49", label: "Germany (+49)", flag: "🇩🇪" },
   ];
 
-  // Set initial values from URL params
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     const typeParam = urlParams.get("type");
-  //     if (
-  //       typeParam &&
-  //       ["general", "b2b", "b2i", "b2g", "csr", "it-staffing"].includes(
-  //         typeParam
-  //       )
-  //     ) {
-  //       setFormData((prev) => ({ ...prev, type: typeParam }));
-  //     }
-  //   }
-  // }, []);
-
   useEffect(() => {
     console.log(type, "type");
     console.log(query, "query");
@@ -138,8 +122,54 @@ const ContactForm = () => {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/form`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          setFormData({
+            name: "",
+            email: "",
+            countryCode: "+91",
+            phoneNumber: "",
+            type: type ?? "b2b",
+            subCategory: "",
+            websiteUrl: "",
+            query: "",
+          });
+        }, 3000);
+      } else {
+        console.error("API Error:", result.message);
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          setFormData({
+            name: "",
+            email: "",
+            countryCode: "+91",
+            phoneNumber: "",
+            type: type ?? "b2b",
+            subCategory: "",
+            websiteUrl: "",
+            query: "",
+          });
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Network Error:", error);
       setIsSuccess(true);
       setTimeout(() => {
         setIsSuccess(false);
@@ -148,14 +178,15 @@ const ContactForm = () => {
           email: "",
           countryCode: "+91",
           phoneNumber: "",
-          type: "",
+          type: type ?? "b2b",
           subCategory: "",
           websiteUrl: "",
           query: "",
         });
       }, 3000);
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
