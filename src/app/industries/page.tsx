@@ -1,6 +1,7 @@
 import React from "react";
 import IndustriesPage from "./_components/Page";
 import { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Industries We Serve | SFJBS IT Solutions & Expertise",
@@ -25,6 +26,35 @@ export const metadata: Metadata = {
     canonical: "https://www.sfjbs.com/industries",
   },
 };
+
 export default function page() {
-  return <IndustriesPage />;
+  return (
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Industries",
+                item: "https://www.sfjbs.com/industries",
+              },
+            ],
+          }),
+        }}
+      />
+      <IndustriesPage />
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 
 import {
   Users,
@@ -41,26 +42,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://www.sfjbs.com/services/corporate-social-responsibility",
-  },
-  other: {
-    "script:ld+json": JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://www.sfjbs.com",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Corporate Social Responsibility",
-          item: "https://www.sfjbs.com/services/corporate-social-responsibility",
-        },
-      ],
-    }),
   },
 };
 
@@ -169,144 +150,171 @@ const csrPillars = [
 
 export default function CSRPage() {
   return (
-    <div className="min-h-screen bg-white ">
-      <CSRLandingPage />
-      {/* <CSRHeroSection /> */}
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Corporate Social Responsibility",
+                item: "https://www.sfjbs.com/services/corporate-social-responsibility",
+              },
+            ],
+          }),
+        }}
+      />
 
-      {/* <SkillDevelopmentDashboard /> */}
-      <CSRStrategyFramework />
-      {/* <IndustriesSection /> */}
+      <div className="min-h-screen bg-white ">
+        <CSRLandingPage />
+        {/* <CSRHeroSection /> */}
 
-      {/* Impact Statistics */}
-      {/* <section className="py-16  bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {impactStats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-4">
-                  <stat.icon className="h-8 w-8" />
+        {/* <SkillDevelopmentDashboard /> */}
+        <CSRStrategyFramework />
+        {/* <IndustriesSection /> */}
+
+        {/* Impact Statistics */}
+        {/* <section className="py-16  bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+              {impactStats.map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-4">
+                    <stat.icon className="h-8 w-8" />
+                  </div>
+                  <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-gray-600 font-medium">{stat.label}</div>
                 </div>
-                <div className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-gray-600 font-medium">{stat.label}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section> */}
+        </section> */}
 
-      {/* Our Commitment Section */}
-      <section id="impact" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Driving Change Through Responsible Business
-            </h2>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              At SFJ Business Solutions, Corporate Social Responsibility (CSR)
-              is deeply embedded in our values. We recognize our role in
-              contributing to a more equitable and prosperous society. Our
-              initiatives focus on leveraging our core strengths in talent
-              transformation and IT services to empower individuals and
-              communities, foster innovation, and promote sustainable growth
-              across India.
-            </p>
-          </div>
+        {/* Our Commitment Section */}
+        <section id="impact" className="py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+                Driving Change Through Responsible Business
+              </h2>
+              <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                At SFJ Business Solutions, Corporate Social Responsibility (CSR)
+                is deeply embedded in our values. We recognize our role in
+                contributing to a more equitable and prosperous society. Our
+                initiatives focus on leveraging our core strengths in talent
+                transformation and IT services to empower individuals and
+                communities, foster innovation, and promote sustainable growth
+                across India.
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {csrPillars.map((pillar, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-              >
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {csrPillars.map((pillar, index) => (
                 <div
-                  className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-6 ${pillar.color}`}
+                  key={index}
+                  className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow"
                 >
-                  <pillar.icon className="h-8 w-8" />
+                  <div
+                    className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-6 ${pillar.color}`}
+                  >
+                    <pillar.icon className="h-8 w-8" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {pillar.description}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  {pillar.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {pillar.description}
-                </p>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Skill India Initiative */}
+
+        {/* Industry Impact Section */}
+        {<IndustryImpact industryImpacts={industryImpacts} />}
+
+        {/* Partners Section */}
+        <section className="py-20 bg-gray-900 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+                Collaborating for Greater Impact
+              </h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+                Our CSR journey is strengthened by the invaluable support of our
+                partners. We believe that collective action is key to achieving
+                sustainable change.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+              <div className="bg-gray-800 rounded-lg p-6">
+                <Building2 className="h-12 w-12 text-blue-400 mx-auto mb-4" />
+                <h3 className="font-semibold text-lg">Government of India</h3>
+                <p className="text-gray-400 text-sm">Skill India Initiatives</p>
               </div>
-            ))}
+              <div className="bg-gray-800 rounded-lg p-6">
+                <Heart className="h-12 w-12 text-red-400 mx-auto mb-4" />
+                <h3 className="font-semibold text-lg">NGOs & Communities</h3>
+                <p className="text-gray-400 text-sm">Local Organizations</p>
+              </div>
+              <div className="bg-gray-800 rounded-lg p-6">
+                <GraduationCap className="h-12 w-12 text-green-400 mx-auto mb-4" />
+                <h3 className="font-semibold text-lg">
+                  Educational Institutions
+                </h3>
+                <p className="text-gray-400 text-sm">Academic Partners</p>
+              </div>
+              <div className="bg-gray-800 rounded-lg p-6">
+                <Factory className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
+                <h3 className="font-semibold text-lg">Industry Associations</h3>
+                <p className="text-gray-400 text-sm">Sector Partnerships</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Skill India Initiative */}
-
-      {/* Industry Impact Section */}
-      {<IndustryImpact industryImpacts={industryImpacts} />}
-
-      {/* Partners Section */}
-      <section className="py-20 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+        {/* Call to Action Section */}
+        <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-700 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Collaborating for Greater Impact
+              Join Us in Making a Difference
             </h2>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-              Our CSR journey is strengthened by the invaluable support of our
-              partners. We believe that collective action is key to achieving
-              sustainable change.
+            <p className="text-xl text-blue-100 mb-12 max-w-3xl mx-auto">
+              We are continuously expanding our CSR footprint and looking for
+              opportunities to create even greater impact. Whether you&apos;re a
+              potential partner, a community organization, or an individual
+              seeking to contribute, we welcome collaboration.
             </p>
-          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div className="bg-gray-800 rounded-lg p-6">
-              <Building2 className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-              <h3 className="font-semibold text-lg">Government of India</h3>
-              <p className="text-gray-400 text-sm">Skill India Initiatives</p>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-6">
-              <Heart className="h-12 w-12 text-red-400 mx-auto mb-4" />
-              <h3 className="font-semibold text-lg">NGOs & Communities</h3>
-              <p className="text-gray-400 text-sm">Local Organizations</p>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-6">
-              <GraduationCap className="h-12 w-12 text-green-400 mx-auto mb-4" />
-              <h3 className="font-semibold text-lg">
-                Educational Institutions
-              </h3>
-              <p className="text-gray-400 text-sm">Academic Partners</p>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-6">
-              <Factory className="h-12 w-12 text-yellow-400 mx-auto mb-4" />
-              <h3 className="font-semibold text-lg">Industry Associations</h3>
-              <p className="text-gray-400 text-sm">Sector Partnerships</p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link
+                href="/contact?subject=partnership"
+                className="inline-flex items-center px-8 py-4 bg-white text-blue-700 font-semibold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105"
+              >
+                Partner With Us
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Call to Action Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            Join Us in Making a Difference
-          </h2>
-          <p className="text-xl text-blue-100 mb-12 max-w-3xl mx-auto">
-            We are continuously expanding our CSR footprint and looking for
-            opportunities to create even greater impact. Whether you&apos;re a
-            potential partner, a community organization, or an individual
-            seeking to contribute, we welcome collaboration.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link
-              href="/contact?subject=partnership"
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-700 font-semibold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105"
-            >
-              Partner With Us
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }

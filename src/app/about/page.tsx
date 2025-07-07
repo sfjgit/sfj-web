@@ -1,6 +1,7 @@
 import React from "react";
 import AboutPage from "./_components/About";
 import { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "About SFJBS | Leading IT Staffing & Training Company",
@@ -24,27 +25,36 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.sfjbs.com/about",
   },
-  other: {
-    "script:ld+json": JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://www.sfjbs.com",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "About",
-          item: "https://www.sfjbs.com/about",
-        },
-      ],
-    }),
-  },
 };
+
 export default function page() {
-  return <AboutPage />;
+  return (
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "About",
+                item: "https://www.sfjbs.com/about",
+              },
+            ],
+          }),
+        }}
+      />
+      <AboutPage />
+    </>
+  );
 }

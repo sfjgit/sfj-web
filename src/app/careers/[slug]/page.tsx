@@ -132,7 +132,7 @@ interface JobData {
   };
 }
 
-export default function JobPage() {
+export default function JobPageClient() {
   const params = useParams();
   const slug = params.slug;
 
@@ -295,10 +295,6 @@ export default function JobPage() {
               </div>
             </div>
           </div>
-
-          {/* <Button size="lg" className="px-8">
-            Apply Now
-          </Button> */}
         </div>
       </div>
 

@@ -1,3 +1,4 @@
+import Script from "next/script";
 import HeroSection from "./_components/HeroSection";
 import BFSIPrograms from "./_components/BFSIPrograms";
 import EngineeringPathways from "./_components/EngineeringPathways";
@@ -34,26 +35,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.sfjbs.com/services/institutional-training",
   },
-  other: {
-    "script:ld+json": JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://www.sfjbs.com",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Institutional Training",
-          item: "https://www.sfjbs.com/services/institutional-training",
-        },
-      ],
-    }),
-  },
 };
 
 // Import all the modular components
@@ -62,44 +43,71 @@ export const metadata: Metadata = {
 
 const InstitutionalTrainingPage = () => {
   return (
-    <div className="min-h-screen">
-      {/* Navigation Component */}
-      {/* <Navigation /> */}
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Institutional Training",
+                item: "https://www.sfjbs.com/services/institutional-training",
+              },
+            ],
+          }),
+        }}
+      />
 
-      {/* Hero Section Component */}
-      <HeroSection />
-      <HorizontalScrollNavbar />
-      {/* BFSI Programs Component */}
-      <section id="schools">
-        <SkillgenAISummary />
-      </section>
-      <section id="polytechnic">
-        <PolytechnicSummary />
-      </section>
+      <div className="min-h-screen">
+        {/* Navigation Component */}
+        {/* <Navigation /> */}
 
-      {/* Engineering Pathways Component */}
+        {/* Hero Section Component */}
+        <HeroSection />
+        <HorizontalScrollNavbar />
+        {/* BFSI Programs Component */}
+        <section id="schools">
+          <SkillgenAISummary />
+        </section>
+        <section id="polytechnic">
+          <PolytechnicSummary />
+        </section>
 
-      <section id="engineering">
-        <EngineeringPathways />
-      </section>
+        {/* Engineering Pathways Component */}
 
-      <section id="arts">
-        <ArtsAndScienceCourses />
-        <BFSIPrograms />
-      </section>
-      <section id="mba">
-        <MBACourses />
-      </section>
+        <section id="engineering">
+          <EngineeringPathways />
+        </section>
 
-      {/* Impact & Stats Component */}
-      {/* <ImpactStats /> */}
+        <section id="arts">
+          <ArtsAndScienceCourses />
+          <BFSIPrograms />
+        </section>
+        <section id="mba">
+          <MBACourses />
+        </section>
 
-      {/* Leadership Training Component */}
-      <LeadershipTraining />
+        {/* Impact & Stats Component */}
+        {/* <ImpactStats /> */}
 
-      {/* Contact & Footer Component */}
-      {/* <ContactFooter /> */}
-    </div>
+        {/* Leadership Training Component */}
+        <LeadershipTraining />
+
+        {/* Contact & Footer Component */}
+        {/* <ContactFooter /> */}
+      </div>
+    </>
   );
 };
 

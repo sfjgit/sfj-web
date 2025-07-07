@@ -1,6 +1,8 @@
 import React from "react";
 import BlogLandingPage from "./_components/Page";
 import { Metadata } from "next";
+import Script from "next/script";
+
 export const metadata: Metadata = {
   title: "SFJBS Blog | IT Staffing, Training & EdTech Insights",
   description:
@@ -46,30 +48,41 @@ export const metadata: Metadata = {
     },
   },
 
-  // Structured Data
+  // Additional meta tags
   other: {
-    "google-site-verification": "your-verification-code",
-    "script:ld+json": JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://www.sfjbs.com",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Blog",
-          item: "https://www.sfjbs.com/blog",
-        },
-      ],
-    }),
+    // Replace with your actual verification code or remove if not needed
+    // "google-site-verification": "your-actual-verification-code-here",
   },
 };
 
 export default function page() {
-  return <BlogLandingPage />;
+  return (
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Blog",
+                item: "https://www.sfjbs.com/blog",
+              },
+            ],
+          }),
+        }}
+      />
+      <BlogLandingPage />
+    </>
+  );
 }

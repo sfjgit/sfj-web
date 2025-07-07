@@ -1,6 +1,8 @@
 import React from "react";
 import ContactWrapper from "./_components/ContactWrapper";
 import { Metadata } from "next";
+import Script from "next/script";
+
 export const metadata: Metadata = {
   title: "Contact SFJBS | Submit Your Inquiry & Get Support",
   description:
@@ -23,27 +25,36 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.sfjbs.com/contact",
   },
-  other: {
-    "script:ld+json": JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://www.sfjbs.com",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Contact",
-          item: "https://www.sfjbs.com/contact",
-        },
-      ],
-    }),
-  },
 };
+
 export default function page() {
-  return <ContactWrapper />;
+  return (
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Contact",
+                item: "https://www.sfjbs.com/contact",
+              },
+            ],
+          }),
+        }}
+      />
+      <ContactWrapper />
+    </>
+  );
 }

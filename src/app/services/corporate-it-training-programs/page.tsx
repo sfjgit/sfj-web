@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Script from "next/script";
 import CorporateTrainingClient from "./_components/CorporateTrainingClient";
 
 export const metadata: Metadata = {
@@ -26,27 +27,36 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.sfjbs.com/services/corporate-it-training-programs",
   },
-  other: {
-    "script:ld+json": JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: "https://www.sfjbs.com",
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Corporate IT Training Programs",
-          item: "https://www.sfjbs.com/services/corporate-it-training-programs",
-        },
-      ],
-    }),
-  },
 };
+
 export default function CorporateTrainingPage() {
-  return <CorporateTrainingClient />;
+  return (
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Corporate IT Training Programs",
+                item: "https://www.sfjbs.com/services/corporate-it-training-programs",
+              },
+            ],
+          }),
+        }}
+      />
+      <CorporateTrainingClient />
+    </>
+  );
 }

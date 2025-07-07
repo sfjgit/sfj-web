@@ -1,6 +1,7 @@
 import React from "react";
 import Impact from "./_components/impact";
 import { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Our Impact & Success Stories | SFJBS Achievements",
@@ -27,5 +28,33 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-  return <Impact />;
+  return (
+    <>
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.sfjbs.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Impact",
+                item: "https://www.sfjbs.com/impact",
+              },
+            ],
+          }),
+        }}
+      />
+      <Impact />
+    </>
+  );
 }
