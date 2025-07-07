@@ -11,7 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/impact",
     "/careers",
     "/about",
-    "/blog",
     "/contact",
     "/life-at-sfjbs",
   ];
@@ -37,10 +36,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Blog routes
   const blogRoutes = [
-    "/blog/the-secret-ai-tool-hierarchy-google-doesnt-want-you-to-know-about",
+    "/blog",
     "/blog/how-ai-is-shaping-the-future-of-corporate-training-in-2025",
-    "/blog/ai-is-the-future-of-corporate-training-in-2025",
-    "/real-secret-to-unlocking-generative-ai-for-everyone-how-sfjbs-is-empowering-millions",
+    "/blog/the-secret-ai-tool-hierarchy-google-doesnt-want-you-to-know-about",
+    "/blog/real-secret-to-unlocking-generative-ai-for-everyone-how-sfjbs-is-empowering-millions",
   ];
 
   // Combine all routes
