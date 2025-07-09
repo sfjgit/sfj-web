@@ -44,7 +44,7 @@ export default function HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "SFJ Technologies",
+            name: "SFJ Business Solutions",
             url: "https://www.sfjbs.com",
             aggregateRating: {
               "@type": "AggregateRating",
