@@ -6,6 +6,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Users, Coffee, Trophy, Camera, X } from "lucide-react";
+import Link from "next/link";
 
 export default function Life() {
   const [selectedImage, setSelectedImage] = useState<any>(null);
@@ -204,9 +205,11 @@ export default function Life() {
               Be part of a workplace where growth meets success and celebrations
               become a way of life.
             </p>
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg">
-              Explore Careers
-            </button>
+            <Link href="/careers">
+              <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg">
+                Explore Careers
+              </button>
+            </Link>
           </motion.div>
         </div>
       </section>
