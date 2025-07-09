@@ -25,14 +25,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Contact form routes
-  const contactRoutes = [
-    "/contact?type=b2b",
-    "/contact?type=b2g",
-    "/contact?type=b2i",
-    "/contact?type=csr",
-    "/contact?subject=partnership",
-    "/contact?type=it-staffing",
-  ];
+  // const contactRoutes = [
+  //   "/contact?type=b2b",
+  //   "/contact?type=b2g",
+  //   "/contact?type=b2i",
+  //   "/contact?type=csr",
+  //   "/contact?subject=partnership",
+  //   "/contact?type=it-staffing",
+  // ];
 
   // Blog routes
   const blogRoutes = [
@@ -43,12 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Combine all routes
-  const allRoutes = [
-    ...staticRoutes,
-    ...serviceRoutes,
-    ...contactRoutes,
-    ...blogRoutes,
-  ];
+  const allRoutes = [...staticRoutes, ...serviceRoutes, ...blogRoutes];
 
   return allRoutes.map((route) => ({
     url: `${baseUrl}${route}`,

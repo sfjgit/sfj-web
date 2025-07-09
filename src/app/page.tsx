@@ -5,6 +5,7 @@ import CTASection from "./_components/CTASection";
 import FloatingActionButton from "./_components/FloatingActionButton";
 import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
@@ -36,6 +37,27 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
+      <Script
+        id="aggregate-rating"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "SFJ Technologies",
+            url: "https://www.sfjbs.com",
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "3.8",
+              reviewCount: "150",
+            },
+          }),
+        }}
+      />
+
+      <h1 className="hidden">
+        Upskilling India for the AI Era | Enterprise Training & Tech Solutions
+      </h1>
       <HeroCarousel />
 
       <ClientsSection />

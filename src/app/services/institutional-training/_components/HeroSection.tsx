@@ -154,11 +154,13 @@ const HeroSection: React.FC = () => {
                 Industry-Leading Training
               </span>
             </div>
-
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+            <h1 className="hidden">
+              Institutional Training Programs | Skill Development for Students
+            </h1>
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
               Create Industry-Ready AI-Driven Graduates,
               <span className="text-blue-600"> Not Just Graduates</span>
-            </h1>
+            </h2>
 
             <p className="text-lg text-gray-600">
               Comprehensive training programs across Polytechnic, Arts &

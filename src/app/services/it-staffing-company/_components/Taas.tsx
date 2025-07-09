@@ -18,9 +18,9 @@ export default function TaasScroller() {
 
   return (
     <div className="w-full py-8">
-      <h1 className="text-center py-5 pb-8">
+      <h2 className="text-center py-5 pb-8">
         <span className="font-bold text-4xl">Our Clients</span>
-      </h1>
+      </h2>
       <div className="overflow-hidden">
         <div className="flex animate-scroll">
           {/* First set */}

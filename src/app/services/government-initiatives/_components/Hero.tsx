@@ -96,9 +96,9 @@ const PartnershipsCarousel = () => {
                 <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-2 rounded-lg shadow-lg">
                   <FaGlobe size={20} className="text-white" />
                 </div>
-                <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-xs font-semibold shadow-sm border border-gray-200">
-                  Trusted Government Partnerships
-                </span>
+                <h1 className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1 rounded-full text-xs font-semibold shadow-sm border border-gray-200">
+                  Government Programs & Skill Development
+                </h1>
               </div>
 
               <div className="space-y-2">

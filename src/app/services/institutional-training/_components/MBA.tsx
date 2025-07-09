@@ -109,9 +109,9 @@ const MBACourses = () => {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
             <TrendingUp className="h-8 w-8 text-blue-600 mr-3" />
-            <h1 className="text-4xl font-bold text-gray-900">
+            <h2 className="text-4xl font-bold text-gray-900">
               MBA Courses with Global Certification
-            </h1>
+            </h2>
           </div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Advance your management career with industry-recognized

@@ -50,9 +50,9 @@ export default function SkillgenAISummary() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
             <span className="text-blue-600">SkillgenAI</span> for Students
-          </h1>
+          </h2>
           <p className="text-xl text-gray-600">
             4-Day AI Masterclass for Future-Ready Learning
           </p>

@@ -140,9 +140,9 @@ const WhoWeAreSection: React.FC = () => (
   <section className="md:pt-14 max-w-7xl mx-auto text-gray-800 " id="WhoWe-Are">
     <div className="p-4 md:container flex flex-wrap gap-10 mx-auto">
       <div className=" flex-1 pb-10">
-        <h1 className="text-4xl text-center tracking-wide text-blue-700 font-bold">
+        <h2 className="text-4xl text-center tracking-wide text-blue-700 font-bold">
           Who We Are
-        </h1>
+        </h2>
         <p className="prose pt-8 text-gray-800 text-lg leading-relaxed">
           SFJ Business Solutions Pvt. Ltd. is a global technology and skilling
           leader, established in 2011, dedicated to empowering individuals with
@@ -237,9 +237,9 @@ const FounderSection: React.FC = () => (
     <div className="w-full h-[50px]" id="MeetOur-Founder"></div>
     <section className="bg-blue-50 py-10 md:py-24">
       <div className="container mx-auto text-center">
-        <h1 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900">
+        <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900">
           Meet Our Founder
-        </h1>
+        </h2>
         <div className="flex justify-center mb-6">
           <Image
             src="/CEO.jpg"

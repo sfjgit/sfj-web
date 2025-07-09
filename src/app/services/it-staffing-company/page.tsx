@@ -113,11 +113,11 @@ export default function ITStaffingPage() {
                   <Globe className="w-4 h-4 mr-2" />
                   Global IT Staffing Leader
                 </Badge>
-
-                <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                <h1 className="hidden">IT Staffing & Services Company</h1>
+                <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
                   Your Trusted Global
                   <span className="text-blue-600"> IT Staffing</span>
-                </h1>
+                </h2>
 
                 <div className="space-y-3 text-white">
                   <div className="flex items-start gap-3">

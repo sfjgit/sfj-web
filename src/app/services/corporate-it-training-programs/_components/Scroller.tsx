@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import "swiper/css";
@@ -28,9 +29,12 @@ export default function Scroller() {
 
   return (
     <div className="w-full py-8">
-      <h1 className="text-center py-5 pb-8">
-        <span className="font-bold text-4xl">Our Clients</span>
+      <h1 className="hidden">
+        Corporate IT Training Programs for Employees | Boost Your Team's Skills
       </h1>
+      <h2 className="text-center py-5 pb-8">
+        <span className="font-bold text-4xl">Our Clients</span>
+      </h2>
       <div className="overflow-hidden">
         <div className="flex animate-scroll">
           {/* First set */}

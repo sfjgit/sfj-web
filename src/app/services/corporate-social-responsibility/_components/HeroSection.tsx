@@ -355,7 +355,7 @@ const CSRLandingPage = () => {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              <span className="text-white">Empowering Through</span>
+              <span className="text-white">Empowering Through </span>
               <br />
               <span className="bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
                 Gen AI Training
