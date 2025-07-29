@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import ClientProvider from "./_components/ClientProvider";
 import Navigation from "@/components/Navigation";
 import Script from "next/script";
+import SFJContactForm from "./_components/SFJContactForm";
 export const metadata: Metadata = {
   title:
     "SFJ Business Solutions | IT Training, Talent Services & Digital Transformation",
@@ -145,6 +146,7 @@ export default function RootLayout({
           <Navigation />
           {children}
           <Footer />
+          <SFJContactForm />
         </ClientProvider>
       </body>
     </html>
