@@ -129,10 +129,10 @@ const SFJContactForm = () => {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-6 rounded-full shadow-xl flex items-center gap-2 font-medium border-2 border-white transition-all duration-300 hover:scale-105"
+            className="contact-button relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-6 rounded-full shadow-xl flex items-center gap-2 font-medium border-2 border-white transition-all duration-300 hover:scale-105"
           >
             <Headphones size={20} className="animate-bounce" />
-            <span className="text-base font-bold">Contact SFJ</span>
+            <span className="text-base font-bold">Chat with Us</span>
           </button>
 
           {/* Floating notification dot */}
@@ -141,19 +141,24 @@ const SFJContactForm = () => {
             <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
           </span>
 
-          {/* Form popup positioned above the button */}
+          {/* Form popup - responsive position */}
           {isOpen && (
             <>
               {/* Backdrop overlay */}
               <div
-                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[-1]"
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
                 onClick={() => setIsOpen(false)}
               />
 
-              {/* Form positioned above button */}
-              <div className="contact-form-container absolute bottom-full mb-4 right-0 w-[340px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border-0 animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 z-50">
+              {/* Form positioned responsively */}
+              <div
+                className="contact-form-container fixed right-4 md:right-6 z-50 w-[340px] max-w-[calc(100vw-2rem)] bg-white rounded-2xl shadow-2xl border-0 animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4
+                bottom-32 max-h-[calc(100vh-8rem)] overflow-y-auto
+                md:bottom-32 md:max-h-[calc(100vh-10rem)]
+                lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:max-h-[calc(100vh-4rem)]"
+              >
                 {/* Header with gradient */}
-                <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-3 rounded-t-2xl"></div>
+                <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-3 rounded-t-2xl sticky top-0 z-10"></div>
 
                 {/* Success State */}
                 {isSuccess ? (
@@ -170,7 +175,7 @@ const SFJContactForm = () => {
                     </p>
                   </div>
                 ) : (
-                  <>
+                  <div className="overflow-y-auto">
                     {/* Logo and header */}
                     <div className="px-4 pt-4 pb-2 text-center">
                       <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -316,7 +321,7 @@ const SFJContactForm = () => {
                         .
                       </p>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             </>
@@ -327,7 +332,7 @@ const SFJContactForm = () => {
       {/* WhatsApp Chat Button */}
       <div className="fixed bottom-6 right-4 md:bottom-6 md:right-6 z-30">
         <a
-          href="https://wa.me/your-number"
+          href="https://wa.me/9845348601"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105"
