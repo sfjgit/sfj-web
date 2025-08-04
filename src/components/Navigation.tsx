@@ -89,6 +89,11 @@ const Navigation = () => {
       ],
     },
     {
+      path: "https://www.bskilling.com/",
+      label: "Education",
+      hasChildren: false,
+    },
+    {
       path: "/industries",
       label: "Industries",
       hasChildren: false,
@@ -102,7 +107,8 @@ const Navigation = () => {
     { path: "/blog", label: "Blogs", hasChildren: false },
     // { path: "/partners", label: "Partners", hasChildren: false },
 
-    { path: "/about", label: "About Us", hasChildren: false },
+    // { path: "/about", label: "About Us", hasChildren: false },
+    // { path: "/", label: "Education", hasChildren: false },
   ];
 
   // Check if current path matches any service item
@@ -216,24 +222,31 @@ const Navigation = () => {
                             href={child.path}
                             className="flex items-start p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
                           >
-                            {/* <div className="flex-shrink-0 mr-3">
-                              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-                                <child.icon className="w-5 h-5 text-white" />
-                              </div>
-                            </div> */}
                             <div className="flex-1">
                               <div className="font-medium text-gray-800 text-sm mb-1 group-hover:text-blue-600 transition-colors">
                                 {child.label}
                               </div>
-                              {/* <div className="text-xs text-gray-500 leading-relaxed">
-                                {child.description}
-                              </div> */}
                             </div>
                           </Link>
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
+                ) : item.label === "Education" ? (
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={item.path}
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+                      isActiveItem(item)
+                        ? "text-blue-600 bg-blue-50 shadow-sm"
+                        : isScrolled || isLocationBlack()
+                        ? "text-black"
+                        : "text-white"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
                 ) : (
                   <Link
                     href={item.path}
@@ -250,6 +263,14 @@ const Navigation = () => {
                 )}
               </div>
             ))}
+            {/* <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              href={"https://www.bskilling.com/"}
+              className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 `}
+            >
+              Education
+            </Link> */}
 
             {/* Contact Button */}
             <Button
