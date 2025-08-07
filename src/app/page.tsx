@@ -9,25 +9,25 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
-    "Upskilling India for the AI Era | Enterprise Training & Tech Solutions | SFJBS",
+    "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training & Tech Solutions",
   description:
-    "SFJBS is committed to upskilling India for the AI era through enterprise training and cutting-edge technology solutions. With over 14 years of expertise, we empower organizations with tailored learning programs, IT consulting, and tech-driven strategies to build future-ready teams and accelerate innovation across industries.",
+    "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
   keywords:
     "IT Services, Corporate Training, Technology Solutions, IT Consulting, Tech Recruitment, IT Skill Development, Professional Services, Enterprise Training, IT Talent Solutions, Bengaluru IT Company",
   openGraph: {
     title:
-      "Upskilling India for the AI Era | Enterprise Training & Tech Solutions | SFJBS",
+      "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training & Tech Solutions",
     description:
-      "SFJBS is committed to upskilling India for the AI era through enterprise training and cutting-edge technology solutions. With over 14 years of expertise, we empower organizations with tailored learning programs, IT consulting, and tech-driven strategies to build future-ready teams and accelerate innovation across industries.",
+      "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
     url: "https://www.sfjbs.com",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "Upskilling India for the AI Era | Enterprise Training & Tech Solutions | SFJBS",
+      "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training & Tech Solutions",
     description:
-      "SFJBS is committed to upskilling India for the AI era through enterprise training and cutting-edge technology solutions. With over 14 years of expertise, we empower organizations with tailored learning programs, IT consulting, and tech-driven strategies to build future-ready teams and accelerate innovation across industries.",
+      "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
   },
   alternates: {
     canonical: "https://www.sfjbs.com",
@@ -55,12 +55,10 @@ export default function HomePage() {
         }}
       />
 
-      <h1 className="hidden">
-        Upskilling India for the AI Era | Enterprise Training & Tech Solutions
-      </h1>
       <HeroCarousel />
 
       <ClientsSection />
+
       <PartnersSection />
 
       <FootprintSection />

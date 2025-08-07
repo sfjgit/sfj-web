@@ -9,6 +9,7 @@ import { Star, Users, Building2, Globe } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import SFJBSEnterpriseSection from "./SFJBSEnterpriseSection";
 
 const ClientsSection = () => {
   const clientLogos = [
@@ -257,6 +258,9 @@ const ClientsSection = () => {
         {/* Client Logos Carousel - Enhanced with larger images and better colors */}
 
         {/* Testimonials Section */}
+
+        <SFJBSEnterpriseSection />
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -264,7 +268,7 @@ const ClientsSection = () => {
           viewport={{ once: true }}
           className=""
         >
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 mt-20">
             <h3 className="text-3xl font-bold text-gray-900 mb-4">
               What Our Clients Say
             </h3>
