@@ -283,13 +283,13 @@ const ClientsSection = () => {
             </div> */}
           </div>
 
-          <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 tracking-tight">
             Why{" "}
             <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
               SFJBS
             </span>{" "}
             Is Your Trusted Enterprise Upskilling Partner in Bangalore
-          </h3>
+          </h1>
 
           <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
             With 14+ years of experience, SFJBS is a trusted enterprise
