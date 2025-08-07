@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
@@ -9,7 +10,6 @@ import { Star, Users, Building2, Globe } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import SFJBSEnterpriseSection from "./SFJBSEnterpriseSection";
 
 const ClientsSection = () => {
   const clientLogos = [
@@ -54,6 +54,29 @@ const ClientsSection = () => {
       name: "Atos",
       industry: "Digital Services",
       description: "Digital transformation partner",
+    },
+  ];
+
+  const services = [
+    {
+      path: "/services/corporate-social-responsibility",
+      label: "CSR Skilling Partner",
+    },
+    {
+      path: "/services/government-initiatives",
+      label: "Government-Led Skilling Missions",
+    },
+    {
+      path: "/services/institutional-training",
+      label: "Institutional Training (B2I)",
+    },
+    {
+      path: "/services/corporate-it-training-programs",
+      label: "Corporate IT Training Programs",
+    },
+    {
+      path: "/services/it-staffing-company",
+      label: "Talent as a Service",
     },
   ];
 
@@ -135,7 +158,6 @@ const ClientsSection = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -143,17 +165,6 @@ const ClientsSection = () => {
           viewport={{ once: true }}
           className="text-center mb-24"
         >
-          {/* Top Badge Section */}
-          {/* <div className="mb-8">
-            <Badge
-              variant="outline"
-              className="text-indigo-700 border-indigo-300 bg-indigo-50 px-6 py-2 text-sm font-semibold rounded-full shadow-sm"
-            >
-              <Users className="w-4 h-4 mr-2" />
-              Trusted Partnerships  
-            </Badge>
-          </div> */}
-
           {/* Main Heading */}
           <div className="mb-1">
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900  tracking-tight">
@@ -162,11 +173,6 @@ const ClientsSection = () => {
                 Clients
               </span>
             </h2>
-            {/* <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-teal-500 mx-auto rounded-full mb-8"></div> */}
-            {/* <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Trusted by industry leaders worldwide to deliver exceptional
-              results and drive digital transformation
-            </p> */}
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -255,12 +261,73 @@ const ClientsSection = () => {
             ))}
           </motion.div>
         </motion.div>
-        {/* Client Logos Carousel - Enhanced with larger images and better colors */}
+
+        {/* SFJBS Enterprise Section - Integrated */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900  tracking-tight">
+              Our{" "}
+              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
+                Services
+              </span>
+            </h2>
+            {/* <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm border border-indigo-200 px-6 py-3 rounded-full text-sm font-semibold text-indigo-700 mb-8 shadow-lg">
+              <span className="text-lg">🏆</span>
+              14+ Years of Excellence
+            </div> */}
+          </div>
+
+          <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 tracking-tight">
+            Why{" "}
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
+              SFJBS
+            </span>{" "}
+            Is Your Trusted Enterprise Upskilling Partner in Bangalore
+          </h3>
+
+          <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
+            With 14+ years of experience, SFJBS is a trusted enterprise
+            upskilling partner in Bangalore, India. We specialize in enterprise
+            training, IT consulting services, and future-ready technology
+            solutions designed to accelerate digital transformation across
+            industries.
+          </p>
+
+          {/* Services Grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+          >
+            {services.map((service) => (
+              <motion.div key={service.path} variants={itemVariants}>
+                <Link
+                  href={service.path}
+                  className="group block bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+                >
+                  {/* Top accent line */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-600 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></div>
+
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors duration-300">
+                      {service.label}
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
 
         {/* Testimonials Section */}
-
-        <SFJBSEnterpriseSection />
-
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -268,9 +335,12 @@ const ClientsSection = () => {
           viewport={{ once: true }}
           className=""
         >
-          <div className="text-center mb-12 mt-20">
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              What Our Clients Say
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+              What Our{" "}
+              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
+                Clients Say
+              </span>
             </h3>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Hear from the leaders who trust us with their most critical
@@ -314,7 +384,7 @@ const ClientsSection = () => {
                       {testimonial.quote}
                     </blockquote>
                     <div className="flex items-center">
-                      <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full mr-4"></div>
+                      <div className="w-2 h-8 bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full mr-4"></div>
                       <div>
                         <div className="font-semibold text-gray-900">
                           {testimonial.author}
