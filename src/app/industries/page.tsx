@@ -15,12 +15,28 @@ export const metadata: Metadata = {
       "SFJBS partners with diverse industries, offering tailored IT staffing, training, and technology solutions to drive innovation and efficiency across various sectors.",
     url: "https://www.sfjbs.com/industries",
     type: "website",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754913197471_Industries%20We%20Serve.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "SFJ Business Solutions serving 29+ industries with tailored digital transformation and workforce solutions",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Industries We Serve | SFJBS IT Solutions & Expertise",
     description:
       "SFJBS partners with diverse industries, offering tailored IT staffing, training, and technology solutions to drive innovation and efficiency across various sectors.",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754913197471_Industries%20We%20Serve.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "SFJ Business Solutions serving 29+ industries with tailored digital transformation and workforce solutions",
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.sfjbs.com/industries",

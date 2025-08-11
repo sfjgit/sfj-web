@@ -17,12 +17,28 @@ export const metadata: Metadata = {
       "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
     url: "https://www.sfjbs.com/services/government-initiatives",
     type: "website",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907878280_Government%20%282%29%20%28Medium%29.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Government Skill Development & Training Programs",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Government Programs & Skill Development | SFJBS Initiatives",
     description:
       "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907878280_Government%20%282%29%20%28Medium%29.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Government Skill Development & Training Programs",
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.sfjbs.com/services/government-initiatives",

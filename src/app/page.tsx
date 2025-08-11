@@ -21,6 +21,14 @@ export const metadata: Metadata = {
       "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
     url: "https://www.sfjbs.com",
     type: "website",
+    images: [
+      {
+        url: "https://www.sfjbs.com/ind.png", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "SFJBS - Enterprise Upskilling Partner in Bangalore",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -28,6 +36,7 @@ export const metadata: Metadata = {
       "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training & Tech Solutions",
     description:
       "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
+    images: ["https://www.sfjbs.com/ind.png"], // Replace with your actual image URL
   },
   alternates: {
     canonical: "https://www.sfjbs.com",

@@ -16,6 +16,14 @@ export const metadata: Metadata = {
       "SFJBS provides comprehensive corporate IT training programs, trusted by 350+ enterprise clients. Empower your employees, close skill gaps, and elevate your team's expertise with our tailored IT training solutions in Bengaluru and beyond.",
     url: "https://www.sfjbs.com/services/corporate-it-training-programs",
     type: "website",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911740199_Corporate%20Training%20Solution%20sfjbs.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Custom corporate IT training programs to boost employee skills and productivity",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -23,6 +31,14 @@ export const metadata: Metadata = {
       "Corporate IT Training Programs for Employees | Boost Your Team's Skills | SFJBS",
     description:
       "SFJBS provides comprehensive corporate IT training programs, trusted by 350+ enterprise clients. Empower your employees, close skill gaps, and elevate your team's expertise with our tailored IT training solutions in Bengaluru and beyond.",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911740199_Corporate%20Training%20Solution%20sfjbs.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Custom corporate IT training programs to boost employee skills and productivity",
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.sfjbs.com/services/corporate-it-training-programs",

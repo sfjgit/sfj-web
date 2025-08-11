@@ -24,6 +24,14 @@ export const metadata: Metadata = {
       "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
     url: "https://www.sfjbs.com/services/institutional-training",
     type: "website",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907955851_B2I.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Students participating in institutional training programs for skill development",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -31,6 +39,14 @@ export const metadata: Metadata = {
       "Institutional Training Programs | Skill Development for Students | SFJBS",
     description:
       "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907955851_B2I.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Students participating in institutional training programs for skill development",
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.sfjbs.com/services/institutional-training",

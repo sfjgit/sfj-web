@@ -32,13 +32,30 @@ export const metadata: Metadata = {
       "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
     url: "https://www.sfjbs.com/services/corporate-social-responsibility",
     type: "website",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907592029_image%20%2849%29.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Corporate Social Responsibility ( CSR) Skill Development Programs",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+
     title:
       "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
     description:
       "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907592029_image%20%2849%29.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Corporate Social Responsibility ( CSR) Skill Development Programs",
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.sfjbs.com/services/corporate-social-responsibility",

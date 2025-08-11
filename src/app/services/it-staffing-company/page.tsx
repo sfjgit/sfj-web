@@ -36,12 +36,28 @@ export const metadata: Metadata = {
       "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
     url: "https://www.sfjbs.com/services/it-staffing-company",
     type: "website",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911941402_Talent%20As%20A%20Service.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Global IT staffing and services company connecting businesses with vetted technical talent",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
     description:
       "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
+    images: [
+      {
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911941402_Talent%20As%20A%20Service.webp", // Replace with your actual image URL
+        width: 1200,
+        height: 630,
+        alt: "Global IT staffing and services company connecting businesses with vetted technical talent",
+      },
+    ],
   },
   alternates: {
     canonical: "https://www.sfjbs.com/services/it-staffing-company",

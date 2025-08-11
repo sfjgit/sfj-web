@@ -263,7 +263,11 @@ const AnimatedHeader = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 2 }}
           >
-            <img src="/ind.png" alt="India Map" className="w-full" />
+            <img
+              src="/ind.png"
+              alt="Enterprise Upskilling & Training Partner in Bangalore, India"
+              className="w-full"
+            />
           </motion.div>
         </div>
       </div>
