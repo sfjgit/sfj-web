@@ -40,6 +40,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/blog/how-ai-is-shaping-the-future-of-corporate-training-in-2025",
     "/blog/the-secret-ai-tool-hierarchy-google-doesnt-want-you-to-know-about",
     "/blog/real-secret-to-unlocking-generative-ai-for-everyone-how-sfjbs-is-empowering-millions",
+    "/blog/csr-it-training",
+    "/blog/enterprise-training",
   ];
 
   // Combine all routes
