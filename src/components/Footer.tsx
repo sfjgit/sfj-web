@@ -15,6 +15,30 @@ import { FaRegStarHalfStroke, FaX } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import { useState } from "react";
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+
+const socialLinks = [
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/sfjbsofficial",
+    icon: <FaFacebook className="w-6 h-6" />,
+  },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/sfjbs_bangalore/",
+    icon: <FaInstagram className="w-6 h-6" />,
+  },
+  {
+    name: "LinkedIn",
+    url: "https://www.linkedin.com/company/sfj-business-solutions-pvt-ltd-/",
+    icon: <FaLinkedin className="w-6 h-6" />,
+  },
+  {
+    name: "Youtube",
+    url: "https://www.youtube.com/channel/UC-Ol7VzrG_xsL6iyhhAIRzw",
+    icon: <FaYoutube className="w-6 h-6" />,
+  },
+];
 
 const Footer = () => {
   const [selectedOffice, setSelectedOffice] = useState("india");
@@ -132,54 +156,6 @@ const Footer = () => {
       ],
     },
   };
-
-  const socialLinks = [
-    {
-      name: "Facebook",
-      url: "https://www.facebook.com/sfjbsofficial",
-      icon: (
-        <svg className="w-6 h-6" viewBox="0 0 187 187">
-          <rect width="187" height="187" fill="#3b5998" rx="18" ry="18" />
-          <path
-            fill="#fefefe"
-            d="M131 79l0 -12c0,-6 4,-7 6,-7 3,0 18,0 18,0l0 -27 -24 0c-27,0 -33,20 -33,32l0 14 -15 0 0 19 0 12 16 0c0,35 0,77 0,77l30 0c0,0 0,-42 0,-77l23 0 1 -12 2 -19 -24 0z"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Instagram",
-      url: "https://www.instagram.com/sfjbs_bangalore/",
-      icon: (
-        <svg className="w-6 h-6" viewBox="0 0 384 384">
-          <rect width="384" height="384" fill="#E4405F" rx="67" ry="67" />
-          <g fill="#fefefe">
-            <path d="M192 96c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 158c-34 0-62-28-62-62s28-62 62-62 62 28 62 62-28 62-62 62z" />
-            <circle cx="192" cy="192" r="40" />
-            <circle cx="304" cy="112" r="18" />
-            <path d="M256 64h-128c-35 0-64 29-64 64v128c0 35 29 64 64 64h128c35 0 64-29 64-64v-128c0-35-29-64-64-64zm32 192c0 18-14 32-32 32h-128c-18 0-32-14-32-32v-128c0-18 14-32 32-32h128c18 0 32 14 32 32v128z" />
-          </g>
-        </svg>
-      ),
-    },
-    {
-      name: "LinkedIn",
-      url: "https://www.linkedin.com/company/sfj-business-solutions-pvt-ltd-/",
-      icon: (
-        <svg className="w-6 h-6" viewBox="0 0 201 201">
-          <rect width="201" height="201" fill="#0072b1" rx="19" ry="19" />
-          <polygon
-            fill="#fefefe"
-            points="39 102 39 162 68 162 68 97 68 80 39 80"
-          />
-          <path
-            fill="#fefefe"
-            d="M54 39c-8 0-15 7-15 15 0 7 7 14 15 14 7 0 14-7 14-14 0-8-7-15-14-15zM161 105c-2-15-9-25-30-25-12 0-20 5-24 11l0 0 0-11-23 0 0 16 0 66 24 0 0-41c0-10 2-21 15-21 13 0 14 13 14 22l0 40 25 0 0-45 0 0c0-4 0-8-1-12z"
-          />
-        </svg>
-      ),
-    },
-  ];
 
   // Google Reviews Component
   const GoogleReviews = () => {
