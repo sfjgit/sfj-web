@@ -9,11 +9,11 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
-    "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training & Tech Solutions",
+    "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training Programs & Tech Solutions",
   description:
-    "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
+    "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training programs, IT consulting services, and tech solutions for future-ready teams.",
   keywords:
-    "IT Services, Corporate Training, Technology Solutions, IT Consulting, Tech Recruitment, IT Skill Development, Professional Services, Enterprise Training, IT Talent Solutions, Bengaluru IT Company",
+    "IT Services, Corporate Training, Technology Solutions, IT Consulting, Tech Recruitment, IT Skill Development, Professional Services, Enterprise Training Programs, IT Talent Solutions, Bengaluru IT Company",
   openGraph: {
     title:
       "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training & Tech Solutions",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training & Tech Solutions",
+      "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training Programs & Tech Solutions",
     description:
       "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
     images: ["https://www.sfjbs.com/ind.png"], // Replace with your actual image URL

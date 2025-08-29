@@ -294,9 +294,9 @@ const ClientsSection = () => {
           <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
             With 14+ years of experience, SFJBS is a trusted enterprise
             upskilling partner in Bangalore, India. We specialize in enterprise
-            training, IT consulting services, and future-ready technology
-            solutions designed to accelerate digital transformation across
-            industries.
+            training programs, IT consulting services, and future-ready
+            technology solutions designed to accelerate digital transformation
+            across industries.
           </p>
 
           {/* Services Grid */}
