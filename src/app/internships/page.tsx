@@ -1,20 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect } from "react";
-import {
-  MapPin,
-  Calendar,
-  Users,
-  ExternalLink,
-  Filter,
-  Search,
-  Star,
-  Building2,
-  Globe,
-  Award,
-} from "lucide-react";
+import React, { useState } from "react";
 
 interface Company {
   id: number;
@@ -22,17 +9,9 @@ interface Company {
   logo: string;
   description: string;
   industry: string;
-  locations: string[];
-  programs: string[];
-  duration: string;
-  eligibility: string;
-  applicationDeadline: string;
-  benefits: string[];
   website: string;
-  rating: number;
-  employees: string;
-  founded: string;
 }
+
 const companies: Company[] = [
   {
     id: 1,
@@ -41,26 +20,7 @@ const companies: Company[] = [
     description:
       "Global technology leader in database software, cloud computing, and enterprise solutions",
     industry: "Technology",
-    locations: ["Bangalore", "Hyderabad", "Mumbai", "Pune"],
-    programs: [
-      "Software Engineering",
-      "Cloud Infrastructure",
-      "Database Management",
-      "AI/ML",
-    ],
-    duration: "3-6 months",
-    eligibility: "Engineering students (2024-2026 batch)",
-    applicationDeadline: "March 2025",
-    benefits: [
-      "Competitive stipend",
-      "Mentorship",
-      "Full-time offer potential",
-      "Training programs",
-    ],
     website: "https://www.oracle.com/careers/students-grads/internships/",
-    rating: 4.2,
-    employees: "143K+",
-    founded: "1977",
   },
   {
     id: 2,
@@ -69,27 +29,8 @@ const companies: Company[] = [
     description:
       "Leading semiconductor and telecommunications equipment company driving 5G innovation",
     industry: "Semiconductor",
-    locations: ["Bangalore", "Chennai", "Hyderabad"],
-    programs: [
-      "Hardware Engineering",
-      "RF Engineering",
-      "Software Development",
-      "AI Research",
-    ],
-    duration: "2-6 months",
-    eligibility: "ECE, CSE students (Pre-final & Final year)",
-    applicationDeadline: "February 2025",
-    benefits: [
-      "Industry exposure",
-      "Patent filing opportunities",
-      "Research projects",
-      "Global collaboration",
-    ],
     website:
       "https://www.qualcomm.com/company/careers/internships-and-early-in-career-opportunities/india",
-    rating: 4.4,
-    employees: "51K+",
-    founded: "1985",
   },
   {
     id: 3,
@@ -98,33 +39,7 @@ const companies: Company[] = [
     description:
       "India's largest IT services company with global presence in consulting and digital transformation",
     industry: "IT Services",
-    locations: [
-      "Mumbai",
-      "Pune",
-      "Bangalore",
-      "Chennai",
-      "Kolkata",
-      "Hyderabad",
-    ],
-    programs: [
-      "Digital Technologies",
-      "Cloud Computing",
-      "Data Analytics",
-      "Cybersecurity",
-    ],
-    duration: "2-3 months",
-    eligibility: "All engineering streams (Final year)",
-    applicationDeadline: "January 2025",
-    benefits: [
-      "TCS certification",
-      "Project experience",
-      "Pre-placement offers",
-      "Global exposure",
-    ],
     website: "https://www.tcs.com/careers/india/internship",
-    rating: 3.9,
-    employees: "614K+",
-    founded: "1968",
   },
   {
     id: 4,
@@ -133,26 +48,7 @@ const companies: Company[] = [
     description:
       "Global leader in next-generation digital services and consulting solutions",
     industry: "IT Consulting",
-    locations: ["Bangalore", "Mysore", "Chennai", "Hyderabad", "Pune"],
-    programs: [
-      "InStep Program",
-      "Software Engineering",
-      "Data Science",
-      "Automation",
-    ],
-    duration: "2-6 months",
-    eligibility: "Engineering & MCA students (Pre-final year)",
-    applicationDeadline: "December 2024",
-    benefits: [
-      "InStep certification",
-      "Mentorship program",
-      "Innovation projects",
-      "Campus placement priority",
-    ],
     website: "https://www.infosys.com/careers/internships.html",
-    rating: 4.0,
-    employees: "346K+",
-    founded: "1981",
   },
   {
     id: 5,
@@ -161,26 +57,7 @@ const companies: Company[] = [
     description:
       "German multinational engineering and technology company with automotive and industrial solutions",
     industry: "Automotive & Industrial",
-    locations: ["Bangalore", "Chennai", "Coimbatore", "Pune"],
-    programs: [
-      "Automotive Engineering",
-      "IoT Solutions",
-      "Industry 4.0",
-      "Mobility Solutions",
-    ],
-    duration: "3-6 months",
-    eligibility: "Mechanical, ECE, CSE students",
-    applicationDeadline: "April 2025",
-    benefits: [
-      "German work culture",
-      "Innovation labs access",
-      "International exposure",
-      "Research opportunities",
-    ],
     website: "https://www.bosch.in/careers/students-and-graduates/internships/",
-    rating: 4.3,
-    employees: "421K+",
-    founded: "1886",
   },
   {
     id: 6,
@@ -189,26 +66,7 @@ const companies: Company[] = [
     description:
       "Leading global information technology, consulting and business process services company",
     industry: "IT Services",
-    locations: ["Bangalore", "Hyderabad", "Chennai", "Pune", "Noida"],
-    programs: [
-      "Digital Technology",
-      "Cloud & Infrastructure",
-      "Analytics",
-      "Cybersecurity",
-    ],
-    duration: "8-12 weeks",
-    eligibility: "Engineering students (Pre-final year)",
-    applicationDeadline: "February 2025",
-    benefits: [
-      "Real project work",
-      "Skill development",
-      "Networking opportunities",
-      "Certificate programs",
-    ],
     website: "https://careers.wipro.com/content/Early-Careers/?locale=en_US",
-    rating: 3.8,
-    employees: "250K+",
-    founded: "1945",
   },
   {
     id: 7,
@@ -217,26 +75,7 @@ const companies: Company[] = [
     description:
       "Global technology and innovation company focusing on hybrid cloud, AI, and consulting services",
     industry: "Technology",
-    locations: ["Bangalore", "Mumbai", "Delhi", "Chennai", "Hyderabad"],
-    programs: [
-      "AI & Data Science",
-      "Cloud Computing",
-      "Blockchain",
-      "Quantum Computing",
-    ],
-    duration: "2-3 months",
-    eligibility: "CSE, IT, ECE students (All years)",
-    applicationDeadline: "March 2025",
-    benefits: [
-      "IBM badges",
-      "Mentorship",
-      "Open source contributions",
-      "Research collaboration",
-    ],
     website: "https://www.ibm.com/in-en/careers/internships",
-    rating: 4.1,
-    employees: "282K+",
-    founded: "1911",
   },
   {
     id: 8,
@@ -245,26 +84,7 @@ const companies: Company[] = [
     description:
       "India's largest conglomerate with businesses spanning automotive, steel, IT, and consumer goods",
     industry: "Conglomerate",
-    locations: ["Mumbai", "Pune", "Jamshedpur", "Bangalore", "Chennai"],
-    programs: [
-      "Global Internship Program",
-      "Engineering",
-      "Management",
-      "Research & Development",
-    ],
-    duration: "6-8 weeks",
-    eligibility: "All streams (Pre-final & Final year)",
-    applicationDeadline: "January 2025",
-    benefits: [
-      "Cross-industry exposure",
-      "Leadership development",
-      "Global assignments",
-      "Fast-track hiring",
-    ],
     website: "https://www.tata.com/careers/programs/tata-global-internships",
-    rating: 4.2,
-    employees: "935K+",
-    founded: "1868",
   },
   {
     id: 9,
@@ -273,26 +93,7 @@ const companies: Company[] = [
     description:
       "Government of India initiative for digital skill development and employment generation",
     industry: "Government/Education",
-    locations: ["Pan India - Remote & On-site"],
-    programs: [
-      "Digital Marketing",
-      "Web Development",
-      "Data Analytics",
-      "Fintech",
-    ],
-    duration: "1-3 months",
-    eligibility: "All students and graduates",
-    applicationDeadline: "Rolling basis",
-    benefits: [
-      "Government certification",
-      "Skill development",
-      "Job placement assistance",
-      "Free training",
-    ],
     website: "https://www.skillindiadigital.gov.in/internship",
-    rating: 3.7,
-    employees: "Government Initiative",
-    founded: "2015",
   },
   {
     id: 10,
@@ -301,27 +102,8 @@ const companies: Company[] = [
     description:
       "Global professional services company with leading capabilities in digital, cloud and security",
     industry: "Consulting",
-    locations: ["Bangalore", "Mumbai", "Chennai", "Hyderabad", "Pune"],
-    programs: [
-      "Technology Consulting",
-      "Digital Solutions",
-      "Strategy & Consulting",
-      "Operations",
-    ],
-    duration: "8-10 weeks",
-    eligibility: "All engineering streams (Pre-final year)",
-    applicationDeadline: "February 2025",
-    benefits: [
-      "Global projects",
-      "Client interaction",
-      "Professional development",
-      "Fast-track offers",
-    ],
     website:
       "https://www.accenture.com/ch-en/careers/life-at-accenture/internships-students",
-    rating: 4.0,
-    employees: "738K+",
-    founded: "1989",
   },
   {
     id: 11,
@@ -330,31 +112,11 @@ const companies: Company[] = [
     description:
       "Technology giant focused on productivity software, cloud services, and artificial intelligence",
     industry: "Technology",
-    locations: ["Bangalore", "Hyderabad", "Noida"],
-    programs: [
-      "Software Engineering",
-      "Data Science",
-      "Product Management",
-      "Research",
-    ],
-    duration: "3-4 months",
-    eligibility: "CSE, IT students (All years)",
-    applicationDeadline: "April 2025",
-    benefits: [
-      "Top-tier compensation",
-      "Mentorship",
-      "Open source projects",
-      "Full-time conversion",
-    ],
     website: "https://careers.microsoft.com/v2/global/en/students",
-    rating: 4.5,
-    employees: "221K+",
-    founded: "1975",
   },
 ];
+
 const InternshipLanding = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIndustry, setSelectedIndustry] = useState("All");
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
@@ -363,14 +125,6 @@ const InternshipLanding = () => {
     "All",
     ...Array.from(new Set(companies.map((c) => c.industry))),
   ];
-  const featuredCompanies = companies.slice(0, 5);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % featuredCompanies.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
 
   const filteredCompanies = companies.filter((company) => {
     const matchesSearch =
@@ -381,53 +135,25 @@ const InternshipLanding = () => {
     return matchesSearch && matchesIndustry;
   });
 
-  const StarRating = ({ rating }: { rating: number }) => {
-    return (
-      <div className="flex items-center gap-1">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-4 h-4 ${
-              i < Math.floor(rating)
-                ? "fill-yellow-400 text-yellow-400"
-                : i < rating
-                ? "fill-yellow-200 text-yellow-400"
-                : "text-gray-300"
-            }`}
-          />
-        ))}
-        <span className="ml-1 text-sm text-gray-600">{rating}</span>
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-96 flex items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/5 to-slate-800/10"></div>
+      <section className="relative h-96 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-800">
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/10 to-slate-800/20"></div>
 
         {/* Hero Content */}
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-900 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
             Launch Your Career
           </h1>
-          <p className="text-lg md:text-xl mb-6 text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
             Discover amazing internship opportunities with India's top companies
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <button className="px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transform hover:scale-105 transition-all duration-300 shadow-lg">
-              Explore Internships
-            </button>
-            <button className="px-6 py-3 border-2 border-slate-300 text-slate-700 rounded-lg font-medium hover:border-slate-400 hover:bg-slate-50 transition-all duration-300">
-              Learn More
-            </button>
-          </div>
         </div>
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-16  bg-white/80 backdrop-blur-sm">
+      <section className="py-16 bg-white/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -441,7 +167,19 @@ const InternshipLanding = () => {
 
           <div className="flex flex-col md:flex-row gap-6 mb-8">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <svg
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z"
+                />
+              </svg>
               <input
                 type="text"
                 placeholder="Search companies or industries..."
@@ -452,7 +190,19 @@ const InternshipLanding = () => {
             </div>
 
             <div className="relative">
-              <Filter className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <svg
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                />
+              </svg>
               <select
                 value={selectedIndustry}
                 onChange={(e) => setSelectedIndustry(e.target.value)}
@@ -502,73 +252,48 @@ const InternshipLanding = () => {
                   key={company.id}
                   className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group"
                 >
-                  {/* bg-gradient-to-br from-blue-600 to-indigo-600 */}
-                  <div className=" p-6 text-blue-600 relative overflow-hidden">
+                  <div className="p-6 text-blue-600 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
                     <div className="relative z-10">
                       <div className="text-4xl mb-3">
                         <img
                           src={company.logo}
                           alt={company.name}
-                          className="w-16"
+                          className="w-16 h-16 object-contain"
                         />
                       </div>
-                      <h3 className="text-2xl font-bold mb-2">
+                      <h3 className="text-2xl font-bold mb-2 text-gray-900">
                         {company.name}
                       </h3>
-                      <p className="text-blue-600 text-sm">
-                        {company.industry}
-                      </p>
                     </div>
                   </div>
 
                   <div className="p-6">
-                    <p className="text-gray-600 mb-4 line-clamp-2">
+                    <p className="text-gray-600 mb-4 line-clamp-3">
                       {company.description}
                     </p>
 
-                    <div className="space-y-3 mb-6">
-                      <div className="flex items-center text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 mr-2 text-blue-600" />
-                        <span className="truncate">
-                          {company.locations.slice(0, 2).join(", ")}
-                          {company.locations.length > 2
-                            ? ` +${company.locations.length - 2}`
-                            : ""}
-                        </span>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Calendar className="w-4 h-4 mr-2 text-blue-600" />
-                        <span>{company.duration}</span>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Users className="w-4 h-4 mr-2 text-blue-600" />
-                        <span>{company.employees} employees</span>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center mb-4">
-                      <StarRating rating={company.rating} />
-                      <span className="text-sm text-gray-500">
-                        Est. {company.founded}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {company.programs.slice(0, 3).map((program, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-                        >
-                          {program}
-                        </span>
-                      ))}
-                    </div>
-
-                    <button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform group-hover:scale-105 flex items-center justify-center gap-2">
+                    <a
+                      href={company.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform group-hover:scale-105 flex items-center justify-center gap-2"
+                    >
                       <span>Apply Now</span>
-                      <ExternalLink className="w-4 h-4" />
-                    </button>
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
                   </div>
                 </div>
               ))}
@@ -583,19 +308,7 @@ const InternshipLanding = () => {
                         Company
                       </th>
                       <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Industry
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Locations
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Duration
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Deadline
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Rating
+                        Description
                       </th>
                       <th className="px-6 py-4 text-left text-sm font-semibold">
                         Action
@@ -611,48 +324,42 @@ const InternshipLanding = () => {
                         }`}
                       >
                         <td className="px-6 py-4">
-                          <div className="flex items-center">
-                            <div className="text-xs">
-                              <img
-                                src={company.logo}
-                                alt={company.name}
-                                className="w-24"
-                              />
-                              {/* <div className="font-semibold text-gray-900">
-                                {company.name}
-                              </div> */}
-                              {/* <div className=" text-gray-500">
-                                {company.employees} employees
-                              </div> */}
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={company.logo}
+                              alt={company.name}
+                              className="w-12 h-12 object-contain"
+                            />
+                            <div className="font-semibold text-gray-900">
+                              {company.name}
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
-                          {company.industry}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-600">
-                          {company.locations.slice(0, 2).join(", ")}
-                          {company.locations.length > 2 && (
-                            <span className="text-blue-600">
-                              {" "}
-                              +{company.locations.length - 2}
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
-                          {company.duration}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
-                          {company.applicationDeadline}
+                        <td className="px-6 py-4 text-sm text-gray-600 max-w-md">
+                          {company.description}
                         </td>
                         <td className="px-6 py-4">
-                          <StarRating rating={company.rating} />
-                        </td>
-                        <td className="px-6 py-4">
-                          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center gap-2">
+                          <a
+                            href={company.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center gap-2 w-fit"
+                          >
                             <span>Apply</span>
-                            <ExternalLink className="w-3 h-3" />
-                          </button>
+                            <svg
+                              className="w-3 h-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                          </a>
                         </td>
                       </tr>
                     ))}
@@ -663,57 +370,6 @@ const InternshipLanding = () => {
           )}
         </div>
       </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-900 to-indigo-900 text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-2">
-              <Building2 className="w-12 h-12 mx-auto text-blue-300" />
-              <div className="text-3xl font-bold">11+</div>
-              <div className="text-blue-200">Top Companies</div>
-            </div>
-            <div className="space-y-2">
-              <Users className="w-12 h-12 mx-auto text-blue-300" />
-              <div className="text-3xl font-bold">3M+</div>
-              <div className="text-blue-200">Total Employees</div>
-            </div>
-            <div className="space-y-2">
-              <Globe className="w-12 h-12 mx-auto text-blue-300" />
-              <div className="text-3xl font-bold">25+</div>
-              <div className="text-blue-200">Cities</div>
-            </div>
-            <div className="space-y-2">
-              <Award className="w-12 h-12 mx-auto text-blue-300" />
-              <div className="text-3xl font-bold">4.1</div>
-              <div className="text-blue-200">Avg Rating</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">
-              Ready to Start Your Journey?
-            </h3>
-            <p className="text-gray-400 mb-8">
-              Join thousands of students who have launched their careers with
-              these amazing companies.
-            </p>
-            <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300">
-              Get Started Today
-            </button>
-          </div>
-          <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>
-              &copy; 2025 Internship Opportunities Portal. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
