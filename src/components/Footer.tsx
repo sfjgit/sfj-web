@@ -86,6 +86,11 @@ const Footer = () => {
           description:
             "15,000+ successful placements with top-tier IT professionals",
         },
+        {
+          path: "/internships",
+          label: "Internship Programs",
+          icon: Heart,
+        },
       ],
     },
     {
