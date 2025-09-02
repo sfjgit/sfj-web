@@ -10,12 +10,12 @@ import {
   ArrowRight,
   Star,
   Target,
-  Globe,
   BookOpen,
   TrendingUp,
 } from "lucide-react";
 import GenerativeAIRoles from "./GenerativeAIRoles";
 import { useRouter } from "next/navigation";
+import CSRBottomCTA from "./Cta";
 
 const CSRLandingPage = () => {
   const [activeTab, setActiveTab] = useState("awareness");
@@ -436,31 +436,9 @@ const CSRLandingPage = () => {
             <TabContent id={activeTab} />
           </div>
         </div>
+        <CSRBottomCTA />
 
         {/* Bottom CTA */}
-        <div className="text-center mt-8">
-          <div className="bg-blue-600 rounded-2xl p-6 text-white">
-            <div className="flex items-center justify-center mb-4">
-              <Globe className="w-8 h-8 mr-3" />
-              <h2 className="text-2xl font-bold">
-                Join Us in Shaping India&#39;s Tech Future
-              </h2>
-            </div>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              From schools to rural communities — together, we can unlock
-              future-ready opportunities and create measurable impact across
-              India.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {/* <button className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200">
-                  Contact Our CSR Team
-                </button> */}
-              <button className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
-                Download CSR Brochure
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
