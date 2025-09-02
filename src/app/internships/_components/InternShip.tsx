@@ -19,109 +19,146 @@ const companies: Company[] = [
     logo: "/logo/Oracle.png",
     description:
       "Global technology leader in database software, cloud computing, and enterprise solutions",
-    industry: "Technology",
+    industry: "Corporate Internships",
     website: "https://www.oracle.com/careers/students-grads/internships/",
   },
   {
     id: 2,
-    name: "NITI Aayog",
-    logo: "/logo/NITI_Aayog.png",
-    description: "The National Institute of Technology, India",
-    industry: "Technology",
-    website:
-      "https://workforindia.niti.gov.in/intern/InternshipEntry/PCInternshipEntry.aspx",
-  },
-  {
-    id: 3,
     name: "Tata Consultancy Services",
     logo: "/logo/TCS.webp",
     description:
       "India's largest IT services company with global presence in consulting and digital transformation",
-    industry: "IT Services",
+    industry: "Corporate Internships",
     website: "https://www.tcs.com/careers/india/internship",
   },
   {
-    id: 4,
+    id: 3,
     name: "Infosys",
     logo: "/logo/Infosys.png",
     description:
       "Global leader in next-generation digital services and consulting solutions",
-    industry: "IT Consulting",
+    industry: "Corporate Internships",
     website: "https://www.infosys.com/careers/internships.html",
   },
   {
-    id: 5,
+    id: 4,
     name: "Bosch",
     logo: "/logo/Bosch.png",
     description:
       "German multinational engineering and technology company with automotive and industrial solutions",
-    industry: "Automotive & Industrial",
+    industry: "Corporate Internships",
     website: "https://www.bosch.in/careers/students-and-graduates/internships/",
   },
   {
-    id: 6,
+    id: 5,
     name: "Wipro",
     logo: "/logo/Wipro.png",
     description:
       "Leading global information technology, consulting and business process services company",
-    industry: "IT Services",
+    industry: "Corporate Internships",
     website: "https://careers.wipro.com/content/Early-Careers/?locale=en_US",
   },
   {
-    id: 7,
+    id: 6,
     name: "IBM",
     logo: "/logo/IBM.png",
     description:
       "Global technology and innovation company focusing on hybrid cloud, AI, and consulting services",
-    industry: "Technology",
+    industry: "Corporate Internships",
     website: "https://www.ibm.com/in-en/careers/internships",
   },
   {
-    id: 8,
+    id: 7,
     name: "Tata Group",
     logo: "/logo/TATA.png",
     description:
       "India's largest conglomerate with businesses spanning automotive, steel, IT, and consumer goods",
-    industry: "Conglomerate",
+    industry: "Corporate Internships",
     website: "https://www.tata.com/careers/programs/tata-global-internships",
   },
   {
-    id: 9,
-    name: "Skill India Digital",
-    logo: "/logo/Skill India.png",
-    description:
-      "Government of India initiative for digital skill development and employment generation",
-    industry: "Government/Education",
-    website: "https://www.skillindiadigital.gov.in/internship",
-  },
-  {
-    id: 10,
+    id: 8,
     name: "Accenture",
     logo: "/logo/Accenture.svg.webp",
     description:
       "Global professional services company with leading capabilities in digital, cloud and security",
-    industry: "Consulting",
+    industry: "Corporate Internships",
     website:
       "https://www.accenture.com/ch-en/careers/life-at-accenture/internships-students",
   },
   {
-    id: 11,
+    id: 9,
     name: "Microsoft",
     logo: "/logo/Microsoft.png",
     description:
       "Technology giant focused on productivity software, cloud services, and artificial intelligence",
-    industry: "Technology",
+    industry: "Corporate Internships",
     website: "https://careers.microsoft.com/v2/global/en/students",
   },
   {
+    id: 10,
+    name: "Skill India Digital",
+    logo: "/logo/Skill India.png",
+    description:
+      "Government of India initiative for digital skill development and employment generation",
+    industry: "Government Interships",
+    website: "https://www.skillindiadigital.gov.in/internship",
+  },
+  {
+    id: 11,
+    name: "NeGD’s Summer Internship Programme - 2025",
+    logo: "/logo/Digital India.png",
+    description:
+      "An opportunity for students to gain hands-on experience in Digital India initiatives.",
+    industry: "Government Interships",
+    website:
+      "https://dic.gov.in/jobs/announcement-of-negds-summer-internship-programme-2025",
+  },
+  {
     id: 12,
+    name: "DPIIT Internship Scheme",
+    logo: "/logo/dpiit.png",
+    description:
+      "A scheme by the Department for Promotion of Industry and Internal Trade offering students exposure to government policy-making, startup ecosystem, and industrial development.",
+    industry: "Government Interships",
+    website: "https://www.myscheme.gov.in/schemes/dpiit-is",
+  },
+  {
+    id: 13,
+    name: "PM Internship Scheme",
+    logo: "/logo/pminternshipscheme.png",
+    description:
+      "A government initiative providing students with practical exposure to governance, policy implementation, and public administration under the Prime Minister’s Office.",
+    industry: "Government Interships",
+    website: "https://pminternshipscheme.com/",
+  },
+  {
+    id: 14,
+    name: "NITI Aayog",
+    logo: "/logo/NITI_Aayog.png",
+    description: "The National Institute of Technology, India",
+    industry: "Government Interships",
+    website:
+      "https://workforindia.niti.gov.in/intern/InternshipEntry/PCInternshipEntry.aspx",
+  },
+  {
+    id: 15,
     name: "NIT Sikkim",
     logo: "/logo/National_Institute_of_Technology_Sikkim.png",
     description:
       "National Institute of Technology (NIT) Sikkim is a public university located in Gangtok, Sikkim, India",
-    industry: "Technology",
+    industry: "Government Interships",
     website:
       "https://docs.google.com/forms/d/e/1FAIpQLSeZGRRlnar9Q2e7oUW7-bnPKxkBDgLEWidyI3U9XiIM9z-D-w/viewform",
+  },
+  {
+    id: 16,
+    name: "National Scholarships Portal",
+    logo: "/logo/NIC.png",
+    description:
+      "A government initiative providing students with practical exposure to governance, policy implementation, and public administration under the Prime Minister’s Office.",
+    industry: "Scholarships",
+    website: "https://www.nic.gov.in/project/national-scholarships-portal/",
   },
 ];
 
