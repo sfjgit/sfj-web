@@ -101,7 +101,7 @@ const companies: Company[] = [
     logo: "/logo/Skill India.png",
     description:
       "Government of India initiative for digital skill development and employment generation",
-    industry: "Government Interships",
+    industry: "Government Internships",
     website: "https://www.skillindiadigital.gov.in/internship",
   },
   {
@@ -110,7 +110,7 @@ const companies: Company[] = [
     logo: "/logo/Digital India.png",
     description:
       "An opportunity for students to gain hands-on experience in Digital India initiatives.",
-    industry: "Government Interships",
+    industry: "Government Internships",
     website:
       "https://dic.gov.in/jobs/announcement-of-negds-summer-internship-programme-2025",
   },
@@ -120,7 +120,7 @@ const companies: Company[] = [
     logo: "/logo/dpiit.png",
     description:
       "A scheme by the Department for Promotion of Industry and Internal Trade offering students exposure to government policy-making, startup ecosystem, and industrial development.",
-    industry: "Government Interships",
+    industry: "Government Internships",
     website: "https://www.myscheme.gov.in/schemes/dpiit-is",
   },
   {
@@ -129,7 +129,7 @@ const companies: Company[] = [
     logo: "/logo/pminternshipscheme.png",
     description:
       "A government initiative providing students with practical exposure to governance, policy implementation, and public administration under the Prime Minister’s Office.",
-    industry: "Government Interships",
+    industry: "Government Internships",
     website: "https://pminternshipscheme.com/",
   },
   {
@@ -137,7 +137,7 @@ const companies: Company[] = [
     name: "NITI Aayog",
     logo: "/logo/NITI_Aayog.png",
     description: "The National Institute of Technology, India",
-    industry: "Government Interships",
+    industry: "Government Internships",
     website:
       "https://workforindia.niti.gov.in/intern/InternshipEntry/PCInternshipEntry.aspx",
   },
@@ -147,7 +147,7 @@ const companies: Company[] = [
     logo: "/logo/National_Institute_of_Technology_Sikkim.png",
     description:
       "National Institute of Technology (NIT) Sikkim is a public university located in Gangtok, Sikkim, India",
-    industry: "Government Interships",
+    industry: "Government Internships",
     website:
       "https://docs.google.com/forms/d/e/1FAIpQLSeZGRRlnar9Q2e7oUW7-bnPKxkBDgLEWidyI3U9XiIM9z-D-w/viewform",
   },
