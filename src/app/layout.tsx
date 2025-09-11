@@ -5,6 +5,7 @@ import ClientProvider from "./_components/ClientProvider";
 import Navigation from "@/components/Navigation";
 import Script from "next/script";
 import SFJContactForm from "./_components/SFJContactForm";
+import CookieBanner from "@/components/CookieBanner";
 
 export const metadata: Metadata = {
   title:
@@ -170,6 +171,7 @@ export default function RootLayout({
           {children}
           <Footer />
           <SFJContactForm />
+          <CookieBanner />
         </ClientProvider>
       </body>
     </html>
