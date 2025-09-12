@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import Script from "next/script";
 import SFJContactForm from "./_components/SFJContactForm";
 import CookieBanner from "@/components/CookieBanner";
+import PushNotificationButton from "@/components/PushNotificationButton";
 
 export const metadata: Metadata = {
   title:
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
   creator: "SFJ Business Solutions",
   publisher: "SFJ Business Solutions",
   robots: "index, follow",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+  // viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -172,6 +173,10 @@ export default function RootLayout({
           <Footer />
           <SFJContactForm />
           <CookieBanner />
+
+          <div className="p-4 bg-gray-100">
+            <PushNotificationButton />
+          </div>
         </ClientProvider>
       </body>
     </html>
