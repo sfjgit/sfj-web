@@ -3,13 +3,13 @@ import { initializeApp, FirebaseApp } from "firebase/app";
 import { getMessaging, Messaging } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCg8bRfs4OlP0e_0HEM6YnxTWi31fzepsg",
-  authDomain: "sfj-business-solutions.firebaseapp.com",
-  projectId: "sfj-business-solutions",
-  storageBucket: "sfj-business-solutions.firebasestorage.app",
-  messagingSenderId: "208277903434",
-  appId: "1:208277903434:web:695f8e08396d6b4f7faeb3",
-  measurementId: "G-2ZWW0KW1DG",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN!,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID!,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET!,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID!,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID!,
 };
 
 let app: FirebaseApp | null = null;

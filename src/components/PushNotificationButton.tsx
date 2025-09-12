@@ -32,8 +32,7 @@ export default function PushNotificationButton() {
 
     try {
       const token = await getToken(messaging, {
-        vapidKey:
-          "BEjDWYUzLGVYGjmHxaV7Fnl1FHiutYrcOOUni4Pi7oyTX1ZMeOUBEomEBjsBHzhseViz3DinjdDd7G3zLAxafqQ",
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
       });
 
       if (!token) {
