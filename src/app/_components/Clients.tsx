@@ -14,12 +14,6 @@ import "swiper/css/pagination";
 const ClientsSection = () => {
   const clientLogos = [
     {
-      src: "/clients/dodsal.png",
-      name: "Dodsal",
-      industry: "Engineering",
-      description: "Global engineering & construction",
-    },
-    {
       src: "/clients/Accenture.png",
       name: "Accenture",
       industry: "Consulting",
