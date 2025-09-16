@@ -10,7 +10,7 @@ const CSRBottomCTA = () => {
     try {
       // Method 1: If PDF is in your public folder
       const link = document.createElement("a");
-      link.href = "/csr-brochure.pdf"; // Path to your PDF in public folder
+      link.href = "/CSR-Brochure.pdf"; // Path to your PDF in public folder
       link.download = "CSR-Brochure.pdf"; // Name for downloaded file
       document.body.appendChild(link);
       link.click();

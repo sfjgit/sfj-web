@@ -23,6 +23,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import GoogleTrans from "./GoogleTrans";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -279,9 +280,7 @@ const Navigation = () => {
             >
               Contact Us
             </Button>
-            <div id="google_translate_wrapper">
-              <div id="google_translate_element" className="ml-4"></div>
-            </div>
+            <GoogleTrans />
           </div>
           {/* Mobile menu button */}
           <div className="md:hidden">
@@ -374,6 +373,10 @@ const Navigation = () => {
               >
                 Contact Us
               </Button>
+            </div>
+            {/* Mobile Translate Button */}
+            <div className="pt-3 flex justify-center">
+              <GoogleTrans />
             </div>
           </div>
         </div>

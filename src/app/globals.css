@@ -191,3 +191,11 @@ html {
   border-radius: 4px !important;
   padding: 0 !important;
 }
+
+.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}

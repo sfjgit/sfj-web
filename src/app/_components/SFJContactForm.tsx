@@ -129,10 +129,10 @@ const SFJContactForm = () => {
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="contact-button relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-6 rounded-full shadow-xl flex items-center gap-2 font-medium border-2 border-white transition-all duration-300 hover:scale-105"
+            className="contact-button relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-3 md:px-6 md:py-6  rounded-full shadow-xl flex items-center gap-2 font-medium border-2 border-white transition-all duration-300 hover:scale-105"
           >
-            <Headphones size={20} className="animate-bounce" />
-            <span className="text-base font-bold">Chat with Us</span>
+            <Headphones size={24} className="md:size-8 animate-bounce" />
+            <span className="text-xs md:text-lg font-bold">Chat with us</span>
           </button>
 
           {/* Floating notification dot */}
@@ -335,12 +335,18 @@ const SFJContactForm = () => {
           href="https://wa.me/9845348601"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105"
+          className="bg-green-500 hover:bg-green-600 text-white p-3 md:p-4 rounded-full shadow-lg flex items-center gap-2 transition-all duration-300 hover:scale-105"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="md:w-6 md:h-6"
+          >
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.01 2.002c-5.522 0-9.998 4.477-9.998 9.998 0 1.762.46 3.419 1.264 4.849L2.01 22l5.292-1.388c1.377.745 2.942 1.135 4.708 1.135 5.522 0 9.998-4.477 9.998-9.998s-4.476-9.998-9.998-9.998M12.01.002c6.628 0 12.01 5.382 12.01 12.01S18.638 24.022 12.01 24.022c-1.892 0-3.679-.437-5.273-1.218L.002 24.022l1.302-4.769C.438 17.673.002 14.922.002 12.01.002 5.382 5.384.002 12.01.002" />
           </svg>
-          <span className="text-sm font-medium">Chat with us</span>
+          <span className="text-xs md:text-sm font-medium">Chat with us</span>
         </a>
       </div>
     </>
