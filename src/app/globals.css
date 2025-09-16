@@ -163,3 +163,31 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+#google_translate_wrapper {
+  display: inline-block;
+  height: 36px; /* exact navbar height */
+  overflow: hidden;
+  width: 150px; /* adjust width for dropdown */
+  vertical-align: middle;
+  margin-left: 12px;
+}
+
+#google_translate_element {
+  transform: scale(0.8); /* scale down internal content */
+  transform-origin: top left;
+}
+
+#google_translate_element select {
+  height: 28px !important; /* dropdown height */
+  padding: 0 4px !important;
+  font-size: 10px !important;
+  border-radius: 4px !important;
+}
+
+.goog-te-gadget-simple {
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  padding: 0 !important;
+}

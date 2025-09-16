@@ -279,6 +279,9 @@ const Navigation = () => {
             >
               Contact Us
             </Button>
+            <div id="google_translate_wrapper">
+              <div id="google_translate_element" className="ml-4"></div>
+            </div>
           </div>
           {/* Mobile menu button */}
           <div className="md:hidden">
