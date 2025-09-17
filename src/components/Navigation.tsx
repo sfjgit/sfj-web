@@ -157,38 +157,41 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3">
           {/* Logo */}
-
-          <Link
-            href="/"
-            className="flex flex-col items-center group transition-transform hover:scale-105"
-          >
-            <div className="relative">
-              {isScrolled || isLocationBlack() ? (
-                <Image
-                  src="/app/sfjlogo.png"
-                  alt="SFJ Logo"
-                  className="w-16 h-16 object-cover"
-                  quality={100}
-                  width={64}
-                  height={64}
-                />
-              ) : (
-                <Image
-                  src="/app/SFJ.png"
-                  alt="SFJ Logo"
-                  className="w-16 h-16 object-cover"
-                  quality={100}
-                  width={64}
-                  height={64}
-                />
-              )}
-
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            {/* <p className="text-xs font-semibold text-gray-700 mt-1 group-hover:text-blue-600 transition-colors">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="flex flex-col items-center group transition-transform hover:scale-105"
+            >
+              <div className="relative">
+                {isScrolled || isLocationBlack() ? (
+                  <Image
+                    src="/app/sfjlogo.png"
+                    alt="SFJ Logo"
+                    className="w-16 h-16 object-cover"
+                    quality={100}
+                    width={64}
+                    height={64}
+                  />
+                ) : (
+                  <Image
+                    src="/app/SFJ.png"
+                    alt="SFJ Logo"
+                    className="w-16 h-16 object-cover"
+                    quality={100}
+                    width={64}
+                    height={64}
+                  />
+                )}
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              {/* <p className="text-xs font-semibold text-gray-700 mt-1 group-hover:text-blue-600 transition-colors">
               Let&apos;s <span className="text-blue-600">Transform</span>
             </p> */}
-          </Link>
+            </Link>
+            <div className="-ml-7 md:-ml-5">
+              <GoogleTrans />
+            </div>
+          </div>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navigationItems.map((item) => (
@@ -280,7 +283,6 @@ const Navigation = () => {
             >
               Contact Us
             </Button>
-            <GoogleTrans />
           </div>
           {/* Mobile menu button */}
           <div className="md:hidden">
