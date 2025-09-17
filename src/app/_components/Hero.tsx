@@ -123,7 +123,7 @@ const offerings = [
     description: "",
     cta: "Learn More",
     secondaryCta: "Our Partners",
-    img: "/app/home/csr.png",
+    img: "/app/home/CSR.webp",
     link: "/services/corporate-social-responsibility",
     clients: "5+",
     features: [

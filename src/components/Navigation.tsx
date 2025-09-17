@@ -188,7 +188,7 @@ const Navigation = () => {
               Let&apos;s <span className="text-blue-600">Transform</span>
             </p> */}
             </Link>
-            <div className="-ml-7 md:-ml-5">
+            <div className="-ml-2 md:ml-0">
               <GoogleTrans />
             </div>
           </div>

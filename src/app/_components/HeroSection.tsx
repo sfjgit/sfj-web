@@ -105,7 +105,7 @@ const HeroServicesSection = () => {
       subtitle: "Community Development Programs",
       description: "CSR initiatives focused on education and skill development",
       cta: "Learn More",
-      img: "/app/home/CSR.png",
+      img: "/app/home/CSR.webp",
       link: "/services/corporate-social-responsibility",
       clients: "5+",
     },
