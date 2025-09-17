@@ -1,155 +1,301 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React from "react";
-import { useEffect } from "react";
+
+import { useEffect, useRef, useState, useCallback } from "react";
+import { ChevronDown } from "lucide-react";
+
+interface Language {
+  code: string;
+  name: string;
+  flag: string;
+  short: string;
+}
+
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     google: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     googleTranslateElementInit: any;
   }
 }
 
+const languages: Language[] = [
+  {
+    code: "en",
+    name: "English",
+    flag: "https://flagcdn.com/us.svg",
+    short: "EN",
+  },
+  {
+    code: "ar",
+    name: "العربية",
+    flag: "https://flagcdn.com/ar.svg",
+    short: "AR",
+  },
+  {
+    code: "es",
+    name: "Español",
+    flag: "https://flagcdn.com/es.svg",
+    short: "ES",
+  },
+  {
+    code: "fr",
+    name: "Français",
+    flag: "https://flagcdn.com/fr.svg",
+    short: "FR",
+  },
+  {
+    code: "zh-CN",
+    name: "中文",
+    flag: "https://flagcdn.com/cn.svg",
+    short: "CN",
+  },
+  {
+    code: "ru",
+    name: "Русский",
+    flag: "https://flagcdn.com/ru.svg",
+    short: "RU",
+  },
+  {
+    code: "de",
+    name: "Deutsch",
+    flag: "https://flagcdn.com/de.svg",
+    short: "DE",
+  },
+  {
+    code: "hi",
+    name: "हिन्दी",
+    flag: "https://flagcdn.com/in.svg",
+    short: "HI",
+  },
+  {
+    code: "ja",
+    name: "日本語",
+    flag: "https://flagcdn.com/jp.svg",
+    short: "JP",
+  },
+  {
+    code: "pt",
+    name: "Português",
+    flag: "https://flagcdn.com/br.svg",
+    short: "PT",
+  },
+];
+
+const getLangFromHash = (): string => {
+  const hash = window.location.hash;
+  const match = hash.match(/#googtrans\(en\|([^)]+)\)/);
+  return match ? match[1] : "en";
+};
+
+const getLangFromCookie = (): string => {
+  const cookie = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("googtrans="));
+  if (!cookie) return "en";
+  const match = cookie.match(/googtrans=\/en\/([^;]+)/);
+  return match ? match[1] : "en";
+};
+
+const findLanguageByCode = (code: string): Language => {
+  return languages.find((lang) => lang.code === code) || languages[0];
+};
+
 export default function GoogleTrans() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState<Language | null>(null); // Start with null
+  const [isClient, setIsClient] = useState(false); // Track client hydration
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const googleInitialized = useRef(false);
+
+  // Initialize client-side only to prevent hydration mismatch
   useEffect(() => {
-    const addScript = () => {
-      if (!document.querySelector("#google-translate-script")) {
-        const script = document.createElement("script");
-        script.id = "google-translate-script";
-        script.src =
-          "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-        document.body.appendChild(script);
+    // This runs only on client side after hydration
+    const hashLang = getLangFromHash();
+    const cookieLang = getLangFromCookie();
+    const currentLang = hashLang !== "en" ? hashLang : cookieLang;
+    const language = findLanguageByCode(currentLang);
+
+    setSelectedLang(language);
+    setIsClient(true);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
       }
     };
 
-    window.googleTranslateElementInit = () => {
-      if (!window.google?.translate) return;
-      new window.google.translate.TranslateElement(
-        { pageLanguage: "en" },
-        "google_translate_element"
-      );
-    };
-
-    addScript();
-
-    // 🔥 Cleanup unwanted Google UI
-    const hideGoogleTranslateUI = () => {
-      const banner = document.querySelector(".goog-te-banner-frame");
-      if (banner) banner.remove();
-
-      const tooltip = document.querySelector("#goog-gt-tt");
-      if (tooltip) tooltip.remove();
-
-      document.body.style.top = "0px";
-    };
-
-    // Run immediately + keep checking
-    hideGoogleTranslateUI();
-    const interval = setInterval(hideGoogleTranslateUI, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const lang = e.target.value;
-    const select = document.querySelector(
-      "#google_translate_element select"
-    ) as HTMLSelectElement | null;
-
-    if (select && lang) {
-      select.value = lang;
-      select.dispatchEvent(new Event("change"));
+    if (isClient) {
+      document.addEventListener("mousedown", handleClickOutside);
     }
-  };
 
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isClient]);
+
+  // Initialize Google Translate only once after client is ready
   useEffect(() => {
-    const removeGoogleBar = () => {
-      const bannerFrame = document.querySelector(".goog-te-banner-frame");
-      if (bannerFrame) bannerFrame.remove();
+    if (!isClient || googleInitialized.current) return;
 
-      const tooltip = document.querySelector("#goog-gt-tt");
-      if (tooltip) tooltip.remove();
+    const initializeGoogleTranslate = () => {
+      if (!window.google?.translate) return;
 
-      // Reset any pushed body styles
-      document.body.style.top = "0px";
+      new window.google.translate.TranslateElement(
+        {
+          pageLanguage: "en",
+          includedLanguages: languages.map((lang) => lang.code).join(","),
+          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false,
+        },
+        "google_translate_element_hidden"
+      );
+      googleInitialized.current = true;
     };
 
-    const observer = new MutationObserver(() => removeGoogleBar());
-    observer.observe(document.body, { childList: true, subtree: true });
+    const loadGoogleTranslateScript = () => {
+      if (document.querySelector('script[src*="translate_a/element.js"]')) {
+        initializeGoogleTranslate();
+        return;
+      }
 
-    // Initial cleanup
-    removeGoogleBar();
+      window.googleTranslateElementInit = initializeGoogleTranslate;
 
-    return () => observer.disconnect();
+      const script = document.createElement("script");
+      script.src =
+        "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.async = true;
+      script.onerror = () => console.warn("Failed to load Google Translate");
+      document.head.appendChild(script);
+    };
+
+    loadGoogleTranslateScript();
+  }, [isClient]);
+
+  const triggerGoogleTranslate = useCallback((languageCode: string) => {
+    document.cookie = `googtrans=/en/${languageCode}; path=/; max-age=31536000`;
+
+    if (languageCode === "en") {
+      window.location.hash = "";
+      window.location.reload();
+      return;
+    }
+
+    window.location.hash = `#googtrans(en|${languageCode})`;
+
+    const attemptTranslation = () => {
+      const selectElement = document.querySelector(
+        "#google_translate_element_hidden select"
+      ) as HTMLSelectElement;
+      if (selectElement) {
+        selectElement.value = languageCode;
+        selectElement.dispatchEvent(new Event("change", { bubbles: true }));
+        return true;
+      }
+
+      const comboBox = document.querySelector(
+        ".goog-te-combo"
+      ) as HTMLSelectElement;
+      if (comboBox) {
+        comboBox.value = languageCode;
+        comboBox.dispatchEvent(new Event("change", { bubbles: true }));
+        return true;
+      }
+
+      return false;
+    };
+
+    setTimeout(() => {
+      if (!attemptTranslation()) {
+        window.location.reload();
+      }
+    }, 100);
   }, []);
+
+  const handleLanguageSelect = useCallback(
+    (language: Language) => {
+      setSelectedLang(language);
+      setIsOpen(false);
+      triggerGoogleTranslate(language.code);
+    },
+    [triggerGoogleTranslate]
+  );
+
+  // Don't render anything until we know the actual selected language
+  if (!isClient || !selectedLang) {
+    return (
+      <div className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-400 bg-gray-100 border border-gray-200 rounded-lg">
+        <div className="w-5 h-5 bg-gray-200 rounded-sm animate-pulse"></div>
+        <span className="font-semibold">--</span>
+        <ChevronDown className="w-4 h-4" />
+      </div>
+    );
+  }
 
   return (
-    <div className="translate-wrapper ml-3">
-      <div className="relative flex items-center">
-        {/* <img
-          src="https://www.google.com/images/branding/product/ico/googleg_lodp.ico"
-          alt="Google"
-          className="translate-logo"
-        /> */}
-        <select
-          className="translate-select"
-          onChange={handleChange}
-          defaultValue=""
+    <div className="relative" ref={dropdownRef}>
+      {/* Hidden Google Translate Element */}
+      <div
+        id="google_translate_element_hidden"
+        className="absolute -left-[9999px] -top-[9999px] invisible w-px h-px"
+        aria-hidden="true"
+      />
+
+      {/* Custom Translate Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        aria-label="Select language"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
+      >
+        <img
+          src={selectedLang.flag}
+          alt={`${selectedLang.name} flag`}
+          className="w-5 h-5 rounded-sm object-cover"
+        />
+        <span className="font-semibold">{selectedLang.short}</span>
+        <ChevronDown
+          className={`w-4 h-4 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {/* Custom Dropdown */}
+      {isOpen && (
+        <div
+          className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-1"
+          role="listbox"
         >
-          <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
-          <option value="hi">Hindi</option>
-          <option value="de">German</option>
-          <option value="zh-CN">Chinese</option>
-          <option value="ar">Arabic</option>
-          <option value="ru">Russian</option>
-          <option value="pt">Portuguese</option>
-          <option value="it">Italian</option>
-          <option value="ja">Japanese</option>
-        </select>
-        <span className="absolute right-5 pointer-events-none text-gray-600 text-[10px] top-2.5">
-          ▼
-        </span>
-      </div>
-      <div id="google_translate_element" style={{ display: "none" }}></div>
-
-      <style jsx>{`
-        .goog-te-banner-frame {
-          display: none !important;
-        }
-        .translate-wrapper {
-          display: flex;
-          align-items: center;
-          height: 40px;
-          background: transparent;
-          border-radius: 8px;
-          padding: 0 10px;
-          box-shadow: none;
-          width: auto;
-          transition: all 0.3s ease;
-        }
-        .translate-wrapper:hover {
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        .translate-logo {
-          width: 24px;
-          height: 24px;
-          margin-right: 8px;
-        }
-
-        .translate-select {
-          height: 32px;
-          padding: 0 10px;
-          font-size: 14px;
-          border: none; /* no border */
-          outline: none; /* no focus outline */
-          background: transparent; /* transparent background */
-          appearance: none;
-          cursor: pointer;
-          transition: color 0.3s ease;
-          color: inherit; /* inherits text color from navbar */
-        }
-      `}</style>
+          <div className="max-h-64 overflow-y-auto">
+            {languages.map((language) => (
+              <button
+                key={language.code}
+                onClick={() => handleLanguageSelect(language)}
+                className={`flex items-center gap-3 w-full px-4 py-2 text-sm text-left hover:bg-blue-50 hover:text-blue-600 transition-colors duration-150 focus:outline-none focus:bg-blue-50 focus:text-blue-600 ${
+                  selectedLang.code === language.code
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-700"
+                }`}
+                role="option"
+                aria-selected={selectedLang.code === language.code}
+              >
+                <img
+                  src={language.flag}
+                  alt={`${language.name} flag`}
+                  className="w-5 h-5 rounded-sm object-cover flex-shrink-0"
+                />
+                <span className="truncate">{language.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
