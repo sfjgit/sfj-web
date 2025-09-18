@@ -7,6 +7,7 @@ import Script from "next/script";
 import SFJContactForm from "./_components/SFJContactForm";
 import CookieBanner from "@/components/CookieBanner";
 import PushNotificationButton from "@/components/PushNotificationButton";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title:
@@ -195,7 +196,9 @@ export default function RootLayout({
         ></div> */}
 
         <ClientProvider>
-          <Navigation />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Navigation />
+          </Suspense>
           {children}
           <Footer />
           <SFJContactForm />
