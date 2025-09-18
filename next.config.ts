@@ -100,10 +100,12 @@ const nextConfig: NextConfig = {
   },
 
   // Additional config to handle Google Translate issues
-  experimental: {
-    // Force fresh builds
-    forceSwcTransforms: true,
-  },
+  ...(process.env.NODE_ENV !== "development" && {
+    experimental: {
+      // Force fresh builds (only in production to avoid Turbopack conflicts)
+      forceSwcTransforms: true,
+    },
+  }),
 
   // Disable trailing slash for cleaner URLs
   trailingSlash: false,
