@@ -188,9 +188,9 @@ const Navigation = () => {
               Let&apos;s <span className="text-blue-600">Transform</span>
             </p> */}
             </Link>
-            <div className="-ml-2 md:ml-0">
+            {/* <div className="-ml-2 md:ml-0">
               <GoogleTrans />
-            </div>
+            </div> */}
           </div>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
@@ -377,9 +377,9 @@ const Navigation = () => {
               </Button>
             </div>
             {/* Mobile Translate Button */}
-            <div className="pt-3 flex justify-center">
+            {/* <div className="pt-3 flex justify-center">
               <GoogleTrans />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
