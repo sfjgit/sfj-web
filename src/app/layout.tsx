@@ -196,7 +196,7 @@ export default function RootLayout({
         ></div> */}
 
         <ClientProvider>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loading.</div>}>
             <Navigation />
           </Suspense>
           {children}
