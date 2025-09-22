@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface Company {
   id: number;
@@ -153,6 +154,24 @@ const companies: Company[] = [
   },
   {
     id: 16,
+    name: "SBIF Asha Scholarship Program",
+    logo: "/logo/SBI.png",
+    description:
+      "A scholarship program by the State Bank of India Foundation to provides financial aid to meritorious students from low-income families (from school through postgraduate level), including overseas studies, across India",
+    industry: "Scholarships",
+    website: "https://www.sbifashascholarship.org/",
+  },
+  {
+    id: 17,
+    name: "LIC Golden Jubilee Scholarship Scheme",
+    logo: "/logo/lic_png.png",
+    description:
+      "It provides financial assistance to meritorious students from economically weaker families to pursue higher education in medicine, engineering, graduation, diploma, and vocational courses.",
+    industry: "Scholarships",
+    website: "https://licindia.in/golden-jubilee-foundation",
+  },
+  {
+    id: 18,
     name: "National Scholarships Portal",
     logo: "/logo/NIC.png",
     description:
@@ -162,10 +181,39 @@ const companies: Company[] = [
   },
 ];
 
+const faqs = [
+  {
+    question: "1. What internships are available through SFJBS?",
+    answer:
+      "We list both corporate internships with companies like Oracle, TCS, Infosys, and government internships from official programs.",
+  },
+  {
+    question: "2. Do you also provide scholarships?",
+    answer:
+      "Yes. We feature scholarships from multiple sources, including government programs like the National Scholarship Portal (NSP), and state-level opportunities. Along with these, SFJBS also offers free courses in partnership with NSDC and NASSCOM, enabling students to gain in-demand digital and technical skills at no cost.",
+  },
+  {
+    question: "3. Are IT company internships paid?",
+    answer:
+      "Most internships at Oracle, TCS, and Infosys are paid, with stipends varying by role and duration.",
+  },
+  {
+    question: "4. How can I apply for government scholarships?",
+    answer:
+      "Applications are made through official portals like NSP or state websites. Our page provides links for easy access.",
+  },
+  {
+    question: "5. Can students from all fields apply?",
+    answer:
+      "Yes. IT internships mainly require technical skills, but government internships and scholarships also cover management, research, and social science.",
+  },
+];
+
 const InternshipLanding = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIndustry, setSelectedIndustry] = useState("All");
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const industries = [
     "All",
@@ -181,20 +229,150 @@ const InternshipLanding = () => {
     return matchesSearch && matchesIndustry;
   });
 
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-96 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-800">
+      {/* <section className="relative h-96 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-800">
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/10 to-slate-800/20"></div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+      {/* <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
             Launch Your Career
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
             Discover amazing internship opportunities with India's top companies
           </p>
+        </div>
+      </section> */}
+
+      <section id="home" className="relative bg-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-800"></div>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center relative z-10 pt-34">
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-10">
+              Explore Internships and Scholarships in India 2025/26
+            </h1>
+            <div className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed space-y-4">
+              <p className="text-white pb-20">
+                Finding the right internship or scholarship in India can be
+                tough—SFJ Business Solutions makes it simple. We bring IT
+                company internships, government programs like PM Internship
+                Scheme & NSP, all in one place. Students can explore CSR
+                scholarships like LIC Golden Jubilee & SBI Asha Scholarship with
+                ease. From internships to financial aid, SFJBS connects every
+                learner to opportunities for growth.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-blue-50 py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Build Your Future with IT & Government Internships in India
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                Corporate Programs
+              </h3>
+              <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                Our internship listings feature such as Oracle, Tata Consultancy
+                Services, and Infosys, each offering diverse learning
+                experiences.
+              </p>
+              <div className="space-y-4 text-gray-700">
+                <p>
+                  <strong>Oracle</strong> provides opportunities in database
+                  software and enterprise solutions
+                </p>
+                <p>
+                  <strong>TCS</strong> focuses on consulting and digital
+                  transformation
+                </p>
+                <p>
+                  <strong>Infosys</strong> offers next-generation technology and
+                  software innovation internships
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                Government & CSR Programs
+              </h3>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-600">•</span>
+                  <span>
+                    <strong>PM Internship Scheme</strong> – Practical exposure
+                    in government departments and ministries
+                  </span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-600">•</span>
+                  <span>
+                    <strong>National Scholarship Portal (NSP)</strong> – A
+                    unified platform for central and state-level scholarships
+                  </span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-600">•</span>
+                  <span>
+                    <strong>LIC Golden Jubilee Foundation</strong> – Supporting
+                    education and scholarships for underprivileged students
+                    across India
+                  </span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-600">•</span>
+                  <span>
+                    <strong>SBI Asha Scholarship</strong> – Financial aid to
+                    school and college students from economically weaker
+                    sections
+                  </span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-600">•</span>
+                  <span>
+                    <strong>AICTE Internships</strong> – Opportunities for
+                    engineering and management students across India
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <div className="max-w-4xl mx-auto space-y-4 text-lg text-gray-700">
+              <p>
+                These initiatives ensure that students from all
+                backgrounds—whether in{" "}
+                <strong className="text-blue-600">
+                  engineering, management, science, arts, or commerce
+                </strong>
+                —can find the right mix of{" "}
+                <strong className="text-blue-600">
+                  practical internships and financial support scholarships
+                </strong>{" "}
+                to advance their academic and professional journey.
+              </p>
+              <p>
+                At SFJBS, we make it easier for you to discover opportunities,
+                check eligibility, and apply through official portals, ensuring
+                authenticity and transparency at every step.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -414,6 +592,47 @@ const InternshipLanding = () => {
               </div>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="bg-white py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl text-gray-600">
+              Get answers to common questions about internships and scholarships
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 rounded-xl p-6 cursor-pointer hover:bg-blue-50 transition-colors duration-300"
+                onClick={() => toggleFAQ(index)}
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {faq.question}
+                  </h3>
+                  {openIndex === index ? (
+                    <ChevronUp className="w-5 h-5 text-gray-600" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-600" />
+                  )}
+                </div>
+
+                {openIndex === index && (
+                  <p className="text-gray-700 leading-relaxed mt-3">
+                    {faq.answer}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

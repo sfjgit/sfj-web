@@ -42,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/blog/real-secret-to-unlocking-generative-ai-for-everyone-how-sfjbs-is-empowering-millions",
     "/blog/csr-it-training",
     "/blog/enterprise-training",
+    "blog/ai-is-transforming-healthcare",
   ];
 
   // Combine all routes
