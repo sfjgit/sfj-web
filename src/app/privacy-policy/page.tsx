@@ -380,7 +380,7 @@ export default function Privacy() {
                   <br />
                   <br />
                   <strong>Grievance Officer:</strong> Vishnupriya S<br />
-                  <strong>Email:</strong> sfjbs@sfjbs.com
+                  <strong>Email:</strong>growth@sfjbs.com
                 </p>
               </div>
             </div>
