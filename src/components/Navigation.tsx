@@ -151,7 +151,7 @@ const Navigation = () => {
       className={`fixed   top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
         isScrolled || isLocationBlack()
           ? "bg-white/95 border-b"
-          : "bg-transparent "
+          : "bg-white/95 border-b"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -174,7 +174,8 @@ const Navigation = () => {
                   />
                 ) : (
                   <Image
-                    src="/app/SFJ.png"
+                    // src="/app/SFJ.png"
+                    src="/app/sfjlogo.png"
                     alt="SFJ Logo"
                     className="w-16 h-16 object-cover"
                     quality={100}
@@ -205,7 +206,7 @@ const Navigation = () => {
                             ? "text-blue-600 bg-blue-50 shadow-sm"
                             : isScrolled || isLocationBlack()
                             ? "text-black"
-                            : "text-white"
+                            : "text-black"
                         }`}
                       >
                         {item.label}
@@ -246,7 +247,7 @@ const Navigation = () => {
                         ? "text-blue-600 bg-blue-50 shadow-sm"
                         : isScrolled || isLocationBlack()
                         ? "text-black"
-                        : "text-white"
+                        : "text-black"
                     }`}
                   >
                     {item.label}
@@ -259,7 +260,7 @@ const Navigation = () => {
                         ? "text-blue-600 bg-blue-50 shadow-sm"
                         : isScrolled || isLocationBlack()
                         ? "text-black"
-                        : "text-white"
+                        : "text-black"
                     }`}
                   >
                     {item.label}
@@ -299,7 +300,7 @@ const Navigation = () => {
                   } ${
                     isScrolled || isLocationBlack()
                       ? "text-black"
-                      : "text-white"
+                      : "text-black"
                   }`}
                 />
                 <X
@@ -308,7 +309,7 @@ const Navigation = () => {
                   } ${
                     isScrolled || isLocationBlack()
                       ? "text-black"
-                      : "text-white"
+                      : "text-black"
                   }`}
                 />
               </div>

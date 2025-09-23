@@ -15,7 +15,13 @@ import { FaRegStarHalfStroke, FaX } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import { useState } from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+  FaPinterest,
+} from "react-icons/fa";
 
 const socialLinks = [
   {
@@ -37,6 +43,11 @@ const socialLinks = [
     name: "Youtube",
     url: "https://www.youtube.com/channel/UC-Ol7VzrG_xsL6iyhhAIRzw",
     icon: <FaYoutube className="w-6 h-6" />,
+  },
+  {
+    name: "Pinterest",
+    url: "https://in.pinterest.com/sfjbusiness/",
+    icon: <FaPinterest className="w-6 h-6" />,
   },
 ];
 
@@ -128,7 +139,7 @@ const Footer = () => {
         "Bangalore – 560068. Karnataka, INDIA",
       ],
       phone: "+91 9845348601 ",
-      email: "sales@sfjbs.com",
+      email: "growth@sfjbs.com",
     },
     uae: {
       flag: "🇦🇪",
