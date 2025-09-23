@@ -155,7 +155,7 @@ const companies: Company[] = [
   {
     id: 16,
     name: "SBIF Asha Scholarship Program",
-    logo: "/logo/SBI.png",
+    logo: "/logo/SBI.webp",
     description:
       "A scholarship program by the State Bank of India Foundation to provides financial aid to meritorious students from low-income families (from school through postgraduate level), including overseas studies, across India",
     industry: "Scholarships",
@@ -164,7 +164,7 @@ const companies: Company[] = [
   {
     id: 17,
     name: "LIC Golden Jubilee Scholarship Scheme",
-    logo: "/logo/LIC_Webp.png",
+    logo: "/logo/LIC_Webp.webp",
     description:
       "It provides financial assistance to meritorious students from economically weaker families to pursue higher education in medicine, engineering, graduation, diploma, and vocational courses.",
     industry: "Scholarships",

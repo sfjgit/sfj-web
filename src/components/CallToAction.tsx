@@ -11,16 +11,20 @@ const CallToAction = () => {
               Ready to Transform Your Workforce Capabilities?
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              Contact our experts to design a customized training solution that drives measurable business impact.
+              Contact our experts to design a customized training solution that
+              drives measurable business impact.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 px-8 py-3">
+              <Button
+                size="lg"
+                className="bg-white text-blue-900 hover:bg-blue-50 px-8 py-3"
+              >
                 Schedule Consultation
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg" 
+              <Button
+                variant="outline"
+                size="lg"
                 className="border-white text-white hover:bg-white hover:text-blue-900 px-8 py-3"
               >
                 Download Brochure
@@ -34,7 +38,7 @@ const CallToAction = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <span>📧</span>
-                <span>sales@sfjbss.com</span>
+                <span>growth@sfjbs.com</span>
               </div>
             </div>
           </CardContent>

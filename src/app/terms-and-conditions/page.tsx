@@ -173,7 +173,7 @@ export default function TermOfUse() {
                 courseware, and related services.
               </p>
               <p className="text-gray-700 leading-relaxed">
-                By accessing our platform at sfjbs@sfjbs.com or creating an
+                By accessing our platform at growth@sfjbs.com or creating an
                 account, you acknowledge that you have read, understood, and
                 agree to be bound by these terms and all applicable laws and
                 regulations. If you do not agree with these terms, you must not
@@ -247,7 +247,7 @@ export default function TermOfUse() {
                       allowed to proceed further to view or use in any manner
                       any content, information, courseware, products and
                       services (Services) published, available or provided on
-                      sfjbs@sfjbs.com (the Website), which is owned, maintained
+                      growth@sfjbs.com (the Website), which is owned, maintained
                       and monitored by SFJ BUSINESS SOLUTIONS PVT LTD (Us, We or
                       Our).
                     </p>
@@ -375,7 +375,7 @@ export default function TermOfUse() {
                   break;
                 case 15:
                   content =
-                    "In case you have any concerns or queries, please reach out to our Support Team. Our team shall undertake all reasonable efforts to address your queries in the shortest possible time. You may contact us at: sfjbs@sfjbs.com";
+                    "In case you have any concerns or queries, please reach out to our Support Team. Our team shall undertake all reasonable efforts to address your queries in the shortest possible time. You may contact us at: growth@sfjbs.com";
                   break;
               }
 

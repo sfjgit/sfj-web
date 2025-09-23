@@ -441,7 +441,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="text-center">
             <p className="text-sm text-gray-400 mb-2">
-              SFJ Business Solutions Pvt Ltd | +91-9845348601 | sfjbs@sfjbs.com
+              SFJ Business Solutions Pvt Ltd | +91-9845348601 | growth@sfjbs.com
             </p>
             <p className="text-sm text-gray-500">
               Copyright © 2011-2025. All rights reserved.
