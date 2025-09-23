@@ -26,7 +26,7 @@ const OfficeSelector = () => {
         "Bangalore – 560068. Karnataka, INDIA",
       ],
       phone: "+91 9845348601 ",
-      email: "sales@sfjbs.com",
+      email: "growth@sfjbs.com",
     },
     uae: {
       flag: "🇦🇪",

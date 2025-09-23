@@ -164,7 +164,7 @@ const companies: Company[] = [
   {
     id: 17,
     name: "LIC Golden Jubilee Scholarship Scheme",
-    logo: "/logo/lic_png.png",
+    logo: "/logo/LIC_Webp.png",
     description:
       "It provides financial assistance to meritorious students from economically weaker families to pursue higher education in medicine, engineering, graduation, diploma, and vocational courses.",
     industry: "Scholarships",
