@@ -1,4 +1,4 @@
-// hooks/useCookieConsent.ts
+// // hooks/useCookieConsent.ts
 import { useState, useEffect } from "react";
 
 export interface CookiePreferences {
@@ -21,26 +21,35 @@ export const useCookieConsent = () => {
     useState<CookiePreferences>(defaultPreferences);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     // Check if user has already made a choice
     const savedPreferences = localStorage.getItem("cookiePreferences");
     const consentGiven = localStorage.getItem("cookieConsentGiven");
 
-    //   if (!consentGiven) {
-    //     setShowBanner(true);
-    //   } else if (savedPreferences) {
-    //     setPreferences(JSON.parse(savedPreferences));
-    //   }
-    // }, []);
-
-    if (consentGiven === "true" && savedPreferences) {
-      setPreferences(JSON.parse(savedPreferences));
-      setShowBanner(false); // hide banner if consent already given
-    } else {
-      setShowBanner(true); // show banner if no consent
+    if (!consentGiven) {
+      setShowBanner(true); // user never decided
+    } else if (savedPreferences) {
+      // setPreferences(JSON.parse(savedPreferences));
+      // setShowBanner(false); // already chosen
+      try {
+        const parsed = JSON.parse(savedPreferences);
+        setPreferences(parsed);
+      } catch {
+        setPreferences(defaultPreferences);
+      }
     }
   }, []);
 
+  //   if (consentGiven === "true" && savedPreferences) {
+  //     setPreferences(JSON.parse(savedPreferences));
+  //     setShowBanner(false); // hide banner if consent already given
+  //   } else {
+  //     setShowBanner(true); // show banner if no consent
+  //   }
+  // }, []);
+
   const acceptAll = () => {
+    localStorage.setItem("Rahul", "true");
     const allAccepted: CookiePreferences = {
       essential: true,
       analytics: true,
