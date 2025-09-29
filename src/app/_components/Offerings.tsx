@@ -65,7 +65,7 @@ const OfferingsSection = () => {
       icon: GraduationCap,
       title: "Institutional Training (B2I)",
       subtitle: "Academic Partnership Programs",
-      description: "Training for engineering, MBA, and arts & science students",
+      description: "Training for engineering, MBA, arts & science students",
       cta: "Join Program",
       image: "/app/home/talent-as-service.png",
       color: "from-teal-500 to-cyan-600",
