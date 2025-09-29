@@ -27,6 +27,7 @@ import {
   ShoppingBag,
   Fuel,
   TreePine,
+  Package,
 } from "lucide-react";
 
 const IndustriesPage = () => {
@@ -37,11 +38,11 @@ const IndustriesPage = () => {
   const [hoveredIndustry, setHoveredIndustry] = useState(null);
 
   const categories = [
-    { id: "all", label: "All Industries", count: 29 },
+    { id: "all", label: "All Industries", count: 30 },
     { id: "technology", label: "Technology & Digital", count: 3 },
     { id: "financial", label: "Financial Services", count: 3 },
-    { id: "industrial", label: "Industrial & Manufacturing", count: 8 },
-    { id: "services", label: "Services & Commerce", count: 7 },
+    { id: "industrial", label: "Industrial & Manufacturing", count: 9 },
+    { id: "services", label: "Services & Commerce", count: 8 },
     { id: "infrastructure", label: "Infrastructure & Utilities", count: 6 },
   ];
 
@@ -476,6 +477,21 @@ const IndustriesPage = () => {
       color: "from-stone-600 to-stone-800",
       stats: "Resource extraction",
     },
+    {
+      name: "Mill products",
+      category: "industrial",
+      icon: Package,
+      description:
+        "Enhancing industrial manufacturing with precision milling, material processing, and quality control solutions.",
+      keyAreas: [
+        "Precision Milling",
+        "Material Processing",
+        "Quality Control",
+        "Production Optimization",
+      ],
+      color: "from-blue-600 to-blue-800",
+      stats: "Resource extraction",
+    },
   ];
 
   const filteredIndustries = industries.filter((industry) => {
@@ -527,7 +543,7 @@ const IndustriesPage = () => {
                   />
                 </div> */}
 
-                <div className="flex flex-wrap gap-2">
+                {/* <div className="flex flex-wrap gap-2">
                   {categories.map((category) => (
                     <button
                       key={category.id}
@@ -544,7 +560,7 @@ const IndustriesPage = () => {
                       </span>
                     </button>
                   ))}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -553,6 +569,47 @@ const IndustriesPage = () => {
 
       {/* Industries Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* <div className="flex flex-wrap gap-4">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                selectedCategory === category.id
+                  ? "bg-blue-500 text-white shadow-lg"
+                  : "bg-gray-300 text-black hover:bg-white/90"
+              }`}
+            >
+              {category.label}
+              <span className="ml-2 text-xs opacity-75">
+                ({category.count})
+              </span>
+            </button>
+          ))}
+        </div> */}
+        <div className="flex flex-wrap gap-10">
+          {categories.map((category, index) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                selectedCategory === category.id
+                  ? "bg-blue-500 text-white shadow-lg"
+                  : "bg-gray-300 text-black hover:bg-white/90"
+              }`}
+            >
+              {category.label}
+              {index === 0 && (
+                <span className="ml-2 text-xs opacity-75">
+                  ({category.count})
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        <br />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredIndustries.map((industry, index) => {
             const Icon = industry.icon;
