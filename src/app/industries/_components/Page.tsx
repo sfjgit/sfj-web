@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import {
   Search,
-  ChevronDown,
   Building2,
   Heart,
   Shield,
@@ -29,6 +28,7 @@ import {
   TreePine,
   Package,
 } from "lucide-react";
+import Link from "next/link";
 
 const IndustriesPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -502,7 +502,6 @@ const IndustriesPage = () => {
       selectedCategory === "all" || industry.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
-
   return (
     <div className="min-h-screen">
       {/* Header Section */}
@@ -711,13 +710,15 @@ const IndustriesPage = () => {
             transformation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center">
+            {/* <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center">
               Get Started Today
               <ChevronDown className="w-5 h-5 ml-2 rotate-[-90deg]" />
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
-              Contact Our Experts
-            </button>
+            </button> */}
+            <Link href="/contact" passHref>
+              <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
+                Contact Our Experts
+              </button>
+            </Link>
           </div>
         </div>
       </div>

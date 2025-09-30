@@ -32,7 +32,7 @@ const ContactForm = () => {
     email: "",
     countryCode: "+91",
     phoneNumber: "",
-    type: type ?? "b2b",
+    type: type ?? "general",
     subCategory: "",
     websiteUrl: "",
     query: "",
