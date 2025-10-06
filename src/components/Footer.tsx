@@ -11,7 +11,7 @@ import {
   Mail,
 } from "lucide-react";
 import { FaStar } from "react-icons/fa";
-import { FaRegStarHalfStroke, FaX } from "react-icons/fa6";
+import { FaRegStarHalfStroke, FaX, FaXTwitter } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import { useState } from "react";
@@ -48,6 +48,11 @@ const socialLinks = [
     name: "Pinterest",
     url: "https://in.pinterest.com/sfjbusiness/",
     icon: <FaPinterest className="w-6 h-6" />,
+  },
+  {
+    name: "Twitter",
+    url: "https://x.com/sfjbs_official",
+    icon: <FaXTwitter className="w-6 h-6" />,
   },
 ];
 
