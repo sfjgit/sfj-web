@@ -81,7 +81,7 @@ const ClientsSection = () => {
       description: "Enterprise software solutions",
     },
     {
-      src: "/clients/Samsung.webp",
+      src: "/clients/SAMSUNG.webp",
       name: "Samsung",
       industry: "Software",
       description: "Enterprise software solutions",
