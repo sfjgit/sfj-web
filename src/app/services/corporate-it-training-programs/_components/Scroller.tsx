@@ -5,24 +5,19 @@ import "swiper/css";
 
 export default function Scroller() {
   const companyLogos = [
-    "AWS.png",
-    "Cognizant.png",
-    "Fis.png",
-    "Flipkart.png",
-    "HPE.png",
-    "JSL.png",
-    "Keysight.png",
-    "KONE.png",
-    "kuehne Nagel.png",
-    "Manappuram.png",
-    "Mphasis.png",
-    "pepsi.png",
-    "Richemont.png",
-    "RSM.png",
-    "Schneider Electric.png",
-    "Tata Consultancy Services.png",
-    "Tata Motors.png",
-    "Teleperformance.png",
+    "Accenture.png",
+    "Capgemini.png",
+    "HCl.png",
+    "sap.png",
+    "Cognizant.webp",
+    "Wipro.png",
+    "Mphasis.webp",
+    "LTIMindtree.webp",
+    "NTT_DATA.webp",
+    "PwC.webp",
+    "SAMSUNG.webp",
+    "Siemens.webp",
+    "TCS_2.webp",
   ];
 
   const logoPath = "/app/b2b/logos/";
