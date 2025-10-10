@@ -18,6 +18,7 @@ import {
   FaBullseye,
   FaBrain,
 } from "react-icons/fa";
+import Link from "next/link";
 
 const staffingSolutions = [
   {
@@ -390,12 +391,14 @@ export default function ITStaffingSolutions() {
             comprehensive staffing solutions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+            {/* <button className="px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
               Get Started Today
-            </button>
-            <button className="px-8 py-3 border border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors">
-              Schedule Consultation
-            </button>
+            </button> */}
+            <Link href="/contact?type=it-staffing">
+              <button className="px-8 py-3 border border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors">
+                Schedule Consultation
+              </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -995,20 +995,22 @@ export default function CorporateTrainingClient() {
               the future-ready workforce your business needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
+              {/* <Button
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
                 Start Your Training Journey{" "}
                 <ChevronRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-gray-600 hover:bg-white/10"
-              >
-                Schedule Consultation
-              </Button>
+              </Button> */}
+              <Link href="/contact?type=b2b">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-gray-600 hover:bg-white/10"
+                >
+                  Schedule Consultation
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>
