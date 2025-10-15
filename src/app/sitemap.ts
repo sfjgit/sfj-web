@@ -44,6 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/blog/enterprise-training",
     "/blog/ai-is-transforming-healthcare",
     "/blog/sap-business-technology-platform-features-benefits",
+    "/blog/ai-manufacturing-india-boost-efficiency-cut-costs",
   ];
 
   // Combine all routes
