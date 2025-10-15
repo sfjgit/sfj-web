@@ -43,6 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/blog/csr-it-training",
     "/blog/enterprise-training",
     "/blog/ai-is-transforming-healthcare",
+    "/blog/sap-business-technology-platform-features-benefits",
   ];
 
   // Combine all routes
