@@ -11,11 +11,17 @@ import {
   Mail,
 } from "lucide-react";
 import { FaStar } from "react-icons/fa";
-import { FaRegStarHalfStroke, FaX } from "react-icons/fa6";
+import { FaRegStarHalfStroke, FaX, FaXTwitter } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import { useState } from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaYoutube,
+  FaPinterest,
+} from "react-icons/fa";
 
 const socialLinks = [
   {
@@ -37,6 +43,16 @@ const socialLinks = [
     name: "Youtube",
     url: "https://www.youtube.com/channel/UC-Ol7VzrG_xsL6iyhhAIRzw",
     icon: <FaYoutube className="w-6 h-6" />,
+  },
+  {
+    name: "Pinterest",
+    url: "https://in.pinterest.com/sfjbusiness/",
+    icon: <FaPinterest className="w-6 h-6" />,
+  },
+  {
+    name: "Twitter",
+    url: "https://x.com/sfjbs_official",
+    icon: <FaXTwitter className="w-6 h-6" />,
   },
 ];
 
@@ -128,7 +144,7 @@ const Footer = () => {
         "Bangalore – 560068. Karnataka, INDIA",
       ],
       phone: "+91 9845348601 ",
-      email: "sales@sfjbs.com",
+      email: "growth@sfjbs.com",
     },
     uae: {
       flag: "🇦🇪",
@@ -430,7 +446,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="text-center">
             <p className="text-sm text-gray-400 mb-2">
-              SFJ Business Solutions Pvt Ltd | +91-9845348601 | sfjbs@sfjbs.com
+              SFJ Business Solutions Pvt Ltd | +91-9845348601 | growth@sfjbs.com
             </p>
             <p className="text-sm text-gray-500">
               Copyright © 2011-2025. All rights reserved.

@@ -72,10 +72,10 @@ const nextConfig: NextConfig = {
             value: "strict-origin-when-cross-origin",
           },
           // Clear Google Translate related headers
-          {
-            key: "Clear-Site-Data",
-            value: '"cache", "cookies", "storage"',
-          },
+          // {
+          //   key: "Clear-Site-Data",
+          //   value: '"cache", "cookies", "storage"',
+          // },
         ],
       },
       {

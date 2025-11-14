@@ -4,14 +4,19 @@ import React from "react";
 
 export default function TaasScroller() {
   const taasCompanies = [
-    "Ey.png",
-    "Hexaware.png",
-    "ITC-infotech.png",
-    "KPMG.png",
-    "LTIMindtree.png",
-    "Tech-Mahindra.png",
+    "Accenture.png",
+    "Capgemini.png",
+    "HCl.png",
+    "sap.png",
+    "Cognizant.webp",
     "Wipro.png",
-    "WNS.png",
+    "Mphasis.webp",
+    "LTIMindtree.webp",
+    "NTT_DATA.webp",
+    "PwC.webp",
+    "SAMSUNG.webp",
+    "Siemens.webp",
+    "TCS_2.webp",
   ];
 
   const taasPath = "/app/b2b/Taas/";
