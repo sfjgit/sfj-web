@@ -10,6 +10,7 @@ import { Star, Users, Building2, Globe } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { cn } from "@/lib/utils";
 
 const ClientsSection = () => {
   const clientLogos = [
@@ -43,11 +44,59 @@ const ClientsSection = () => {
       industry: "Software",
       description: "Enterprise software solutions",
     },
+    // {
+    //   src: "/clients/Atos.png",
+    //   name: "Atos",
+    //   industry: "Digital Services",
+    //   description: "Digital transformation partner",
+    // },
     {
-      src: "/clients/Atos.png",
-      name: "Atos",
-      industry: "Digital Services",
-      description: "Digital transformation partner",
+      src: "/clients/Cognizant.webp",
+      name: "Cognizant",
+      industry: "Software",
+      description: "Enterprise software solutions",
+    },
+    {
+      src: "/clients/LTIMindtree.webp",
+      name: "LTI Mindtree",
+      industry: "Software",
+      description: "Enterprise software solutions",
+    },
+    {
+      src: "/clients/Mphasis.webp",
+      name: "Mphasis",
+      industry: "Software",
+      description: "Enterprise software solutions",
+    },
+    {
+      src: "/clients/NTT_DATA.webp",
+      name: "NTT Data",
+      industry: "Software",
+      description: "Enterprise software solutions",
+    },
+    {
+      src: "/clients/PwC.webp",
+      name: "PWC",
+      industry: "Software",
+      description: "Enterprise software solutions",
+    },
+    {
+      src: "/clients/SAMSUNG.webp",
+      name: "Samsung",
+      industry: "Software",
+      description: "Enterprise software solutions",
+    },
+    {
+      src: "/clients/Siemens.webp",
+      name: "Siemens",
+      industry: "Software",
+      description: "Enterprise software solutions",
+    },
+    {
+      src: "/clients/TCS_2.webp",
+      name: "TCS",
+      industry: "Software",
+      description: "Enterprise software solutions",
     },
   ];
 
@@ -205,13 +254,16 @@ const ClientsSection = () => {
                       className="group cursor-pointer"
                     >
                       <div className="flex flex-col items-center justify-center p-6 group">
-                        <div className="w-32 h-32 mb-4">
+                        <div className="w-32 h-32 mb-4 flex flex-col justify-center items-center">
                           <Image
                             src={client.src}
                             alt={client.name}
                             width={128}
                             height={128}
-                            className="object-contain transition-all duration-500 group-hover:scale-110 w-full h-full"
+                            className={cn(
+                              "object-contain transition-all duration-500 group-hover:scale-110 w-full h-full",
+                              client.name == "TCS" && "w-16 h-16"
+                            )}
                             style={{
                               filter:
                                 "contrast(1.2) saturate(1.3) brightness(1.2)",

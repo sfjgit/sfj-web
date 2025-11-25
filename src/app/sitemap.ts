@@ -77,8 +77,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/services/it-staffing-company",
   ];
 
-  // Fetch all blogs dynamically
-  const blogs = await fetchAllBlogs();
+  // Contact form routes
+  // const contactRoutes = [
+  //   "/contact?type=b2b",
+  //   "/contact?type=b2g",
+  //   "/contact?type=b2i",
+  //   "/contact?type=csr",
+  //   "/contact?subject=partnership",
+  //   "/contact?type=it-staffing",
+  // ];
+
+  // Blog routes
+  const blogRoutes = [
+    "/blog",
+    "/blog/how-ai-is-shaping-the-future-of-corporate-training-in-2025",
+    "/blog/the-secret-ai-tool-hierarchy-google-doesnt-want-you-to-know-about",
+    "/blog/real-secret-to-unlocking-generative-ai-for-everyone-how-sfjbs-is-empowering-millions",
+    "/blog/csr-it-training",
+    "/blog/enterprise-training",
+    "/blog/ai-is-transforming-healthcare",
+    "/blog/sap-business-technology-platform-features-benefits",
+    "/blog/ai-manufacturing-india-boost-efficiency-cut-costs",
+  ];
+
+  // Combine all routes
+  const allRoutes = [...staticRoutes, ...serviceRoutes, ...blogRoutes];
 
   // Generate static routes
   const staticSitemapEntries: MetadataRoute.Sitemap = [

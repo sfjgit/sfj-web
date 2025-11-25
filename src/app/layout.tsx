@@ -46,6 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta
+          name="p:domain_verify"
+          content="3fbce1b134b233e5e76e30c8b3e00d78"
+        />
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
@@ -196,7 +200,7 @@ export default function RootLayout({
         ></div> */}
 
         <ClientProvider>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>Loading.</div>}>
             <Navigation />
           </Suspense>
           {children}

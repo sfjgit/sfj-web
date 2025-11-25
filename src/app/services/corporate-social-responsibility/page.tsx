@@ -322,7 +322,8 @@ export default function CSRPage() {
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link
-                href="/contact?subject=partnership"
+                // href="/contact?subject=partnership"
+                href="/contact?type=csr"
                 className="inline-flex items-center px-8 py-4 bg-white text-blue-700 font-semibold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105"
               >
                 Partner With Us
