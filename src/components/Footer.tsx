@@ -427,14 +427,6 @@ const Footer = () => {
                     {social.icon}
                   </a>
                 ))}
-                <a
-                  rel="me"
-                  href="https://mastodon.social/@sfjbs"
-                  // style="display:none;"
-                  className="hidden"
-                >
-                  Mastodon
-                </a>
               </div>
             </div>
 
