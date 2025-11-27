@@ -252,19 +252,36 @@ const InternshipLanding = () => {
       <section id="home" className="relative bg-white">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-800"></div>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center relative z-10 pt-34">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-10">
+          <div className="text-center relative z-10 pt-38">
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-10 pb-7">
               Explore Internships and Scholarships in India 2025/26
             </h1>
             <div className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed space-y-4">
-              <p className="text-white pb-20">
+              <p className="text-white text-justify pb-10 text-md">
                 Finding the right internship or scholarship in India can be
-                tough—SFJ Business Solutions makes it simple. We bring IT
-                company internships, government programs like PM Internship
-                Scheme & NSP, all in one place. Students can explore CSR
-                scholarships like LIC Golden Jubilee & SBI Asha Scholarship with
-                ease. From internships to financial aid, SFJBS connects every
-                learner to opportunities for growth.
+                tough—SFJ Business Solutions makes it simple. SFJBS offers a
+                unique opportunity for students to access a wide range of
+                scholarships and internships, including study abroad programs.
+                In addition to domestic opportunities, SFJBS features abroad
+                scholarships and intern abroad scholarships, providing essential
+                funding options for students seeking international experience.
+                We bring IT company internships, government programs like PM
+                Internship Scheme & NSP, all in one place. Students can explore
+                CSR scholarships like LIC Golden Jubilee & SBI Asha Scholarship
+                with ease. From internships to financial aid, SFJBS connects
+                every learner to opportunities for growth—helping students
+                engage with the world and global opportunities. Candidates can
+                easily access resources and submit their applications through
+                the platform. While there are many opportunities, we recognize
+                the challenges students face in finding and affording
+                international internships and scholarships. SFJBS values
+                diversity and encourages eligible candidates from all
+                backgrounds to participate. We are committed to supporting
+                students from all backgrounds. Applicants with passion and
+                interest in their chosen fields can join a supportive community
+                through SFJBS. Careful planning is essential when applying for
+                scholarships and internships, especially those abroad, to
+                maximize your chances of success.
               </p>
             </div>
           </div>
@@ -285,22 +302,26 @@ const InternshipLanding = () => {
                 Corporate Programs
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed mb-4">
-                Our internship listings feature such as Oracle, Tata Consultancy
-                Services, and Infosys, each offering diverse learning
-                experiences.
+                Our internship listings feature structured internship programs
+                from companies such as Oracle, Tata Consultancy Services, and
+                Infosys, each offering a valuable internship opportunity for
+                undergraduate and graduate students in fields such as computer
+                science.
               </p>
               <div className="space-y-4 text-gray-700">
                 <p>
-                  <strong>Oracle</strong> provides opportunities in database
-                  software and enterprise solutions
+                  <strong>Oracle</strong> provides internship programs in
+                  database software and enterprise solutions
                 </p>
                 <p>
-                  <strong>TCS</strong> focuses on consulting and digital
-                  transformation
+                  <strong>TCS</strong>  focuses on consulting and digital
+                  transformation through its internship program
                 </p>
                 <p>
                   <strong>Infosys</strong> offers next-generation technology and
-                  software innovation internships
+                  software innovation internship programs. Applicants are
+                  required to be currently enrolled or recent graduates, and
+                  should submit a resume as part of their application.
                 </p>
               </div>
             </div>
@@ -321,7 +342,13 @@ const InternshipLanding = () => {
                   <span className="text-blue-600">•</span>
                   <span>
                     <strong>National Scholarship Portal (NSP)</strong> – A
-                    unified platform for central and state-level scholarships
+                    unified platform for central and state-level scholarships,
+                    where various types of award and scholarship award are
+                    determined based on financial need and academic merit. These
+                    awards may include financial benefits such as tuition
+                    support, living stipends, and other allowances. Some
+                    scholarships are specifically available to students in their
+                    first year of college.
                   </span>
                 </li>
                 <li className="flex items-start space-x-2">
@@ -329,7 +356,9 @@ const InternshipLanding = () => {
                   <span>
                     <strong>LIC Golden Jubilee Foundation</strong> – Supporting
                     education and scholarships for underprivileged students
-                    across India
+                    across India by providing funding and grants to cover
+                    various expenses such as tuition, travel, living costs, and
+                    travel insurance.
                   </span>
                 </li>
                 <li className="flex items-start space-x-2">
@@ -337,14 +366,20 @@ const InternshipLanding = () => {
                   <span>
                     <strong>SBI Asha Scholarship</strong> – Financial aid to
                     school and college students from economically weaker
-                    sections
+                    sections, offering funding and grants that help cover
+                    expenses like tuition, travel, accommodation, and travel
+                    insurance.
                   </span>
                 </li>
                 <li className="flex items-start space-x-2">
                   <span className="text-blue-600">•</span>
                   <span>
                     <strong>AICTE Internships</strong> – Opportunities for
-                    engineering and management students across India
+                    engineering and management students across India, with the
+                    duration of internships and eligibility for awards varying
+                    depending on the program. Some AICTE programs also offer
+                    research and research internship opportunities for students
+                    interested in academic or scientific projects.
                   </span>
                 </li>
               </ul>
@@ -352,13 +387,44 @@ const InternshipLanding = () => {
           </div>
 
           <div className="mt-12 text-center">
-            <div className="max-w-4xl mx-auto space-y-4 text-lg text-gray-700">
+            {/* <div className="max-w-4xl mx-auto space-y-4 text-lg text-gray-700">
               <p>
                 These initiatives ensure that students from all
                 backgrounds—whether in{" "}
                 <strong className="text-blue-600">
                   engineering, management, science, arts, or commerce
                 </strong>
+                —can find the right mix of{" "}
+                <strong className="text-blue-600">
+                  practical internships and financial support scholarships
+                </strong>{" "}
+                to advance their academic and professional journey.
+              </p>
+              <p>
+                At SFJBS, we make it easier for you to discover opportunities,
+                check eligibility, and apply through official portals, ensuring
+                authenticity and transparency at every step.
+              </p>
+            </div> */}
+            <div className="max-w-4xl mx-auto space-y-4 text-lg text-gray-700">
+              <p>
+                Many of these programs offer a monthly stipend and scholarship
+                awards that are renewable annually for up to four years,
+                provided students maintain good standing throughout the duration
+                of their studies.
+              </p>
+              <p>
+                In addition to merit-based and need-based scholarships, students
+                can also apply for internship scholarships, which provide
+                specific funding opportunities for those pursuing internships in
+                India or abroad.
+              </p>
+              <p>
+                These initiatives ensure that students from all
+                backgrounds—whether in{" "}
+                <strong className="text-blue-600">
+                  engineering, management, science, arts, or commerce
+                </strong>{" "}
                 —can find the right mix of{" "}
                 <strong className="text-blue-600">
                   practical internships and financial support scholarships
@@ -383,8 +449,16 @@ const InternshipLanding = () => {
               Find Your Perfect Internship
             </h2>
             <p className="text-xl text-gray-600">
-              Filter through top companies and find the opportunity that matches
-              your career goals
+              Filter through top companies and find the internship opportunity
+              that best matches your interests and career goals
+            </p>
+            <p className="text-xl text-gray-600">
+              Students seeking global experience can also explore international
+              internship opportunities, which offer valuable professional
+              development, cultural exposure, and enhanced employability. Some
+              internships may even include the chance to visit program sites or
+              company locations, providing in-person engagement and a deeper
+              understanding of the work environment.
             </p>
           </div>
 
