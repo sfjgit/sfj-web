@@ -672,7 +672,7 @@ export default function SingleBlogPage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Hero Image */}
             {heroImage && (
-              <div className="relative h-64 md:h-80 rounded-xl overflow-hidden bg-gray-200">
+              <div className="relative rounded-xl overflow-hidden bg-gray-200">
                 <img
                   src={heroImage}
                   alt={blog.title}
