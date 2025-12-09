@@ -381,7 +381,7 @@ export default function CorporateTrainingClient() {
               variants={fadeInUp}
             >
               {[
-                { number: "500+", label: "Companies Trained", icon: Building },
+                { number: "500+", label: "Clients Trained", icon: Building },
                 { number: "95%", label: "Success Rate", icon: TrendingUp },
                 {
                   number: "50K+",
