@@ -12,6 +12,7 @@ import {
   Building,
   GraduationCap,
   Heart,
+  BookOpenCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -103,6 +104,20 @@ const Navigation = () => {
       path: "/impact",
       label: "Impact",
       hasChildren: false,
+    },
+    {
+      path: "/initiatives",
+      label: "Initiatives",
+      hasChildren: true,
+      children: [
+        {
+          path: "/initiatives/skill-development",
+          label: "Skill Development",
+          icon: BookOpenCheck,
+          description:
+            "KSDC, Naan Mudhalavan and other state skill development initiatives",
+        },
+      ],
     },
     { path: "/careers", label: "Careers", hasChildren: false },
     { path: "/blog", label: "Blogs", hasChildren: false },
