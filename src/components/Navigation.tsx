@@ -91,6 +91,20 @@ const Navigation = () => {
       ],
     },
     {
+      path: "/initiatives",
+      label: "Initiatives",
+      hasChildren: true,
+      children: [
+        {
+          path: "/initiatives/skill-development",
+          label: "Skill Development",
+          icon: BookOpenCheck,
+          description:
+            "KSDC, Naan Mudhalavan and other state skill development initiatives",
+        },
+      ],
+    },
+    {
       path: "https://www.bskilling.com/",
       label: "Education",
       hasChildren: false,
@@ -105,21 +119,8 @@ const Navigation = () => {
       label: "Impact",
       hasChildren: false,
     },
-    {
-      path: "/initiatives",
-      label: "Initiatives",
-      hasChildren: true,
-      children: [
-        {
-          path: "/initiatives/skill-development",
-          label: "Skill Development",
-          icon: BookOpenCheck,
-          description:
-            "KSDC, Naan Mudhalavan and other state skill development initiatives",
-        },
-      ],
-    },
-    { path: "/careers", label: "Careers", hasChildren: false },
+
+    // { path: "/careers", label: "Careers", hasChildren: false },
     { path: "/blog", label: "Blogs", hasChildren: false },
     // { path: "/partners", label: "Partners", hasChildren: false },
 
