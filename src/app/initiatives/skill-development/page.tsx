@@ -3,8 +3,8 @@
 import Image from "next/image";
 import OrganizationStatsSection from "./_components/StatSection";
 import ContentSection from "./_components/ContentSection";
-import { Button } from "@/components/ui/button";
-import { BellIcon } from "lucide-react";
+import SubscribeSection from "./_components/SubscribeSection";
+import ImageCarousel from "./_components/ImageCarousel";
 
 export default function EmploymentReadyGraduates() {
   return (
@@ -154,11 +154,11 @@ export default function EmploymentReadyGraduates() {
       <div>
         <ContentSection />
       </div>
+      <div>
+        <ImageCarousel />
+      </div>
       <div className="text-center -mt-10 mb-10">
-        <Button className="bg-blue-500 hover:bg-blue-600">
-          <BellIcon className="w-6 h-6 mr-2" />
-          Subscribe
-        </Button>
+        <SubscribeSection />
       </div>
     </div>
   );
