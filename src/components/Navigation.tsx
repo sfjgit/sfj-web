@@ -102,6 +102,13 @@ const Navigation = () => {
           description:
             "KSDC, Naan Mudhalavan and other state skill development initiatives",
         },
+        {
+          path: "/initiatives/faculty-development",
+          label: "Faculty Development",
+          icon: BookOpenCheck,
+          description:
+            "State and institutional faculty development programs aimed at upskilling educators and researchers",
+        },
       ],
     },
     {
