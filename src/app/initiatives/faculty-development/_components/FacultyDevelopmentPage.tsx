@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import SubscribeSection from "./SubscribeSection";
 
 export default function FacultyDevelopmentPage() {
   return (
@@ -347,7 +348,7 @@ export default function FacultyDevelopmentPage() {
         </div>
       </div>
 
-      <div className="py-4 px-4">
+      <div className="py-1 px-4">
         <h4 className="font-bold text-blue-900 mb-16 text-center text-3xl">
           Comprehensive Training Program Development Timeline
         </h4>
@@ -361,13 +362,16 @@ export default function FacultyDevelopmentPage() {
       </div>
 
       {/* Footer */}
-      <div className="bg-blue-900 text-white py-8 px-4">
+      {/* <div className="bg-blue-900 text-white py-8 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-lg">SFJ Business Solutions</p>
           <p className="text-sm opacity-80 mt-2">
             Empowering Education Through Technology
           </p>
         </div>
+      </div> */}
+      <div className="-mt-12 mb-8">
+        <SubscribeSection />
       </div>
     </div>
   );
