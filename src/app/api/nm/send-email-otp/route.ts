@@ -1,0 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// app/api/nm/send-email-otp/route.ts
+import { NextRequest, NextResponse } from "next/server";
+
+const NEXT_PUBLIC_EXPRESS_BACKEND_URL =
+  process.env.NEXT_PUBLIC_EXPRESS_BACKEND_URL || "http://localhost:4003";
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+
+    const response = await fetch(
+      `${NEXT_PUBLIC_EXPRESS_BACKEND_URL}/nm/send-email-otp`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return NextResponse.json(data, { status: response.status });
+    }
+
+    return NextResponse.json(data);
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, message: error.message },
+      { status: 500 }
+    );
+  }
+}
