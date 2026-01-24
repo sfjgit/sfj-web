@@ -1,13 +1,7 @@
-import Footer from "@/components/Footer";
 import "./globals.css";
 import { Metadata } from "next";
 import ClientProvider from "./_components/ClientProvider";
-import Navigation from "@/components/Navigation";
 import Script from "next/script";
-import SFJContactForm from "./_components/SFJContactForm";
-import CookieBanner from "@/components/CookieBanner";
-import PushNotificationButton from "@/components/PushNotificationButton";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title:
@@ -199,19 +193,7 @@ export default function RootLayout({
           className="fixed top-4 right-4 z-50"
         ></div> */}
 
-        <ClientProvider>
-          <Suspense fallback={<div>Loading.</div>}>
-            <Navigation />
-          </Suspense>
-          {children}
-          <Footer />
-          <SFJContactForm />
-          <CookieBanner />
-
-          <div className="p-4 bg-gray-100">
-            <PushNotificationButton />
-          </div>
-        </ClientProvider>
+        <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
   );
