@@ -79,6 +79,8 @@ export default function NMDetailsPage() {
     bloodGroup: "",
     profilePhoto: "",
     profilePhotoUrl: "",
+    role: "",
+    courseName: "",
   });
 
   const showToast = (
@@ -126,6 +128,9 @@ export default function NMDetailsPage() {
             bloodGroup: data.bloodGroup || "",
             profilePhoto: data.profilePhoto || "",
             profilePhotoUrl: data.profilePhotoUrl || "",
+            role: data.role || "",
+            courseName: data.courseName || "",
+            // designation: "Trainer",
           });
 
           setPhotoPreview(data.profilePhotoUrl || data.profilePhoto || "");
@@ -229,6 +234,8 @@ export default function NMDetailsPage() {
           fullname: formData.fullname,
           bloodGroup: formData.bloodGroup,
           profilePhotoUrl: uploadedPhotoUrl || formData.profilePhotoUrl,
+          role: formData.role,
+          courseName: formData.courseName,
         }),
       });
 
@@ -259,8 +266,8 @@ export default function NMDetailsPage() {
       return;
     }
 
-    if (!formData.aadhaarno || formData.aadhaarno === "0") {
-      showToast("error", "Aadhaar number is required");
+    if (!formData.role || formData.role === "") {
+      showToast("error", "Role is required");
       return;
     }
 
@@ -273,7 +280,7 @@ export default function NMDetailsPage() {
         body: JSON.stringify({
           profilePhotoUrl: uploadedPhotoUrl || formData.profilePhotoUrl,
           bloodGroup: formData.bloodGroup,
-          aadhaarno: formData.aadhaarno,
+          // aadhaarno: formData.aadhaarno,
           caspaId: formData.caspaId,
         }),
       });
@@ -363,9 +370,12 @@ export default function NMDetailsPage() {
                 fullname={formData.fullname}
                 mobile={formData.mobile}
                 email={formData.email}
-                skillName={formData.skillName}
+                skillName={formData.courseName}
                 profilePhoto={photoPreview}
                 caspaId={formData.caspaId}
+                bloodGroup={formData.bloodGroup}
+                role={formData.role}
+                courseName={formData.courseName}
               />
               <p className="text-xs text-gray-500 mt-3 text-center">
                 Preview updates as you edit your details
@@ -494,9 +504,32 @@ export default function NMDetailsPage() {
                     className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
                   />
                 </div>
-
-                {/* Aadhaar - READ ONLY */}
                 <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Role
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.role}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50 text-gray-600 "
+                    placeholder="Enter your role eg. Student, Trainer, Faculty"
+                    onChange={(e) => handleChange("role", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Course Name
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.courseName}
+                    placeholder="Enter your course name"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50 text-gray-600 "
+                    onChange={(e) => handleChange("courseName", e.target.value)}
+                  />
+                </div>
+                {/* Aadhaar - READ ONLY */}
+                {/* <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Aadhaar Number
                   </label>
@@ -506,7 +539,7 @@ export default function NMDetailsPage() {
                     disabled
                     className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
                   />
-                </div>
+                </div> */}
 
                 {/* Blood Group - EDITABLE */}
                 <div>

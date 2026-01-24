@@ -19,6 +19,10 @@ export default function NMIdCard({
   mobile,
   email,
   profilePhoto,
+  courseName,
+  caspaId,
+  bloodGroup,
+  role,
 }: any) {
   const fromDate = new Date();
   const toDate = new Date();
@@ -53,22 +57,46 @@ export default function NMIdCard({
         </div>
 
         {/* Name */}
-        <p className="absolute top-[520px] w-full text-center text-3xl font-bold">
+        <p className="absolute top-[520px] w-full text-center text-2xl font-bold">
           {fullname}
         </p>
 
         {/* Role */}
-        <p className="absolute top-[565px] w-full text-center font-semibold">
-          TRAINER
+        <p className="absolute top-[550px] w-full text-center font-semibold">
+          {role}
         </p>
 
         {/* Details */}
-        <div className="absolute top-[610px] left-[120px] text-[16px] space-y-1">
-          <p>Email : {email}</p>
-          <p>Phone : {mobile}</p>
-          {/* <p>Course : {skillName}</p> */}
+        <div className="absolute top-[580px] left-[120px] text-[16px] space-y-1">
           <p>
-            Validate From: {format(fromDate)} to {format(toDate)}
+            <span className="font-semibold">Id :</span>{" "}
+            <span className="font-normal">{caspaId}</span>
+          </p>
+          <p>
+            <span className="font-semibold">Mobile Number :</span>{" "}
+            <span className="font-normal">{mobile}</span>
+          </p>
+
+          <p>
+            <span className="font-semibold">Mail Id :</span>{" "}
+            <span className="font-normal">{email}</span>
+          </p>
+
+          <p>
+            <span className="font-semibold">Course Name :</span>{" "}
+            <span className="font-normal">{courseName || "N/A"}</span>
+          </p>
+
+          <p>
+            <span className="font-semibold">Blood Group :</span>{" "}
+            <span className="font-normal">{bloodGroup || "N/A"}</span>
+          </p>
+
+          <p>
+            <span className="font-semibold">Validate From :</span>{" "}
+            <span className="font-normal">
+              {format(fromDate)} to {format(toDate)}
+            </span>
           </p>
         </div>
       </div>

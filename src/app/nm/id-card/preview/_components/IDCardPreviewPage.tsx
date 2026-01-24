@@ -60,8 +60,11 @@ export default function IDCardPreviewPage() {
         skillName={data.skillName}
         profilePhoto={data.profilePhoto}
         caspaId={data.caspaId}
+        bloodGroup={data.bloodGroup}
         validFrom={data.validFrom}
         validTo={data.validTo}
+        role={data.role}
+        courseName={data.courseName}
       />
     </div>
   );
