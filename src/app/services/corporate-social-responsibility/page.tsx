@@ -18,6 +18,7 @@ import { CSRStrategyFramework } from "./_components/stats";
 import IndustryImpact from "./_components/IndustryImpact";
 import CSRLandingPage from "./_components/HeroSection";
 import { Metadata } from "next";
+import CSRProgramsSection from "./_components/CSRProgramsSection";
 
 export const metadata: Metadata = {
   title: "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
@@ -265,6 +266,7 @@ export default function CSRPage() {
 
         {/* Industry Impact Section */}
         {<IndustryImpact industryImpacts={industryImpacts} />}
+        <CSRProgramsSection />
 
         {/* Partners Section */}
         <section className="py-20 bg-gray-900 text-white">
