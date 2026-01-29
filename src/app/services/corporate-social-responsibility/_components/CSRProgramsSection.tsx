@@ -280,7 +280,7 @@ const CSRProgramsSection = () => {
         </div>
 
         {/* Bottom CTA */}
-        <Link href={"/contact"}>
+        <Link href={"/contact?type=csr"}>
           <div className="mt-16 text-center">
             <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-6 rounded-2xl shadow-lg">
               <div className="flex items-center gap-3">
