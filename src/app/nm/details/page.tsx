@@ -129,7 +129,7 @@ export default function NMDetailsPage() {
             profilePhoto: data.profilePhoto || "",
             profilePhotoUrl: data.profilePhotoUrl || "",
             role: data.role || "",
-            courseName: data.courseName || "",
+            courseName: data.skillName || "",
             // designation: "Trainer",
           });
 
