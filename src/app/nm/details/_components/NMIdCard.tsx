@@ -69,7 +69,7 @@ export default function NMIdCard({
         {/* Details */}
         <div className="absolute top-[580px] left-[120px] text-[16px] space-y-1">
           <p>
-            <span className="font-semibold">Id :</span>{" "}
+            <span className="font-semibold">Trainer Id :</span>{" "}
             <span className="font-normal">{caspaId}</span>
           </p>
           <p>
