@@ -379,7 +379,8 @@ export default function Privacy() {
                   our Grievance Officer.
                   <br />
                   <br />
-                  <strong>Grievance Officer:</strong> Vishnupriya S<br />
+                  <strong>Grievance Officer:</strong>Arun R
+                  <br />
                   <strong>Email:</strong>growth@sfjbs.com
                 </p>
               </div>
