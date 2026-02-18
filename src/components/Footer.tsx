@@ -11,24 +11,18 @@ import {
   Mail,
 } from "lucide-react";
 import { FaStar } from "react-icons/fa";
-import { FaRegStarHalfStroke, FaX, FaXTwitter } from "react-icons/fa6";
+import { FaRegStarHalfStroke, FaX } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import { useState } from "react";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaLinkedin,
-  FaYoutube,
-  FaPinterest,
-} from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 const socialLinks = [
-  {
-    name: "Facebook",
-    url: "https://www.facebook.com/sfjbsofficial",
-    icon: <FaFacebook className="w-6 h-6" />,
-  },
+  // {
+  //   name: "Facebook",
+  //   url: "https://www.facebook.com/sfjbsofficial",
+  //   icon: <FaFacebook className="w-6 h-6" />,
+  // },
   {
     name: "Instagram",
     url: "https://www.instagram.com/sfjbs_bangalore/",
@@ -44,16 +38,16 @@ const socialLinks = [
     url: "https://www.youtube.com/channel/UC-Ol7VzrG_xsL6iyhhAIRzw",
     icon: <FaYoutube className="w-6 h-6" />,
   },
-  {
-    name: "Pinterest",
-    url: "https://in.pinterest.com/sfjbusiness/",
-    icon: <FaPinterest className="w-6 h-6" />,
-  },
-  {
-    name: "Twitter",
-    url: "https://x.com/sfjbs_official",
-    icon: <FaXTwitter className="w-6 h-6" />,
-  },
+  // {
+  //   name: "Pinterest",
+  //   url: "https://in.pinterest.com/sfjbusiness/",
+  //   icon: <FaPinterest className="w-6 h-6" />,
+  // },
+  // {
+  //   name: "Twitter",
+  //   url: "https://x.com/sfjbs_official",
+  //   icon: <FaXTwitter className="w-6 h-6" />,
+  // },
 ];
 
 const Footer = () => {
@@ -449,7 +443,7 @@ const Footer = () => {
               SFJ Business Solutions Pvt Ltd | +91-9845348601 | growth@sfjbs.com
             </p>
             <p className="text-sm text-gray-500">
-              Copyright © 2011-2025. All rights reserved.
+              Copyright © 2011-2026. All rights reserved.
             </p>
           </div>
         </div>
