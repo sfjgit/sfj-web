@@ -1,6 +1,7 @@
 import React from "react";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import SingleBlogPage from "./_components/Page";
+import Script from "next/script";
 
 interface Blog {
   _id: string;
@@ -21,6 +22,10 @@ interface Blog {
     name: string;
     slug: string;
     color?: string;
+  }>;
+  faqs?: Array<{
+    question: string;
+    answer: string;
   }>;
   status: string;
   publishedAt?: string;
@@ -53,7 +58,7 @@ const fetchBlogData = async (slug: string): Promise<Blog | null> => {
       `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/slug/${slug}`,
       {
         next: { revalidate: 3600 }, // Revalidate every hour
-      }
+      },
     );
 
     if (!response.ok) {
@@ -68,23 +73,135 @@ const fetchBlogData = async (slug: string): Promise<Blog | null> => {
   }
 };
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+// export async function generateMetadata({
+//   params,
+// }: PageProps): Promise<Metadata> {
+//   const { slug } = await params;
+//   const blog = await fetchBlogData(slug);
+
+//   if (!blog) {
+//     return {
+//       title: "Blog Not Found",
+//       description: "The requested blog post could not be found.",
+//     };
+//   }
+
+//   const heroImage = blog.banner || blog.featuredImage;
+//   const publishedDate = blog.publishedAt || blog.createdAt;
+//   const categories = blog.categories.map((cat) => cat.name).join(", ");
+//   const tags = blog.tags.map((tag) => tag.name).join(", ");
+
+//   // Create structured data for SEO
+//   const structuredData = {
+//     "@context": "https://schema.org",
+//     "@type": "BlogPosting",
+//     headline: blog.seo.metaTitle || blog.title,
+//     description: blog.seo.metaDescription || blog.summary,
+//     image: heroImage ? [heroImage] : [],
+//     datePublished: publishedDate,
+//     dateModified: blog.updatedAt,
+//     author: {
+//       "@type": "Organization",
+//       name: "Your Blog Name", // Replace with your actual blog/company name
+//     },
+//     publisher: {
+//       "@type": "Organization",
+//       name: "Your Blog Name", // Replace with your actual blog/company name
+//     },
+//     mainEntityOfPage: {
+//       "@type": "WebPage",
+//       "@id": `https://www.sfjbs.com/blog/${blog.slug}`,
+//     },
+//     articleSection: categories,
+//     keywords: blog.seo.keywords.join(", "),
+//     wordCount: blog.content.split(" ").length,
+//     timeRequired: `PT${blog.readTime}M`,
+//     inLanguage: blog.language || "en",
+//   };
+
+//   return {
+//     title: blog.seo.metaTitle || blog.title,
+//     description: blog.seo.metaDescription || blog.summary,
+//     keywords: blog.seo.keywords.join(", "),
+//     authors: [{ name: "Your Blog Name" }], // Replace with actual author info
+//     creator: "Your Blog Name", // Replace with actual creator
+//     publisher: "Your Blog Name", // Replace with actual publisher
+
+//     // Open Graph metadata
+//     openGraph: {
+//       title: blog.seo.metaTitle || blog.title,
+//       description: blog.seo.metaDescription || blog.summary,
+//       url: `https://www.sfjbs.com/blog/${blog.slug}`,
+//       siteName: "Your Blog Name", // Replace with your site name
+//       images: heroImage
+//         ? [
+//             {
+//               url: heroImage,
+//               width: 1200,
+//               height: 630,
+//               alt: blog.title,
+//             },
+//           ]
+//         : [],
+//       locale: blog.language || "en_US",
+//       type: "article",
+//       publishedTime: publishedDate,
+//       modifiedTime: blog.updatedAt,
+//       section: categories,
+//       tags: tags,
+//     },
+
+//     // Twitter Card metadata
+//     twitter: {
+//       card: "summary_large_image",
+//       title: blog.seo.metaTitle || blog.title,
+//       description: blog.seo.metaDescription || blog.summary,
+//       images: heroImage ? [heroImage] : [],
+//       creator: "@yourtwitterhandle", // Replace with your Twitter handle
+//       site: "@yourtwitterhandle", // Replace with your Twitter handle
+//     },
+
+//     // Additional metadata
+//     alternates: {
+//       canonical: `https://www.sfjbs.com/blog/${blog.slug}`,
+//     },
+
+//     // Robots metadata
+//     robots: {
+//       index: blog.status === "published",
+//       follow: blog.status === "published",
+//       googleBot: {
+//         index: blog.status === "published",
+//         follow: blog.status === "published",
+//         "max-video-preview": -1,
+//         "max-image-preview": "large",
+//         "max-snippet": -1,
+//       },
+//     },
+
+//     // Additional SEO metadata
+//     category: categories,
+//     classification: blog.difficulty || "general",
+
+//     // Structured data as JSON-LD
+//     other: {
+//       "application/ld+json": JSON.stringify(structuredData),
+//     },
+//   };
+// }
+
+export default async function BlogPage({ params }: PageProps) {
   const { slug } = await params;
   const blog = await fetchBlogData(slug);
 
   if (!blog) {
-    return {
-      title: "Blog Not Found",
-      description: "The requested blog post could not be found.",
-    };
+    return <div>Blog Not Found</div>;
   }
 
   const heroImage = blog.banner || blog.featuredImage;
   const publishedDate = blog.publishedAt || blog.createdAt;
   const categories = blog.categories.map((cat) => cat.name).join(", ");
-  const tags = blog.tags.map((tag) => tag.name).join(", ");
+  // const tags = blog.tags.map((tag) => tag.name).join(", ");
 
   // Create structured data for SEO
   const structuredData = {
@@ -97,11 +214,11 @@ export async function generateMetadata({
     dateModified: blog.updatedAt,
     author: {
       "@type": "Organization",
-      name: "Your Blog Name", // Replace with your actual blog/company name
+      name: "SFJ Business Solutions", // Replace with your actual blog/company name
     },
     publisher: {
       "@type": "Organization",
-      name: "Your Blog Name", // Replace with your actual blog/company name
+      name: "SFJ Business Solutions", // Replace with your actual blog/company name
     },
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -114,77 +231,43 @@ export async function generateMetadata({
     inLanguage: blog.language || "en",
   };
 
-  return {
-    title: blog.seo.metaTitle || blog.title,
-    description: blog.seo.metaDescription || blog.summary,
-    keywords: blog.seo.keywords.join(", "),
-    authors: [{ name: "Your Blog Name" }], // Replace with actual author info
-    creator: "Your Blog Name", // Replace with actual creator
-    publisher: "Your Blog Name", // Replace with actual publisher
-
-    // Open Graph metadata
-    openGraph: {
-      title: blog.seo.metaTitle || blog.title,
-      description: blog.seo.metaDescription || blog.summary,
-      url: `https://www.sfjbs.com/blog/${blog.slug}`,
-      siteName: "Your Blog Name", // Replace with your site name
-      images: heroImage
-        ? [
-            {
-              url: heroImage,
-              width: 1200,
-              height: 630,
-              alt: blog.title,
+  const faqSchema =
+    blog.faqs && blog.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: blog.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
             },
-          ]
-        : [],
-      locale: blog.language || "en_US",
-      type: "article",
-      publishedTime: publishedDate,
-      modifiedTime: blog.updatedAt,
-      section: categories,
-      tags: tags,
-    },
+          })),
+        }
+      : null;
 
-    // Twitter Card metadata
-    twitter: {
-      card: "summary_large_image",
-      title: blog.seo.metaTitle || blog.title,
-      description: blog.seo.metaDescription || blog.summary,
-      images: heroImage ? [heroImage] : [],
-      creator: "@yourtwitterhandle", // Replace with your Twitter handle
-      site: "@yourtwitterhandle", // Replace with your Twitter handle
-    },
+  return (
+    <>
+      <Script
+        id="blog-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
 
-    // Additional metadata
-    alternates: {
-      canonical: `https://www.sfjbs.com/blog/${blog.slug}`,
-    },
+      {faqSchema && (
+        <Script
+          id="faq-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
+          }}
+        />
+      )}
 
-    // Robots metadata
-    robots: {
-      index: blog.status === "published",
-      follow: blog.status === "published",
-      googleBot: {
-        index: blog.status === "published",
-        follow: blog.status === "published",
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
-
-    // Additional SEO metadata
-    category: categories,
-    classification: blog.difficulty || "general",
-
-    // Structured data as JSON-LD
-    other: {
-      "application/ld+json": JSON.stringify(structuredData),
-    },
-  };
-}
-
-export default function BlogPage() {
-  return <SingleBlogPage />;
+      <SingleBlogPage />
+    </>
+  );
 }
