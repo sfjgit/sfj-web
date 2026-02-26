@@ -10,6 +10,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface ContentBlock {
   type:
@@ -53,6 +59,11 @@ interface Blog {
     name: string;
     slug: string;
     color?: string;
+  }>;
+  faqs?: Array<{
+    _id: string;
+    question: string;
+    answer: string;
   }>;
   status: string;
   publishedAt?: string;
@@ -128,7 +139,7 @@ interface Category {
 
 const fetchCategories = async (): Promise<Category[]> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/categories`
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/categories`,
   );
 
   if (!response.ok) {
@@ -142,7 +153,7 @@ const fetchCategories = async (): Promise<Category[]> => {
 // New function to fetch related blogs by series ID
 const fetchSeriesRelatedBlogs = async (
   seriesId: string,
-  currentBlogId: string
+  currentBlogId: string,
 ): Promise<SeriesRelatedBlog[]> => {
   const queryParams = new URLSearchParams({
     seriesId: seriesId,
@@ -151,7 +162,7 @@ const fetchSeriesRelatedBlogs = async (
   });
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs?${queryParams}`
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs?${queryParams}`,
   );
 
   if (!response.ok) {
@@ -231,7 +242,7 @@ export default function SingleBlogPage() {
       setError(null);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/slug/${slug}`
+        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/slug/${slug}`,
       );
 
       if (!response.ok) {
@@ -256,7 +267,7 @@ export default function SingleBlogPage() {
     try {
       setSeriesLoading(true);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series`
+        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series`,
       );
       if (response.ok) {
         const data = await response.json();
@@ -272,7 +283,7 @@ export default function SingleBlogPage() {
   const fetchCurrentSeries = async (seriesId: string) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series/${seriesId}`
+        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series/${seriesId}`,
       );
       if (response.ok) {
         const data = await response.json();
@@ -286,12 +297,12 @@ export default function SingleBlogPage() {
   // New function to load series related blogs
   const loadSeriesRelatedBlogs = async (
     seriesId: string,
-    currentBlogId: string
+    currentBlogId: string,
   ) => {
     try {
       const relatedBlogs = await fetchSeriesRelatedBlogs(
         seriesId,
-        currentBlogId
+        currentBlogId,
       );
       setSeriesRelatedBlogs(relatedBlogs);
     } catch (err) {
@@ -363,7 +374,7 @@ export default function SingleBlogPage() {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/blogs/${slug}/like`,
-        { method: "POST" }
+        { method: "POST" },
       );
 
       if (response.ok) {
@@ -653,7 +664,7 @@ export default function SingleBlogPage() {
                 {blog.difficulty && (
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium border capitalize ${getDifficultyColor(
-                      blog.difficulty
+                      blog.difficulty,
                     )}`}
                   >
                     {blog.difficulty}
@@ -833,6 +844,44 @@ export default function SingleBlogPage() {
                 </div>
               </div>
             )}
+
+            {/* FAQ Section */}
+            {blog.faqs && blog.faqs.length > 0 && (
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-8-3a1 1 0 00-.894.553l-1 2A1 1 0 009 11h2a1 1 0 100-2h-.382l.276-.553A1 1 0 0010 7zm0 6a1 1 0 100 2 1 1 0 000-2z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Frequently Asked Questions (FAQs)
+                </h3>
+
+                <Accordion type="single" collapsible className="w-full">
+                  {blog.faqs.map((faq, index) => (
+                    <AccordionItem
+                      key={faq._id || index}
+                      value={`item-${index}`}
+                      className="border-b border-gray-200"
+                    >
+                      <AccordionTrigger className="text-left font-semibold text-gray-800 hover:text-blue-600">
+                        {faq.question}
+                      </AccordionTrigger>
+
+                      <AccordionContent className="text-gray-600 leading-relaxed">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            )}
           </div>
 
           {/* Right Sidebar */}
@@ -990,7 +1039,7 @@ export default function SingleBlogPage() {
                             {relatedBlog.publishedAt && (
                               <span className="text-xs text-gray-400">
                                 {new Date(
-                                  relatedBlog.publishedAt
+                                  relatedBlog.publishedAt,
                                 ).toLocaleDateString("en-US", {
                                   month: "short",
                                   day: "numeric",
