@@ -739,32 +739,32 @@ export default function SingleBlogPage() {
                     <div className="">
                       <div
                         className="prose prose-lg max-w-none 
-              [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-gray-700
-              [&_h1]:my-6 [&_h1]:first:mt-0 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900
-              [&_h2]:my-6 [&_h2]:first:mt-0 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-900
-              [&_h3]:my-6 [&_h3]:first:mt-0 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900
-              [&_h4]:my-4 [&_h4]:first:mt-0 [&_h4]:text-lg [&_h4]:font-bold [&_h4]:text-gray-900
-              [&_h5]:my-4 [&_h5]:first:mt-0 [&_h5]:text-base [&_h5]:font-bold [&_h5]:text-gray-900
-              [&_h6]:my-4 [&_h6]:first:mt-0 [&_h6]:text-sm [&_h6]:font-bold [&_h6]:text-gray-900
-              [&_ul]:mb-6 [&_ul]:pl-6 [&_ul]:space-y-2 [&_ul]:list-disc [&_ul]:list-outside
-              [&_ol]:mb-6 [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol]:list-decimal [&_ol]:list-outside
-              [&_li]:text-gray-700 [&_li]:leading-relaxed [&_li]:mb-1
-              [&_ul_li]:relative [&_ul_li]:pl-2
-              [&_ol_li]:relative [&_ol_li]:pl-2
-              [&_ul_ul]:mt-2 [&_ul_ul]:mb-2 [&_ul_ul]:pl-4
-              [&_ol_ol]:mt-2 [&_ol_ol]:mb-2 [&_ol_ol]:pl-4
-              [&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:pl-4 [&_blockquote]:bg-blue-50 [&_blockquote]:p-4 [&_blockquote]:rounded-r-lg
-              [&_blockquote_p]:text-gray-800 [&_blockquote_p]:text-lg [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:mb-0
-              [&_pre]:my-6 [&_pre]:bg-gray-900 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:overflow-x-auto
-              [&_code]:text-green-400 [&_code]:font-mono [&_code]:text-sm
-              [&_img]:my-6 [&_img]:rounded-lg [&_img]:shadow-sm
-              [&_table]:my-6 [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-gray-200
-              [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:text-left [&_th]:font-semibold
-              [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
-              [&_hr]:my-6 [&_hr]:border-gray-200
-              [&_strong]:font-semibold [&_strong]:text-gray-900
-              [&_em]:italic
-              [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-700"
+                        [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-gray-700
+                        [&_h1]:my-6 [&_h1]:first:mt-0 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900
+                        [&_h2]:my-6 [&_h2]:first:mt-0 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-900
+                        [&_h3]:my-6 [&_h3]:first:mt-0 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900
+                        [&_h4]:my-4 [&_h4]:first:mt-0 [&_h4]:text-lg [&_h4]:font-bold [&_h4]:text-gray-900
+                        [&_h5]:my-4 [&_h5]:first:mt-0 [&_h5]:text-base [&_h5]:font-bold [&_h5]:text-gray-900
+                        [&_h6]:my-4 [&_h6]:first:mt-0 [&_h6]:text-sm [&_h6]:font-bold [&_h6]:text-gray-900
+                        [&_ul]:mb-6 [&_ul]:pl-6 [&_ul]:space-y-2 [&_ul]:list-disc [&_ul]:list-outside
+                        [&_ol]:mb-6 [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol]:list-decimal [&_ol]:list-outside
+                        [&_li]:text-gray-700 [&_li]:leading-relaxed [&_li]:mb-1
+                        [&_ul_li]:relative [&_ul_li]:pl-2
+                        [&_ol_li]:relative [&_ol_li]:pl-2
+                        [&_ul_ul]:mt-2 [&_ul_ul]:mb-2 [&_ul_ul]:pl-4
+                        [&_ol_ol]:mt-2 [&_ol_ol]:mb-2 [&_ol_ol]:pl-4
+                        [&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:pl-4 [&_blockquote]:bg-blue-50 [&_blockquote]:p-4 [&_blockquote]:rounded-r-lg
+                        [&_blockquote_p]:text-gray-800 [&_blockquote_p]:text-lg [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:mb-0
+                        [&_pre]:my-6 [&_pre]:bg-gray-900 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:whitespace-pre-wrap [&_pre]:break-words
+                        [&_pre_code]:text-green-400 [&_pre_code]:font-mono [&_pre_code]:text-sm [&_pre_code]:bg-transparent [&_pre_code]:whitespace-pre-wrap [&_pre_code]:break-words
+                        [&_img]:my-6 [&_img]:rounded-lg [&_img]:shadow-sm
+                        [&_table]:my-6 [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-gray-200
+                        [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:text-left [&_th]:font-semibold
+                        [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
+                        [&_hr]:my-6 [&_hr]:border-gray-200
+                        [&_strong]:font-semibold [&_strong]:text-gray-900
+                        [&_em]:italic
+                        [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-700"
                         dangerouslySetInnerHTML={{
                           __html: cleanupHTMLContent(blog.content),
                         }}
