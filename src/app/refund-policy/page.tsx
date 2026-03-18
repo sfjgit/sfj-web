@@ -151,11 +151,12 @@ export default function RefundPolicy() {
               <p className="text-slate-600 leading-relaxed">
                 You can request a refund for a course within{" "}
                 <span className="font-semibold text-slate-800">
-                  7 days of purchase
+                  7-10 business days of purchase
                 </span>
                 . If you have accessed more than 25% of the course content or
                 downloaded the ebook, you will not be eligible for a refund.
-                Refund requests received after 7 days will not be processed.
+                Refund requests received after 7-10 business days will not be
+                processed.
               </p>
               <RefundNote color="blue" />
             </div>
@@ -172,13 +173,13 @@ export default function RefundPolicy() {
               <p className="text-slate-600 text-lg leading-relaxed">
                 You can request a refund for an e-learning course within{" "}
                 <span className="font-semibold text-slate-800">
-                  7 days of purchase
+                  7-10 business days of purchase
                 </span>
                 . However, if you have accessed more than 25% of the course
                 content, attended online classrooms or received recordings for
                 more than 1 day, or downloaded the e-book, you will not be
-                eligible for a refund. Refund requests received after 7 days
-                will not be processed.
+                eligible for a refund. Refund requests received after 7-10
+                business days will not be processed.
               </p>
               <RefundNote color="emerald" />
             </div>
@@ -195,12 +196,12 @@ export default function RefundPolicy() {
               <p className="text-slate-600 text-lg leading-relaxed">
                 Raise refund requests within{" "}
                 <span className="font-semibold text-slate-800">
-                  7 days from the start date
+                  7-10 business days from the start date
                 </span>{" "}
                 of the regular class (Live or Recorded as the case may be)
                 whether attended or not. The Money-back guarantee is void if the
-                participant raises any refund request beyond 7 days from the
-                regular class.
+                participant raises any refund request beyond 7-10 business days
+                from the regular class.
               </p>
               <RefundNote color="purple" />
             </div>
@@ -260,6 +261,7 @@ export default function RefundPolicy() {
                   </span>{" "}
                   section of the website.
                 </p>
+                <RefundNote color="blue" />
               </div>
             </div>
 
