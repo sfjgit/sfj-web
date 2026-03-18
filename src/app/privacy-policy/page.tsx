@@ -388,7 +388,7 @@ export default function Privacy() {
           </div>
 
           {/* Contact Section */}
-          <div className="bg-gradient-to-r from-slate-50 to-gray-50 border border-slate-200 rounded-xl p-8 text-center">
+          {/* <div className="bg-gradient-to-r from-slate-50 to-gray-50 border border-slate-200 rounded-xl p-8 text-center">
             <h3 className="text-xl font-semibold text-slate-800 mb-4">
               Questions About Our Privacy Policy?
             </h3>
@@ -404,7 +404,7 @@ export default function Privacy() {
                 View Terms
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>
