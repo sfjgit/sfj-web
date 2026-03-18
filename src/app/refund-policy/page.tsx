@@ -260,7 +260,7 @@ export default function RefundPolicy() {
           </div>
 
           {/* Contact Section */}
-          <div className="bg-gradient-to-r from-slate-50 to-blue-50 border border-slate-200 rounded-xl p-8 text-center">
+          {/* <div className="bg-gradient-to-r from-slate-50 to-blue-50 border border-slate-200 rounded-xl p-8 text-center">
             <h3 className="text-2xl font-semibold text-slate-800 mb-4">
               Need Assistance?
             </h3>
@@ -276,7 +276,7 @@ export default function RefundPolicy() {
                 View My Orders
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>
