@@ -1,6 +1,32 @@
 import React from "react";
 import Image from "next/image";
 
+const RefundNote = ({ color = "blue" }: { color?: string }) => {
+  const styles: Record<string, string> = {
+    blue: "bg-blue-100 border-blue-300 text-blue-800",
+    emerald: "bg-emerald-100 border-emerald-300 text-emerald-800",
+    purple: "bg-purple-100 border-purple-300 text-purple-800",
+    orange: "bg-orange-100 border-orange-300 text-orange-800",
+    slate: "bg-slate-100 border-slate-300 text-slate-800",
+  };
+  return (
+    <div
+      className={`flex items-center space-x-2 border rounded-lg px-4 py-3 mt-4 ${styles[color]}`}
+    >
+      <svg
+        className="w-4 h-4 flex-shrink-0"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+      </svg>
+      <p className="text-sm font-medium">
+        Refund will be credited to original source in 7-10 business days.
+      </p>
+    </div>
+  );
+};
+
 export default function RefundPolicy() {
   return (
     <main className="min-h-screen bg-white">
@@ -14,14 +40,12 @@ export default function RefundPolicy() {
           priority
         />
 
-        {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/5 rounded-full animate-pulse"></div>
           <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500/5 rounded-full animate-pulse delay-1000"></div>
           <div className="absolute top-40 right-20 w-24 h-24 bg-blue-500/5 rounded-full animate-pulse delay-500"></div>
         </div>
 
-        {/* Floating icons */}
         <div className="absolute inset-0">
           <div className="absolute top-32 left-20 animate-bounce delay-300">
             <svg
@@ -71,8 +95,6 @@ export default function RefundPolicy() {
             <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
               Clear, transparent terms for all our educational programs
             </p>
-
-            {/* Feature badges */}
             <div className="flex flex-wrap justify-center gap-4">
               <div className="bg-blue-50 border border-blue-200 rounded-full px-4 py-2 flex items-center space-x-2">
                 <svg
@@ -135,6 +157,7 @@ export default function RefundPolicy() {
                 downloaded the ebook, you will not be eligible for a refund.
                 Refund requests received after 7 days will not be processed.
               </p>
+              <RefundNote color="blue" />
             </div>
           </div>
 
@@ -157,6 +180,7 @@ export default function RefundPolicy() {
                 eligible for a refund. Refund requests received after 7 days
                 will not be processed.
               </p>
+              <RefundNote color="emerald" />
             </div>
           </div>
 
@@ -178,6 +202,7 @@ export default function RefundPolicy() {
                 participant raises any refund request beyond 7 days from the
                 regular class.
               </p>
+              <RefundNote color="purple" />
             </div>
           </div>
 
@@ -205,6 +230,7 @@ export default function RefundPolicy() {
                   </p>
                 </div>
               ))}
+              <RefundNote color="orange" />
             </div>
           </div>
 
@@ -228,9 +254,8 @@ export default function RefundPolicy() {
                   </span>{" "}
                   next to the specific item in the order. This method can only
                   be used for orders with one item. If the order has more than
-                  one item, please contact the support team through the
+                  one item, please contact the support team through the{" "}
                   <span className="font-semibold text-slate-800">
-                    {" "}
                     &quot;Help & Support&quot;
                   </span>{" "}
                   section of the website.
@@ -247,36 +272,15 @@ export default function RefundPolicy() {
               <div className="p-8">
                 <p className="text-slate-600 leading-relaxed">
                   Refund of the duplicate payment made by the delegate will be
-                  processed via the same source (original method of payment) in{" "}
-                  <span className="font-semibold text-slate-800">
-                    10 working days
-                  </span>{" "}
+                  processed via the same source (original method of payment)
                   post intimation by the customer. SFJBS reserves the right to
                   revise the terms & conditions of this policy without any prior
                   notice.
                 </p>
+                <RefundNote color="slate" />
               </div>
             </div>
           </div>
-
-          {/* Contact Section */}
-          {/* <div className="bg-gradient-to-r from-slate-50 to-blue-50 border border-slate-200 rounded-xl p-8 text-center">
-            <h3 className="text-2xl font-semibold text-slate-800 mb-4">
-              Need Assistance?
-            </h3>
-            <p className="text-slate-600 text-lg mb-8 max-w-2xl mx-auto">
-              Our support team is ready to help you with any questions regarding
-              refunds or cancellations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 shadow-sm hover:shadow-md">
-                Contact Support
-              </button>
-              <button className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 hover:border-slate-400 px-8 py-3 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md">
-                View My Orders
-              </button>
-            </div>
-          </div> */}
         </div>
       </section>
     </main>
