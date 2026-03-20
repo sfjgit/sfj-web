@@ -6,6 +6,7 @@ import CTASection from "./_components/CTASection";
 import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
 import Script from "next/script";
+import PricingSection from "@/components/PricingSection";
 
 export const metadata: Metadata = {
   title:
@@ -77,6 +78,8 @@ export default function HomePage() {
       <PartnersSection />
 
       <FootprintSection />
+
+      <PricingSection />
 
       <CTASection />
       {/* <FloatingActionButton /> */}

@@ -111,11 +111,11 @@ const Navigation = () => {
         },
       ],
     },
-    {
-      path: "https://www.bskilling.com/",
-      label: "Education",
-      hasChildren: false,
-    },
+    // {
+    //   path: "https://www.bskilling.com/",
+    //   label: "Education",
+    //   hasChildren: false,
+    // },
     {
       path: "/industries",
       label: "Industries",
