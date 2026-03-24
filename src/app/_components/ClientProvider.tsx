@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import SFJContactForm from "./SFJContactForm";
 import CookieBanner from "@/components/CookieBanner";
 import PushNotificationButton from "@/components/PushNotificationButton";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,27 +36,29 @@ export default function ClientProvider({
   const isNMPage = pathname?.includes("/nm");
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {!isNMPage && (
-        <>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Navigation />
-          </Suspense>
-        </>
-      )}
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        {!isNMPage && (
+          <>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Navigation />
+            </Suspense>
+          </>
+        )}
 
-      {children}
+        {children}
 
-      {!isNMPage && (
-        <>
-          <Footer />
-          <SFJContactForm />
-          <CookieBanner />
-          <div className="p-4 bg-gray-100">
-            <PushNotificationButton />
-          </div>
-        </>
-      )}
-    </QueryClientProvider>
+        {!isNMPage && (
+          <>
+            <Footer />
+            <SFJContactForm />
+            <CookieBanner />
+            <div className="p-4 bg-gray-100">
+              <PushNotificationButton />
+            </div>
+          </>
+        )}
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }

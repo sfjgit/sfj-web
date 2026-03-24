@@ -139,7 +139,7 @@ interface Category {
 
 const fetchCategories = async (): Promise<Category[]> => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/categories`,
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/categories`
   );
 
   if (!response.ok) {
@@ -153,7 +153,7 @@ const fetchCategories = async (): Promise<Category[]> => {
 // New function to fetch related blogs by series ID
 const fetchSeriesRelatedBlogs = async (
   seriesId: string,
-  currentBlogId: string,
+  currentBlogId: string
 ): Promise<SeriesRelatedBlog[]> => {
   const queryParams = new URLSearchParams({
     seriesId: seriesId,
@@ -162,7 +162,7 @@ const fetchSeriesRelatedBlogs = async (
   });
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs?${queryParams}`,
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs?${queryParams}`
   );
 
   if (!response.ok) {
@@ -242,7 +242,7 @@ export default function SingleBlogPage() {
       setError(null);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/slug/${slug}`,
+        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/slug/${slug}`
       );
 
       if (!response.ok) {
@@ -267,7 +267,7 @@ export default function SingleBlogPage() {
     try {
       setSeriesLoading(true);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series`,
+        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series`
       );
       if (response.ok) {
         const data = await response.json();
@@ -283,7 +283,7 @@ export default function SingleBlogPage() {
   const fetchCurrentSeries = async (seriesId: string) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series/${seriesId}`,
+        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/series/${seriesId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -297,12 +297,12 @@ export default function SingleBlogPage() {
   // New function to load series related blogs
   const loadSeriesRelatedBlogs = async (
     seriesId: string,
-    currentBlogId: string,
+    currentBlogId: string
   ) => {
     try {
       const relatedBlogs = await fetchSeriesRelatedBlogs(
         seriesId,
-        currentBlogId,
+        currentBlogId
       );
       setSeriesRelatedBlogs(relatedBlogs);
     } catch (err) {
@@ -374,7 +374,7 @@ export default function SingleBlogPage() {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/blogs/${slug}/like`,
-        { method: "POST" },
+        { method: "POST" }
       );
 
       if (response.ok) {
@@ -664,7 +664,7 @@ export default function SingleBlogPage() {
                 {blog.difficulty && (
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium border capitalize ${getDifficultyColor(
-                      blog.difficulty,
+                      blog.difficulty
                     )}`}
                   >
                     {blog.difficulty}
@@ -720,7 +720,7 @@ export default function SingleBlogPage() {
                 </h2>
                 <nav className="space-y-2">
                   {blog.tableOfContents.map((item) => (
-                    <a
+                    <Link
                       key={item.id}
                       href={`#${item.id}`}
                       className={`block py-2 px-3 rounded-lg transition-all hover:bg-blue-50 ${
@@ -731,7 +731,7 @@ export default function SingleBlogPage() {
                       style={{ marginLeft: `${(item.level - 1) * 16}px` }}
                     >
                       {item.text}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>
@@ -1039,7 +1039,7 @@ export default function SingleBlogPage() {
                             {relatedBlog.publishedAt && (
                               <span className="text-xs text-gray-400">
                                 {new Date(
-                                  relatedBlog.publishedAt,
+                                  relatedBlog.publishedAt
                                 ).toLocaleDateString("en-US", {
                                   month: "short",
                                   day: "numeric",
