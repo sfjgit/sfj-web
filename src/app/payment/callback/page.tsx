@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import PaymentCallbackContent from "./PaymentCallbackContent";
 
 export const metadata = {
-  title: "Verifying Payment — bSkilling",
+  title: "Verifying Payment — SFJBS",
 };
 
 export default function PaymentCallbackPage() {

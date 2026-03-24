@@ -41,7 +41,7 @@ export default function PaymentFailedContent() {
     const updateFailedStatus = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/purchase-details/${paymentId}`
+          `${process.env.NEXT_PUBLIC_BACKEND_BSKILLING_URL}/api/purchase-details/${paymentId}`
         );
         setPurchaseData(response.data?.data);
         toast.error("Payment failed and status updated.");
