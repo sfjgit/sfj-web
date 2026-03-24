@@ -265,12 +265,12 @@ const HeroCarousel = () => {
 
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                          <a
+                          <Link
                             href={offering.link}
                             className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center text-sm"
                           >
                             {offering.cta}
-                          </a>
+                          </Link>
                           <Link href={`/contact?type=${offering.type}`}>
                             <button className="bg-white/90 hover:cursor-pointer backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md text-sm">
                               Reach Us
