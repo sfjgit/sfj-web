@@ -47,7 +47,7 @@ export default function PaymentCallbackContent() {
     const checkPaymentStatus = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payments/status/${merchantOrderId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_BSKILLING_URL}/api/payments/status/${merchantOrderId}`,
           {
             headers: token ? { Authorization: `Bearer ${token}` } : {},
           }
