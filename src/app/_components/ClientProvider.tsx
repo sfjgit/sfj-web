@@ -33,7 +33,8 @@ export default function ClientProvider({
   const pathname = usePathname();
 
   // ✅ detect NM page
-  const isNMPage = pathname?.includes("/nm");
+  const isNMPage =
+    pathname?.includes("/nm") || pathname === "/android-privacy-policy";
 
   return (
     <AuthProvider>
