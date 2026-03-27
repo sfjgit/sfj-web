@@ -7,6 +7,7 @@ import { ICourse, IMetadata } from "@/types/course.types";
 import EnrollButton from "@/components/courses/EnrollButton";
 import CurriculumAccordion from "@/components/courses/CurriculumAccordion";
 import FAQAccordion from "@/components/courses/FAQAccordion";
+import CourseTour from "@/components/courses/CourseTour"; // ← NEW
 import Link from "next/link";
 
 const BACKEND_URL =
@@ -23,16 +24,10 @@ async function getCourse(
       headers: { accept: "application/json" },
       next: { revalidate: 60 },
     });
-
     if (!res.ok) return null;
-
     const data = await res.json();
     if (!data.success || !data.data?.course) return null;
-
-    return {
-      course: data.data.course,
-      metadata: data.data.metadata || null,
-    };
+    return { course: data.data.course, metadata: data.data.metadata || null };
   } catch (err) {
     console.error("Error fetching course:", err);
     return null;
@@ -137,6 +132,11 @@ export default async function CoursePage({
   const hasOutcomes = course.outcomes?.length > 0;
   const hasSkills = course.skills?.length > 0;
 
+  // ── NEW: partial payment props ────────────────────────────────────────────
+  const hasPartialPayment = course.partialPayment?.isAllowed ?? false;
+  const installments = course.partialPayment?.installments ?? [];
+  // ─────────────────────────────────────────────────────────────────────────
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Course",
@@ -155,6 +155,9 @@ export default async function CoursePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
+      {/* ── NEW: Tour guide (client, shows once) ── */}
+      <CourseTour />
 
       <main className="min-h-screen bg-gray-50 pt-20">
         {/* Hero */}
@@ -220,13 +223,24 @@ export default async function CoursePage({
                       {course.appliedCount} enrolled
                     </MetaPill>
                   )}
+                  {/* ── NEW: installment badge ── */}
+                  {hasPartialPayment && (
+                    <MetaPill color="green">
+                      <CalendarIcon />
+                      EMI available
+                    </MetaPill>
+                  )}
                 </div>
               </div>
 
               {/* Right: Sticky enroll card (desktop) */}
               <div className="hidden lg:block">
                 <div className="sticky top-20">
-                  <CourseEnrollCard course={course} />
+                  <CourseEnrollCard
+                    course={course}
+                    hasPartialPayment={hasPartialPayment}
+                    installments={installments}
+                  />
                 </div>
               </div>
             </div>
@@ -275,7 +289,6 @@ export default async function CoursePage({
                 </Section>
               )}
 
-              {/* Client component — needs useState */}
               {hasChapters && (
                 <Section title="Course curriculum">
                   <CurriculumAccordion chapters={course.curriculum.chapters} />
@@ -314,7 +327,6 @@ export default async function CoursePage({
                 </Section>
               )}
 
-              {/* Client component — needs useState */}
               {hasFAQs && (
                 <Section title="Frequently asked questions">
                   <FAQAccordion faqs={course.faqs} />
@@ -324,7 +336,11 @@ export default async function CoursePage({
 
             {/* Mobile enroll card */}
             <div className="lg:hidden mt-8">
-              <CourseEnrollCard course={course} />
+              <CourseEnrollCard
+                course={course}
+                hasPartialPayment={hasPartialPayment}
+                installments={installments}
+              />
             </div>
           </div>
         </div>
@@ -372,7 +388,21 @@ function MetaPill({
   );
 }
 
-function CourseEnrollCard({ course }: { course: ICourse }) {
+// ── NEW: accepts installment props ────────────────────────────────────────────
+function CourseEnrollCard({
+  course,
+  hasPartialPayment,
+  installments,
+}: {
+  course: ICourse;
+  hasPartialPayment: boolean;
+  installments: {
+    installmentNumber: number;
+    amount: number;
+    dueDate: string;
+    label?: string;
+  }[];
+}) {
   const isFree = !course.isPaid || course.price.amount === 0;
 
   return (
@@ -394,9 +424,12 @@ function CourseEnrollCard({ course }: { course: ICourse }) {
               ? "Free"
               : formatPrice(course.price.amount, course.price.currency)}
           </span>
-          {!isFree && (
-            <span className="text-xs font-medium bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full">
-              20% OFF
+          {!isFree && hasPartialPayment && installments.length > 0 && (
+            <span className="text-xs font-medium bg-purple-50 text-purple-600 px-2 py-0.5 rounded-full">
+              EMI from ₹
+              {Math.min(...installments.map((i) => i.amount)).toLocaleString(
+                "en-IN"
+              )}
             </span>
           )}
         </div>
@@ -407,6 +440,8 @@ function CourseEnrollCard({ course }: { course: ICourse }) {
           amount={course.price.amount}
           currency={course.price.currency}
           isPaid={course.isPaid}
+          hasPartialPayment={hasPartialPayment}
+          installments={installments}
         />
 
         <div className="space-y-2.5 pt-2 border-t border-gray-100">
@@ -456,7 +491,7 @@ function InfoRow({ icon, label }: { icon: string; label: string }) {
   );
 }
 
-// ---- Inline SVG icons (avoids a dep for simple cases) ----
+// ---- Inline SVG icons ----
 
 function ClockIcon() {
   return (
