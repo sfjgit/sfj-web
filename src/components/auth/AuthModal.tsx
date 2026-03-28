@@ -243,6 +243,11 @@ function SignupView({
       return;
     }
 
+    if (!phone || phone === "") {
+      setError("Phone number is required and must be 10-15 digits");
+      return;
+    }
+
     if (phone && !/^\d{10,15}$/.test(phone)) {
       setError("Phone number must be 10-15 digits");
       return;
