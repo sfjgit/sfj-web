@@ -22,7 +22,7 @@ async function getCourse(
   try {
     const res = await fetch(`${BACKEND_URL}/api/courses/slug/${slug}`, {
       headers: { accept: "application/json" },
-      next: { revalidate: 60 },
+      cache: "no-store", // ← was: next: { revalidate: 60 }
     });
     if (!res.ok) return null;
     const data = await res.json();
