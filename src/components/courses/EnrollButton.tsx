@@ -31,6 +31,59 @@ interface PriceBreakdown {
   offerApplied: { code?: string; type?: string; value?: number } | null;
 }
 
+// ── Error modal for initiation failures ──────────────────────────────────────
+
+function ErrorModal({
+  message,
+  onClose,
+}: {
+  message: string;
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      {/* Modal */}
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 flex flex-col items-center gap-4 z-10">
+        {/* Icon */}
+        <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+          <svg
+            className="w-7 h-7 text-red-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+            />
+          </svg>
+        </div>
+
+        <div className="text-center space-y-1">
+          <h3 className="text-base font-bold text-gray-900">Payment Failed</h3>
+          <p className="text-sm text-gray-500 leading-relaxed">{message}</p>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="w-full py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-xl transition-colors"
+        >
+          Try Again
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_BSKILLING_URL!;
 
 export default function EnrollButton({
@@ -48,6 +101,9 @@ export default function EnrollButton({
   const [loading, setLoading] = useState(false);
   const [alreadyPaid, setAlreadyPaid] = useState(false);
 
+  // ── NEW: error modal state ────────────────────────────────────────────────
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const [breakdown, setBreakdown] = useState<PriceBreakdown | null>(null);
   const [breakdownLoading, setBreakdownLoading] = useState(false);
 
@@ -55,7 +111,6 @@ export default function EnrollButton({
   const [couponApplied, setCouponApplied] = useState<string | null>(null);
   const [couponLoading, setCouponLoading] = useState(false);
 
-  // ── Payment mode lives OUTSIDE the order summary so user picks it first ──
   const [paymentMode, setPaymentMode] = useState<"full" | "installment">(
     hasPartialPayment && installments.length > 0 ? "installment" : "full"
   );
@@ -66,7 +121,6 @@ export default function EnrollButton({
   const isFree = !isPaid || amount === 0;
   const showInstallmentOption = hasPartialPayment && installments.length > 0;
 
-  // ── Already paid check ────────────────────────────────────────────────────
   useEffect(() => {
     if (!hydrated) return;
     try {
@@ -79,7 +133,6 @@ export default function EnrollButton({
     }
   }, [hydrated, courseId]);
 
-  // ── Price breakdown ───────────────────────────────────────────────────────
   const fetchBreakdown = async (coupon?: string) => {
     if (isFree) return;
     setBreakdownLoading(true);
@@ -108,7 +161,6 @@ export default function EnrollButton({
           await fetchBreakdown();
         }
       } else {
-        // Default display — backend recomputes on actual charge
         setBreakdown({
           basePrice: amount,
           gstAmount: +(amount * 0.18).toFixed(2),
@@ -142,7 +194,6 @@ export default function EnrollButton({
     fetchBreakdown();
   };
 
-  // ── Free enroll ───────────────────────────────────────────────────────────
   const handleFreeEnroll = async () => {
     toast.success(`You're enrolled in ${courseName}!`);
     try {
@@ -159,7 +210,7 @@ export default function EnrollButton({
     } catch {}
   };
 
-  // ── Initiate payment ──────────────────────────────────────────────────────
+  // ── Initiate payment — full error surfacing ───────────────────────────────
   const initiatePayment = async () => {
     if (typeof window === "undefined") return;
     localStorage.setItem("paymentReturnUrl", window.location.href);
@@ -174,7 +225,6 @@ export default function EnrollButton({
       };
 
       if (couponApplied) body.discountCode = couponApplied;
-
       if (paymentMode === "installment") {
         body.paymentType = "installment";
         body.installmentNumber = selectedInstallment;
@@ -189,6 +239,7 @@ export default function EnrollButton({
         body: JSON.stringify(body),
       });
 
+      // ── 401: session expired ──────────────────────────────────────────────
       if (res.status === 401) {
         logout();
         setEnrollOpen(false);
@@ -197,10 +248,32 @@ export default function EnrollButton({
         return;
       }
 
-      const data = await res.json();
-      if (!data.success)
-        throw new Error(data.error || "Payment initiation failed");
+      // ── Parse response always — even on non-2xx ───────────────────────────
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let data: any;
+      try {
+        data = await res.json();
+      } catch {
+        // JSON parse failed — raw HTTP error
+        setErrorMessage(
+          `Server error (${res.status}). Please try again in a moment.`
+        );
+        return;
+      }
 
+      // ── Backend returned success: false ───────────────────────────────────
+      if (!data.success) {
+        // Prefer data.error, fall back to data.message, then status text
+        const msg =
+          data.error ||
+          data.message ||
+          `Payment failed (${res.status}). Please try again.`;
+        setErrorMessage(msg);
+        toast.error(msg, { duration: 4000 });
+        return;
+      }
+
+      // ── Redirect to PhonePe ───────────────────────────────────────────────
       localStorage.setItem(
         "pendingPayment",
         JSON.stringify({
@@ -211,12 +284,16 @@ export default function EnrollButton({
         })
       );
 
-      window.location.href = data.data.redirectUrl;
       toast.success("Redirecting to PhonePe...");
+      window.location.href = data.data.redirectUrl;
     } catch (err: unknown) {
-      toast.error(
-        err instanceof Error ? err.message : "Payment initiation failed"
-      );
+      // Network error / fetch itself failed
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Network error. Check your connection and try again.";
+      setErrorMessage(msg);
+      toast.error(msg, { duration: 4000 });
     } finally {
       setLoading(false);
     }
@@ -235,7 +312,6 @@ export default function EnrollButton({
     handleOpenEnroll();
   };
 
-  // What we actually charge on proceed
   const chargeAmount =
     paymentMode === "installment"
       ? installments.find((i) => i.installmentNumber === selectedInstallment)
@@ -246,7 +322,6 @@ export default function EnrollButton({
     (i) => i.installmentNumber === selectedInstallment
   );
 
-  // ── Render ────────────────────────────────────────────────────────────────
   if (!hydrated)
     return <div className="w-full h-12 bg-gray-100 rounded-xl animate-pulse" />;
 
@@ -263,8 +338,16 @@ export default function EnrollButton({
 
   return (
     <>
+      {/* ── Error modal ──────────────────────────────────────────────────── */}
+      {errorMessage && (
+        <ErrorModal
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
+
       <div className="space-y-3">
-        {/* ── STEP 1: Payment mode selector — always visible if EMI available ── */}
+        {/* STEP 1: Payment mode selector */}
         {!isFree && showInstallmentOption && !enrollOpen && (
           <div className="border border-gray-200 rounded-xl overflow-hidden">
             <div className="px-3 py-2 bg-gray-50 border-b border-gray-100">
@@ -272,8 +355,6 @@ export default function EnrollButton({
                 How do you want to pay?
               </p>
             </div>
-
-            {/* Toggle */}
             <div className="p-3 flex gap-2">
               {(["full", "installment"] as const).map((mode) => (
                 <button
@@ -290,7 +371,6 @@ export default function EnrollButton({
               ))}
             </div>
 
-            {/* Installment cards — shown when EMI selected */}
             {paymentMode === "installment" && (
               <div className="px-3 pb-3 space-y-2">
                 {installments.map((inst) => (
@@ -333,9 +413,8 @@ export default function EnrollButton({
                     </div>
                   </button>
                 ))}
-                {/* Total context */}
                 <p className="text-xs text-gray-400 text-center pt-1">
-                  Total course price: ₹{amount.toLocaleString("en-IN")} · Pay in{" "}
+                  Total: ₹{amount.toLocaleString("en-IN")} ·{" "}
                   {installments.length} installments
                 </p>
               </div>
@@ -343,7 +422,7 @@ export default function EnrollButton({
           </div>
         )}
 
-        {/* ── STEP 2: Enroll button — label reflects selection ── */}
+        {/* STEP 2: Enroll button */}
         {!enrollOpen && (
           <button
             onClick={handleClick}
@@ -358,7 +437,7 @@ export default function EnrollButton({
           </button>
         )}
 
-        {/* ── STEP 3: Order summary (after clicking enroll) ── */}
+        {/* STEP 3: Order summary */}
         {enrollOpen && (
           <div className="border border-gray-200 rounded-xl overflow-hidden text-sm">
             <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-b border-gray-200">
@@ -377,7 +456,6 @@ export default function EnrollButton({
               </div>
             ) : (
               <>
-                {/* Installment summary in order view */}
                 {paymentMode === "installment" && selectedInst && (
                   <div className="px-4 pt-4 space-y-2">
                     <div className="flex items-center justify-between bg-blue-50 border border-blue-100 rounded-lg px-3 py-2.5">
@@ -398,14 +476,9 @@ export default function EnrollButton({
                       Due by{" "}
                       {new Date(selectedInst.dueDate).toLocaleDateString(
                         "en-IN",
-                        {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        }
+                        { day: "numeric", month: "long", year: "numeric" }
                       )}
                     </p>
-                    {/* Change selection */}
                     <button
                       onClick={() => setEnrollOpen(false)}
                       className="text-xs text-blue-500 hover:text-blue-700 w-full text-center"
@@ -415,7 +488,6 @@ export default function EnrollButton({
                   </div>
                 )}
 
-                {/* Full payment breakdown */}
                 {paymentMode === "full" && breakdown && (
                   <div className="px-4 pt-4 space-y-2">
                     <div className="flex justify-between text-gray-500">
@@ -446,7 +518,6 @@ export default function EnrollButton({
                   </div>
                 )}
 
-                {/* Coupon — only for full payment */}
                 {paymentMode === "full" && (
                   <div className="px-4 pt-3">
                     {couponApplied ? (
@@ -488,7 +559,6 @@ export default function EnrollButton({
                   </div>
                 )}
 
-                {/* User info */}
                 {user && (
                   <div className="px-4 pt-2 pb-1 text-xs text-gray-400 flex items-center gap-1.5">
                     <CheckSVG className="w-3 h-3 text-green-500" />
@@ -497,7 +567,6 @@ export default function EnrollButton({
                   </div>
                 )}
 
-                {/* CTA */}
                 <div className="px-4 pb-4 pt-3">
                   <button
                     onClick={initiatePayment}
