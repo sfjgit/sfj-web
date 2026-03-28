@@ -294,12 +294,12 @@ export default function PaymentCallbackContent() {
           case "SUCCESS": {
             setStatus("success");
             localStorage.removeItem("pendingPayment");
-            const redirectUrl =
-              localStorage.getItem("paymentReturnUrl") || "/my-courses";
-            localStorage.removeItem("paymentReturnUrl");
-            pollTimeoutRef.current = setTimeout(() => {
-              routerRef.current.replace(redirectUrl);
-            }, 5000); // 5s so user has time to download invoice
+            // const redirectUrl =
+            //   localStorage.getItem("paymentReturnUrl") || "/my-courses";
+            // localStorage.removeItem("paymentReturnUrl");
+            // pollTimeoutRef.current = setTimeout(() => {
+            //   routerRef.current.replace(redirectUrl);
+            // }, 5000); // 5s so user has time to download invoice
             break;
           }
           case "CANCELLED":
