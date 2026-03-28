@@ -242,6 +242,12 @@ function SignupView({
       setError("Password must be at least 6 characters");
       return;
     }
+
+    if (phone && !/^\d{10,15}$/.test(phone)) {
+      setError("Phone number must be 10-15 digits");
+      return;
+    }
+
     setLoading(true);
     try {
       await signup(name, email, password, phone || undefined);
@@ -333,7 +339,7 @@ function SignupView({
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Phone <span className="text-gray-400 font-normal">(optional)</span>
+            {/* Phone <span className="text-gray-400 font-normal">(optional)</span> */}
           </label>
           <input
             type="tel"

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 // Revalidate every 60 seconds (ISR). Change to 0 for fully dynamic,
 // or remove entirely to cache indefinitely until a deploy.
-export const revalidate = 60;
+export const revalidate = 1;
 
 async function getCourses(): Promise<{
   courses: ICourse[];
@@ -36,7 +36,7 @@ async function getCourses(): Promise<{
         next: { revalidate },
       }
     );
-
+    console.log(res);
     if (!res.ok) {
       return {
         courses: [],
@@ -46,6 +46,8 @@ async function getCourses(): Promise<{
     }
 
     const data: ICoursesResponse = await res.json();
+
+    console.log(data);
 
     return {
       courses: data.data?.courses || [],

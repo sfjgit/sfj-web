@@ -19,6 +19,7 @@ export interface IOverview {
   description: string;
   keyFeatures: string[];
   skillsCovered: string[];
+  trainingOption?: string;
 }
 
 export interface ILesson {
@@ -36,7 +37,7 @@ export interface IChapter {
 export interface ICurriculum {
   eligibility: string[];
   prerequisites: string[];
-  projects: string[];
+  projects: { title: string; content: string[] }[];
   chapters: IChapter[];
 }
 
@@ -46,6 +47,47 @@ export interface IFAQ {
   _id?: string;
 }
 
+// ── NEW ───────────────────────────────────────────────────────────────────────
+
+export interface IGst {
+  percentage: number; // default 18
+  isInclusive: boolean; // false = GST added on top, true = already baked in
+}
+
+export type OfferType = "coupon" | "discount" | "referral" | "flash";
+export type DiscountType = "flat" | "percentage";
+
+export interface IOffer {
+  _id?: string;
+  type: OfferType;
+  discountType: DiscountType;
+  value: number;
+  code?: string;
+  description?: string;
+  maxDiscountAmount?: number;
+  minOrderAmount?: number;
+  validFrom?: string;
+  validUntil?: string;
+  usageLimit?: number;
+  usedCount: number;
+  isActive: boolean;
+}
+
+export interface IInstallment {
+  _id?: string;
+  installmentNumber: number;
+  amount: number;
+  dueDate: string;
+  label?: string;
+}
+
+export interface IPartialPayment {
+  isAllowed: boolean;
+  installments: IInstallment[];
+}
+
+// ── Main course interface ─────────────────────────────────────────────────────
+
 export interface ICourse {
   _id: string;
   title: string;
@@ -53,6 +95,12 @@ export interface ICourse {
   description: string;
   type: string;
   price: IPrice;
+
+  // NEW
+  gst?: IGst;
+  offers?: IOffer[];
+  partialPayment?: IPartialPayment;
+
   certification: ICertification;
   overview: IOverview;
   curriculum: ICurriculum;
@@ -81,6 +129,8 @@ export interface ICourse {
   updatedAt: string;
 }
 
+// ── Metadata ──────────────────────────────────────────────────────────────────
+
 export interface IMetadata {
   _id?: string;
   courseId?: string;
@@ -102,6 +152,8 @@ export interface IMetadata {
   sitemapPriority?: number;
   isPublished?: boolean;
 }
+
+// ── API response shapes ───────────────────────────────────────────────────────
 
 export interface ICoursesResponse {
   success: boolean;
@@ -126,4 +178,18 @@ export interface ISingleCourseResponse {
     metadata: IMetadata | null;
   };
   error: string | null;
+}
+
+// ── Payment / enrollment helpers (used in EnrollButton) ───────────────────────
+
+export interface IPriceBreakdown {
+  basePrice: number;
+  gstAmount: number;
+  discountAmount: number;
+  finalAmount: number;
+  offerApplied: {
+    code?: string;
+    type?: string;
+    value?: number;
+  } | null;
 }
