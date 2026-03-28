@@ -38,13 +38,11 @@ function downloadInvoice(details: PaymentDetails) {
     year: "numeric",
   });
 
-  // amount comes in paise from the API
   const totalAmount = details.amount / 100;
   const gstRate = 18;
   const baseAmount = +(totalAmount / (1 + gstRate / 100)).toFixed(2);
   const gstAmount = +(totalAmount - baseAmount).toFixed(2);
   const currency = details.currency || "INR";
-
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -233,17 +231,16 @@ function downloadInvoice(details: PaymentDetails) {
 </body>
 </html>`;
 
-  const win = window.open("", "_blank");
-  if (!win) {
-    alert(
-      "Popup blocked. Please allow popups for this site to download the invoice."
-    );
-    return;
-  }
-  win.document.write(html);
-  win.document.close();
-  win.focus();
-  setTimeout(() => win.print(), 600);
+  // ── Blob approach — no popup, no browser block ──
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `invoice-${invoiceNumber}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
