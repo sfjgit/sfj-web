@@ -127,7 +127,7 @@ const Navigation = () => {
       hasChildren: false,
     },
 
-    { path: "/careers", label: "Careers", hasChildren: false },
+    { path: "/jobs", label: "Careers", hasChildren: false },
     { path: "/blog", label: "Blogs", hasChildren: false },
     // { path: "/partners", label: "Partners", hasChildren: false },
 

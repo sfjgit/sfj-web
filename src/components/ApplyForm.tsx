@@ -62,6 +62,7 @@ export default function ApplyForm({ jobId, onSuccess }: Props) {
       });
 
       onSuccess();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       setError(
         e?.response?.data?.message ??
