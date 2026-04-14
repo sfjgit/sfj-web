@@ -13,18 +13,19 @@ import {
   Send,
   Video,
   ShieldAlert,
-  Upload,
-  ExternalLink,
+  Mic,
+  Monitor,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useRecorder } from "@/hooks/useRecorder";
 
 const publicApi = axios.create({ baseURL: "/api/v1" });
 
 type QuestionType = "MCQ" | "MULTI" | "LONG_TEXT" | "CODING";
-
 interface Option {
   id: string;
   text: string;
@@ -48,13 +49,12 @@ type PageState =
   | "gate"
   | "instructions"
   | "test"
-  | "upload_recording"
+  | "submitting"
   | "done"
-  | "expired"
   | "maxed";
 
 export default function TestPage() {
-  const { testid: testId } = useParams<{ testid: string }>();
+  const { testId } = useParams<{ testId: string }>();
   const searchParams = useSearchParams();
 
   const applicationId = searchParams.get("appId") ?? undefined;
@@ -67,15 +67,12 @@ export default function TestPage() {
   const cameFromApply = !!(applicationId && prefillName && prefillEmail);
 
   const [page, setPage] = useState<PageState>("gate");
-
-  // Gate
   const [name, setName] = useState(prefillName);
   const [email, setEmail] = useState(prefillEmail);
   const [phone, setPhone] = useState("");
   const [gateError, setGateError] = useState("");
   const [gateLoading, setGateLoading] = useState(false);
 
-  // Attempt
   const [attemptId, setAttemptId] = useState("");
   const [expiresAt, setExpiresAt] = useState<Date | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -85,23 +82,15 @@ export default function TestPage() {
   const [answers, setAnswers] = useState<Record<string, AttemptAnswer>>({});
   const [currentIdx, setCurrentIdx] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [submitting, setSubmitting] = useState(false);
-  const [recordingConfirmed, setRecordingConfirmed] = useState(false);
-  const saveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [doneMessage, setDoneMessage] = useState("");
 
-  // Recording upload
-  const [recordingFile, setRecordingFile] = useState<File | null>(null);
-  const [recordingLink, setRecordingLink] = useState("");
-  const [uploadingRecording, setUploadingRecording] = useState(false);
-  const [recordingUploadDone, setRecordingUploadDone] = useState(false);
-  const [recordingError, setRecordingError] = useState("");
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const saveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const recorder = useRecorder();
 
   // ── Auto start if came from apply ─────────────────────────
   useEffect(() => {
-    if (cameFromApply && testId) {
+    if (cameFromApply && testId)
       startAttempt(prefillName, prefillEmail, undefined);
-    }
   }, [testId]);
 
   // ── Timer ─────────────────────────────────────────────────
@@ -124,7 +113,7 @@ export default function TestPage() {
   // ── Start attempt ─────────────────────────────────────────
   async function startAttempt(n: string, e: string, p?: string) {
     if (!testId) {
-      setGateError("Test ID missing — please use the link sent to you.");
+      setGateError("Test ID missing.");
       return;
     }
     setGateLoading(true);
@@ -182,6 +171,13 @@ export default function TestPage() {
     await startAttempt(name, email, phone);
   }
 
+  // ── Start recording + begin test ──────────────────────────
+  async function handleStartTest() {
+    const started = await recorder.startRecording();
+    if (!started) return; // error shown by hook
+    setPage("test");
+  }
+
   // ── Save answer ───────────────────────────────────────────
   const saveAnswer = useCallback(
     async (
@@ -237,69 +233,81 @@ export default function TestPage() {
     });
   }
 
-  // ── Submit → go to recording upload ──────────────────────
+  // ── Submit test + stop recording + upload ─────────────────
   async function handleSubmit(auto = false) {
-    if (submitting) return;
+    alert("Submit test? You cannot change answers after submitting.");
+    // ← capture FIRST before anything else
+    const recorderIsRecording = recorder.state === "recording";
+    const currentAttemptId = attemptId;
+
+    console.log("🔵 [1] handleSubmit called, auto:", auto);
+    console.log("🔵 [2] recorder.state:", recorder.state);
+    console.log("🔵 [3] recorderIsRecording:", recorderIsRecording);
+    console.log("🔵 [4] attemptId:", currentAttemptId);
+    console.log("🔵 [5] page:", page);
+
+    if (page === "submitting") {
+      console.log("🔴 [6] already submitting, returning early");
+      return;
+    }
     if (
       !auto &&
       !confirm("Submit test? You cannot change answers after submitting.")
-    )
+    ) {
+      console.log("🔴 [7] user cancelled confirm");
       return;
-    setSubmitting(true);
-    try {
-      await publicApi.post(`/attempts/${attemptId}/submit`);
-    } catch {
-      /* ignore — move forward anyway */
-    } finally {
-      setSubmitting(false);
-      setPage("upload_recording");
     }
-  }
 
-  // ── Upload recording ──────────────────────────────────────
-  async function handleRecordingUpload() {
-    if (!recordingFile && !recordingLink.trim()) {
-      setRecordingError("Please upload a file or paste your Zoom cloud link.");
-      return;
-    }
-    setUploadingRecording(true);
-    setRecordingError("");
+    console.log("🟡 [8] setting page to submitting");
+    setPage("submitting");
+
+    console.log("🟡 [9] about to post submit to backend");
     try {
-      if (recordingFile) {
-        const formData = new FormData();
-        formData.append("file", recordingFile);
-        formData.append("attemptId", attemptId);
-        await publicApi.post("/attempts/upload-recording", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-          onUploadProgress: (e) => {
-            if (e.total)
-              setUploadProgress(Math.round((e.loaded * 100) / e.total));
-          },
-        });
-      } else {
-        await publicApi.patch(`/attempts/${attemptId}/recording-link`, {
-          recordingUrl: recordingLink.trim(),
-        });
-      }
-      setRecordingUploadDone(true);
-      setPage("done");
-    } catch (err: any) {
-      setRecordingError(
-        err?.response?.data?.error ?? "Upload failed. Please try again."
+      const res = await publicApi.post(`/attempts/${currentAttemptId}/submit`);
+      console.log("✅ [10] test submitted, response:", res.data);
+    } catch (e: any) {
+      console.warn(
+        "⚠️ [10] test submit failed:",
+        e?.response?.status,
+        e?.response?.data
       );
-    } finally {
-      setUploadingRecording(false);
     }
-  }
 
-  function handleSkipRecording() {
-    if (
-      !confirm(
-        "Skipping will mean your application is not considered. Are you sure?"
-      )
-    )
-      return;
+    console.log("🟡 [11] checking recorderIsRecording:", recorderIsRecording);
+    console.log("🟡 [12] recorder.state RIGHT NOW:", recorder.state);
+    console.log(
+      "🟡 [13] recorder.stopAndUpload fn:",
+      typeof recorder.stopAndUpload
+    );
+
+    if (recorderIsRecording) {
+      console.log(
+        "🟡 [14] calling recorder.stopAndUpload with attemptId:",
+        currentAttemptId
+      );
+      let url: string | null = null;
+      try {
+        url = await recorder.stopAndUpload(currentAttemptId);
+        console.log("✅ [15] stopAndUpload returned:", url);
+      } catch (e: any) {
+        console.error("🔴 [15] stopAndUpload THREW:", e?.message, e);
+      }
+      setDoneMessage(
+        url
+          ? "Your test and recording have been submitted successfully. The hiring team will review and get back to you."
+          : "Test submitted. Recording upload failed — please contact the hiring team."
+      );
+      console.log("🟡 [16] doneMessage set, url was:", url);
+    } else {
+      console.warn("🔴 [14] recorderIsRecording was false, skipping upload");
+      setDoneMessage(
+        "Test submitted. No recording was captured — please contact the hiring team."
+      );
+    }
+
+    console.log("🟡 [17] setting page to done");
     setPage("done");
+    console.log("✅ [18] handleSubmit complete");
   }
 
   // ── Computed ──────────────────────────────────────────────
@@ -315,9 +323,9 @@ export default function TestPage() {
   const secs = timeLeft % 60;
   const timeWarning = timeLeft < 300;
 
-  // ════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════
   // RENDER
-  // ════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════
 
   if (page === "maxed")
     return (
@@ -332,26 +340,57 @@ export default function TestPage() {
       </CenteredCard>
     );
 
-  if (page === "done")
+  if (page === "submitting")
     return (
       <CenteredCard>
-        <CheckCircle2 size={40} className="text-emerald-500 mx-auto mb-4" />
+        <Loader2
+          size={36}
+          className="text-zinc-400 mx-auto mb-4 animate-spin"
+        />
         <h2 className="text-lg font-bold text-zinc-900 mb-2">
-          {recordingUploadDone ? "All Done! 🎉" : "Test Submitted"}
+          {recorder.state === "uploading"
+            ? "Uploading Recording..."
+            : "Submitting Test..."}
         </h2>
-        <p className="text-sm text-zinc-500 text-center leading-relaxed">
-          {recordingUploadDone
-            ? "Your test and recording have been submitted. The hiring team will review and get back to you."
-            : "Your test was submitted but no recording was provided. Your application may not be considered."}
+        {recorder.state === "uploading" && recorder.uploadProgress > 0 && (
+          <div className="w-full mt-4">
+            <div className="flex justify-between text-xs text-zinc-500 mb-1">
+              <span>Uploading recording</span>
+              <span>{recorder.uploadProgress}%</span>
+            </div>
+            <div className="w-full bg-zinc-100 rounded-full h-2">
+              <div
+                className="bg-zinc-900 h-2 rounded-full transition-all"
+                style={{ width: `${recorder.uploadProgress}%` }}
+              />
+            </div>
+          </div>
+        )}
+        <p className="text-xs text-zinc-400 mt-3">
+          Please don't close this tab
         </p>
       </CenteredCard>
     );
 
-  // Loading spinner while auto-starting from apply
+  if (page === "done")
+    return (
+      <CenteredCard>
+        <CheckCircle2 size={40} className="text-emerald-500 mx-auto mb-4" />
+        <h2 className="text-lg font-bold text-zinc-900 mb-2">All Done!</h2>
+        <p className="text-sm text-zinc-500 text-center leading-relaxed">
+          {doneMessage}
+        </p>
+      </CenteredCard>
+    );
+
+  // Loading spinner while auto-starting
   if (page === "gate" && cameFromApply)
     return (
       <CenteredCard>
-        <div className="w-10 h-10 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <Loader2
+          size={32}
+          className="text-zinc-400 mx-auto mb-4 animate-spin"
+        />
         <p className="text-sm font-medium text-zinc-900">
           Loading your test...
         </p>
@@ -451,55 +490,31 @@ export default function TestPage() {
           </div>
 
           <div className="px-8 py-6 space-y-5">
-            {/* Step flow */}
-            <div className="flex items-center gap-2 text-xs">
-              <span className="bg-zinc-900 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold shrink-0">
-                1
-              </span>
-              <span className="font-medium text-zinc-700">
-                Start Zoom recording
-              </span>
-              <span className="text-zinc-300 mx-1">→</span>
-              <span className="bg-zinc-900 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold shrink-0">
-                2
-              </span>
-              <span className="font-medium text-zinc-700">Complete test</span>
-              <span className="text-zinc-300 mx-1">→</span>
-              <span className="bg-zinc-900 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold shrink-0">
-                3
-              </span>
-              <span className="font-medium text-zinc-700">
-                Upload recording
-              </span>
-            </div>
-
-            {/* Recording requirement */}
+            {/* Recording info */}
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
               <div className="flex items-start gap-3">
                 <Video size={18} className="text-blue-600 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-semibold text-blue-900 mb-1">
-                    📹 Zoom Recording is Mandatory
+                    📹 Screen + Webcam Recording
                   </p>
-                  <p className="text-xs text-blue-800 leading-relaxed mb-2">
-                    Start a <strong>Zoom meeting</strong> and record your screen
-                    + webcam <strong>before</strong> clicking "Start Test".
-                    After submitting, you will upload the recording file or
-                    paste the Zoom cloud link.
+                  <p className="text-xs text-blue-800 leading-relaxed">
+                    When you click "Start Test", your browser will ask
+                    permission to share your
+                    <strong> screen and webcam</strong>. You must allow both.
+                    Recording starts automatically and uploads when you submit.{" "}
                     <strong>
-                      {" "}
-                      Applications without a valid recording will not be
-                      reviewed.
+                      Tests without a valid recording are disqualified.
                     </strong>
                   </p>
-                  <a
-                    href="https://support.zoom.us/hc/en-us/articles/201362473-Local-recording"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-blue-700 underline"
-                  >
-                    How to record in Zoom <ExternalLink size={11} />
-                  </a>
+                  <div className="flex gap-3 mt-2">
+                    <span className="flex items-center gap-1 text-xs text-blue-700 bg-blue-100 px-2 py-1 rounded-lg">
+                      <Monitor size={11} /> Share your entire screen
+                    </span>
+                    <span className="flex items-center gap-1 text-xs text-blue-700 bg-blue-100 px-2 py-1 rounded-lg">
+                      <Mic size={11} /> Allow microphone
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -512,11 +527,11 @@ export default function TestPage() {
               <div className="space-y-2">
                 <InfoRow
                   icon="⏱"
-                  label={`You have ${testDuration} minutes. Timer starts when you click "Start Test" and cannot be paused.`}
+                  label={`You have ${testDuration} minutes. Timer starts when recording begins and cannot be paused.`}
                 />
                 <InfoRow
                   icon="🔁"
-                  label="Answers are saved automatically. Do not worry about losing progress."
+                  label="Answers are saved automatically every few seconds."
                 />
                 <InfoRow
                   icon="🚫"
@@ -532,7 +547,7 @@ export default function TestPage() {
                 />
                 <InfoRow
                   icon="📹"
-                  label="Your face and screen must be visible throughout the Zoom recording."
+                  label="Your face must be visible on webcam throughout the test."
                 />
               </div>
             </div>
@@ -549,15 +564,12 @@ export default function TestPage() {
                     ⚠️ Strict Anti-Cheating Policy
                   </p>
                   <p className="text-xs text-red-800 leading-relaxed">
-                    Sharing, reproducing, or distributing any test question in
-                    any form is a <strong>serious violation</strong>. Candidates
-                    found sharing questions, using unauthorized assistance, or
-                    engaging in any form of dishonesty will be{" "}
-                    <strong>immediately disqualified</strong> and{" "}
-                    <strong>permanently banned</strong> from applying to our
-                    company for a minimum of <strong>3 years</strong>. Legal
-                    action may be pursued under applicable intellectual property
-                    and confidentiality laws.
+                    Sharing, reproducing, or distributing any test question is a{" "}
+                    <strong>serious violation</strong>. Candidates found sharing
+                    questions or using unauthorized assistance will be
+                    <strong> immediately disqualified</strong> and{" "}
+                    <strong>permanently banned</strong> for a minimum of{" "}
+                    <strong>3 years</strong>. Legal action may be pursued.
                   </p>
                 </div>
               </div>
@@ -574,152 +586,41 @@ export default function TestPage() {
               </div>
             )}
 
-            {/* Confirm checkbox */}
-            <label className="flex items-start gap-3 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={recordingConfirmed}
-                onChange={(e) => setRecordingConfirmed(e.target.checked)}
-                className="mt-0.5 rounded"
-              />
-              <span className="text-sm text-zinc-700">
-                I have started my Zoom screen + webcam recording and I agree to
-                all the rules above. I understand that failing to upload my
-                recording will disqualify my application.
-              </span>
-            </label>
-
-            <Button
-              className="w-full"
-              disabled={!recordingConfirmed}
-              onClick={() => setPage("test")}
-            >
-              {recordingConfirmed
-                ? "Start Test →"
-                : "Confirm recording above to continue"}
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-
-  // ── Upload Recording ──────────────────────────────────────
-  if (page === "upload_recording")
-    return (
-      <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
-        <div className="bg-white border border-zinc-200 rounded-2xl w-full max-w-lg shadow-sm overflow-hidden">
-          <div className="bg-zinc-950 text-white px-8 py-6">
-            <div className="flex items-center gap-2 mb-1">
-              <CheckCircle2 size={16} className="text-emerald-400" />
-              <p className="text-xs font-medium text-emerald-400">
-                Test submitted successfully
-              </p>
-            </div>
-            <h1 className="text-xl font-bold">Upload Your Zoom Recording</h1>
-            <p className="text-xs text-zinc-400 mt-1">
-              Last step — mandatory to complete your application
-            </p>
-          </div>
-
-          <div className="px-8 py-6 space-y-5">
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-800 leading-relaxed">
-              ⚠️ <strong>Stop your Zoom recording now</strong> if you haven't
-              already, then upload the file below. Applications without a
-              recording will not be reviewed.
-            </div>
-
-            {/* File upload */}
-            <div>
-              <Label className="text-xs font-semibold text-zinc-700 mb-1 block">
-                Option 1 — Upload recording file (MP4/MOV)
-              </Label>
-              <p className="text-xs text-zinc-400 mb-2">
-                Export from Zoom and upload directly.
-              </p>
-              <input
-                type="file"
-                accept="video/*,.mp4,.mov,.avi,.webm"
-                onChange={(e) => {
-                  setRecordingFile(e.target.files?.[0] ?? null);
-                  setRecordingLink("");
-                }}
-                className="w-full text-xs text-zinc-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-zinc-900 file:text-white hover:file:bg-zinc-700 cursor-pointer"
-              />
-              {recordingFile && (
-                <p className="text-xs text-emerald-600 mt-1.5">
-                  ✓ {recordingFile.name} (
-                  {(recordingFile.size / 1024 / 1024).toFixed(1)} MB)
-                </p>
-              )}
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="flex-1 h-px bg-zinc-200" />
-              <span className="text-xs text-zinc-400">or</span>
-              <div className="flex-1 h-px bg-zinc-200" />
-            </div>
-
-            {/* Cloud link */}
-            <div>
-              <Label className="text-xs font-semibold text-zinc-700 mb-1 block">
-                Option 2 — Paste Zoom cloud recording link
-              </Label>
-              <p className="text-xs text-zinc-400 mb-2">
-                Set the link to <strong>public / anyone with link</strong>{" "}
-                before pasting.
-              </p>
-              <Input
-                value={recordingLink}
-                onChange={(e) => {
-                  setRecordingLink(e.target.value);
-                  setRecordingFile(null);
-                }}
-                placeholder="https://zoom.us/rec/share/..."
-                className="h-9 text-sm font-mono"
-              />
-            </div>
-
-            {/* Progress bar */}
-            {uploadingRecording && uploadProgress > 0 && (
-              <div>
-                <div className="flex justify-between text-xs text-zinc-500 mb-1">
-                  <span>Uploading...</span>
-                  <span>{uploadProgress}%</span>
-                </div>
-                <div className="w-full bg-zinc-100 rounded-full h-2">
-                  <div
-                    className="bg-zinc-900 h-2 rounded-full transition-all"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
-                </div>
+            {/* Recording error */}
+            {recorder.error && (
+              <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">
+                {recorder.error}
+                <button
+                  onClick={() => window.location.reload()}
+                  className="ml-2 underline text-xs"
+                >
+                  Retry
+                </button>
               </div>
             )}
 
-            {recordingError && (
-              <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-                {recordingError}
-              </p>
-            )}
-
+            {/* Start button */}
             <Button
-              className="w-full gap-2"
-              onClick={handleRecordingUpload}
-              disabled={
-                uploadingRecording || (!recordingFile && !recordingLink.trim())
-              }
+              className="w-full gap-2 h-12 text-base"
+              onClick={handleStartTest}
+              disabled={recorder.state === "requesting"}
             >
-              <Upload size={15} />
-              {uploadingRecording
-                ? `Uploading... ${uploadProgress}%`
-                : "Submit Recording"}
+              {recorder.state === "requesting" ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" /> Waiting for
+                  permissions...
+                </>
+              ) : (
+                <>
+                  <Video size={16} /> Start Recording & Begin Test
+                </>
+              )}
             </Button>
 
-            <button
-              onClick={handleSkipRecording}
-              className="w-full text-xs text-zinc-400 hover:text-zinc-600 underline py-1 transition-colors"
-            >
-              I don't have a recording (my application will not be considered)
-            </button>
+            <p className="text-xs text-zinc-400 text-center">
+              Your browser will ask for screen share and camera permissions.
+              Click "Allow" on both.
+            </p>
           </div>
         </div>
       </div>
@@ -728,6 +629,7 @@ export default function TestPage() {
   // ── Test ─────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-zinc-50">
+      {/* Top bar */}
       <div
         className={`sticky top-0 z-20 border-b px-6 py-3 flex items-center justify-between shadow-sm ${
           timeWarning ? "bg-red-50 border-red-200" : "bg-white border-zinc-200"
@@ -742,10 +644,13 @@ export default function TestPage() {
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-1.5 text-xs text-red-500 bg-red-50 border border-red-200 rounded-lg px-2.5 py-1.5">
-            <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
-            Zoom recording in progress
-          </div>
+          {/* Recording indicator */}
+          {recorder.state === "recording" && (
+            <div className="hidden sm:flex items-center gap-1.5 text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-2.5 py-1.5">
+              <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+              Recording
+            </div>
+          )}
           <div
             className={`flex items-center gap-1.5 text-sm font-mono font-bold ${
               timeWarning ? "text-red-600" : "text-zinc-700"
@@ -757,16 +662,16 @@ export default function TestPage() {
           <Button
             size="sm"
             onClick={() => handleSubmit(false)}
-            disabled={submitting}
             className="gap-1.5"
           >
             <Send size={13} />
-            {submitting ? "Submitting..." : "Submit"}
+            Submit
           </Button>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Question panel */}
         <div className="lg:col-span-3 space-y-4">
           {currentQ && (
             <div className="bg-white border border-zinc-200 rounded-2xl p-6">
@@ -892,6 +797,7 @@ export default function TestPage() {
           )}
         </div>
 
+        {/* Sidebar */}
         <div className="lg:col-span-1 space-y-3">
           <div className="bg-white border border-zinc-200 rounded-2xl p-4 sticky top-20">
             <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-3">
@@ -934,15 +840,40 @@ export default function TestPage() {
             </div>
           </div>
 
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-              <p className="text-xs font-semibold text-red-700">
-                Zoom Recording Active
+          {/* Recording status */}
+          <div
+            className={`rounded-2xl p-4 border ${
+              recorder.state === "recording"
+                ? "bg-red-50 border-red-200"
+                : "bg-zinc-50 border-zinc-200"
+            }`}
+          >
+            <div className="flex items-center gap-2 mb-1">
+              {recorder.state === "recording" && (
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+              )}
+              <p
+                className={`text-xs font-semibold ${
+                  recorder.state === "recording"
+                    ? "text-red-700"
+                    : "text-zinc-500"
+                }`}
+              >
+                {recorder.state === "recording"
+                  ? "Recording Active"
+                  : "Recording"}
               </p>
             </div>
-            <p className="text-xs text-red-600 leading-relaxed">
-              Keep Zoom running. You'll upload the recording after submitting.
+            <p
+              className={`text-xs leading-relaxed ${
+                recorder.state === "recording"
+                  ? "text-red-600"
+                  : "text-zinc-400"
+              }`}
+            >
+              {recorder.state === "recording"
+                ? "Screen + webcam recording in progress. Will auto-upload on submit."
+                : "Not recording."}
             </p>
           </div>
         </div>
