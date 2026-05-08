@@ -72,7 +72,7 @@ async function getCourses(): Promise<{
 async function getLmsCourses() {
   try {
     const res = await fetch(
-      `${LMS_COURSE_URL}/courses/preview?limit=100&page=1&category=${LMS_COURSE_CATEGORY}&isPublished=true`,
+      `${LMS_COURSE_URL}/courses/preview/public?limit=100&page=1&category=${LMS_COURSE_CATEGORY}&isPublished=true`,
       {
         headers: { accept: "application/json" },
         next: { revalidate },
