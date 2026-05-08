@@ -2,11 +2,16 @@
 import { Metadata } from "next";
 import { ICourse, ICoursesResponse } from "@/types/course.types";
 import CourseCard from "@/components/courses/CourseCard";
+import env from "@/config/env";
 
 const CATEGORY_ID = "69c1146aa22353efe2f54052";
+const LMS_COURSE_CATEGORY = "sfj";
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_BSKILLING_URL ||
   "https://backend-bskilling-173405861722.asia-south1.run.app";
+
+const LMS_COURSE_URL = env.NEXT_PUBLIC_LMS_COURSE_URL;
+// const LMS_COURSE_URL = env.NEXT_PUBLIC_LMS_COURSE_SERVICE_URL;
 
 export const metadata: Metadata = {
   title: "All Courses — bSkilling",
@@ -34,7 +39,7 @@ async function getCourses(): Promise<{
       {
         headers: { accept: "application/json" },
         next: { revalidate },
-      }
+      },
     );
     console.log(res);
     if (!res.ok) {
@@ -64,8 +69,42 @@ async function getCourses(): Promise<{
   }
 }
 
+async function getLmsCourses() {
+  try {
+    const res = await fetch(
+      `${LMS_COURSE_URL}/courses/preview/public?limit=100&page=1&category=${LMS_COURSE_CATEGORY}&isPublished=true`,
+      {
+        headers: { accept: "application/json" },
+        next: { revalidate },
+      },
+    );
+    console.log(res);
+    if (!res.ok) {
+      console.error("Failed to fetch LMS courses");
+    }
+    const data = await res.json();
+    return {
+      courses: data?.data?.courses || [],
+      pagination: data.data?.pagination || null,
+      error: null,
+    };
+  } catch (err) {
+    console.error("Error fetching courses:", err);
+    return {
+      courses: [],
+      pagination: null,
+      error: "Something went wrong. Please try again.",
+    };
+  }
+}
+
 export default async function CoursesPage() {
   const { courses, pagination, error } = await getCourses();
+  const { courses: lmsCourses } = await getLmsCourses();
+
+  console.log("LMS courses:", lmsCourses); // 👈 add it here
+
+  const allCourses = [...courses, ...lmsCourses];
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -136,7 +175,7 @@ export default async function CoursesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {courses.map((course) => (
+            {allCourses.map((course) => (
               <CourseCard key={course._id} course={course} />
             ))}
           </div>
