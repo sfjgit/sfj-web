@@ -35,7 +35,7 @@ export default function CourseCard({ course }: CourseCardProps) {
   const totalLessons =
     course.curriculum?.chapters?.reduce(
       (acc, ch) => acc + (ch.lessons?.length || 0),
-      0
+      0,
     ) ?? 0;
 
   return (

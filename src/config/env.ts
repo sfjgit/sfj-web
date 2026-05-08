@@ -12,6 +12,10 @@ const env = {
     process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
   NEXT_PUBLIC_FIREBASE_VAPID_KEY: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
   FCM_SERVER_KEY: process.env.FCM_SERVER_KEY,
+  NEXT_PUBLIC_LMS_COURSE_URL:
+    process.env.NEXT_PUBLIC_LMS_BASE_URL + "/course/api",
+  // NEXT_PUBLIC_LMS_COURSE_SERVICE_URL:
+  // process.env.NEXT_PUBLIC_COURSE_SERVICE_URL + "/api/courses/preview",
 };
 
 export default env;
