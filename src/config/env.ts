@@ -14,6 +14,7 @@ const env = {
   FCM_SERVER_KEY: process.env.FCM_SERVER_KEY,
   NEXT_PUBLIC_LMS_COURSE_URL:
     process.env.NEXT_PUBLIC_LMS_BASE_URL + "/course/api",
+  FILE_SERVICE_URL: process.env.NEXT_PUBLIC_LMS_BASE_URL + "/file/api",
   // NEXT_PUBLIC_LMS_COURSE_SERVICE_URL:
   // process.env.NEXT_PUBLIC_COURSE_SERVICE_URL + "/api/courses/preview",
 };

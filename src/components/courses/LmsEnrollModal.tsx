@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import env from "@/config/env";
 import axios from "axios";
+import { toast } from "sonner";
 
 interface LmsEnrollModalProps {
   isOpen: boolean;
@@ -317,6 +318,9 @@ export default function LmsEnrollModal({
       } catch (signupError: any) {
         // If user already exists → login instead
         if (signupError.response?.data?.code === "USER_EXISTS") {
+          toast.success(
+            "An account with this email already exists. Logging you in...",
+          );
           const loginRes = await axios.post(
             `${LMS_URL}/user/auth/signin`,
             {
@@ -330,7 +334,7 @@ export default function LmsEnrollModal({
               withCredentials: true,
             },
           );
-
+          toast.success("Logged in successfully.");
           console.log("loginRes", loginRes.data);
 
           authData = loginRes.data;
