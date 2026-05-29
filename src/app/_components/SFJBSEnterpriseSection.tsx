@@ -34,7 +34,7 @@ export default function SFJBSEnterpriseSection() {
       {/* Main heading */}
       <h1 className="relative text-2xl  text-gray-900 mb-6 tracking-tight leading-tight">
         Why <span className="text-blue-700 font-extrabold">SFJBS</span> Is Your
-        Trusted Enterprise Upskilling Partner in Bangalore
+        Trusted Enterprise Upskilling Partner
         {/* Underline accent */}
         <div className="absolute bottom-[-8px] left-0 w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-sm"></div>
       </h1>
