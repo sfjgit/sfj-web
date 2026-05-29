@@ -5,6 +5,7 @@
 import { useState } from "react";
 import LmsEnrollModal from "@/components/courses/LmsEnrollModal";
 import { ILmsCourse } from "./LmsCurriculumAccordion";
+import SigninModal from "../auth/SigninModal";
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 function BookIcon() {
@@ -101,6 +102,7 @@ export default function LmsEnrollCard({
   highestPlan,
 }: LmsEnrollCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<
     ILmsCourse["pricingPlans"][0] | null
   >(lowestPlan);
@@ -110,6 +112,8 @@ export default function LmsEnrollCard({
     setSelectedPlan(plan);
     setModalOpen(true);
   };
+
+  // const router = useRouter();
 
   const formatPrice = (amount: number, currency: string) =>
     new Intl.NumberFormat("en-IN", {
@@ -130,7 +134,6 @@ export default function LmsEnrollCard({
       )}
 
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-md">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         {course.thumbnailUrl && (
           <div className="aspect-video overflow-hidden">
             <img
@@ -180,12 +183,26 @@ export default function LmsEnrollCard({
           )}
 
           {/* Primary CTA */}
-          <button
+          {/* <button
             onClick={() => openModal(lowestPlan)}
             className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
           >
             {isFree ? "Enroll for free" : "Enroll now"}
+          </button> */}
+          {/* <button
+            onClick={() => router.push(`/signin`)}
+            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
+          >
+            {isFree ? "Enroll for free" : "Enroll now"}
+          </button> */}
+          <button
+            onClick={() => setOpen(true)}
+            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
+          >
+            {isFree ? "Enroll for free" : "Enroll now"}
           </button>
+
+          <SigninModal open={open} onOpenChange={setOpen} />
 
           {/* Per-plan buttons if multiple */}
           {course.pricingPlans.length > 1 && (

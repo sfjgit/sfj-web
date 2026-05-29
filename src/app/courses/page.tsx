@@ -31,11 +31,11 @@ export default function CoursesPage() {
         const [res1, res2] = await Promise.allSettled([
           fetch(
             `${BACKEND_URL}/api/courses?limit=100&page=1&category=${CATEGORY_ID}&isPublished=true&type=b2c`,
-            { headers: { accept: "application/json" } }
+            { headers: { accept: "application/json" } },
           ),
           fetch(
             `${LMS_COURSE_URL}/courses/preview/public?limit=100&page=1&category=${LMS_COURSE_CATEGORY}&isPublished=true`,
-            { headers: { accept: "application/json" } }
+            { headers: { accept: "application/json" } },
           ),
         ]);
 
@@ -70,7 +70,8 @@ export default function CoursesPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 pt-20">
+      {/* Hero banner */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">

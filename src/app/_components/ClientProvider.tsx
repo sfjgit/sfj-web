@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 
@@ -10,6 +10,7 @@ import SFJContactForm from "./SFJContactForm";
 import CookieBanner from "@/components/CookieBanner";
 import PushNotificationButton from "@/components/PushNotificationButton";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { rehydrateAuth } from "@/hooks/useAxios";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,6 +33,11 @@ export default function ClientProvider({
 }) {
   const pathname = usePathname();
 
+  useEffect(() => {
+    // queryClient.clear();
+    rehydrateAuth();
+  }, []);
+
   // ✅ detect NM page
   const isNMPage =
     pathname?.includes("/nm") ||
@@ -39,10 +45,14 @@ export default function ClientProvider({
     pathname.split("/").includes("test");
   // pathname.split("/").includes("jobs");
 
+  const isAuthPage = pathname === "/signin" || pathname === "/signup";
+
+  const hideLayout = isNMPage || isAuthPage;
+
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        {!isNMPage && (
+        {!hideLayout && (
           <>
             <Suspense fallback={<div>Loading...</div>}>
               <Navigation />
@@ -52,7 +62,7 @@ export default function ClientProvider({
 
         {children}
 
-        {!isNMPage && (
+        {!hideLayout && (
           <>
             <Footer />
             <SFJContactForm />
