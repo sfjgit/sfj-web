@@ -262,7 +262,7 @@ const ClientsSection = () => {
                             height={128}
                             className={cn(
                               "object-contain transition-all duration-500 group-hover:scale-110 w-full h-full",
-                              client.name == "TCS" && "w-16 h-16"
+                              client.name == "TCS" && "w-16 h-16",
                             )}
                             style={{
                               filter:
@@ -334,7 +334,7 @@ const ClientsSection = () => {
             <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">
               SFJBS
             </span>{" "}
-            Is Your Trusted Enterprise Upskilling Partner in Bangalore
+            Is Your Trusted Enterprise Upskilling Partner
           </h1>
 
           <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
