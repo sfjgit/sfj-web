@@ -587,11 +587,11 @@ const Navigation = () => {
         },
       ],
     },
-    // {
-    //   path: "/courses",
-    //   label: "Courses",
-    //   hasChildren: false,
-    // },
+    {
+      path: "/courses",
+      label: "Courses",
+      hasChildren: false,
+    },
     {
       path: "/industries",
       label: "Industries",
