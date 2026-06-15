@@ -425,6 +425,14 @@ const Footer = () => {
                   Terms & Conditions
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/extension-privacy-policy"
+                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                >
+                  Extension Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
