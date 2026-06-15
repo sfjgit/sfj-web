@@ -2,10 +2,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LmsEnrollModal from "@/components/courses/LmsEnrollModal";
 import { ILmsCourse } from "./LmsCurriculumAccordion";
 import SigninModal from "../auth/SigninModal";
+import { getAccessToken, rehydrateAuth } from "@/hooks/useAxios";
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 function BookIcon() {
@@ -106,12 +107,32 @@ export default function LmsEnrollCard({
   const [selectedPlan, setSelectedPlan] = useState<
     ILmsCourse["pricingPlans"][0] | null
   >(lowestPlan);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const openModal = (plan: ILmsCourse["pricingPlans"][0] | null) => {
     if (!plan) return;
     setSelectedPlan(plan);
     setModalOpen(true);
   };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      await rehydrateAuth();
+      setIsLoggedIn(!!getAccessToken());
+    };
+
+    checkAuth();
+
+    const handleAuthChange = () => {
+      setIsLoggedIn(!!getAccessToken());
+    };
+
+    window.addEventListener("auth-changed", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("auth-changed", handleAuthChange);
+    };
+  }, []);
 
   // const router = useRouter();
 
@@ -196,10 +217,23 @@ export default function LmsEnrollCard({
             {isFree ? "Enroll for free" : "Enroll now"}
           </button> */}
           <button
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              if (isLoggedIn) {
+                openModal(lowestPlan);
+              } else {
+                // setOpen(true);
+                openModal(lowestPlan);
+              }
+            }}
             className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
           >
-            {isFree ? "Enroll for free" : "Enroll now"}
+            {isLoggedIn
+              ? isFree
+                ? "Get Course"
+                : "Buy Now"
+              : isFree
+                ? "Enroll for Free"
+                : "Enroll Now"}
           </button>
 
           <SigninModal open={open} onOpenChange={setOpen} />
