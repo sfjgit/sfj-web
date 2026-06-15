@@ -115,7 +115,7 @@ import { useSearchParams, useParams } from "next/navigation";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
-const LMS_URL = process.env.NEXT_PUBLIC_LMS_COURSE_URL!;
+const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL + "/course/api";
 
 export default function PaymentStatusPage() {
   const searchParams = useSearchParams();
