@@ -114,16 +114,19 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useParams } from "next/navigation";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useAxios } from "@/hooks/useAxios";
 
 const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL + "/course/api";
 
 export default function PaymentStatusPage() {
   const searchParams = useSearchParams();
   const params = useParams();
+  const axios = useAxios();
 
   const slug = params.slug as string;
 
   const merchantOrderId = searchParams.get("merchantOrderId");
+  // const token = localStorage.getItem("lms_token");
 
   const [status, setStatus] = useState<"loading" | "success" | "failed">(
     "loading",
@@ -137,24 +140,48 @@ export default function PaymentStatusPage() {
 
     const poll = async () => {
       try {
-        const res = await fetch(
+        // const res = await fetch(
+        //   `${LMS_URL}/payments/status/${merchantOrderId}`,
+        //   {
+        //     headers: token ? { Authorization: `Bearer ${token}` } : {},
+        //   },
+        // );
+
+        const res = await axios.get(
           `${LMS_URL}/payments/status/${merchantOrderId}`,
         );
 
-        const json = await res.json();
+        setData(res.data.data);
 
-        if (json.data?.status === "SUCCESS") {
-          setStatus("success");
-          setData(json.data);
-        } else if (
-          json.data?.status === "FAILED" ||
-          json.data?.status === "CANCELLED"
-        ) {
+        if (!res.data.success) {
           setStatus("failed");
-          setData(json.data);
-        } else {
-          setTimeout(poll, 3000);
+          return;
         }
+
+        if (!res.data.data) {
+          setTimeout(poll, 3000);
+          return;
+        }
+
+        if (!res.data.data.status) {
+          setTimeout(poll, 3000);
+          return;
+        }
+
+        // const json = await res.json();
+
+        // if (json.data?.status === "SUCCESS") {
+        //   setStatus("success");
+        //   setData(json.data);
+        // } else if (
+        //   json.data?.status === "FAILED" ||
+        //   json.data?.status === "CANCELLED"
+        // ) {
+        //   setStatus("failed");
+        //   setData(json.data);
+        // } else {
+        //   setTimeout(poll, 3000);
+        // }
       } catch {
         setTimeout(poll, 3000);
       }
