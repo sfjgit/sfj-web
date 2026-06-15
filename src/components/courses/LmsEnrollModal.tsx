@@ -33,7 +33,7 @@ interface LmsEnrollModalProps {
 
 type Step = "register" | "processing" | "success" | "error";
 
-const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;
+// const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;
 
 export default function LmsEnrollModal({
   isOpen,
@@ -298,7 +298,7 @@ export default function LmsEnrollModal({
 
       try {
         const signupRes = await axios.post(
-          `${LMS_URL}/user/auth/signup`,
+          `/auth/signup`,
           {
             name: formData.name,
             email: formData.email,
@@ -322,7 +322,7 @@ export default function LmsEnrollModal({
             "An account with this email already exists. Logging you in...",
           );
           const loginRes = await axios.post(
-            `${LMS_URL}/user/auth/signin`,
+            `/auth/signin`,
             {
               email: formData.email,
               password: formData.password,
@@ -335,6 +335,7 @@ export default function LmsEnrollModal({
             },
           );
           toast.success("Logged in successfully.");
+          window.dispatchEvent(new Event("auth-changed"));
           console.log("loginRes", loginRes.data);
 
           authData = loginRes.data;

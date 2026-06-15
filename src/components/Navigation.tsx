@@ -492,6 +492,12 @@ const Navigation = () => {
     };
 
     initAuth();
+
+    window.addEventListener("auth-changed", initAuth);
+
+    return () => {
+      window.removeEventListener("auth-changed", initAuth);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -798,13 +804,13 @@ const Navigation = () => {
               </DropdownMenu>
             ) : (
               <>
-                {/* <Button
+                <Button
                   onClick={() => router.push("/signin")}
                   variant="ghost"
                   className="ml-4 text-sm font-medium text-gray-700 hover:text-blue-600"
                 >
                   Sign In
-                </Button> */}
+                </Button>
                 {/* <Button
                   onClick={() => router.push("/contact")}
                   className="ml-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -937,7 +943,7 @@ const Navigation = () => {
               </div>
             ) : (
               <div className="pt-2 space-y-2">
-                {/* <Button
+                <Button
                   className="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
                   onClick={() => {
                     router.push("/signin");
@@ -945,8 +951,8 @@ const Navigation = () => {
                   }}
                 >
                   Sign In
-                </Button> */}
-                {/* <Button
+                </Button>
+                <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
                     router.push("/contact");
@@ -954,7 +960,7 @@ const Navigation = () => {
                   }}
                 >
                   Contact Us
-                </Button> */}
+                </Button>
               </div>
             )}
           </div>
