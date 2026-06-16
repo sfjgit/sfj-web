@@ -21,9 +21,9 @@ interface PaymentData {
   status: PaymentStatus;
   courseName: string;
   courseSlug: string;
-  enrollmentId: string;
+  enrollmentId?: string;
+  currency?: string;
   amount: number;
-  currency: string;
 }
 
 interface ApiResponse {
@@ -225,19 +225,24 @@ export default function PaymentStatusPage() {
             <div className="mt-5 mb-6 rounded-xl bg-gray-50 border border-gray-100 px-5 py-4 text-left space-y-2">
               <ReceiptRow
                 label="Amount paid"
-                value={formatAmount(paymentData.amount, paymentData.currency)}
+                value={formatAmount(
+                  paymentData.amount,
+                  paymentData.currency ?? "INR",
+                )}
               />
               <ReceiptRow
                 label="Order ID"
                 value={merchantOrderId ?? "—"}
                 mono
               />
-              <ReceiptRow
-                label="Enrollment ID"
-                value={paymentData.enrollmentId}
-                mono
-                truncate
-              />
+              {paymentData.enrollmentId && (
+                <ReceiptRow
+                  label="Enrollment ID"
+                  value={paymentData.enrollmentId}
+                  mono
+                  truncate
+                />
+              )}
             </div>
 
             <a
