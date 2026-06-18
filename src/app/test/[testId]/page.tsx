@@ -91,6 +91,7 @@ export default function TestPage() {
   useEffect(() => {
     if (cameFromApply && testId)
       startAttempt(prefillName, prefillEmail, undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testId]);
 
   // ── Timer ─────────────────────────────────────────────────
@@ -99,7 +100,7 @@ export default function TestPage() {
     const tick = setInterval(() => {
       const left = Math.max(
         0,
-        Math.floor((expiresAt.getTime() - Date.now()) / 1000)
+        Math.floor((expiresAt.getTime() - Date.now()) / 1000),
       );
       setTimeLeft(left);
       if (left === 0) {
@@ -108,6 +109,7 @@ export default function TestPage() {
       }
     }, 1000);
     return () => clearInterval(tick);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, expiresAt]);
 
   // ── Start attempt ─────────────────────────────────────────
@@ -134,7 +136,7 @@ export default function TestPage() {
         .get(`/attempts/${aid}`)
         .then((r) => r.data);
       const qs: Question[] = attempt.test.questions.sort(
-        (a: Question, b: Question) => a.order - b.order
+        (a: Question, b: Question) => a.order - b.order,
       );
       setQuestions(qs);
       setTestTitle(attempt.test.title);
@@ -151,7 +153,7 @@ export default function TestPage() {
       }
       setAnswers(restored);
       setTimeLeft(
-        Math.max(0, Math.floor((new Date(exp).getTime() - Date.now()) / 1000))
+        Math.max(0, Math.floor((new Date(exp).getTime() - Date.now()) / 1000)),
       );
       setPage("instructions");
     } catch (err: any) {
@@ -183,7 +185,7 @@ export default function TestPage() {
     async (
       questionId: string,
       selectedOptionIds: string[],
-      textAnswer?: string
+      textAnswer?: string,
     ) => {
       if (!attemptId) return;
       try {
@@ -196,7 +198,7 @@ export default function TestPage() {
         /* silent */
       }
     },
-    [attemptId]
+    [attemptId],
   );
 
   function handleOptionSelect(question: Question, optionId: string) {
@@ -209,8 +211,8 @@ export default function TestPage() {
         question.type === "MCQ"
           ? [optionId]
           : existing.selectedOptionIds.includes(optionId)
-          ? existing.selectedOptionIds.filter((id) => id !== optionId)
-          : [...existing.selectedOptionIds, optionId];
+            ? existing.selectedOptionIds.filter((id) => id !== optionId)
+            : [...existing.selectedOptionIds, optionId];
       saveAnswer(question.id, newSelected, existing.textAnswer);
       return {
         ...prev,
@@ -269,7 +271,7 @@ export default function TestPage() {
       console.warn(
         "⚠️ [10] test submit failed:",
         e?.response?.status,
-        e?.response?.data
+        e?.response?.data,
       );
     }
 
@@ -277,13 +279,13 @@ export default function TestPage() {
     console.log("🟡 [12] recorder.state RIGHT NOW:", recorder.state);
     console.log(
       "🟡 [13] recorder.stopAndUpload fn:",
-      typeof recorder.stopAndUpload
+      typeof recorder.stopAndUpload,
     );
 
     if (recorderIsRecording) {
       console.log(
         "🟡 [14] calling recorder.stopAndUpload with attemptId:",
-        currentAttemptId
+        currentAttemptId,
       );
       let url: string | null = null;
       try {
@@ -295,13 +297,13 @@ export default function TestPage() {
       setDoneMessage(
         url
           ? "Your test and recording have been submitted successfully. The hiring team will review and get back to you."
-          : "Test submitted. Recording upload failed — please contact the hiring team."
+          : "Test submitted. Recording upload failed — please contact the hiring team.",
       );
       console.log("🟡 [16] doneMessage set, url was:", url);
     } else {
       console.warn("🔴 [14] recorderIsRecording was false, skipping upload");
       setDoneMessage(
-        "Test submitted. No recording was captured — please contact the hiring team."
+        "Test submitted. No recording was captured — please contact the hiring team.",
       );
     }
 
@@ -685,10 +687,10 @@ export default function TestPage() {
                       {currentQ.type === "MCQ"
                         ? "Single correct answer"
                         : currentQ.type === "MULTI"
-                        ? "Select all that apply"
-                        : currentQ.type === "CODING"
-                        ? `Coding — ${currentQ.language ?? "any language"}`
-                        : "Long answer"}
+                          ? "Select all that apply"
+                          : currentQ.type === "CODING"
+                            ? `Coding — ${currentQ.language ?? "any language"}`
+                            : "Long answer"}
                     </span>
                     <span className="text-xs text-zinc-400">
                       · {currentQ.marks} mark{currentQ.marks !== 1 ? "s" : ""}
@@ -728,8 +730,8 @@ export default function TestPage() {
                               ? "●"
                               : ""
                             : selected
-                            ? "✓"
-                            : ""}
+                              ? "✓"
+                              : ""}
                         </span>
                         {opt.text}
                       </button>
@@ -817,8 +819,8 @@ export default function TestPage() {
                       currentIdx === idx
                         ? "bg-zinc-900 text-white"
                         : answered
-                        ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
-                        : "bg-zinc-100 text-zinc-400 hover:bg-zinc-200"
+                          ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                          : "bg-zinc-100 text-zinc-400 hover:bg-zinc-200"
                     }`}
                   >
                     {idx + 1}

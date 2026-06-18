@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         source: "/api/v1/:path*",
         destination: process.env.NEXT_PUBLIC_JOBS_URL + "/api/v1/:path*",
       },
+      {
+        source: "/auth/:path*",
+        destination: `${process.env.NEXT_PUBLIC_LMS_BASE_URL}/user/auth/:path*`,
+      },
     ];
   },
   async redirects() {
