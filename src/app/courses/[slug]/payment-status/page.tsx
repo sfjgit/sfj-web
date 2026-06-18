@@ -36,7 +36,7 @@ type UIState = "polling" | "success" | "failed" | "error";
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const LMS_API_URL = `${process.env.NEXT_PUBLIC_LMS_BASE_URL}/course/api`;
-const LMS_LEARN_URL = process.env.NEXT_PUBLIC_LMS_URL;
+// const LMS_LEARN_URL = process.env.NEXT_PUBLIC_LMS_URL;
 
 const POLL_INTERVAL_MS = 3_000;
 const MAX_POLL_ATTEMPTS = 20; // 60 seconds max (20 × 3s)
@@ -246,10 +246,10 @@ export default function PaymentStatusPage() {
             </div>
 
             <a
-              href={`${LMS_LEARN_URL}/courses/${paymentData.courseSlug ?? slug}/learn`}
+              href={`/lms/dashboard`}
               className="flex items-center justify-center gap-2 w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold rounded-xl transition-colors"
             >
-              Start learning <ArrowRight className="w-4 h-4" />
+              My Courses <ArrowRight className="w-4 h-4" />
             </a>
           </>
         )}
