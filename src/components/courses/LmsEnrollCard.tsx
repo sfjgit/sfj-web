@@ -5,8 +5,8 @@
 import { useEffect, useState } from "react";
 import LmsEnrollModal from "@/components/courses/LmsEnrollModal";
 import { ILmsCourse } from "./LmsCurriculumAccordion";
-import SigninModal from "../auth/SigninModal";
-import { getAccessToken, rehydrateAuth } from "@/hooks/useAxios";
+import { getAccessToken, rehydrateAuth, useAxios } from "@/hooks/useAxios";
+import { toast } from "sonner";
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 function BookIcon() {
@@ -103,11 +103,12 @@ export default function LmsEnrollCard({
   highestPlan,
 }: LmsEnrollCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<
     ILmsCourse["pricingPlans"][0] | null
   >(lowestPlan);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const axios = useAxios();
 
   const openModal = (plan: ILmsCourse["pricingPlans"][0] | null) => {
     if (!plan) return;
@@ -135,6 +136,23 @@ export default function LmsEnrollCard({
   }, []);
 
   // const router = useRouter();
+
+  const handleBuyNow = async () => {
+    try {
+      if (!lowestPlan) return;
+
+      await axios.post("/payments/initiate", {
+        courseId: course.id,
+        pricingPlanId: lowestPlan.id,
+      });
+
+      // optional redirect if api returns payment url
+      // window.location.href = response.data.paymentUrl;
+    } catch (error) {
+      console.error(error);
+      toast.error("Unable to initiate payment");
+    }
+  };
 
   const formatPrice = (amount: number, currency: string) =>
     new Intl.NumberFormat("en-IN", {
@@ -216,27 +234,32 @@ export default function LmsEnrollCard({
           >
             {isFree ? "Enroll for free" : "Enroll now"}
           </button> */}
-          <button
+          {/* <button
             onClick={() => {
               if (isLoggedIn) {
                 openModal(lowestPlan);
+              }
+              handleBuyNow();
+            }}
+            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
+          >
+            {isLoggedIn ? "Buy Now" : "Enroll Now"}
+          </button> */}
+
+          <button
+            onClick={() => {
+              if (isLoggedIn) {
+                handleBuyNow(); // only initiate api
               } else {
-                // setOpen(true);
-                openModal(lowestPlan);
+                openModal(lowestPlan); // only open modal
               }
             }}
             className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
           >
-            {isLoggedIn
-              ? isFree
-                ? "Get Course"
-                : "Buy Now"
-              : isFree
-                ? "Enroll for Free"
-                : "Enroll Now"}
+            {isLoggedIn ? "Buy Now" : "Enroll Now"}
           </button>
 
-          <SigninModal open={open} onOpenChange={setOpen} />
+          {/* <SigninModal open={open} onOpenChange={setOpen} /> */}
 
           {/* Per-plan buttons if multiple */}
           {course.pricingPlans.length > 1 && (
