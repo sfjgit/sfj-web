@@ -18,20 +18,40 @@ function formatDate(dateStr: string) {
   });
 }
 
+// function formatPrice(amount: number, currency: string) {
+//   if (amount === 0) return "Free";
+//   return new Intl.NumberFormat("en-IN", {
+//     style: "currency",
+//     currency: currency || "INR",
+//     maximumFractionDigits: 0,
+//   }).format(amount);
+// }
 function formatPrice(amount: number, currency: string) {
-  if (amount === 0) return "Free";
+  if (!amount) return "Free";
+
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
-    currency: currency || "INR",
+    currency,
     maximumFractionDigits: 0,
-  }).format(amount);
+  }).format(Number(amount));
 }
 
 export default function CourseCard({ course }: CourseCardProps) {
   const thumbnail =
     course.banner?.viewUrl || course.previewImage?.viewUrl || null;
   const logo = course.logoUrl?.viewUrl || null;
-  const isFree = !course.isPaid || course.price.amount === 0;
+  // const isFree = !course.isPaid || course.price.amount === 0;
+  const amount =
+    typeof course.price === "object"
+      ? Number(course.price?.amount || 0) // BSkilling
+      : Number(course.price || 0); // LMS
+
+  const currency =
+    typeof course.price === "object"
+      ? course.price?.currency || "INR"
+      : course.currency || "INR";
+
+  const isFree = amount <= 0;
   const totalLessons =
     course.curriculum?.chapters?.reduce(
       (acc, ch) => acc + (ch.lessons?.length || 0),
@@ -75,7 +95,7 @@ export default function CourseCard({ course }: CourseCardProps) {
           )}
 
           {/* Price badge */}
-          <div
+          {/* <div
             className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${
               isFree ? "bg-green-500 text-white" : "bg-blue-600 text-white"
             }`}
@@ -83,6 +103,13 @@ export default function CourseCard({ course }: CourseCardProps) {
             {isFree
               ? "Free"
               : formatPrice(course.price.amount, course.price.currency)}
+          </div> */}
+          <div
+            className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${
+              isFree ? "bg-green-500 text-white" : "bg-blue-600 text-white"
+            }`}
+          >
+            {isFree ? "Free" : formatPrice(amount, currency)}
           </div>
         </div>
 
