@@ -34,7 +34,7 @@ interface LmsEnrollModalProps {
 
 type Step = "register" | "processing" | "success" | "error";
 
-// const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;
+// const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;--------------
 
 export default function LmsEnrollModal({
   isOpen,
