@@ -95,6 +95,7 @@ export interface ICourse {
   description: string;
   type: string;
   price: IPrice;
+  currency: string;
 
   // NEW
   gst?: IGst;
