@@ -10,13 +10,15 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
-import env from "@/config/env";
+// import env from "@/config/env";
 import axios from "axios";
 import { toast } from "sonner";
+import { useAxios } from "@/hooks/useAxios";
 
 interface LmsEnrollModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSwitchToSignin: () => void;
   course: {
     id: string;
     title: string;
@@ -29,17 +31,22 @@ interface LmsEnrollModalProps {
     currency: string;
     originalPrice: number | null;
   };
-  onSwitchToSignup: () => void;
 }
 
-type Step = "register" | "processing" | "success" | "error";
+type Step =
+  | "register"
+  | "processing"
+  | "success"
+  | "error"
+  | "verify-email"
+  | "verify-phone";
 
 // const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;
 
-export default function LmsEnrollModal({
+export default function LmsEnrollSignupModal({
   isOpen,
   onClose,
-  onSwitchToSignup,
+  onSwitchToSignin,
   course,
   plan,
 }: LmsEnrollModalProps) {
@@ -53,6 +60,16 @@ export default function LmsEnrollModal({
     phone: "",
     password: "",
   });
+
+  const [otpCode, setOtpCode] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [resendCooldown, setResendCooldown] = useState(0);
+
+  const [phoneOtpCode, setPhoneOtpCode] = useState("");
+  const [phoneOtpError, setPhoneOtpError] = useState("");
+  const [phoneResendCooldown, setPhoneResendCooldown] = useState(0);
+
+  const api = useAxios();
 
   if (!isOpen) return null;
 
@@ -299,28 +316,12 @@ export default function LmsEnrollModal({
       let authData: any;
 
       try {
-        // const signupRes = await axios.post(
-        //   `/auth/signup`,
-        //   {
-        //     name: formData.name,
-        //     email: formData.email,
-        //     phone: formData.phone,
-        //     password: formData.password,
-        //   },
-        //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     withCredentials: true,
-        //   },
-        // );
-        // console.log("signupRes", signupRes.data);
-
-        // authData = signupRes.data;
-        const loginRes = await axios.post(
-          `/auth/signin`,
+        const signupRes = await axios.post(
+          `/auth/signup`,
           {
+            name: formData.name,
             email: formData.email,
+            phone: formData.phone,
             password: formData.password,
           },
           {
@@ -330,18 +331,28 @@ export default function LmsEnrollModal({
             withCredentials: true,
           },
         );
-        toast.success("Logged in successfully.");
-        window.dispatchEvent(new Event("auth-changed"));
-        console.log("loginRes", loginRes.data);
+        console.log("signupRes", signupRes.data);
 
-        authData = loginRes.data;
+        authData = signupRes.data;
       } catch (signupError: any) {
-        setError(
-          signupError.response?.data?.message ||
-            "Signin failed. Please try again.",
-        );
-        setStep("register");
-        return;
+        // If user already exists → login instead
+        if (signupError.response?.data?.code === "USER_EXISTS") {
+          toast.success(
+            "An account with this email already exists. Logging you in...",
+          );
+          setError("An account with this email already exists.");
+          setStep("register");
+
+          window.dispatchEvent(new Event("auth-changed"));
+          return;
+        } else {
+          setError(
+            signupError.response?.data?.message ||
+              "Signup failed. Please try again.",
+          );
+          setStep("register");
+          return;
+        }
       }
 
       const accessToken = authData.data?.accessToken;
@@ -358,44 +369,49 @@ export default function LmsEnrollModal({
       localStorage.setItem("lms_token", accessToken);
       localStorage.setItem("lms_pending_course", course.slug);
 
+      await api.post("/auth/send-email-verification", {
+        email: formData.email,
+      });
+      setStep("verify-email");
+
       // ── Step 2: Initiate Payment ──────────────────────────────────
-      const paymentRes = await axios.post(
-        `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
-        {
-          courseId: course.id,
-          pricingPlanId: plan.id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          withCredentials: true,
-        },
-      );
+      //   const paymentRes = await axios.post(
+      //     `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
+      //     {
+      //       courseId: course.id,
+      //       pricingPlanId: plan.id,
+      //     },
+      //     {
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         Authorization: `Bearer ${accessToken}`,
+      //       },
+      //       withCredentials: true,
+      //     },
+      //   );
 
-      console.log("paymentRes", paymentRes.data);
+      //   console.log("paymentRes", paymentRes.data);
 
-      const paymentData = paymentRes.data;
+      //   const paymentData = paymentRes.data;
 
-      if (!paymentData.success) {
-        if (paymentData.error === "Already enrolled in this course") {
-          setStep("success");
-          return;
-        }
+      //   if (!paymentData.success) {
+      //     if (paymentData.error === "Already enrolled in this course") {
+      //       setStep("success");
+      //       return;
+      //     }
 
-        setError(paymentData.error || "Payment initiation failed.");
-        setStep("register");
-        return;
-      }
+      //     setError(paymentData.error || "Payment initiation failed.");
+      //     setStep("register");
+      //     return;
+      //   }
 
-      if (paymentData.data.type === "free") {
-        setStep("success");
-        return;
-      }
+      //   if (paymentData.data.type === "free") {
+      //     setStep("success");
+      //     return;
+      //   }
 
-      // Redirect to PhonePe
-      window.location.href = paymentData.data.paymentUrl;
+      //   // Redirect to PhonePe
+      //   window.location.href = paymentData.data.paymentUrl;
     } catch (err: any) {
       console.error(err);
 
@@ -405,6 +421,116 @@ export default function LmsEnrollModal({
       );
 
       setStep("register");
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setOtpError("");
+
+    if (otpCode.length !== 6) {
+      setOtpError("Enter the 6-digit code");
+      return;
+    }
+
+    try {
+      await api.post("/auth/verify-email", {
+        email: formData.email,
+        otp: otpCode,
+      });
+
+      // ── Email verified → trigger phone OTP and move to that step ──
+      try {
+        await api.post("/auth/send-phone-verification", {
+          phone: formData.phone,
+        });
+      } catch (phoneTriggerErr: any) {
+        toast.error(
+          phoneTriggerErr.response?.data?.message ||
+            "Couldn't send WhatsApp code. You can retry below.",
+        );
+      }
+
+      setStep("verify-phone"); // always advance, even if send failed — resend button covers retry
+    } catch (err: any) {
+      const code = err.response?.data?.code;
+      if (code === "INVALID_OTP") {
+        setOtpError(err.response?.data?.message || "Invalid or expired code.");
+      } else {
+        setOtpError("Something went wrong. Please try again.");
+      }
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendCooldown > 0) return;
+    try {
+      await api.post("/auth/send-email-verification", {
+        email: formData.email,
+      });
+      toast.success("Code resent");
+      setResendCooldown(60);
+      const interval = setInterval(() => {
+        setResendCooldown((c) => {
+          if (c <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return c - 1;
+        });
+      }, 1000);
+    } catch {
+      setOtpError("Couldn't resend code. Please try again shortly.");
+    }
+  };
+
+  const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPhoneOtpError("");
+
+    if (phoneOtpCode.length !== 6) {
+      setPhoneOtpError("Enter the 6-digit code");
+      return;
+    }
+
+    try {
+      await api.post("/auth/verify-phone", {
+        phone: formData.phone,
+        otp: phoneOtpCode,
+      });
+
+      setStep("success");
+    } catch (err: any) {
+      const code = err.response?.data?.code;
+      if (code === "INVALID_OTP") {
+        setPhoneOtpError(
+          err.response?.data?.message || "Invalid or expired code.",
+        );
+      } else {
+        setPhoneOtpError("Something went wrong. Please try again.");
+      }
+    }
+  };
+
+  const handleResendPhoneOtp = async () => {
+    if (phoneResendCooldown > 0) return;
+    try {
+      await api.post("/auth/send-phone-verification", {
+        phone: formData.phone,
+      });
+      toast.success("Code resent via WhatsApp");
+      setPhoneResendCooldown(60);
+      const interval = setInterval(() => {
+        setPhoneResendCooldown((c) => {
+          if (c <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return c - 1;
+        });
+      }, 1000);
+    } catch {
+      setPhoneOtpError("Couldn't resend code. Please try again shortly.");
     }
   };
 
@@ -458,7 +584,7 @@ export default function LmsEnrollModal({
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <p className="text-sm font-semibold text-gray-900 mb-1">
-                  Login with your account to continue
+                  Create your account to continue
                 </p>
                 {/* <p className="text-xs text-gray-500">
                   Already have an account? Your details will be matched
@@ -572,17 +698,17 @@ export default function LmsEnrollModal({
                 type="submit"
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors"
               >
-                Sign In
+                Sign Up
               </button>
 
               <div className="text-center text-sm text-gray-500">
-                Don&apos;t have an account?{" "}
+                Already have an account?{" "}
                 <button
                   type="button"
-                  onClick={onSwitchToSignup}
+                  onClick={onSwitchToSignin}
                   className="text-blue-600 hover:underline font-medium"
                 >
-                  Sign up
+                  Sign In
                 </button>
               </div>
 
@@ -641,6 +767,108 @@ export default function LmsEnrollModal({
                 Start learning →
               </a>
             </div>
+          )}
+
+          {step === "verify-email" && (
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-900 mb-1">
+                  Verify your email
+                </p>
+                <p className="text-xs text-gray-500">
+                  We sent a 6-digit code to {formData.email}
+                </p>
+              </div>
+
+              {otpError && (
+                <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  {otpError}
+                </div>
+              )}
+
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={otpCode}
+                onChange={(e) =>
+                  setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                placeholder="------"
+                className="w-full text-center text-black text-lg tracking-[0.5em] px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+
+              <button
+                type="submit"
+                disabled={otpCode.length !== 6}
+                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors disabled:opacity-40"
+              >
+                Verify
+              </button>
+
+              <button
+                type="button"
+                onClick={handleResendOtp}
+                disabled={resendCooldown > 0}
+                className="w-full text-center text-xs text-blue-600 disabled:text-gray-400"
+              >
+                {resendCooldown > 0
+                  ? `Resend in ${resendCooldown}s`
+                  : "Resend code"}
+              </button>
+            </form>
+          )}
+
+          {step === "verify-phone" && (
+            <form onSubmit={handleVerifyPhoneOtp} className="space-y-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-900 mb-1">
+                  Verify your phone
+                </p>
+                <p className="text-xs text-gray-500">
+                  We sent a 6-digit code via WhatsApp to +91{formData.phone}
+                </p>
+              </div>
+
+              {phoneOtpError && (
+                <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  {phoneOtpError}
+                </div>
+              )}
+
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={phoneOtpCode}
+                onChange={(e) =>
+                  setPhoneOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                placeholder="------"
+                className="w-full text-center text-black text-lg tracking-[0.5em] px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+
+              <button
+                type="submit"
+                disabled={phoneOtpCode.length !== 6}
+                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors disabled:opacity-40"
+              >
+                Verify
+              </button>
+
+              <button
+                type="button"
+                onClick={handleResendPhoneOtp}
+                disabled={phoneResendCooldown > 0}
+                className="w-full text-center text-xs text-blue-600 disabled:text-gray-400"
+              >
+                {phoneResendCooldown > 0
+                  ? `Resend in ${phoneResendCooldown}s`
+                  : "Resend code"}
+              </button>
+            </form>
           )}
 
           {/* STEP: Error */}

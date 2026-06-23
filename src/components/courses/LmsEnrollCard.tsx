@@ -7,6 +7,7 @@ import LmsEnrollModal from "@/components/courses/LmsEnrollModal";
 import { ILmsCourse } from "./LmsCurriculumAccordion";
 import { getAccessToken, rehydrateAuth, useAxios } from "@/hooks/useAxios";
 import { toast } from "sonner";
+import LmsEnrollSignupModal from "./LMSEnrollSignupModal";
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 function BookIcon() {
@@ -108,11 +109,17 @@ export default function LmsEnrollCard({
     ILmsCourse["pricingPlans"][0] | null
   >(lowestPlan);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const axios = useAxios();
 
-  const openModal = (plan: ILmsCourse["pricingPlans"][0] | null) => {
+  const openModal = (
+    plan: ILmsCourse["pricingPlans"][0] | null,
+    signup = false,
+  ) => {
     if (!plan) return;
+
     setSelectedPlan(plan);
+    setShowSignup(signup);
     setModalOpen(true);
   };
 
@@ -163,14 +170,32 @@ export default function LmsEnrollCard({
 
   return (
     <>
-      {selectedPlan && (
-        <LmsEnrollModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          course={{ id: course.id, title: course.title, slug: course.slug }}
-          plan={selectedPlan}
-        />
-      )}
+      {selectedPlan &&
+        (showSignup ? (
+          <LmsEnrollSignupModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onSwitchToSignin={() => setShowSignup(false)}
+            course={{
+              id: course.id,
+              title: course.title,
+              slug: course.slug,
+            }}
+            plan={selectedPlan}
+          />
+        ) : (
+          <LmsEnrollModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onSwitchToSignup={() => setShowSignup(true)}
+            course={{
+              id: course.id,
+              title: course.title,
+              slug: course.slug,
+            }}
+            plan={selectedPlan}
+          />
+        ))}
 
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-md">
         {course.thumbnailUrl && (
