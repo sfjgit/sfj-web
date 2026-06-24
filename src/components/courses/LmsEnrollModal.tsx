@@ -13,6 +13,7 @@ import {
 import env from "@/config/env";
 import axios from "axios";
 import { toast } from "sonner";
+import { useAxios } from "@/hooks/useAxios";
 
 interface LmsEnrollModalProps {
   isOpen: boolean;
@@ -53,6 +54,8 @@ export default function LmsEnrollModal({
     phone: "",
     password: "",
   });
+
+  const api = useAxios();
 
   if (!isOpen) return null;
 
@@ -359,19 +362,19 @@ export default function LmsEnrollModal({
       localStorage.setItem("lms_pending_course", course.slug);
 
       // ── Step 2: Initiate Payment ──────────────────────────────────
-      const paymentRes = await axios.post(
+      const paymentRes = await api.post(
         `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
         {
           courseId: course.id,
           pricingPlanId: plan.id,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          withCredentials: true,
-        },
+        // {
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        //   withCredentials: true,
+        // },
       );
 
       console.log("paymentRes", paymentRes.data);
