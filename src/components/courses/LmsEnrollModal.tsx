@@ -119,9 +119,17 @@ export default function LmsEnrollModal({
 
       if (!user.phoneVerified) {
         try {
-          await api.post("/auth/send-phone-verification", {
-            phone: user.phone,
-          });
+          await api.post(
+            "/auth/send-phone-verification",
+            {
+              phone: user.phone,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
+          );
 
           setError(
             "Your phone number is not verified. OTP has been sent to WhatsApp.",
