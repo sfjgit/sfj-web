@@ -275,15 +275,15 @@ export default function LmsEnrollModal({
     e.preventDefault();
     setError("");
 
-    if (
-      // !formData.name ||
-      !formData.email ||
-      // !formData.phone ||
-      !formData.password
-    ) {
-      setError("All fields are required");
-      return;
-    }
+    // if (
+    //   // !formData.name ||
+    //   !formData.email ||
+    //   // !formData.phone ||
+    //   !formData.password
+    // ) {
+    //   setError("All fields are required");
+    //   return;
+    // }
 
     // if (formData.phone.length < 10) {
     //   setError("Enter a valid 10-digit phone number");
