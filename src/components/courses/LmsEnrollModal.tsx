@@ -68,232 +68,9 @@ export default function LmsEnrollModal({
       maximumFractionDigits: 0,
     }).format(amount);
 
-  //   const handleSubmit = async (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     setError("");
-
-  //     if (
-  //       !formData.name ||
-  //       !formData.email ||
-  //       !formData.phone ||
-  //       !formData.password
-  //     ) {
-  //       setError("All fields are required");
-  //       return;
-  //     }
-  //     if (formData.phone.length < 10) {
-  //       setError("Enter a valid 10-digit phone number");
-  //       return;
-  //     }
-  //     if (formData.password.length < 6) {
-  //       setError("Password must be at least 6 characters");
-  //       return;
-  //     }
-
-  //     setStep("processing");
-
-  //     try {
-  //       //   const res = await fetch(`${LMS_URL}/payments/initiate`, {
-  //       //     method: "POST",
-  //       //     headers: { "Content-Type": "application/json" },
-  //       //     body: JSON.stringify({
-  //       //       courseId: course.id,
-  //       //       pricingPlanId: plan.id,
-  //       //       name: formData.name,
-  //       //       email: formData.email,
-  //       //       phone: formData.phone,
-  //       //       password: formData.password,
-  //       //     }),
-  //       //   });
-  //       const res = await fetch(`${LMS_URL}/user/auth/signup`, {
-  //         method: "POST",
-  //         body: JSON.stringify({
-  //           name: formData.name,
-  //           email: formData.email,
-  //           phone: formData.phone,
-  //           password: formData.password,
-  //         }),
-  //       });
-
-  //       const data = await res.json();
-
-  //       if (!res.ok || !data.success) {
-  //         setError(data.error || "Something went wrong. Please try again.");
-  //         setStep("register");
-  //         return;
-  //       }
-
-  //       // Store JWT for after payment return
-  //       if (data.data.token) {
-  //         localStorage.setItem("lms_token", data.data.token);
-  //         localStorage.setItem("lms_pending_course", course.slug);
-  //       }
-
-  //       if (data.data.type === "free") {
-  //         // Free course — enrolled immediately
-  //         setStep("success");
-  //         return;
-  //       }
-
-  //       // Paid course — redirect to PhonePe
-  //       window.location.href = data.data.paymentUrl;
-  //     } catch (err) {
-  //       console.error(err);
-  //       setError("Network error. Please check your connection and try again.");
-  //       setStep("register");
-  //     }
-  //   };
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError("");
-
-  //   if (
-  //     !formData.name ||
-  //     !formData.email ||
-  //     !formData.phone ||
-  //     !formData.password
-  //   ) {
-  //     setError("All fields are required");
-  //     return;
-  //   }
-  //   if (formData.phone.length < 10) {
-  //     setError("Enter a valid 10-digit phone number");
-  //     return;
-  //   }
-  //   if (formData.password.length < 6) {
-  //     setError("Password must be at least 6 characters");
-  //     return;
-  //   }
-
-  //   setStep("processing");
-
-  //   try {
-  //     // ── Step 1: Signup ────────────────────────────────────────────────────
-  //     const signupRes = await fetch(`${LMS_URL}/user/auth/signup`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         name: formData.name,
-  //         email: formData.email,
-  //         phone: formData.phone,
-  //         password: formData.password,
-  //       }),
-  //     });
-
-  //     const signupData = await signupRes.json();
-  //     console.log("signupData", signupData);
-
-  //     // If user already exists, try login instead
-  //     if (!signupRes.ok && signupData.code === "USER_EXISTS") {
-  //       const loginRes = await fetch(`${LMS_URL}/user/auth/sigin`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           includeCredentials: "true",
-  //         },
-  //         body: JSON.stringify({
-  //           email: formData.email,
-  //           password: formData.password,
-  //         }),
-  //       });
-
-  //       const loginData = await loginRes.json();
-
-  //       if (!loginRes.ok || !loginData.success) {
-  //         setError(
-  //           "An account with this email already exists. Please check your password.",
-  //         );
-  //         setStep("register");
-  //         return;
-  //       }
-
-  //       // Use login token instead
-  //       signupData.data = loginData.data;
-  //     } else if (!signupRes.ok || !signupData.success) {
-  //       setError(signupData.message || "Signup failed. Please try again.");
-  //       setStep("register");
-  //       return;
-  //     }
-
-  //     const accessToken = signupData.data?.accessToken;
-  //     console.log("accessToken", accessToken);
-  //     if (!accessToken) {
-  //       setError("Authentication failed. Please try again.");
-  //       setStep("register");
-  //       return;
-  //     }
-
-  //     // Store token
-  //     localStorage.setItem("lms_token", accessToken);
-  //     localStorage.setItem("lms_pending_course", course.slug);
-
-  //     // ── Step 2: Initiate payment ──────────────────────────────────────────
-  //     const paymentRes = await fetch(
-  //       `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${accessToken}`,
-  //           includeCredentials: "true",
-  //         },
-  //         body: JSON.stringify({
-  //           courseId: course.id,
-  //           pricingPlanId: plan.id,
-  //         }),
-  //       },
-  //     );
-
-  //     const paymentData = await paymentRes.json();
-
-  //     if (!paymentRes.ok || !paymentData.success) {
-  //       if (paymentData.error === "Already enrolled in this course") {
-  //         setStep("success");
-  //         return;
-  //       }
-  //       setError(paymentData.error || "Payment initiation failed.");
-  //       setStep("register");
-  //       return;
-  //     }
-
-  //     if (paymentData.data.type === "free") {
-  //       setStep("success");
-  //       return;
-  //     }
-
-  //     // Redirect to PhonePe payment page
-  //     window.location.href = paymentData.data.paymentUrl;
-  //   } catch (err) {
-  //     console.error(err);
-  //     setError("Network error. Please check your connection and try again.");
-  //     setStep("register");
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    // if (
-    //   // !formData.name ||
-    //   !formData.email ||
-    //   // !formData.phone ||
-    //   !formData.password
-    // ) {
-    //   setError("All fields are required");
-    //   return;
-    // }
-
-    // if (formData.phone.length < 10) {
-    //   setError("Enter a valid 10-digit phone number");
-    //   return;
-    // }
-
-    // if (formData.password.length < 6) {
-    //   setError("Password must be at least 6 characters");
-    //   return;
-    // }
 
     setStep("processing");
 
@@ -302,24 +79,6 @@ export default function LmsEnrollModal({
       let authData: any;
 
       try {
-        // const signupRes = await axios.post(
-        //   `/auth/signup`,
-        //   {
-        //     name: formData.name,
-        //     email: formData.email,
-        //     phone: formData.phone,
-        //     password: formData.password,
-        //   },
-        //   {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     withCredentials: true,
-        //   },
-        // );
-        // console.log("signupRes", signupRes.data);
-
-        // authData = signupRes.data;
         const loginRes = await axios.post(
           `/auth/signin`,
           {
@@ -347,6 +106,7 @@ export default function LmsEnrollModal({
         return;
       }
 
+      const user = authData.data?.user;
       const accessToken = authData.data?.accessToken;
 
       console.log("accessToken", accessToken);
@@ -355,6 +115,33 @@ export default function LmsEnrollModal({
         setError("Authentication failed. Please try again.");
         setStep("register");
         return;
+      }
+
+      if (!user.phoneVerified) {
+        try {
+          await api.post("/auth/send-phone-verification", {
+            phone: user.phone,
+          });
+
+          setError(
+            "Your phone number is not verified. OTP has been sent to WhatsApp.",
+          );
+
+          // Navigate to verification page/modal
+          // Example:
+          // setStep("verify-phone");
+
+          setStep("register");
+          return;
+        } catch (err: any) {
+          setError(
+            err.response?.data?.message ||
+              "Failed to send phone verification OTP",
+          );
+
+          setStep("register");
+          return;
+        }
       }
 
       // Store token
