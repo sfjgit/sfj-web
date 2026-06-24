@@ -8,6 +8,7 @@ import { ILmsCourse } from "./LmsCurriculumAccordion";
 import { getAccessToken, rehydrateAuth, useAxios } from "@/hooks/useAxios";
 import { toast } from "sonner";
 import LmsEnrollSignupModal from "./LMSEnrollSignupModal";
+import env from "@/config/env";
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 function BookIcon() {
@@ -148,7 +149,7 @@ export default function LmsEnrollCard({
     try {
       if (!lowestPlan) return;
 
-      await axios.post("/payments/initiate", {
+      await axios.post(`${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`, {
         courseId: course.id,
         pricingPlanId: lowestPlan.id,
       });
