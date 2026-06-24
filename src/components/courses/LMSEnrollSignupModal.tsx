@@ -249,6 +249,23 @@ export default function LmsEnrollSignupModal({
     try {
       setStep("processing");
 
+      // 1. Signup first
+      const signupRes = await api.post("/auth/signup", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      });
+
+      const accessToken = signupRes.data?.data?.accessToken;
+
+      if (!accessToken) {
+        throw new Error("Authentication failed");
+      }
+
+      localStorage.setItem("lms_token", accessToken);
+
+      // 2. Send email OTP
       await api.post("/auth/send-email-verification", {
         email: formData.email,
       });
@@ -256,7 +273,7 @@ export default function LmsEnrollSignupModal({
       setStep("verify-email");
     } catch (err: any) {
       setError(
-        err.response?.data?.message || "Failed to send email verification",
+        err.response?.data?.message || "Signup failed. Please try again.",
       );
 
       setStep("register");
@@ -301,6 +318,7 @@ export default function LmsEnrollSignupModal({
   //   };
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setOtpError("");
 
     try {
       await api.post("/auth/verify-email", {
@@ -308,6 +326,7 @@ export default function LmsEnrollSignupModal({
         otp: otpCode,
       });
 
+      // Trigger phone OTP
       await api.post("/auth/send-phone-verification", {
         phone: formData.phone,
       });
@@ -368,23 +387,13 @@ export default function LmsEnrollSignupModal({
   //   };
   const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPhoneOtpError("");
 
     try {
       await api.post("/auth/verify-phone", {
         phone: formData.phone,
         otp: phoneOtpCode,
       });
-
-      const signupRes = await api.post("/auth/signup", {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-      });
-
-      const accessToken = signupRes.data.data?.accessToken;
-
-      localStorage.setItem("lms_token", accessToken);
 
       setStep("success");
     } catch (err: any) {
