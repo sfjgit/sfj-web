@@ -11,7 +11,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 // import env from "@/config/env";
-import axios from "axios";
+// import axios from "axios";
 import { toast } from "sonner";
 import { useAxios } from "@/hooks/useAxios";
 
@@ -95,10 +95,12 @@ export default function LmsEnrollSignupModal({
   //       setError("All fields are required");
   //       return;
   //     }
+
   //     if (formData.phone.length < 10) {
   //       setError("Enter a valid 10-digit phone number");
   //       return;
   //     }
+
   //     if (formData.password.length < 6) {
   //       setError("Password must be at least 6 characters");
   //       return;
@@ -107,184 +109,119 @@ export default function LmsEnrollSignupModal({
   //     setStep("processing");
 
   //     try {
-  //       //   const res = await fetch(`${LMS_URL}/payments/initiate`, {
-  //       //     method: "POST",
-  //       //     headers: { "Content-Type": "application/json" },
-  //       //     body: JSON.stringify({
-  //       //       courseId: course.id,
-  //       //       pricingPlanId: plan.id,
-  //       //       name: formData.name,
-  //       //       email: formData.email,
-  //       //       phone: formData.phone,
-  //       //       password: formData.password,
-  //       //     }),
-  //       //   });
-  //       const res = await fetch(`${LMS_URL}/user/auth/signup`, {
-  //         method: "POST",
-  //         body: JSON.stringify({
-  //           name: formData.name,
-  //           email: formData.email,
-  //           phone: formData.phone,
-  //           password: formData.password,
-  //         }),
-  //       });
+  //       // ── Step 1: Signup ─────────────────────────────────────────────
+  //       let authData: any;
 
-  //       const data = await res.json();
+  //       try {
+  //         const signupRes = await axios.post(
+  //           `/auth/signup`,
+  //           {
+  //             name: formData.name,
+  //             email: formData.email,
+  //             phone: formData.phone,
+  //             password: formData.password,
+  //           },
+  //           {
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             withCredentials: true,
+  //           },
+  //         );
+  //         console.log("signupRes", signupRes.data);
 
-  //       if (!res.ok || !data.success) {
-  //         setError(data.error || "Something went wrong. Please try again.");
+  //         authData = signupRes.data;
+  //       } catch (signupError: any) {
+  //         // If user already exists → login instead
+  //         if (signupError.response?.data?.code === "USER_EXISTS") {
+  //           toast.error(
+  //             "An account with this email or phone number already exists.",
+  //           );
+  //           setError(
+  //             "An account with this email or phone number already exists.",
+  //           );
+  //           setStep("register");
+
+  //           window.dispatchEvent(new Event("auth-changed"));
+  //           return;
+  //         } else {
+  //           setError(
+  //             signupError.response?.data?.message ||
+  //               "Signup failed. Please try again.",
+  //           );
+  //           setStep("register");
+  //           return;
+  //         }
+  //       }
+
+  //       const accessToken = authData.data?.accessToken;
+
+  //       console.log("accessToken", accessToken);
+
+  //       if (!accessToken) {
+  //         setError("Authentication failed. Please try again.");
   //         setStep("register");
   //         return;
   //       }
 
-  //       // Store JWT for after payment return
-  //       if (data.data.token) {
-  //         localStorage.setItem("lms_token", data.data.token);
-  //         localStorage.setItem("lms_pending_course", course.slug);
-  //       }
+  //       // Store token
+  //       localStorage.setItem("lms_token", accessToken);
+  //       localStorage.setItem("lms_pending_course", course.slug);
 
-  //       if (data.data.type === "free") {
-  //         // Free course — enrolled immediately
-  //         setStep("success");
-  //         return;
-  //       }
+  //       await api.post("/auth/send-email-verification", {
+  //         email: formData.email,
+  //       });
+  //       setStep("verify-email");
 
-  //       // Paid course — redirect to PhonePe
-  //       window.location.href = data.data.paymentUrl;
-  //     } catch (err) {
+  //       // ── Step 2: Initiate Payment ──────────────────────────────────
+  //       //   const paymentRes = await axios.post(
+  //       //     `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
+  //       //     {
+  //       //       courseId: course.id,
+  //       //       pricingPlanId: plan.id,
+  //       //     },
+  //       //     {
+  //       //       headers: {
+  //       //         "Content-Type": "application/json",
+  //       //         Authorization: `Bearer ${accessToken}`,
+  //       //       },
+  //       //       withCredentials: true,
+  //       //     },
+  //       //   );
+
+  //       //   console.log("paymentRes", paymentRes.data);
+
+  //       //   const paymentData = paymentRes.data;
+
+  //       //   if (!paymentData.success) {
+  //       //     if (paymentData.error === "Already enrolled in this course") {
+  //       //       setStep("success");
+  //       //       return;
+  //       //     }
+
+  //       //     setError(paymentData.error || "Payment initiation failed.");
+  //       //     setStep("register");
+  //       //     return;
+  //       //   }
+
+  //       //   if (paymentData.data.type === "free") {
+  //       //     setStep("success");
+  //       //     return;
+  //       //   }
+
+  //       //   // Redirect to PhonePe
+  //       //   window.location.href = paymentData.data.paymentUrl;
+  //     } catch (err: any) {
   //       console.error(err);
-  //       setError("Network error. Please check your connection and try again.");
+
+  //       setError(
+  //         err.response?.data?.message ||
+  //           "Network error. Please check your connection and try again.",
+  //       );
+
   //       setStep("register");
   //     }
   //   };
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError("");
-
-  //   if (
-  //     !formData.name ||
-  //     !formData.email ||
-  //     !formData.phone ||
-  //     !formData.password
-  //   ) {
-  //     setError("All fields are required");
-  //     return;
-  //   }
-  //   if (formData.phone.length < 10) {
-  //     setError("Enter a valid 10-digit phone number");
-  //     return;
-  //   }
-  //   if (formData.password.length < 6) {
-  //     setError("Password must be at least 6 characters");
-  //     return;
-  //   }
-
-  //   setStep("processing");
-
-  //   try {
-  //     // ── Step 1: Signup ────────────────────────────────────────────────────
-  //     const signupRes = await fetch(`${LMS_URL}/user/auth/signup`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         name: formData.name,
-  //         email: formData.email,
-  //         phone: formData.phone,
-  //         password: formData.password,
-  //       }),
-  //     });
-
-  //     const signupData = await signupRes.json();
-  //     console.log("signupData", signupData);
-
-  //     // If user already exists, try login instead
-  //     if (!signupRes.ok && signupData.code === "USER_EXISTS") {
-  //       const loginRes = await fetch(`${LMS_URL}/user/auth/sigin`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           includeCredentials: "true",
-  //         },
-  //         body: JSON.stringify({
-  //           email: formData.email,
-  //           password: formData.password,
-  //         }),
-  //       });
-
-  //       const loginData = await loginRes.json();
-
-  //       if (!loginRes.ok || !loginData.success) {
-  //         setError(
-  //           "An account with this email already exists. Please check your password.",
-  //         );
-  //         setStep("register");
-  //         return;
-  //       }
-
-  //       // Use login token instead
-  //       signupData.data = loginData.data;
-  //     } else if (!signupRes.ok || !signupData.success) {
-  //       setError(signupData.message || "Signup failed. Please try again.");
-  //       setStep("register");
-  //       return;
-  //     }
-
-  //     const accessToken = signupData.data?.accessToken;
-  //     console.log("accessToken", accessToken);
-  //     if (!accessToken) {
-  //       setError("Authentication failed. Please try again.");
-  //       setStep("register");
-  //       return;
-  //     }
-
-  //     // Store token
-  //     localStorage.setItem("lms_token", accessToken);
-  //     localStorage.setItem("lms_pending_course", course.slug);
-
-  //     // ── Step 2: Initiate payment ──────────────────────────────────────────
-  //     const paymentRes = await fetch(
-  //       `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${accessToken}`,
-  //           includeCredentials: "true",
-  //         },
-  //         body: JSON.stringify({
-  //           courseId: course.id,
-  //           pricingPlanId: plan.id,
-  //         }),
-  //       },
-  //     );
-
-  //     const paymentData = await paymentRes.json();
-
-  //     if (!paymentRes.ok || !paymentData.success) {
-  //       if (paymentData.error === "Already enrolled in this course") {
-  //         setStep("success");
-  //         return;
-  //       }
-  //       setError(paymentData.error || "Payment initiation failed.");
-  //       setStep("register");
-  //       return;
-  //     }
-
-  //     if (paymentData.data.type === "free") {
-  //       setStep("success");
-  //       return;
-  //     }
-
-  //     // Redirect to PhonePe payment page
-  //     window.location.href = paymentData.data.paymentUrl;
-  //   } catch (err) {
-  //     console.error(err);
-  //     setError("Network error. Please check your connection and try again.");
-  //     setStep("register");
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -300,7 +237,7 @@ export default function LmsEnrollSignupModal({
     }
 
     if (formData.phone.length < 10) {
-      setError("Enter a valid 10-digit phone number");
+      setError("Enter valid phone number");
       return;
     }
 
@@ -309,129 +246,61 @@ export default function LmsEnrollSignupModal({
       return;
     }
 
-    setStep("processing");
-
     try {
-      // ── Step 1: Signup ─────────────────────────────────────────────
-      let authData: any;
-
-      try {
-        const signupRes = await axios.post(
-          `/auth/signup`,
-          {
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            password: formData.password,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          },
-        );
-        console.log("signupRes", signupRes.data);
-
-        authData = signupRes.data;
-      } catch (signupError: any) {
-        // If user already exists → login instead
-        if (signupError.response?.data?.code === "USER_EXISTS") {
-          toast.success(
-            "An account with this email already exists. Logging you in...",
-          );
-          setError("An account with this email already exists.");
-          setStep("register");
-
-          window.dispatchEvent(new Event("auth-changed"));
-          return;
-        } else {
-          setError(
-            signupError.response?.data?.message ||
-              "Signup failed. Please try again.",
-          );
-          setStep("register");
-          return;
-        }
-      }
-
-      const accessToken = authData.data?.accessToken;
-
-      console.log("accessToken", accessToken);
-
-      if (!accessToken) {
-        setError("Authentication failed. Please try again.");
-        setStep("register");
-        return;
-      }
-
-      // Store token
-      localStorage.setItem("lms_token", accessToken);
-      localStorage.setItem("lms_pending_course", course.slug);
+      setStep("processing");
 
       await api.post("/auth/send-email-verification", {
         email: formData.email,
       });
+
       setStep("verify-email");
-
-      // ── Step 2: Initiate Payment ──────────────────────────────────
-      //   const paymentRes = await axios.post(
-      //     `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
-      //     {
-      //       courseId: course.id,
-      //       pricingPlanId: plan.id,
-      //     },
-      //     {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         Authorization: `Bearer ${accessToken}`,
-      //       },
-      //       withCredentials: true,
-      //     },
-      //   );
-
-      //   console.log("paymentRes", paymentRes.data);
-
-      //   const paymentData = paymentRes.data;
-
-      //   if (!paymentData.success) {
-      //     if (paymentData.error === "Already enrolled in this course") {
-      //       setStep("success");
-      //       return;
-      //     }
-
-      //     setError(paymentData.error || "Payment initiation failed.");
-      //     setStep("register");
-      //     return;
-      //   }
-
-      //   if (paymentData.data.type === "free") {
-      //     setStep("success");
-      //     return;
-      //   }
-
-      //   // Redirect to PhonePe
-      //   window.location.href = paymentData.data.paymentUrl;
     } catch (err: any) {
-      console.error(err);
-
       setError(
-        err.response?.data?.message ||
-          "Network error. Please check your connection and try again.",
+        err.response?.data?.message || "Failed to send email verification",
       );
 
       setStep("register");
     }
   };
+  //   const handleVerifyOtp = async (e: React.FormEvent) => {
+  //     e.preventDefault();
+  //     setOtpError("");
 
+  //     if (otpCode.length !== 6) {
+  //       setOtpError("Enter the 6-digit code");
+  //       return;
+  //     }
+
+  //     try {
+  //       await api.post("/auth/verify-email", {
+  //         email: formData.email,
+  //         otp: otpCode,
+  //       });
+
+  //       // ── Email verified → trigger phone OTP and move to that step ──
+  //       try {
+  //         await api.post("/auth/send-phone-verification", {
+  //           phone: formData.phone,
+  //         });
+  //       } catch (phoneTriggerErr: any) {
+  //         toast.error(
+  //           phoneTriggerErr.response?.data?.message ||
+  //             "Couldn't send WhatsApp code. You can retry below.",
+  //         );
+  //       }
+
+  //       setStep("verify-phone"); // always advance, even if send failed — resend button covers retry
+  //     } catch (err: any) {
+  //       const code = err.response?.data?.code;
+  //       if (code === "INVALID_OTP") {
+  //         setOtpError(err.response?.data?.message || "Invalid or expired code.");
+  //       } else {
+  //         setOtpError("Something went wrong. Please try again.");
+  //       }
+  //     }
+  //   };
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setOtpError("");
-
-    if (otpCode.length !== 6) {
-      setOtpError("Enter the 6-digit code");
-      return;
-    }
 
     try {
       await api.post("/auth/verify-email", {
@@ -439,29 +308,15 @@ export default function LmsEnrollSignupModal({
         otp: otpCode,
       });
 
-      // ── Email verified → trigger phone OTP and move to that step ──
-      try {
-        await api.post("/auth/send-phone-verification", {
-          phone: formData.phone,
-        });
-      } catch (phoneTriggerErr: any) {
-        toast.error(
-          phoneTriggerErr.response?.data?.message ||
-            "Couldn't send WhatsApp code. You can retry below.",
-        );
-      }
+      await api.post("/auth/send-phone-verification", {
+        phone: formData.phone,
+      });
 
-      setStep("verify-phone"); // always advance, even if send failed — resend button covers retry
+      setStep("verify-phone");
     } catch (err: any) {
-      const code = err.response?.data?.code;
-      if (code === "INVALID_OTP") {
-        setOtpError(err.response?.data?.message || "Invalid or expired code.");
-      } else {
-        setOtpError("Something went wrong. Please try again.");
-      }
+      setOtpError(err.response?.data?.message || "Verification failed");
     }
   };
-
   const handleResendOtp = async () => {
     if (resendCooldown > 0) return;
     try {
@@ -484,14 +339,35 @@ export default function LmsEnrollSignupModal({
     }
   };
 
+  //   const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
+  //     e.preventDefault();
+  //     setPhoneOtpError("");
+
+  //     if (phoneOtpCode.length !== 6) {
+  //       setPhoneOtpError("Enter the 6-digit code");
+  //       return;
+  //     }
+
+  //     try {
+  //       await api.post("/auth/verify-phone", {
+  //         phone: formData.phone,
+  //         otp: phoneOtpCode,
+  //       });
+
+  //       setStep("success");
+  //     } catch (err: any) {
+  //       const code = err.response?.data?.code;
+  //       if (code === "INVALID_OTP") {
+  //         setPhoneOtpError(
+  //           err.response?.data?.message || "Invalid or expired code.",
+  //         );
+  //       } else {
+  //         setPhoneOtpError("Something went wrong. Please try again.");
+  //       }
+  //     }
+  //   };
   const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPhoneOtpError("");
-
-    if (phoneOtpCode.length !== 6) {
-      setPhoneOtpError("Enter the 6-digit code");
-      return;
-    }
 
     try {
       await api.post("/auth/verify-phone", {
@@ -499,19 +375,22 @@ export default function LmsEnrollSignupModal({
         otp: phoneOtpCode,
       });
 
+      const signupRes = await api.post("/auth/signup", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      });
+
+      const accessToken = signupRes.data.data?.accessToken;
+
+      localStorage.setItem("lms_token", accessToken);
+
       setStep("success");
     } catch (err: any) {
-      const code = err.response?.data?.code;
-      if (code === "INVALID_OTP") {
-        setPhoneOtpError(
-          err.response?.data?.message || "Invalid or expired code.",
-        );
-      } else {
-        setPhoneOtpError("Something went wrong. Please try again.");
-      }
+      setPhoneOtpError(err.response?.data?.message || "Verification failed");
     }
   };
-
   const handleResendPhoneOtp = async () => {
     if (phoneResendCooldown > 0) return;
     try {
