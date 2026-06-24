@@ -474,7 +474,7 @@ export default function LmsEnrollModal({
               )}
 
               <div className="space-y-3">
-                <div>
+                {/* <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Full name
                   </label>
@@ -488,7 +488,7 @@ export default function LmsEnrollModal({
                     placeholder="John Doe"
                     className="w-full text-black px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                </div>
+                </div> */}
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -506,7 +506,7 @@ export default function LmsEnrollModal({
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Phone number
                   </label>
@@ -529,7 +529,7 @@ export default function LmsEnrollModal({
                       className="flex-1 text-black px-3 py-2.5 border border-gray-200 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
