@@ -273,24 +273,24 @@ export default function LmsEnrollModal({
     setError("");
 
     if (
-      !formData.name ||
+      // !formData.name ||
       !formData.email ||
-      !formData.phone ||
+      // !formData.phone ||
       !formData.password
     ) {
       setError("All fields are required");
       return;
     }
 
-    if (formData.phone.length < 10) {
-      setError("Enter a valid 10-digit phone number");
-      return;
-    }
+    // if (formData.phone.length < 10) {
+    //   setError("Enter a valid 10-digit phone number");
+    //   return;
+    // }
 
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
+    // if (formData.password.length < 6) {
+    //   setError("Password must be at least 6 characters");
+    //   return;
+    // }
 
     setStep("processing");
 
