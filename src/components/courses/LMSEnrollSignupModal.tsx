@@ -176,6 +176,7 @@ export default function LmsEnrollSignupModal({
       });
 
       const accessToken = signupRes.data?.data?.accessToken;
+      console.log("accessToken", accessToken);
 
       if (!accessToken) {
         throw new Error("Authentication failed");
@@ -184,9 +185,17 @@ export default function LmsEnrollSignupModal({
       localStorage.setItem("lms_token", accessToken);
 
       // Send phone OTP directly
-      await api.post("/auth/send-phone-verification", {
-        phone: formData.phone,
-      });
+      await api.post(
+        "/auth/send-phone-verification",
+        {
+          phone: formData.phone,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
       setStep("verify-phone");
     } catch (err: any) {
