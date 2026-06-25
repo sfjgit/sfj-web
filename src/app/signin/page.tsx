@@ -136,6 +136,8 @@ export default function SigninPage() {
   const [phone, setPhone] = useState("");
   const [accessToken, setLocalAccessToken] = useState("");
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [otpCooldown, setOtpCooldown] = useState(0);
+  const [isResendingOtp, setIsResendingOtp] = useState(false);
 
   const {
     register,
@@ -273,6 +275,46 @@ export default function SigninPage() {
       toast.error(err.response?.data?.message || "OTP verification failed");
     } finally {
       setIsVerifyingOtp(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (otpCooldown > 0 || !phone || !accessToken) return;
+
+    try {
+      setIsResendingOtp(true);
+
+      await axios.post(
+        "/auth/send-phone-verification",
+        {
+          phone,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+
+      toast.success("OTP resent to WhatsApp");
+
+      setOtpCooldown(60);
+
+      const interval = setInterval(() => {
+        setOtpCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err: any) {
+      toast.error(
+        err.response?.data?.message || "Couldn't resend OTP. Please try again.",
+      );
+    } finally {
+      setIsResendingOtp(false);
     }
   };
 
@@ -461,6 +503,19 @@ export default function SigninPage() {
                   >
                     {isVerifyingOtp ? "Verifying..." : "Verify & Continue"}
                   </Button>
+
+                  <button
+                    type="button"
+                    onClick={handleResendOtp}
+                    disabled={otpCooldown > 0 || isResendingOtp}
+                    className="w-full text-sm text-blue-600 disabled:text-gray-400"
+                  >
+                    {isResendingOtp
+                      ? "Sending..."
+                      : otpCooldown > 0
+                        ? `Resend in ${otpCooldown}s`
+                        : "Resend Code"}
+                  </button>
 
                   <Button
                     variant="outline"
