@@ -33,7 +33,7 @@ interface LmsEnrollModalProps {
   onSwitchToSignup: () => void;
 }
 
-type Step = "register" | "processing" | "success" | "error";
+type Step = "register" | "verify-phone" | "processing" | "success" | "error";
 
 // const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;--------------
 
@@ -46,6 +46,9 @@ export default function LmsEnrollModal({
 }: LmsEnrollModalProps) {
   const [step, setStep] = useState<Step>("register");
   const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [pendingUser, setPendingUser] = useState<any>(null);
+  const [pendingToken, setPendingToken] = useState("");
   const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -131,15 +134,12 @@ export default function LmsEnrollModal({
             },
           );
 
-          setError(
-            "Your phone number is not verified. OTP has been sent to WhatsApp.",
-          );
+          toast.success("OTP sent to WhatsApp");
 
-          // Navigate to verification page/modal
-          // Example:
-          // setStep("verify-phone");
+          setPendingUser(user);
+          setPendingToken(accessToken);
 
-          setStep("register");
+          setStep("verify-phone");
           return;
         } catch (err: any) {
           setError(
@@ -203,6 +203,64 @@ export default function LmsEnrollModal({
       );
 
       setStep("register");
+    }
+  };
+
+  const initiatePayment = async (courseId: string, planId: string) => {
+    const paymentRes = await api.post(
+      `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
+      {
+        courseId,
+        pricingPlanId: planId,
+      },
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // },
+    );
+
+    const paymentData = paymentRes.data;
+
+    if (!paymentData.success) {
+      throw new Error(paymentData.error);
+    }
+
+    if (paymentData.data.type === "free") {
+      setStep("success");
+      return;
+    }
+
+    window.location.href = paymentData.data.paymentUrl;
+  };
+
+  const handleVerifyPhone = async () => {
+    try {
+      setStep("processing");
+
+      await api.post(
+        "/auth/verify-phone",
+        {
+          phone: pendingUser.phone,
+          otp,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${pendingToken}`,
+          },
+        },
+      );
+
+      toast.success("Phone verified");
+
+      localStorage.setItem("lms_token", pendingToken);
+      localStorage.setItem("lms_pending_course", course.slug);
+
+      await initiatePayment(course.id, plan.id);
+    } catch (err: any) {
+      setError(err.response?.data?.message || "OTP verification failed");
+
+      setStep("verify-phone");
     }
   };
 
@@ -395,6 +453,48 @@ export default function LmsEnrollModal({
                 </a>
               </p>
             </form>
+          )}
+
+          {step === "verify-phone" && (
+            <div className="space-y-4">
+              <div>
+                <p className="text-lg font-semibold text-gray-900">
+                  Verify Phone
+                </p>
+
+                <p className="text-sm text-gray-500">OTP sent to WhatsApp</p>
+              </div>
+
+              {error && (
+                <div className="p-3 bg-red-50 rounded-xl text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <input
+                type="text"
+                value={otp}
+                maxLength={6}
+                onChange={(e) => setOtp(e.target.value)}
+                placeholder="Enter OTP"
+                className="w-full border rounded-xl px-3 py-3 text-black"
+              />
+
+              <button
+                onClick={handleVerifyPhone}
+                disabled={otp.length < 4}
+                className="w-full py-3 bg-blue-600 text-white rounded-xl"
+              >
+                Verify OTP
+              </button>
+
+              <button
+                onClick={() => setStep("register")}
+                className="w-full text-sm text-gray-500"
+              >
+                Back
+              </button>
+            </div>
           )}
 
           {/* STEP: Processing */}

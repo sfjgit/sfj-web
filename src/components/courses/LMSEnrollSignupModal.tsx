@@ -14,6 +14,7 @@ import {
 // import axios from "axios";
 import { toast } from "sonner";
 import { useAxios } from "@/hooks/useAxios";
+import env from "@/config/env";
 
 interface LmsEnrollModalProps {
   isOpen: boolean;
@@ -249,19 +250,95 @@ export default function LmsEnrollSignupModal({
   //   }
   // };
 
+  // const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setPhoneOtpError("");
+
+  //   try {
+  //     await api.post("/auth/verify-phone", {
+  //       phone: formData.phone,
+  //       otp: phoneOtpCode,
+  //     });
+
+  //     setStep("success");
+  //   } catch (err: any) {
+  //     setPhoneOtpError(err.response?.data?.message || "Verification failed");
+  //   }
+  // };
   const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setPhoneOtpError("");
 
     try {
+      // Verify phone
       await api.post("/auth/verify-phone", {
         phone: formData.phone,
         otp: phoneOtpCode,
       });
 
-      setStep("success");
+      const accessToken = localStorage.getItem("lms_token");
+
+      if (!accessToken) {
+        throw new Error("Authentication expired");
+      }
+
+      // FREE COURSE
+      if (isFree) {
+        setStep("success");
+        return;
+      }
+
+      // PAID COURSE → initiate payment
+      setStep("processing");
+
+      const paymentRes = await api.post(
+        `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
+        {
+          courseId: course.id,
+          pricingPlanId: plan.id,
+        },
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // },
+      );
+
+      const paymentData = paymentRes.data;
+
+      if (!paymentData.success) {
+        setError(paymentData.error || "Payment initiation failed");
+        setStep("error");
+        return;
+      }
+
+      // Already enrolled
+      if (paymentData.error === "Already enrolled in this course") {
+        setStep("success");
+        return;
+      }
+
+      // FREE returned from backend
+      if (paymentData.data?.type === "free") {
+        setStep("success");
+        return;
+      }
+
+      // Redirect to PhonePe
+      if (paymentData.data?.paymentUrl) {
+        window.location.href = paymentData.data.paymentUrl;
+        return;
+      }
+
+      setError("Invalid payment response");
+      setStep("error");
     } catch (err: any) {
-      setPhoneOtpError(err.response?.data?.message || "Verification failed");
+      console.log(err);
+
+      setPhoneOtpError(
+        err.response?.data?.message ||
+          "Phone verification failed. Please try again.",
+      );
     }
   };
   const handleResendPhoneOtp = async () => {
