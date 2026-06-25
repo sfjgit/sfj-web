@@ -50,6 +50,8 @@ export default function LmsEnrollModal({
   const [pendingUser, setPendingUser] = useState<any>(null);
   const [pendingToken, setPendingToken] = useState("");
   const [error, setError] = useState("");
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [resending, setResending] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -265,6 +267,48 @@ export default function LmsEnrollModal({
       setError(err.response?.data?.message || "OTP verification failed");
 
       setStep("verify-phone");
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendCooldown > 0 || !pendingUser) return;
+
+    try {
+      setResending(true);
+      setError("");
+
+      await api.post(
+        "/auth/send-phone-verification",
+        {
+          phone: pendingUser.phone,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${pendingToken}`,
+          },
+        },
+      );
+
+      toast.success("OTP resent via WhatsApp");
+
+      setResendCooldown(60);
+
+      const interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || "Couldn't resend OTP. Please try again.",
+      );
+    } finally {
+      setResending(false);
     }
   };
 
@@ -490,6 +534,19 @@ export default function LmsEnrollModal({
                 className="w-full py-3 bg-blue-600 text-white rounded-xl"
               >
                 Verify OTP
+              </button>
+
+              <button
+                type="button"
+                onClick={handleResendOtp}
+                disabled={resendCooldown > 0 || resending}
+                className="w-full text-sm text-blue-600 disabled:text-gray-400"
+              >
+                {resending
+                  ? "Sending..."
+                  : resendCooldown > 0
+                    ? `Resend in ${resendCooldown}s`
+                    : "Resend Code"}
               </button>
 
               <button

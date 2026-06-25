@@ -344,9 +344,23 @@ export default function LmsEnrollSignupModal({
   const handleResendPhoneOtp = async () => {
     if (phoneResendCooldown > 0) return;
     try {
-      await api.post("/auth/send-phone-verification", {
-        phone: formData.phone,
-      });
+      const accessToken = localStorage.getItem("lms_token");
+
+      if (!accessToken) {
+        setPhoneOtpError("Session expired. Please signup again.");
+        return;
+      }
+      await api.post(
+        "/auth/send-phone-verification",
+        {
+          phone: formData.phone,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
       toast.success("Code resent via WhatsApp");
       setPhoneResendCooldown(60);
       const interval = setInterval(() => {
