@@ -145,20 +145,62 @@ export default function LmsEnrollCard({
 
   // const router = useRouter();
 
+  // const handleBuyNow = async () => {
+  //   try {
+  //     if (!lowestPlan) return;
+
+  //     await axios.post(`${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`, {
+  //       courseId: course.id,
+  //       pricingPlanId: lowestPlan.id,
+  //     });
+
+  //     // optional redirect if api returns payment url
+  //     // window.location.href = response.data.paymentUrl;
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Unable to initiate payment");
+  //   }
+  // };
   const handleBuyNow = async () => {
     try {
       if (!lowestPlan) return;
 
-      await axios.post(`${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`, {
-        courseId: course.id,
-        pricingPlanId: lowestPlan.id,
-      });
+      const response = await axios.post(
+        `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
+        {
+          courseId: course.id,
+          pricingPlanId: lowestPlan.id,
+        },
+      );
 
-      // optional redirect if api returns payment url
-      // window.location.href = response.data.paymentUrl;
-    } catch (error) {
+      const paymentData = response.data;
+
+      console.log("paymentData", paymentData);
+
+      if (!paymentData.success) {
+        toast.error(paymentData.error || "Unable to initiate payment");
+        return;
+      }
+
+      // Free course
+      if (paymentData.data?.type === "free") {
+        window.location.href = `/lms/dashboard`;
+        return;
+      }
+
+      // Redirect to payment gateway
+      if (paymentData.data?.paymentUrl) {
+        window.location.href = paymentData.data.paymentUrl;
+        return;
+      }
+
+      toast.error("Payment URL not received");
+    } catch (error: any) {
       console.error(error);
-      toast.error("Unable to initiate payment");
+
+      toast.error(
+        error?.response?.data?.message || "Unable to initiate payment",
+      );
     }
   };
 
