@@ -101,10 +101,14 @@ export default function LmsEnrollModal({
 
         authData = loginRes.data;
       } catch (signupError: any) {
-        setError(
-          signupError.response?.data?.message ||
-            "Signin failed. Please try again.",
-        );
+        if (signupError.response?.data?.message === "User not found") {
+          setError("User not found. Please signup.");
+        } else {
+          setError(
+            signupError.response?.data?.message ||
+              "Signin failed. Please try again.",
+          );
+        }
         setStep("register");
         return;
       }
