@@ -111,6 +111,8 @@ export default function LmsEnrollCard({
   >(lowestPlan);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [checkingEnrollment, setCheckingEnrollment] = useState(false);
   const axios = useAxios();
 
   const openModal = (
@@ -124,16 +126,53 @@ export default function LmsEnrollCard({
     setModalOpen(true);
   };
 
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     await rehydrateAuth();
+  //     setIsLoggedIn(!!getAccessToken());
+  //   };
+
+  //   checkAuth();
+
+  //   const handleAuthChange = () => {
+  //     setIsLoggedIn(!!getAccessToken());
+  //   };
+
+  //   window.addEventListener("auth-changed", handleAuthChange);
+
+  //   return () => {
+  //     window.removeEventListener("auth-changed", handleAuthChange);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuthAndEnrollment = async () => {
       await rehydrateAuth();
-      setIsLoggedIn(!!getAccessToken());
+
+      const loggedIn = !!getAccessToken();
+      setIsLoggedIn(loggedIn);
+
+      if (!loggedIn) return;
+
+      try {
+        setCheckingEnrollment(true);
+
+        const response = await axios.get(
+          `${env.NEXT_PUBLIC_LMS_COURSE_URL}/courses/${course.id}/check-enrollment`,
+        );
+
+        setIsEnrolled(response.data.data);
+      } catch (error) {
+        console.error("Enrollment check failed", error);
+      } finally {
+        setCheckingEnrollment(false);
+      }
     };
 
-    checkAuth();
+    checkAuthAndEnrollment();
 
     const handleAuthChange = () => {
-      setIsLoggedIn(!!getAccessToken());
+      checkAuthAndEnrollment();
     };
 
     window.addEventListener("auth-changed", handleAuthChange);
@@ -314,7 +353,7 @@ export default function LmsEnrollCard({
             {isLoggedIn ? "Buy Now" : "Enroll Now"}
           </button> */}
 
-          <button
+          {/* <button
             onClick={() => {
               if (isLoggedIn) {
                 handleBuyNow(); // only initiate api
@@ -325,6 +364,34 @@ export default function LmsEnrollCard({
             className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
           >
             {isLoggedIn ? "Buy Now" : "Enroll Now"}
+          </button> */}
+
+          <button
+            disabled={checkingEnrollment || isEnrolled}
+            onClick={() => {
+              if (!isLoggedIn) {
+                openModal(lowestPlan);
+                return;
+              }
+
+              if (!isEnrolled) {
+                handleBuyNow();
+              }
+            }}
+            className={`w-full py-3 px-4 text-white font-semibold text-sm rounded-xl transition-colors
+    ${
+      isEnrolled
+        ? "bg-green-600 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700"
+    }`}
+          >
+            {checkingEnrollment
+              ? "Checking..."
+              : !isLoggedIn
+                ? "Enroll Now"
+                : isEnrolled
+                  ? "Paid"
+                  : "Buy Now"}
           </button>
 
           {/* <SigninModal open={open} onOpenChange={setOpen} /> */}
