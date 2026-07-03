@@ -47,8 +47,6 @@ export default function SigninForm({ onSuccess }: { onSuccess?: () => void }) {
 
       toast.success("Welcome back! 🎉");
 
-      window.dispatchEvent(new Event("auth-changed"));
-
       // ✅ close modal instead of redirect
       onSuccess?.();
 

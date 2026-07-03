@@ -347,7 +347,7 @@ function EnrolledCourseCard({ enrollment }: { enrollment: Enrollment }) {
       }
 
       // 🔥 Step 2: construct SSO URL
-      const ssoUrl = `https://learn.bskilling.com/new-sso?refreshToken=${refreshToken}&enrollmentId=${enrollment.id}&courseId=${enrollment.courseId}`;
+      const ssoUrl = `https://test-learner.bskilling.com/new-sso?refreshToken=${refreshToken}&enrollmentId=${enrollment.id}&courseId=${enrollment.courseId}`;
 
       // 🔥 Step 3: open in new tab
       window.open(ssoUrl, "_blank", "noopener,noreferrer");

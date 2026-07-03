@@ -492,12 +492,6 @@ const Navigation = () => {
     };
 
     initAuth();
-
-    window.addEventListener("auth-changed", initAuth);
-
-    return () => {
-      window.removeEventListener("auth-changed", initAuth);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -593,11 +587,11 @@ const Navigation = () => {
         },
       ],
     },
-    // {
-    //   path: "/courses",
-    //   label: "Courses",
-    //   hasChildren: false,
-    // },
+    {
+      path: "/courses",
+      label: "Courses",
+      hasChildren: false,
+    },
     {
       path: "/industries",
       label: "Industries",
@@ -952,7 +946,7 @@ const Navigation = () => {
                 >
                   Sign In
                 </Button>
-                <Button
+                {/* <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
                     router.push("/contact");
@@ -960,7 +954,7 @@ const Navigation = () => {
                   }}
                 >
                   Contact Us
-                </Button>
+                </Button> */}
               </div>
             )}
           </div>

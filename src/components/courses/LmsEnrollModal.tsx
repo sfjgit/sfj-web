@@ -13,7 +13,6 @@ import {
 import env from "@/config/env";
 import axios from "axios";
 import { toast } from "sonner";
-import { useAxios } from "@/hooks/useAxios";
 
 interface LmsEnrollModalProps {
   isOpen: boolean;
@@ -30,28 +29,21 @@ interface LmsEnrollModalProps {
     currency: string;
     originalPrice: number | null;
   };
-  onSwitchToSignup: () => void;
 }
 
-type Step = "register" | "verify-phone" | "processing" | "success" | "error";
+type Step = "register" | "processing" | "success" | "error";
 
-// const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;--------------
+const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;
 
 export default function LmsEnrollModal({
   isOpen,
   onClose,
-  onSwitchToSignup,
   course,
   plan,
 }: LmsEnrollModalProps) {
   const [step, setStep] = useState<Step>("register");
   const [showPassword, setShowPassword] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [pendingUser, setPendingUser] = useState<any>(null);
-  const [pendingToken, setPendingToken] = useState("");
   const [error, setError] = useState("");
-  const [resendCooldown, setResendCooldown] = useState(0);
-  const [resending, setResending] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -59,8 +51,6 @@ export default function LmsEnrollModal({
     phone: "",
     password: "",
   });
-
-  const api = useAxios();
 
   if (!isOpen) return null;
 
@@ -73,9 +63,232 @@ export default function LmsEnrollModal({
       maximumFractionDigits: 0,
     }).format(amount);
 
+  //   const handleSubmit = async (e: React.FormEvent) => {
+  //     e.preventDefault();
+  //     setError("");
+
+  //     if (
+  //       !formData.name ||
+  //       !formData.email ||
+  //       !formData.phone ||
+  //       !formData.password
+  //     ) {
+  //       setError("All fields are required");
+  //       return;
+  //     }
+  //     if (formData.phone.length < 10) {
+  //       setError("Enter a valid 10-digit phone number");
+  //       return;
+  //     }
+  //     if (formData.password.length < 6) {
+  //       setError("Password must be at least 6 characters");
+  //       return;
+  //     }
+
+  //     setStep("processing");
+
+  //     try {
+  //       //   const res = await fetch(`${LMS_URL}/payments/initiate`, {
+  //       //     method: "POST",
+  //       //     headers: { "Content-Type": "application/json" },
+  //       //     body: JSON.stringify({
+  //       //       courseId: course.id,
+  //       //       pricingPlanId: plan.id,
+  //       //       name: formData.name,
+  //       //       email: formData.email,
+  //       //       phone: formData.phone,
+  //       //       password: formData.password,
+  //       //     }),
+  //       //   });
+  //       const res = await fetch(`${LMS_URL}/user/auth/signup`, {
+  //         method: "POST",
+  //         body: JSON.stringify({
+  //           name: formData.name,
+  //           email: formData.email,
+  //           phone: formData.phone,
+  //           password: formData.password,
+  //         }),
+  //       });
+
+  //       const data = await res.json();
+
+  //       if (!res.ok || !data.success) {
+  //         setError(data.error || "Something went wrong. Please try again.");
+  //         setStep("register");
+  //         return;
+  //       }
+
+  //       // Store JWT for after payment return
+  //       if (data.data.token) {
+  //         localStorage.setItem("lms_token", data.data.token);
+  //         localStorage.setItem("lms_pending_course", course.slug);
+  //       }
+
+  //       if (data.data.type === "free") {
+  //         // Free course — enrolled immediately
+  //         setStep("success");
+  //         return;
+  //       }
+
+  //       // Paid course — redirect to PhonePe
+  //       window.location.href = data.data.paymentUrl;
+  //     } catch (err) {
+  //       console.error(err);
+  //       setError("Network error. Please check your connection and try again.");
+  //       setStep("register");
+  //     }
+  //   };
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   if (
+  //     !formData.name ||
+  //     !formData.email ||
+  //     !formData.phone ||
+  //     !formData.password
+  //   ) {
+  //     setError("All fields are required");
+  //     return;
+  //   }
+  //   if (formData.phone.length < 10) {
+  //     setError("Enter a valid 10-digit phone number");
+  //     return;
+  //   }
+  //   if (formData.password.length < 6) {
+  //     setError("Password must be at least 6 characters");
+  //     return;
+  //   }
+
+  //   setStep("processing");
+
+  //   try {
+  //     // ── Step 1: Signup ────────────────────────────────────────────────────
+  //     const signupRes = await fetch(`${LMS_URL}/user/auth/signup`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         name: formData.name,
+  //         email: formData.email,
+  //         phone: formData.phone,
+  //         password: formData.password,
+  //       }),
+  //     });
+
+  //     const signupData = await signupRes.json();
+  //     console.log("signupData", signupData);
+
+  //     // If user already exists, try login instead
+  //     if (!signupRes.ok && signupData.code === "USER_EXISTS") {
+  //       const loginRes = await fetch(`${LMS_URL}/user/auth/sigin`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           includeCredentials: "true",
+  //         },
+  //         body: JSON.stringify({
+  //           email: formData.email,
+  //           password: formData.password,
+  //         }),
+  //       });
+
+  //       const loginData = await loginRes.json();
+
+  //       if (!loginRes.ok || !loginData.success) {
+  //         setError(
+  //           "An account with this email already exists. Please check your password.",
+  //         );
+  //         setStep("register");
+  //         return;
+  //       }
+
+  //       // Use login token instead
+  //       signupData.data = loginData.data;
+  //     } else if (!signupRes.ok || !signupData.success) {
+  //       setError(signupData.message || "Signup failed. Please try again.");
+  //       setStep("register");
+  //       return;
+  //     }
+
+  //     const accessToken = signupData.data?.accessToken;
+  //     console.log("accessToken", accessToken);
+  //     if (!accessToken) {
+  //       setError("Authentication failed. Please try again.");
+  //       setStep("register");
+  //       return;
+  //     }
+
+  //     // Store token
+  //     localStorage.setItem("lms_token", accessToken);
+  //     localStorage.setItem("lms_pending_course", course.slug);
+
+  //     // ── Step 2: Initiate payment ──────────────────────────────────────────
+  //     const paymentRes = await fetch(
+  //       `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${accessToken}`,
+  //           includeCredentials: "true",
+  //         },
+  //         body: JSON.stringify({
+  //           courseId: course.id,
+  //           pricingPlanId: plan.id,
+  //         }),
+  //       },
+  //     );
+
+  //     const paymentData = await paymentRes.json();
+
+  //     if (!paymentRes.ok || !paymentData.success) {
+  //       if (paymentData.error === "Already enrolled in this course") {
+  //         setStep("success");
+  //         return;
+  //       }
+  //       setError(paymentData.error || "Payment initiation failed.");
+  //       setStep("register");
+  //       return;
+  //     }
+
+  //     if (paymentData.data.type === "free") {
+  //       setStep("success");
+  //       return;
+  //     }
+
+  //     // Redirect to PhonePe payment page
+  //     window.location.href = paymentData.data.paymentUrl;
+  //   } catch (err) {
+  //     console.error(err);
+  //     setError("Network error. Please check your connection and try again.");
+  //     setStep("register");
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.password
+    ) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (formData.phone.length < 10) {
+      setError("Enter a valid 10-digit phone number");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
 
     setStep("processing");
 
@@ -84,10 +297,12 @@ export default function LmsEnrollModal({
       let authData: any;
 
       try {
-        const loginRes = await axios.post(
-          `/auth/signin`,
+        const signupRes = await axios.post(
+          `${LMS_URL}/user/auth/signup`,
           {
+            name: formData.name,
             email: formData.email,
+            phone: formData.phone,
             password: formData.password,
           },
           {
@@ -97,25 +312,42 @@ export default function LmsEnrollModal({
             withCredentials: true,
           },
         );
-        toast.success("Logged in successfully.");
-        window.dispatchEvent(new Event("auth-changed"));
-        console.log("loginRes", loginRes.data);
+        console.log("signupRes", signupRes.data);
 
-        authData = loginRes.data;
+        authData = signupRes.data;
       } catch (signupError: any) {
-        if (signupError.response?.data?.message === "User not found") {
-          setError("User not found. Please signup.");
+        // If user already exists → login instead
+        if (signupError.response?.data?.code === "USER_EXISTS") {
+          toast.success(
+            "An account with this email already exists. Logging you in...",
+          );
+          const loginRes = await axios.post(
+            `${LMS_URL}/user/auth/signin`,
+            {
+              email: formData.email,
+              password: formData.password,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
+            },
+          );
+          toast.success("Logged in successfully.");
+          console.log("loginRes", loginRes.data);
+
+          authData = loginRes.data;
         } else {
           setError(
             signupError.response?.data?.message ||
-              "Signin failed. Please try again.",
+              "Signup failed. Please try again.",
           );
+          setStep("register");
+          return;
         }
-        setStep("register");
-        return;
       }
 
-      const user = authData.data?.user;
       const accessToken = authData.data?.accessToken;
 
       console.log("accessToken", accessToken);
@@ -126,56 +358,24 @@ export default function LmsEnrollModal({
         return;
       }
 
-      if (!user.phoneVerified) {
-        try {
-          await api.post(
-            "/auth/send-phone-verification",
-            {
-              phone: user.phone,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            },
-          );
-
-          toast.success("OTP sent to WhatsApp");
-
-          setPendingUser(user);
-          setPendingToken(accessToken);
-
-          setStep("verify-phone");
-          return;
-        } catch (err: any) {
-          setError(
-            err.response?.data?.message ||
-              "Failed to send phone verification OTP",
-          );
-
-          setStep("register");
-          return;
-        }
-      }
-
       // Store token
       localStorage.setItem("lms_token", accessToken);
       localStorage.setItem("lms_pending_course", course.slug);
 
       // ── Step 2: Initiate Payment ──────────────────────────────────
-      const paymentRes = await api.post(
+      const paymentRes = await axios.post(
         `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
         {
           courseId: course.id,
           pricingPlanId: plan.id,
         },
-        // {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Bearer ${accessToken}`,
-        //   },
-        //   withCredentials: true,
-        // },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          withCredentials: true,
+        },
       );
 
       console.log("paymentRes", paymentRes.data);
@@ -212,106 +412,6 @@ export default function LmsEnrollModal({
     }
   };
 
-  const initiatePayment = async (courseId: string, planId: string) => {
-    const paymentRes = await api.post(
-      `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
-      {
-        courseId,
-        pricingPlanId: planId,
-      },
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // },
-    );
-
-    const paymentData = paymentRes.data;
-
-    if (!paymentData.success) {
-      throw new Error(paymentData.error);
-    }
-
-    if (paymentData.data.type === "free") {
-      setStep("success");
-      return;
-    }
-
-    window.location.href = paymentData.data.paymentUrl;
-  };
-
-  const handleVerifyPhone = async () => {
-    try {
-      setStep("processing");
-
-      await api.post(
-        "/auth/verify-phone",
-        {
-          phone: pendingUser.phone,
-          otp,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${pendingToken}`,
-          },
-        },
-      );
-
-      toast.success("Phone verified");
-
-      localStorage.setItem("lms_token", pendingToken);
-      localStorage.setItem("lms_pending_course", course.slug);
-
-      await initiatePayment(course.id, plan.id);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "OTP verification failed");
-
-      setStep("verify-phone");
-    }
-  };
-
-  const handleResendOtp = async () => {
-    if (resendCooldown > 0 || !pendingUser) return;
-
-    try {
-      setResending(true);
-      setError("");
-
-      await api.post(
-        "/auth/send-phone-verification",
-        {
-          phone: pendingUser.phone,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${pendingToken}`,
-          },
-        },
-      );
-
-      toast.success("OTP resent via WhatsApp");
-
-      setResendCooldown(60);
-
-      const interval = setInterval(() => {
-        setResendCooldown((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            return 0;
-          }
-
-          return prev - 1;
-        });
-      }, 1000);
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message || "Couldn't resend OTP. Please try again.",
-      );
-    } finally {
-      setResending(false);
-    }
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -327,6 +427,7 @@ export default function LmsEnrollModal({
           <div className="flex items-start justify-between">
             <div className="flex-1 min-w-0 pr-4">
               <p className="text-xs text-gray-400 mb-1">Enrolling in</p>
+
               <h2 className="font-bold text-base leading-snug line-clamp-2">
                 {course.title}
               </h2>
@@ -362,12 +463,12 @@ export default function LmsEnrollModal({
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <p className="text-sm font-semibold text-gray-900 mb-1">
-                  Login with your account to continue
+                  Create your account to continue
                 </p>
-                {/* <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500">
                   Already have an account? Your details will be matched
                   automatically.
-                </p> */}
+                </p>
               </div>
 
               {error && (
@@ -378,7 +479,7 @@ export default function LmsEnrollModal({
               )}
 
               <div className="space-y-3">
-                {/* <div>
+                <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Full name
                   </label>
@@ -392,7 +493,7 @@ export default function LmsEnrollModal({
                     placeholder="John Doe"
                     className="w-full text-black px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                </div> */}
+                </div>
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -410,7 +511,7 @@ export default function LmsEnrollModal({
                   />
                 </div>
 
-                {/* <div>
+                <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Phone number
                   </label>
@@ -433,7 +534,7 @@ export default function LmsEnrollModal({
                       className="flex-1 text-black px-3 py-2.5 border border-gray-200 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
-                </div> */}
+                </div>
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -476,19 +577,8 @@ export default function LmsEnrollModal({
                 type="submit"
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors"
               >
-                Sign In
+                Sign Up
               </button>
-
-              <div className="text-center text-sm text-gray-500">
-                Don&apos;t have an account?{" "}
-                <button
-                  type="button"
-                  onClick={onSwitchToSignup}
-                  className="text-blue-600 hover:underline font-medium"
-                >
-                  Sign up
-                </button>
-              </div>
 
               <p className="text-center text-xs text-gray-400">
                 By continuing you agree to our{" "}
@@ -501,61 +591,6 @@ export default function LmsEnrollModal({
                 </a>
               </p>
             </form>
-          )}
-
-          {step === "verify-phone" && (
-            <div className="space-y-4">
-              <div>
-                <p className="text-lg font-semibold text-gray-900">
-                  Verify Phone
-                </p>
-
-                <p className="text-sm text-gray-500">OTP sent to WhatsApp</p>
-              </div>
-
-              {error && (
-                <div className="p-3 bg-red-50 rounded-xl text-red-600 text-sm">
-                  {error}
-                </div>
-              )}
-
-              <input
-                type="text"
-                value={otp}
-                maxLength={6}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP"
-                className="w-full border rounded-xl px-3 py-3 text-black"
-              />
-
-              <button
-                onClick={handleVerifyPhone}
-                disabled={otp.length < 4}
-                className="w-full py-3 bg-blue-600 text-white rounded-xl"
-              >
-                Verify OTP
-              </button>
-
-              <button
-                type="button"
-                onClick={handleResendOtp}
-                disabled={resendCooldown > 0 || resending}
-                className="w-full text-sm text-blue-600 disabled:text-gray-400"
-              >
-                {resending
-                  ? "Sending..."
-                  : resendCooldown > 0
-                    ? `Resend in ${resendCooldown}s`
-                    : "Resend Code"}
-              </button>
-
-              <button
-                onClick={() => setStep("register")}
-                className="w-full text-sm text-gray-500"
-              >
-                Back
-              </button>
-            </div>
           )}
 
           {/* STEP: Processing */}
@@ -589,6 +624,7 @@ export default function LmsEnrollModal({
                 <p className="font-bold text-gray-900 text-lg">
                   You&apos;re enrolled!
                 </p>
+
                 <p className="text-sm text-gray-500 mt-1">
                   You can now access {course.title}
                 </p>

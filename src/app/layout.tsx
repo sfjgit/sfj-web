@@ -2,7 +2,6 @@ import "./globals.css";
 import { Metadata } from "next";
 import ClientProvider from "./_components/ClientProvider";
 import Script from "next/script";
-import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title:
@@ -195,7 +194,6 @@ export default function RootLayout({
         ></div> */}
 
         <ClientProvider>{children}</ClientProvider>
-        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

@@ -131,13 +131,6 @@ export default function SigninPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [showPhoneVerification, setShowPhoneVerification] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [phone, setPhone] = useState("");
-  const [accessToken, setLocalAccessToken] = useState("");
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
-  const [otpCooldown, setOtpCooldown] = useState(0);
-  const [isResendingOtp, setIsResendingOtp] = useState(false);
 
   const {
     register,
@@ -148,45 +141,6 @@ export default function SigninPage() {
     resolver: zodResolver(signinSchema),
   });
 
-  // const onSubmit = async (data: SigninFormData) => {
-  //   try {
-  //     const response = await axios.post("/auth/signin", {
-  //       email: data.email,
-  //       password: data.password,
-  //     });
-
-  //     const accessToken = response.data?.data?.accessToken;
-  //     if (accessToken) {
-  //       setAccessToken(accessToken);
-  //       console.log(
-  //         "✅ Access token stored:",
-  //         accessToken.substring(0, 20) + "...",
-  //       );
-  //     } else {
-  //       throw new Error("No access token in response");
-  //     }
-
-  //     router.push("/lms/dashboard");
-  //     toast.success("Welcome back! Successfully signed in! 🎉");
-  //   } catch (error: any) {
-  //     console.log(error);
-
-  //     // Get the ENTIRE error response and save it
-  //     const fullErrorResponse = JSON.stringify(
-  //       error.response?.data || error,
-  //       null,
-  //       2,
-  //     );
-  //     setErrorMessage(fullErrorResponse);
-
-  //     const errorMsg =
-  //       error.response?.data?.message ||
-  //       "Invalid credentials. Please try again.";
-  //     toast.error(errorMsg);
-  //     setError("root", { message: errorMsg });
-  //   }
-  // };
-
   const onSubmit = async (data: SigninFormData) => {
     try {
       const response = await axios.post("/auth/signin", {
@@ -194,127 +148,35 @@ export default function SigninPage() {
         password: data.password,
       });
 
-      const user = response.data?.data?.user;
-      const token = response.data?.data?.accessToken;
-
-      if (!token) {
+      const accessToken = response.data?.data?.accessToken;
+      if (accessToken) {
+        setAccessToken(accessToken);
+        console.log(
+          "✅ Access token stored:",
+          accessToken.substring(0, 20) + "...",
+        );
+      } else {
         throw new Error("No access token in response");
       }
 
-      // PHONE NOT VERIFIED
-      if (!user.phoneVerified) {
-        await axios.post(
-          "/auth/send-phone-verification",
-          {
-            phone: user.phone,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        setPhone(user.phone);
-        setLocalAccessToken(token);
-        setShowPhoneVerification(true);
-
-        toast.success("OTP sent to your WhatsApp");
-        return;
-      }
-
-      setAccessToken(token);
-
       router.push("/lms/dashboard");
-
-      toast.success("Welcome back! Successfully signed in 🎉");
+      toast.success("Welcome back! Successfully signed in! 🎉");
     } catch (error: any) {
+      console.log(error);
+
+      // Get the ENTIRE error response and save it
       const fullErrorResponse = JSON.stringify(
         error.response?.data || error,
         null,
         2,
       );
-
       setErrorMessage(fullErrorResponse);
 
       const errorMsg =
         error.response?.data?.message ||
         "Invalid credentials. Please try again.";
-
       toast.error(errorMsg);
-
-      setError("root", {
-        message: errorMsg,
-      });
-    }
-  };
-
-  const verifyPhoneOtp = async () => {
-    try {
-      setIsVerifyingOtp(true);
-
-      await axios.post(
-        "/auth/verify-phone",
-        {
-          phone,
-          otp,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-
-      setAccessToken(accessToken);
-
-      toast.success("Phone verified successfully");
-
-      router.push("/lms/dashboard");
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || "OTP verification failed");
-    } finally {
-      setIsVerifyingOtp(false);
-    }
-  };
-
-  const handleResendOtp = async () => {
-    if (otpCooldown > 0 || !phone || !accessToken) return;
-
-    try {
-      setIsResendingOtp(true);
-
-      await axios.post(
-        "/auth/send-phone-verification",
-        {
-          phone,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-
-      toast.success("OTP resent to WhatsApp");
-
-      setOtpCooldown(60);
-
-      const interval = setInterval(() => {
-        setOtpCooldown((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    } catch (err: any) {
-      toast.error(
-        err.response?.data?.message || "Couldn't resend OTP. Please try again.",
-      );
-    } finally {
-      setIsResendingOtp(false);
+      setError("root", { message: errorMsg });
     }
   };
 
@@ -477,175 +339,124 @@ export default function SigninPage() {
             </CardHeader>
 
             <CardContent className="px-8 pb-8 relative z-10">
-              {showPhoneVerification && (
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <h3 className="text-xl font-semibold">
-                      Verify Phone Number
-                    </h3>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                {errors.root && (
+                  <Alert className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 backdrop-blur-sm">
+                    <AlertDescription className="text-red-800 dark:text-red-200">
+                      {errors.root.message}
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-                    <p className="text-sm text-muted-foreground">
-                      Enter OTP sent to {phone}
-                    </p>
+                <div className="space-y-4">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                    >
+                      Email Address
+                    </label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="you@example.com"
+                      className={`h-12 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 ${
+                        errors.email
+                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                          : ""
+                      }`}
+                      {...register("email")}
+                    />
+                    {errors.email && (
+                      <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                        <AlertCircle className="h-4 w-4" />
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
 
-                  <Input
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    placeholder="Enter OTP"
-                    maxLength={6}
-                  />
-
-                  <Button
-                    onClick={verifyPhoneOtp}
-                    disabled={isVerifyingOtp}
-                    className="w-full"
-                  >
-                    {isVerifyingOtp ? "Verifying..." : "Verify & Continue"}
-                  </Button>
-
-                  <button
-                    type="button"
-                    onClick={handleResendOtp}
-                    disabled={otpCooldown > 0 || isResendingOtp}
-                    className="w-full text-sm text-blue-600 disabled:text-gray-400"
-                  >
-                    {isResendingOtp
-                      ? "Sending..."
-                      : otpCooldown > 0
-                        ? `Resend in ${otpCooldown}s`
-                        : "Resend Code"}
-                  </button>
-
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => setShowPhoneVerification(false)}
-                  >
-                    Back to Sign In
-                  </Button>
-                </div>
-              )}
-              {!showPhoneVerification && (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                  {errors.root && (
-                    <Alert className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950/30 backdrop-blur-sm">
-                      <AlertDescription className="text-red-800 dark:text-red-200">
-                        {errors.root.message}
-                      </AlertDescription>
-                    </Alert>
-                  )}
-
-                  <div className="space-y-4">
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
-                      >
-                        Email Address
-                      </label>
+                  <div>
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                    >
+                      Password
+                    </label>
+                    <div className="relative">
                       <Input
-                        id="email"
-                        type="email"
-                        placeholder="you@example.com"
-                        className={`h-12 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 ${
-                          errors.email
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className={`h-12 pr-12 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 ${
+                          errors.password
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                             : ""
                         }`}
-                        {...register("email")}
+                        {...register("password")}
                       />
-                      {errors.email && (
-                        <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
-                          <AlertCircle className="h-4 w-4" />
-                          {errors.email.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="password"
-                        className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                        onClick={() => setShowPassword(!showPassword)}
                       >
-                        Password
-                      </label>
-                      <div className="relative">
-                        <Input
-                          id="password"
-                          type={showPassword ? "text" : "password"}
-                          placeholder="••••••••"
-                          className={`h-12 pr-12 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-200 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all duration-200 ${
-                            errors.password
-                              ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                              : ""
-                          }`}
-                          {...register("password")}
-                        />
-                        <button
-                          type="button"
-                          className="absolute inset-y-0 right-0 pr-4 flex items-center"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" />
-                          ) : (
-                            <Eye className="h-5 w-5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" />
-                          )}
-                        </button>
-                      </div>
-                      {errors.password && (
-                        <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
-                          <AlertCircle className="h-4 w-4" />
-                          {errors.password.message}
-                        </p>
-                      )}
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" />
+                        ) : (
+                          <Eye className="h-5 w-5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors" />
+                        )}
+                      </button>
                     </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-1">
-                    <div className="flex items-center">
-                      <input
-                        id="remember-me"
-                        type="checkbox"
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-600 rounded transition-all"
-                      />
-                      <label
-                        htmlFor="remember-me"
-                        className="ml-2 block text-sm text-slate-600 dark:text-slate-400"
-                      >
-                        Remember me
-                      </label>
-                    </div>
-                    <div className="text-sm">
-                      <Link
-                        href="/forgot-password"
-                        className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-                      >
-                        Forgot password?
-                      </Link>
-                    </div>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] disabled:scale-100 shadow-lg hover:shadow-xl disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center gap-2">
-                        <Icons.spinner className="h-5 w-5 animate-spin" />
-                        Signing In...
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        Sign In to Dashboard
-                        <Sparkles className="h-4 w-4" />
-                      </div>
+                    {errors.password && (
+                      <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center gap-1">
+                        <AlertCircle className="h-4 w-4" />
+                        {errors.password.message}
+                      </p>
                     )}
-                  </Button>
-                </form>
-              )}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-1">
+                  <div className="flex items-center">
+                    <input
+                      id="remember-me"
+                      type="checkbox"
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 dark:border-slate-600 rounded transition-all"
+                    />
+                    <label
+                      htmlFor="remember-me"
+                      className="ml-2 block text-sm text-slate-600 dark:text-slate-400"
+                    >
+                      Remember me
+                    </label>
+                  </div>
+                  <div className="text-sm">
+                    <Link
+                      href="/forgot-password"
+                      className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] disabled:scale-100 shadow-lg hover:shadow-xl disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <Icons.spinner className="h-5 w-5 animate-spin" />
+                      Signing In...
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      Sign In to Dashboard
+                      <Sparkles className="h-4 w-4" />
+                    </div>
+                  )}
+                </Button>
+              </form>
             </CardContent>
           </Card>
 
