@@ -427,6 +427,7 @@ export default function LmsEnrollModal({
           <div className="flex items-start justify-between">
             <div className="flex-1 min-w-0 pr-4">
               <p className="text-xs text-gray-400 mb-1">Enrolling in</p>
+
               <h2 className="font-bold text-base leading-snug line-clamp-2">
                 {course.title}
               </h2>
@@ -623,6 +624,7 @@ export default function LmsEnrollModal({
                 <p className="font-bold text-gray-900 text-lg">
                   You&apos;re enrolled!
                 </p>
+
                 <p className="text-sm text-gray-500 mt-1">
                   You can now access {course.title}
                 </p>

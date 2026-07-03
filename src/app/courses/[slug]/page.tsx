@@ -1429,10 +1429,11 @@ function LmsCourseDetail({ course }: { course: any }) {
                 </nav>
 
                 {/* Title */}
+                {/*}
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight mb-4">
                   {course.title}
                 </h1>
-
+                */}
                 {/* Description */}
                 {course.description && (
                   <p className="text-gray-300 text-base leading-relaxed mb-6 max-w-2xl">
