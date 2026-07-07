@@ -7,7 +7,7 @@ import React from "react";
 export default function PrivacyPolicy() {
   return (
     <main className="min-h-screen bg-[#0F1117] text-[#E8E9EF] font-sans">
-      {/* Header */}
+      {/* Header---- */}
       <header className="border-b border-[#1E2130] px-6 py-5 flex items-center gap-3">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md bg-[#4F6EF7] flex items-center justify-center">
