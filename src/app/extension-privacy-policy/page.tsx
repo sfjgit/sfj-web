@@ -44,7 +44,7 @@ export default function PrivacyPolicy() {
 
         <hr className="border-[#1E2130] mb-10" />
 
-        {/* Intro */}
+        {/* Intro------ */}
         <Section>
           <p className="text-[#A9AEBE] leading-relaxed">
             The{" "}
