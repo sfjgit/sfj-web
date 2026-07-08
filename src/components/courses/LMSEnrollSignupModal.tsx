@@ -10,14 +10,16 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
-import env from "@/config/env";
-import axios from "axios";
+// import env from "@/config/env";
+// import axios from "axios";
 import { toast } from "sonner";
 import { useAxios } from "@/hooks/useAxios";
+import env from "@/config/env";
 
 interface LmsEnrollModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSwitchToSignin: () => void;
   course: {
     id: string;
     title: string;
@@ -30,28 +32,28 @@ interface LmsEnrollModalProps {
     currency: string;
     originalPrice: number | null;
   };
-  onSwitchToSignup: () => void;
 }
 
-type Step = "register" | "verify-phone" | "processing" | "success" | "error";
+type Step =
+  | "register"
+  | "processing"
+  | "success"
+  | "error"
+  | "verify-email"
+  | "verify-phone";
 
-// const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;--------------
+// const LMS_URL = process.env.NEXT_PUBLIC_LMS_BASE_URL;
 
-export default function LmsEnrollModal({
+export default function LmsEnrollSignupModal({
   isOpen,
   onClose,
-  onSwitchToSignup,
+  onSwitchToSignin,
   course,
   plan,
 }: LmsEnrollModalProps) {
   const [step, setStep] = useState<Step>("register");
   const [showPassword, setShowPassword] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [pendingUser, setPendingUser] = useState<any>(null);
-  const [pendingToken, setPendingToken] = useState("");
   const [error, setError] = useState("");
-  const [resendCooldown, setResendCooldown] = useState(0);
-  const [resending, setResending] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -59,6 +61,14 @@ export default function LmsEnrollModal({
     phone: "",
     password: "",
   });
+
+  // const [otpCode, setOtpCode] = useState("");
+  // const [otpError, setOtpError] = useState("");
+  // const [resendCooldown, setResendCooldown] = useState(0);
+
+  const [phoneOtpCode, setPhoneOtpCode] = useState("");
+  const [phoneOtpError, setPhoneOtpError] = useState("");
+  const [phoneResendCooldown, setPhoneResendCooldown] = useState(0);
 
   const api = useAxios();
 
@@ -73,96 +83,214 @@ export default function LmsEnrollModal({
       maximumFractionDigits: 0,
     }).format(amount);
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   if (
+  //     !formData.name ||
+  //     !formData.email ||
+  //     !formData.phone ||
+  //     !formData.password
+  //   ) {
+  //     setError("All fields are required");
+  //     return;
+  //   }
+
+  //   if (formData.phone.length < 10) {
+  //     setError("Enter valid phone number");
+  //     return;
+  //   }
+
+  //   if (formData.password.length < 6) {
+  //     setError("Password must be at least 6 characters");
+  //     return;
+  //   }
+
+  //   try {
+  //     setStep("processing");
+
+  //     // 1. Signup first
+  //     const signupRes = await api.post("/auth/signup", {
+  //       name: formData.name,
+  //       email: formData.email,
+  //       phone: formData.phone,
+  //       password: formData.password,
+  //     });
+
+  //     const accessToken = signupRes.data?.data?.accessToken;
+
+  //     if (!accessToken) {
+  //       throw new Error("Authentication failed");
+  //     }
+
+  //     localStorage.setItem("lms_token", accessToken);
+
+  //     // 2. Send email OTP
+  //     await api.post("/auth/send-email-verification", {
+  //       email: formData.email,
+  //     });
+
+  //     setStep("verify-email");
+  //   } catch (err: any) {
+  //     setError(
+  //       err.response?.data?.message || "Signup failed. Please try again.",
+  //     );
+
+  //     setStep("register");
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    setStep("processing");
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.password
+    ) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (formData.phone.length < 10) {
+      setError("Enter valid phone number");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
 
     try {
-      // ── Step 1: Signup ─────────────────────────────────────────────
-      let authData: any;
+      setStep("processing");
 
-      try {
-        const loginRes = await axios.post(
-          `/auth/signin`,
-          {
-            email: formData.email,
-            password: formData.password,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          },
-        );
-        toast.success("Logged in successfully.");
-        window.dispatchEvent(new Event("auth-changed"));
-        console.log("loginRes", loginRes.data);
+      // Signup
+      const signupRes = await api.post("/auth/signup", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+      });
 
-        authData = loginRes.data;
-      } catch (signupError: any) {
-        if (signupError.response?.data?.message === "User not found") {
-          setError("User not found. Please signup.");
-        } else {
-          setError(
-            signupError.response?.data?.message ||
-              "Signin failed. Please try again.",
-          );
-        }
-        setStep("register");
-        return;
-      }
-
-      const user = authData.data?.user;
-      const accessToken = authData.data?.accessToken;
-
+      const accessToken = signupRes.data?.data?.accessToken;
       console.log("accessToken", accessToken);
 
       if (!accessToken) {
-        setError("Authentication failed. Please try again.");
-        setStep("register");
+        throw new Error("Authentication failed");
+      }
+
+      localStorage.setItem("lms_token", accessToken);
+
+      // Send phone OTP directly
+      await api.post(
+        "/auth/send-phone-verification",
+        {
+          phone: formData.phone,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+
+      setStep("verify-phone");
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || "Signup failed. Please try again.",
+      );
+
+      setStep("register");
+    }
+  };
+
+  // const handleVerifyOtp = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setOtpError("");
+
+  //   try {
+  //     await api.post("/auth/verify-email", {
+  //       email: formData.email,
+  //       otp: otpCode,
+  //     });
+
+  //     // Trigger phone OTP
+  //     await api.post("/auth/send-phone-verification", {
+  //       phone: formData.phone,
+  //     });
+
+  //     setStep("verify-phone");
+  //   } catch (err: any) {
+  //     setOtpError(err.response?.data?.message || "Verification failed");
+  //   }
+  // };
+  // const handleResendOtp = async () => {
+  //   if (resendCooldown > 0) return;
+  //   try {
+  //     await api.post("/auth/send-email-verification", {
+  //       email: formData.email,
+  //     });
+  //     toast.success("Code resent");
+  //     setResendCooldown(60);
+  //     const interval = setInterval(() => {
+  //       setResendCooldown((c) => {
+  //         if (c <= 1) {
+  //           clearInterval(interval);
+  //           return 0;
+  //         }
+  //         return c - 1;
+  //       });
+  //     }, 1000);
+  //   } catch {
+  //     setOtpError("Couldn't resend code. Please try again shortly.");
+  //   }
+  // };
+
+  // const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setPhoneOtpError("");
+
+  //   try {
+  //     await api.post("/auth/verify-phone", {
+  //       phone: formData.phone,
+  //       otp: phoneOtpCode,
+  //     });
+
+  //     setStep("success");
+  //   } catch (err: any) {
+  //     setPhoneOtpError(err.response?.data?.message || "Verification failed");
+  //   }
+  // };
+  const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPhoneOtpError("");
+
+    try {
+      // Verify phone
+      await api.post("/auth/verify-phone", {
+        phone: formData.phone,
+        otp: phoneOtpCode,
+      });
+
+      const accessToken = localStorage.getItem("lms_token");
+
+      if (!accessToken) {
+        throw new Error("Authentication expired");
+      }
+
+      // FREE COURSE
+      if (isFree) {
+        setStep("success");
         return;
       }
 
-      if (!user.phoneVerified) {
-        try {
-          await api.post(
-            "/auth/send-phone-verification",
-            {
-              phone: user.phone,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            },
-          );
+      // PAID COURSE → initiate payment
+      setStep("processing");
 
-          toast.success("OTP sent to WhatsApp");
-
-          setPendingUser(user);
-          setPendingToken(accessToken);
-
-          setStep("verify-phone");
-          return;
-        } catch (err: any) {
-          setError(
-            err.response?.data?.message ||
-              "Failed to send phone verification OTP",
-          );
-
-          setStep("register");
-          return;
-        }
-      }
-
-      // Store token
-      localStorage.setItem("lms_token", accessToken);
-      localStorage.setItem("lms_pending_course", course.slug);
-
-      // ── Step 2: Initiate Payment ──────────────────────────────────
       const paymentRes = await api.post(
         `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
         {
@@ -171,144 +299,81 @@ export default function LmsEnrollModal({
         },
         // {
         //   headers: {
-        //     "Content-Type": "application/json",
         //     Authorization: `Bearer ${accessToken}`,
         //   },
-        //   withCredentials: true,
         // },
       );
-
-      console.log("paymentRes", paymentRes.data);
 
       const paymentData = paymentRes.data;
 
       if (!paymentData.success) {
-        if (paymentData.error === "Already enrolled in this course") {
-          setStep("success");
-          return;
-        }
-
-        setError(paymentData.error || "Payment initiation failed.");
-        setStep("register");
+        setError(paymentData.error || "Payment initiation failed");
+        setStep("error");
         return;
       }
 
-      if (paymentData.data.type === "free") {
+      // Already enrolled
+      if (paymentData.error === "Already enrolled in this course") {
+        setStep("success");
+        return;
+      }
+
+      // FREE returned from backend
+      if (paymentData.data?.type === "free") {
         setStep("success");
         return;
       }
 
       // Redirect to PhonePe
-      window.location.href = paymentData.data.paymentUrl;
-    } catch (err: any) {
-      console.error(err);
+      if (paymentData.data?.paymentUrl) {
+        window.location.href = paymentData.data.paymentUrl;
+        return;
+      }
 
-      setError(
+      setError("Invalid payment response");
+      setStep("error");
+    } catch (err: any) {
+      console.log(err);
+
+      setPhoneOtpError(
         err.response?.data?.message ||
-          "Network error. Please check your connection and try again.",
+          "Phone verification failed. Please try again.",
       );
-
-      setStep("register");
     }
   };
-
-  const initiatePayment = async (courseId: string, planId: string) => {
-    const paymentRes = await api.post(
-      `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
-      {
-        courseId,
-        pricingPlanId: planId,
-      },
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // },
-    );
-
-    const paymentData = paymentRes.data;
-
-    if (!paymentData.success) {
-      throw new Error(paymentData.error);
-    }
-
-    if (paymentData.data.type === "free") {
-      setStep("success");
-      return;
-    }
-
-    window.location.href = paymentData.data.paymentUrl;
-  };
-
-  const handleVerifyPhone = async () => {
+  const handleResendPhoneOtp = async () => {
+    if (phoneResendCooldown > 0) return;
     try {
-      setStep("processing");
+      const accessToken = localStorage.getItem("lms_token");
 
-      await api.post(
-        "/auth/verify-phone",
-        {
-          phone: pendingUser.phone,
-          otp,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${pendingToken}`,
-          },
-        },
-      );
-
-      toast.success("Phone verified");
-
-      localStorage.setItem("lms_token", pendingToken);
-      localStorage.setItem("lms_pending_course", course.slug);
-
-      await initiatePayment(course.id, plan.id);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "OTP verification failed");
-
-      setStep("verify-phone");
-    }
-  };
-
-  const handleResendOtp = async () => {
-    if (resendCooldown > 0 || !pendingUser) return;
-
-    try {
-      setResending(true);
-      setError("");
-
+      if (!accessToken) {
+        setPhoneOtpError("Session expired. Please signup again.");
+        return;
+      }
       await api.post(
         "/auth/send-phone-verification",
         {
-          phone: pendingUser.phone,
+          phone: formData.phone,
         },
         {
           headers: {
-            Authorization: `Bearer ${pendingToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
-
-      toast.success("OTP resent via WhatsApp");
-
-      setResendCooldown(60);
-
+      toast.success("Code resent via WhatsApp");
+      setPhoneResendCooldown(60);
       const interval = setInterval(() => {
-        setResendCooldown((prev) => {
-          if (prev <= 1) {
+        setPhoneResendCooldown((c) => {
+          if (c <= 1) {
             clearInterval(interval);
             return 0;
           }
-
-          return prev - 1;
+          return c - 1;
         });
       }, 1000);
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message || "Couldn't resend OTP. Please try again.",
-      );
-    } finally {
-      setResending(false);
+    } catch {
+      setPhoneOtpError("Couldn't resend code. Please try again shortly.");
     }
   };
 
@@ -362,7 +427,7 @@ export default function LmsEnrollModal({
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <p className="text-sm font-semibold text-gray-900 mb-1">
-                  Login with your account to continue
+                  Create your account to continue
                 </p>
                 {/* <p className="text-xs text-gray-500">
                   Already have an account? Your details will be matched
@@ -378,7 +443,7 @@ export default function LmsEnrollModal({
               )}
 
               <div className="space-y-3">
-                {/* <div>
+                <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Full name
                   </label>
@@ -392,7 +457,7 @@ export default function LmsEnrollModal({
                     placeholder="John Doe"
                     className="w-full text-black px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                </div> */}
+                </div>
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -410,7 +475,7 @@ export default function LmsEnrollModal({
                   />
                 </div>
 
-                {/* <div>
+                <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Phone number
                   </label>
@@ -433,7 +498,7 @@ export default function LmsEnrollModal({
                       className="flex-1 text-black px-3 py-2.5 border border-gray-200 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
-                </div> */}
+                </div>
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
@@ -476,17 +541,17 @@ export default function LmsEnrollModal({
                 type="submit"
                 className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors"
               >
-                Sign In
+                Sign Up
               </button>
 
               <div className="text-center text-sm text-gray-500">
-                Don&apos;t have an account?{" "}
+                Already have an account?{" "}
                 <button
                   type="button"
-                  onClick={onSwitchToSignup}
+                  onClick={onSwitchToSignin}
                   className="text-blue-600 hover:underline font-medium"
                 >
-                  Sign up
+                  Sign In
                 </button>
               </div>
 
@@ -501,61 +566,6 @@ export default function LmsEnrollModal({
                 </a>
               </p>
             </form>
-          )}
-
-          {step === "verify-phone" && (
-            <div className="space-y-4">
-              <div>
-                <p className="text-lg font-semibold text-gray-900">
-                  Verify Phone
-                </p>
-
-                <p className="text-sm text-gray-500">OTP sent to WhatsApp</p>
-              </div>
-
-              {error && (
-                <div className="p-3 bg-red-50 rounded-xl text-red-600 text-sm">
-                  {error}
-                </div>
-              )}
-
-              <input
-                type="text"
-                value={otp}
-                maxLength={6}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP"
-                className="w-full border rounded-xl px-3 py-3 text-black"
-              />
-
-              <button
-                onClick={handleVerifyPhone}
-                disabled={otp.length < 4}
-                className="w-full py-3 bg-blue-600 text-white rounded-xl"
-              >
-                Verify OTP
-              </button>
-
-              <button
-                type="button"
-                onClick={handleResendOtp}
-                disabled={resendCooldown > 0 || resending}
-                className="w-full text-sm text-blue-600 disabled:text-gray-400"
-              >
-                {resending
-                  ? "Sending..."
-                  : resendCooldown > 0
-                    ? `Resend in ${resendCooldown}s`
-                    : "Resend Code"}
-              </button>
-
-              <button
-                onClick={() => setStep("register")}
-                className="w-full text-sm text-gray-500"
-              >
-                Back
-              </button>
-            </div>
           )}
 
           {/* STEP: Processing */}
@@ -600,6 +610,108 @@ export default function LmsEnrollModal({
                 Start learning →
               </a>
             </div>
+          )}
+
+          {/* {step === "verify-email" && (
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-900 mb-1">
+                  Verify your email
+                </p>
+                <p className="text-xs text-gray-500">
+                  We sent a 6-digit code to {formData.email}
+                </p>
+              </div>
+
+              {otpError && (
+                <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  {otpError}
+                </div>
+              )}
+
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={otpCode}
+                onChange={(e) =>
+                  setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                placeholder="------"
+                className="w-full text-center text-black text-lg tracking-[0.5em] px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+
+              <button
+                type="submit"
+                disabled={otpCode.length !== 6}
+                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors disabled:opacity-40"
+              >
+                Verify
+              </button>
+
+              <button
+                type="button"
+                onClick={handleResendOtp}
+                disabled={resendCooldown > 0}
+                className="w-full text-center text-xs text-blue-600 disabled:text-gray-400"
+              >
+                {resendCooldown > 0
+                  ? `Resend in ${resendCooldown}s`
+                  : "Resend code"}
+              </button>
+            </form>
+          )} */}
+
+          {step === "verify-phone" && (
+            <form onSubmit={handleVerifyPhoneOtp} className="space-y-4">
+              <div>
+                <p className="text-sm font-semibold text-gray-900 mb-1">
+                  Verify your phone
+                </p>
+                <p className="text-xs text-gray-500">
+                  We sent a 6-digit code via WhatsApp to +91{formData.phone}
+                </p>
+              </div>
+
+              {phoneOtpError && (
+                <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  {phoneOtpError}
+                </div>
+              )}
+
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={6}
+                value={phoneOtpCode}
+                onChange={(e) =>
+                  setPhoneOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                placeholder="------"
+                className="w-full text-center text-black text-lg tracking-[0.5em] px-3 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+
+              <button
+                type="submit"
+                disabled={phoneOtpCode.length !== 6}
+                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors disabled:opacity-40"
+              >
+                Verify
+              </button>
+
+              <button
+                type="button"
+                onClick={handleResendPhoneOtp}
+                disabled={phoneResendCooldown > 0}
+                className="w-full text-center text-xs text-blue-600 disabled:text-gray-400"
+              >
+                {phoneResendCooldown > 0
+                  ? `Resend in ${phoneResendCooldown}s`
+                  : "Resend code"}
+              </button>
+            </form>
           )}
 
           {/* STEP: Error */}

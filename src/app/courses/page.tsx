@@ -39,12 +39,12 @@ export default function CoursesPage() {
           ),
         ]);
 
-        let mainCourses: ICourse[] = [];
+        // let mainCourses: ICourse[] = [];
         let mainPagination = null;
 
         if (res1.status === "fulfilled" && res1.value.ok) {
           const data: ICoursesResponse = await res1.value.json();
-          mainCourses = data.data?.courses || [];
+          // mainCourses = data.data?.courses || [];
           mainPagination = data.data?.pagination || null;
         } else {
           setError("Failed to fetch courses");
@@ -56,7 +56,8 @@ export default function CoursesPage() {
           lmsCourses = data?.data?.courses || [];
         }
 
-        setCourses([...mainCourses, ...lmsCourses]);
+        // setCourses([...mainCourses, ...lmsCourses]);
+        setCourses([...lmsCourses]);
         setPagination(mainPagination);
       } catch (err) {
         console.error("Error fetching courses:", err);

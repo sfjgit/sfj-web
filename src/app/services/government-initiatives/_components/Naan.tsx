@@ -12,7 +12,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 export default function Naan() {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true }),
+    Autoplay({ delay: 2000, stopOnInteraction: true })
   );
   return (
     <section className="py-16 mt-12 bg-gradient-to-br from-slate-50 to-blue-50">
@@ -49,7 +49,7 @@ export default function Naan() {
           {/* Our Impact */}
           <div className="grid md:grid-cols-3 gap-6 mt-8 max-w-4xl mx-auto">
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-blue-100">
-              <div className="text-2xl font-bold text-blue-600">65,000+</div>
+              <div className="text-2xl font-bold text-blue-600">20,000+</div>
               <div className="text-sm text-gray-600">
                 Free Training Provided
               </div>

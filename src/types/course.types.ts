@@ -93,8 +93,12 @@ export interface ICourse {
   title: string;
   slug: string;
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  modules: any;
   type: string;
   price: IPrice;
+  currency: string;
+  duration: string;
 
   // NEW
   gst?: IGst;

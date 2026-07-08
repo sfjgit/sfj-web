@@ -2,10 +2,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LmsEnrollModal from "@/components/courses/LmsEnrollModal";
 import { ILmsCourse } from "./LmsCurriculumAccordion";
-import SigninModal from "../auth/SigninModal";
+import { getAccessToken, rehydrateAuth, useAxios } from "@/hooks/useAxios";
+import { toast } from "sonner";
+import LmsEnrollSignupModal from "./LMSEnrollSignupModal";
+import env from "@/config/env";
 
 // ── Icons ─────────────────────────────────────────────────────────────────────
 function BookIcon() {
@@ -102,18 +105,143 @@ export default function LmsEnrollCard({
   highestPlan,
 }: LmsEnrollCardProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<
     ILmsCourse["pricingPlans"][0] | null
   >(lowestPlan);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [checkingEnrollment, setCheckingEnrollment] = useState(false);
+  const axios = useAxios();
 
-  const openModal = (plan: ILmsCourse["pricingPlans"][0] | null) => {
+  const openModal = (
+    plan: ILmsCourse["pricingPlans"][0] | null,
+    signup = false,
+  ) => {
     if (!plan) return;
+
     setSelectedPlan(plan);
+    setShowSignup(signup);
     setModalOpen(true);
   };
 
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     await rehydrateAuth();
+  //     setIsLoggedIn(!!getAccessToken());
+  //   };
+
+  //   checkAuth();
+
+  //   const handleAuthChange = () => {
+  //     setIsLoggedIn(!!getAccessToken());
+  //   };
+
+  //   window.addEventListener("auth-changed", handleAuthChange);
+
+  //   return () => {
+  //     window.removeEventListener("auth-changed", handleAuthChange);
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    const checkAuthAndEnrollment = async () => {
+      await rehydrateAuth();
+
+      const loggedIn = !!getAccessToken();
+      setIsLoggedIn(loggedIn);
+
+      if (!loggedIn) return;
+
+      try {
+        setCheckingEnrollment(true);
+
+        const response = await axios.get(
+          `${env.NEXT_PUBLIC_LMS_COURSE_URL}/courses/${course.id}/check-enrollment`,
+        );
+
+        setIsEnrolled(response.data.data);
+      } catch (error) {
+        console.error("Enrollment check failed", error);
+      } finally {
+        setCheckingEnrollment(false);
+      }
+    };
+
+    checkAuthAndEnrollment();
+
+    const handleAuthChange = () => {
+      checkAuthAndEnrollment();
+    };
+
+    window.addEventListener("auth-changed", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("auth-changed", handleAuthChange);
+    };
+  }, []);
+
   // const router = useRouter();
+
+  // const handleBuyNow = async () => {
+  //   try {
+  //     if (!lowestPlan) return;
+
+  //     await axios.post(`${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`, {
+  //       courseId: course.id,
+  //       pricingPlanId: lowestPlan.id,
+  //     });
+
+  //     // optional redirect if api returns payment url
+  //     // window.location.href = response.data.paymentUrl;
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Unable to initiate payment");
+  //   }
+  // };
+  const handleBuyNow = async () => {
+    try {
+      if (!lowestPlan) return;
+
+      const response = await axios.post(
+        `${env.NEXT_PUBLIC_LMS_COURSE_URL}/payments/initiate`,
+        {
+          courseId: course.id,
+          pricingPlanId: lowestPlan.id,
+        },
+      );
+
+      const paymentData = response.data;
+
+      console.log("paymentData", paymentData);
+
+      if (!paymentData.success) {
+        toast.error(paymentData.error || "Unable to initiate payment");
+        return;
+      }
+
+      // Free course
+      if (paymentData.data?.type === "free") {
+        window.location.href = `/lms/dashboard`;
+        return;
+      }
+
+      // Redirect to payment gateway
+      if (paymentData.data?.paymentUrl) {
+        window.location.href = paymentData.data.paymentUrl;
+        return;
+      }
+
+      toast.error("Payment URL not received");
+    } catch (error: any) {
+      console.error(error);
+
+      toast.error(
+        error?.response?.data?.message || "Unable to initiate payment",
+      );
+    }
+  };
 
   const formatPrice = (amount: number, currency: string) =>
     new Intl.NumberFormat("en-IN", {
@@ -124,14 +252,32 @@ export default function LmsEnrollCard({
 
   return (
     <>
-      {selectedPlan && (
-        <LmsEnrollModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          course={{ id: course.id, title: course.title, slug: course.slug }}
-          plan={selectedPlan}
-        />
-      )}
+      {selectedPlan &&
+        (showSignup ? (
+          <LmsEnrollSignupModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onSwitchToSignin={() => setShowSignup(false)}
+            course={{
+              id: course.id,
+              title: course.title,
+              slug: course.slug,
+            }}
+            plan={selectedPlan}
+          />
+        ) : (
+          <LmsEnrollModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            onSwitchToSignup={() => setShowSignup(true)}
+            course={{
+              id: course.id,
+              title: course.title,
+              slug: course.slug,
+            }}
+            plan={selectedPlan}
+          />
+        ))}
 
       <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-md">
         {course.thumbnailUrl && (
@@ -195,14 +341,60 @@ export default function LmsEnrollCard({
           >
             {isFree ? "Enroll for free" : "Enroll now"}
           </button> */}
-          <button
-            onClick={() => setOpen(true)}
+          {/* <button
+            onClick={() => {
+              if (isLoggedIn) {
+                openModal(lowestPlan);
+              }
+              handleBuyNow();
+            }}
             className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
           >
-            {isFree ? "Enroll for free" : "Enroll now"}
+            {isLoggedIn ? "Buy Now" : "Enroll Now"}
+          </button> */}
+
+          {/* <button
+            onClick={() => {
+              if (isLoggedIn) {
+                handleBuyNow(); // only initiate api
+              } else {
+                openModal(lowestPlan); // only open modal
+              }
+            }}
+            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center rounded-xl transition-colors"
+          >
+            {isLoggedIn ? "Buy Now" : "Enroll Now"}
+          </button> */}
+
+          <button
+            disabled={checkingEnrollment || isEnrolled}
+            onClick={() => {
+              if (!isLoggedIn) {
+                openModal(lowestPlan);
+                return;
+              }
+
+              if (!isEnrolled) {
+                handleBuyNow();
+              }
+            }}
+            className={`w-full py-3 px-4 text-white font-semibold text-sm rounded-xl transition-colors
+    ${
+      isEnrolled
+        ? "bg-green-600 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700"
+    }`}
+          >
+            {checkingEnrollment
+              ? "Checking..."
+              : !isLoggedIn
+                ? "Enroll Now"
+                : isEnrolled
+                  ? "Paid"
+                  : "Buy Now"}
           </button>
 
-          <SigninModal open={open} onOpenChange={setOpen} />
+          {/* <SigninModal open={open} onOpenChange={setOpen} /> */}
 
           {/* Per-plan buttons if multiple */}
           {course.pricingPlans.length > 1 && (
