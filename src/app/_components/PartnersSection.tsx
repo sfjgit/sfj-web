@@ -12,6 +12,10 @@ const PartnersSection = () => {
     "/edu&car/AWS.png",
     "/edu&car/2.jpg",
     "/edu&car/6.png",
+    "/edu&car/Comptia.svg",
+    "/edu&car/PeopleCert DevOps.svg",
+    "/edu&car/Prince2.svg",
+    "/edu&car/PeopleCert-Scrum.svg",
   ];
 
   // Duplicate logos to ensure smooth infinite loop even with few images

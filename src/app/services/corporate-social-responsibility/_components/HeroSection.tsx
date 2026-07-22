@@ -12,8 +12,8 @@ import {
   Target,
   BookOpen,
   TrendingUp,
+  Cloud,
 } from "lucide-react";
-import GenerativeAIRoles from "./GenerativeAIRoles";
 import { useRouter } from "next/navigation";
 import CSRBottomCTA from "./Cta";
 
@@ -69,6 +69,12 @@ const CSRLandingPage = () => {
       label: "Career Paths",
       icon: TrendingUp,
       color: "bg-blue-800",
+    },
+    {
+      id: "awsRestart",
+      label: "AWS re/Start",
+      icon: Cloud,
+      color: "bg-blue-900",
     },
   ];
 
@@ -319,10 +325,78 @@ const CSRLandingPage = () => {
             </div>
           </div>
         );
-      case "careers":
-        return <GenerativeAIRoles />;
-      default:
-        return null;
+      case "awsRestart":
+        return (
+          <div className="space-y-4">
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                <Cloud className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  AWS re/Start — launching cloud careers for job seekers
+                </h3>
+                <p className="text-gray-600 mt-2">
+                  A cohort-based training program, delivered in partnership with
+                  Amazon Web Services, that prepares unemployed and
+                  underemployed individuals for entry-level cloud roles at no
+                  cost to the learner. No prior technology background is
+                  required — the program is built for career changers, displaced
+                  workers, and underrepresented groups looking to break into
+                  tech.
+                </p>
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+                  <div className="flex items-center text-blue-700">
+                    <Target className="w-4 h-4 mr-2" />
+                    <span className="text-sm font-medium">
+                      Focus Areas: Linux administration, networking, security,
+                      databases, automation, and core AWS cloud skills
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-1">
+                      What learners gain
+                    </h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      Through instructor-led sessions and hands-on,
+                      scenario-based labs, learners build job-ready technical
+                      skills for roles like technical support specialist,
+                      systems administrator, and junior cloud engineer —
+                      alongside professional skills training in resume writing,
+                      interview coaching, and workplace communication.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-900 mb-1">
+                      Who it&#39;s for
+                    </h4>
+                    <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
+                      <li>18 years or older, unemployed or underemployed</li>
+                      <li>Able to commit to the full training schedule</li>
+                      <li>Ready to pursue a new career on completion</li>
+                      <li>Motivated to launch a career in cloud computing</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                    Free Cloud Skills Training
+                  </span>
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                    Certification Prep
+                  </span>
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                    Career Launch Support
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
     }
   };
 
