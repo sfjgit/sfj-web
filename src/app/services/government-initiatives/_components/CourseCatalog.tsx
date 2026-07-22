@@ -340,6 +340,13 @@ const CourseCatalog = () => {
   // Engineering courses
   const engineeringCourses = [
     {
+      id: 0,
+      domain: "ALL",
+      course: "AWS re/Start",
+      subtitle: "Launching cloud careers for job seekers",
+      duration: 45,
+    },
+    {
       id: 1,
       domain: "ALL",
       semester: 1,
@@ -733,7 +740,7 @@ const CourseCatalog = () => {
 
   const getStreamIcon = (
     stream: string | string[],
-    type: string | undefined
+    type: string | undefined,
   ) => {
     if (type === "engineering") return <Cpu className="w-4 h-4" />;
     if (type === "polytechnic") return <Wrench className="w-4 h-4" />;
@@ -758,7 +765,7 @@ const CourseCatalog = () => {
 
   const getStreamColor = (
     stream: string | string[],
-    type: string | undefined
+    type: string | undefined,
   ) => {
     if (type === "engineering")
       return "bg-orange-100 text-orange-800 border-orange-200";
@@ -800,7 +807,7 @@ const CourseCatalog = () => {
             course.domain.toLowerCase().includes(searchLower)) ||
           (course.content && course.content.toLowerCase().includes(searchLower))
         );
-      }
+      },
     );
   };
 
@@ -970,7 +977,7 @@ const CourseCatalog = () => {
                   </Button> */}
                 </CardContent>
               </Card>
-            )
+            ),
           )}
         </div>
       </div>
@@ -1114,7 +1121,7 @@ const CourseCatalog = () => {
                       className={`${getStreamColor(
                         // @ts-ignore
                         course.domain,
-                        "engineering"
+                        "engineering",
                       )} text-xs font-medium`}
                     >
                       <div className="flex items-center gap-1">
@@ -1134,7 +1141,9 @@ const CourseCatalog = () => {
                     {course.course}
                   </CardTitle>
                   <div className="text-sm text-blue-600 font-medium">
-                    Semester {course.semester}
+                    {(course as any).subtitle
+                      ? (course as any).subtitle
+                      : `Semester ${course.semester}`}
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -1143,7 +1152,7 @@ const CourseCatalog = () => {
                   </Button> */}
                 </CardContent>
               </Card>
-            )
+            ),
           )}
         </div>
       </div>
@@ -1287,7 +1296,7 @@ const CourseCatalog = () => {
                       className={`${getStreamColor(
                         // @ts-ignore
                         course.domain,
-                        "polytechnic"
+                        "polytechnic",
                       )} text-xs font-medium`}
                     >
                       <div className="flex items-center gap-1">
@@ -1316,7 +1325,7 @@ const CourseCatalog = () => {
                   </Button> */}
                 </CardContent>
               </Card>
-            )
+            ),
           )}
         </div>
       </div>
@@ -1331,7 +1340,7 @@ const CourseCatalog = () => {
   const totalCourses = allCourses.length;
   const totalHours = allCourses.reduce(
     (sum, course) => sum + course.duration,
-    0
+    0,
   );
 
   return (
