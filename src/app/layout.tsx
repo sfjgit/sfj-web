@@ -2,6 +2,17 @@ import "./globals.css";
 import { Metadata } from "next";
 import ClientProvider from "./_components/ClientProvider";
 import Script from "next/script";
+import { Geist, Geist_Mono } from "next/font/google";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title:
@@ -164,7 +175,9 @@ export default function RootLayout({
           strategy="afterInteractive"
         /> */}
       </head>
-      <body className="font-sans">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} font-sans`}
+      >
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-KKM45FLN"
