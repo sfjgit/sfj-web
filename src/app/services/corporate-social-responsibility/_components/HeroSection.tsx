@@ -10,8 +10,8 @@ import {
   Target,
   BookOpen,
   TrendingUp,
-  Cloud,
   Check,
+  Cloud,
 } from "lucide-react";
 import CSRBottomCTA from "./Cta";
 import Image from "next/image";
@@ -69,6 +69,12 @@ const CSRLandingPage = () => {
       icon: Users,
       color: "bg-blue-400",
     },
+    // {
+    //   id: "finishing",
+    //   label: "Rural Empowerment",
+    //   icon: GraduationCap,
+    //   color: "bg-blue-300",
+    // },
     {
       id: "Pwd",
       label: "PWD Empowerment",
