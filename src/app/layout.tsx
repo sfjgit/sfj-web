@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import ClientProvider from "./_components/ClientProvider";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -25,7 +25,6 @@ export const metadata: Metadata = {
   creator: "SFJ Business Solutions",
   publisher: "SFJ Business Solutions",
   robots: "index, follow",
-  // viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -41,6 +40,11 @@ export const metadata: Metadata = {
     googlebot:
       "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
