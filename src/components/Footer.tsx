@@ -181,11 +181,11 @@ const Footer = () => {
         {/* Header */}
         <div className="flex items-center gap-2 mb-3">
           <FcGoogle size={22} />
-          <h2 className="text-sm font-medium text-white">Google Reviews</h2>
+          <h2 className="text-sm font-medium text-gray-900">Google Reviews</h2>
         </div>
 
         {/* Rating Overview */}
-        <div className="flex items-center text-base font-medium text-white mb-3">
+        <div className="flex items-center text-base font-medium text-gray-900 mb-3">
           <span className="mr-3">{rating.toFixed(1)}</span>
           <div className="flex items-center gap-1">
             <FaStar className="text-yellow-400" size={16} />
@@ -201,7 +201,7 @@ const Footer = () => {
             href={`https://g.page/r/CS0LPoJm0AKbEBM/review`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-400 hover:text-blue-300 transition-colors text-sm"
+            className="text-blue-600 hover:text-blue-700 transition-colors text-sm"
           >
             Rate Us on Google
           </a>
@@ -222,32 +222,32 @@ const Footer = () => {
         <select
           value={selectedOffice}
           onChange={(e) => setSelectedOffice(e.target.value)}
-          className="w-full bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           {Object.keys(offices).map((officeKey) => (
-            <option key={officeKey} value={officeKey} className="bg-gray-800">
+            <option key={officeKey} value={officeKey} className="bg-white">
               {offices[officeKey].flag} {offices[officeKey].name}
             </option>
           ))}
         </select>
 
         {/* Selected Office Details */}
-        <div className="bg-gray-800 rounded-lg p-4 space-y-3">
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xl">{currentOffice.flag}</span>
-            <h4 className="font-medium text-white text-sm">
+            <h4 className="font-medium text-gray-900 text-sm">
               {currentOffice.name}
             </h4>
           </div>
 
-          <p className="text-xs text-blue-400 font-medium">
+          <p className="text-xs text-blue-600 font-medium">
             {currentOffice.company}
           </p>
 
           <div className="space-y-2">
             <div className="flex items-start gap-2">
-              <MapPin className="w-3 h-3 text-gray-400 mt-0.5 flex-shrink-0" />
-              <div className="text-xs text-gray-300 leading-relaxed">
+              <MapPin className="w-3 h-3 text-gray-500 mt-0.5 flex-shrink-0" />
+              <div className="text-xs text-gray-600 leading-relaxed">
                 {currentOffice.address.map((line: string, index: number) => (
                   <div key={index}>{line}</div>
                 ))}
@@ -256,10 +256,10 @@ const Footer = () => {
 
             {currentOffice.phone && (
               <div className="flex items-center gap-2">
-                <Phone className="w-3 h-3 text-gray-400" />
+                <Phone className="w-3 h-3 text-gray-500" />
                 <a
                   href={`tel:${currentOffice.phone}`}
-                  className="text-xs text-gray-300 hover:text-white transition-colors"
+                  className="text-xs text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   {currentOffice.phone}
                 </a>
@@ -268,10 +268,10 @@ const Footer = () => {
 
             {currentOffice.email && (
               <div className="flex items-center gap-2">
-                <Mail className="w-3 h-3 text-gray-400" />
+                <Mail className="w-3 h-3 text-gray-500" />
                 <a
                   href={`mailto:${currentOffice.email}`}
-                  className="text-xs text-gray-300 hover:text-white transition-colors"
+                  className="text-xs text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   {currentOffice.email}
                 </a>
@@ -280,8 +280,8 @@ const Footer = () => {
 
             {currentOffice.fax && (
               <div className="flex items-center gap-2">
-                <FaX className="w-3 h-3 text-gray-400" />
-                <span className="text-xs text-gray-300">
+                <FaX className="w-3 h-3 text-gray-500" />
+                <span className="text-xs text-gray-600">
                   {currentOffice.fax}
                 </span>
               </div>
@@ -293,8 +293,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="relative bg-white text-gray-900 overflow-hidden">
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Company Logo, Description & Google Reviews */}
           <div className="lg:col-span-1 space-y-6">
@@ -309,11 +310,11 @@ const Footer = () => {
               />
               <div>
                 <h3 className="text-xl font-bold">SFJ Business Solutions</h3>
-                <p className="text-sm text-gray-400">Pvt. Ltd.</p>
+                <p className="text-sm text-gray-500">Pvt. Ltd.</p>
               </div>
             </div>
 
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-gray-600 text-sm leading-relaxed">
               Empowering global talent for the AI-driven future through
               comprehensive workforce development and professional training
               solutions.
@@ -332,7 +333,7 @@ const Footer = () => {
                   <li key={service.path}>
                     <Link
                       href={service.path}
-                      className="text-gray-300 hover:text-white transition-colors text-sm block leading-relaxed"
+                      className="text-gray-600 hover:text-gray-900 transition-colors text-sm block leading-relaxed"
                     >
                       {service.label}
                     </Link>
@@ -348,7 +349,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/about"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   About Us
                 </Link>
@@ -356,7 +357,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/careers"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Careers
                 </Link>
@@ -364,7 +365,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/blog"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Blogs
                 </Link>
@@ -372,7 +373,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/industries"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Industries
                 </Link>
@@ -380,7 +381,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/impact"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Impact
                 </Link>
@@ -388,7 +389,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/life-at-sfjbs"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Life@SFJ
                 </Link>
@@ -396,7 +397,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/contact"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Contact Us
                 </Link>
@@ -404,7 +405,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/privacy-policy"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Privacy Policy
                 </Link>
@@ -412,7 +413,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/refund-policy"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Refund Policy
                 </Link>
@@ -420,7 +421,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/terms-and-conditions"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Terms & Conditions
                 </Link>
@@ -428,7 +429,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/extension-privacy-policy"
-                  className="text-gray-300 hover:text-white transition-colors text-sm"
+                  className="text-gray-600 hover:text-gray-900 transition-colors text-sm"
                 >
                   Extension Privacy Policy
                 </Link>
@@ -461,9 +462,9 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-800 mt-12 pt-8">
+        <div className="border-t border-gray-200 mt-12 pt-8">
           <div className="text-center">
-            <p className="text-sm text-gray-400 mb-2">
+            <p className="text-sm text-gray-600 mb-2">
               SFJ Business Solutions Pvt Ltd | +91-9845348601 | growth@sfjbs.com
             </p>
             <p className="text-sm text-gray-500">

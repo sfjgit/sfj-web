@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const CTASection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+    <section className="py-20 bg-slate-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-10">
         <motion.div

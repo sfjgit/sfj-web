@@ -7,7 +7,7 @@ import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
 import Script from "next/script";
 import PricingSection from "@/components/PricingSection";
-
+//front end
 export const metadata: Metadata = {
   title:
     "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training Programs & Tech Solutions",
