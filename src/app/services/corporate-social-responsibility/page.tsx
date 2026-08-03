@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Script from "next/script";
+import { Suspense } from "react";
 
 import {
   Users,
@@ -197,7 +198,9 @@ export default function CSRPage() {
 
       <div className="min-h-screen bg-white ">
         <TabVisibilityProvider>
-          <CSRLandingPage />
+          <Suspense fallback={null}>
+            <CSRLandingPage />
+          </Suspense>
           <HideWhenAwsRestart>
             {/* <CSRHeroSection /> */}
 

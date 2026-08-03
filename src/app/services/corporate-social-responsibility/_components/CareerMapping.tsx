@@ -322,7 +322,7 @@ const CareerMapping = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search role or certification..."
-          className="ml-auto border border-gray-200 rounded-lg px-3 py-2 text-base w-56 focus:outline-none focus:border-blue-400"
+          className="w-full sm:w-56 sm:ml-auto border border-gray-200 rounded-lg px-3 py-2 text-base focus:outline-none focus:border-blue-400"
         />
       </div>
 
@@ -353,7 +353,7 @@ const CareerMapping = () => {
 
         {activeRole && (
           <div className="border border-gray-200 rounded-2xl p-6">
-            <div className="flex justify-between items-start gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between items-start gap-4 mb-6">
               <div>
                 <div className="text-2xl font-bold text-gray-900">
                   {activeRole.name}
@@ -380,11 +380,11 @@ const CareerMapping = () => {
             <h5 className="text-base font-semibold text-gray-900 mb-3">
               Career progression path
             </h5>
-            <div className="flex justify-between mb-6">
+            <div className="flex justify-between gap-2 overflow-x-auto mb-6">
               {progression.map((p) => (
                 <div
                   key={p.n}
-                  className="flex flex-col items-center text-center w-20"
+                  className="flex flex-col items-center text-center w-20 flex-shrink-0"
                 >
                   <div className="w-8 h-8 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-sm font-bold text-gray-900">
                     {p.n}

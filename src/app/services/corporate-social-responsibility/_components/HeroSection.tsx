@@ -6,8 +6,6 @@ import {
   GraduationCap,
   Heart,
   Building,
-  Zap,
-  ArrowRight,
   Star,
   Target,
   BookOpen,
@@ -15,22 +13,50 @@ import {
   Cloud,
   Check,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import CSRBottomCTA from "./Cta";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useTabVisibility } from "./TabVisibilityContext";
 import CareerMapping from "./CareerMapping";
+import AwsRestartContent from "./AwsRestartContent";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 const CSRLandingPage = () => {
-  const [activeTab, setActiveTab] = useState("awareness");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState(
+    pathname?.includes("/aws-restart")
+      ? "awsRestart"
+      : searchParams.get("tab") || "awsRestart",
+  );
   const { setIsAwsRestartActive } = useTabVisibility();
 
   useEffect(() => {
     setIsAwsRestartActive(activeTab === "awsRestart");
   }, [activeTab, setIsAwsRestartActive]);
   const router = useRouter();
+  const handleTabClick = (tabId: string) => {
+    const isCurrentlyOnAwsRestartPage = pathname?.includes("/aws-restart");
+
+    if (tabId === "awsRestart") {
+      router.push("/services/corporate-social-responsibility/aws-restart");
+      return;
+    }
+
+    if (isCurrentlyOnAwsRestartPage) {
+      router.push(`/services/corporate-social-responsibility?tab=${tabId}`);
+      return;
+    }
+
+    setActiveTab(tabId);
+  };
 
   const tabs = [
+    {
+      id: "awsRestart",
+      label: "AWS re/Start",
+      icon: Cloud,
+      color: "bg-blue-900",
+    },
     {
       id: "awareness",
       label: "AI Awareness",
@@ -72,12 +98,6 @@ const CSRLandingPage = () => {
       label: "Career Paths",
       icon: TrendingUp,
       color: "bg-blue-800",
-    },
-    {
-      id: "awsRestart",
-      label: "AWS re/Start",
-      icon: Cloud,
-      color: "bg-blue-900",
     },
   ];
 
@@ -329,6 +349,7 @@ const CSRLandingPage = () => {
           </div>
         );
       case "awsRestart":
+        return <AwsRestartContent />;
         return (
           <div className="space-y-8">
             {/* Hero banner */}
@@ -359,12 +380,20 @@ const CSRLandingPage = () => {
                     seekers, in official partnership with Amazon Web Services.
                     No prior technical background required.
                   </p>
-                  <button
-                    onClick={() => router.push("/contact?type=csr")}
-                    className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-                  >
-                    Enquire Now
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => router.push("/contact?type=csr")}
+                      className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                    >
+                      Apply Now
+                    </button>
+                    <button
+                      onClick={() => router.push("/contact?type=csr")}
+                      className="border border-white/50 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
+                    >
+                      Book a Call
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -579,119 +608,46 @@ const CSRLandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen ">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-800 to-cyan-600 pt-20">
-        {/* Enhanced Background Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(167,243,208,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(167,243,208,0.1)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
-
-        {/* Floating Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl animate-pulse"></div>
-          <div
-            className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl animate-pulse"
-            style={{ animationDelay: "2s" }}
-          ></div>
-          <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-6 py-3 rounded-full text-sm font-semibold mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <Zap className="w-4 h-4 mr-2" />
-              Skilling India for the AI Future
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              <span className="text-white">Empowering Through </span>
-              <br />
-              <span className="bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent">
-                Gen AI Training
-              </span>
-            </h1>
-
-            <p className="text-xl text-cyan-100 mb-8 max-w-3xl mx-auto leading-relaxed font-medium">
-              Transforming school students, educators, rural youth, and
-              government employees through CSR-led initiatives with global
-              certifications.
-            </p>
-
-            {/* Feature Pills */}
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
-                Global Certifications
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
-                AI-Powered Learning
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
-                CSR Initiatives
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <button
-                onClick={() => router.push("/contact?type=csr")}
-                className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-cyan-600 hover:to-blue-700 hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center shadow-xl"
-              >
-                Enquire Us
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="py-10 max-w-[100rem] mx-auto px-4">
-        {/* Tabbed Content Section */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          {/* Tab Navigation */}
-          <div className="border-b border-gray-200 bg-gray-50">
-            <div className="flex overflow-x-auto">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex-shrink-0 flex items-center px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 ${
-                      activeTab === tab.id
-                        ? `border-blue-500 text-blue-600 bg-white`
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-                    }`}
+    <div className="w-full max-w-[100rem] mx-auto pt-20 md:pt-24 py-10 px-3 sm:px-4 overflow-x-hidden">
+      {/* Tabbed Content Section */}
+      <div className="w-full min-w-0 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        {/* Tab Navigation */}
+        <div className="border-b border-gray-200 bg-gray-50">
+          <div className="flex w-full flex-wrap lg:flex-nowrap lg:overflow-x-auto no-scrollbar">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabClick(tab.id)}
+                  className={`flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2.5 sm:py-3 text-[11px] sm:text-sm font-medium transition-all duration-200 border-b-2 whitespace-nowrap ${
+                    activeTab === tab.id
+                      ? "border-blue-500 text-blue-600 bg-white"
+                      : "border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full ${tab.color} bg-opacity-20 flex items-center justify-center flex-shrink-0`}
                   >
-                    <div
-                      className={`w-6 h-6 rounded-full ${tab.color} bg-opacity-20 flex items-center justify-center mr-2`}
-                    >
-                      <Icon
-                        className={`w-3 h-3 ${
-                          activeTab === tab.id
-                            ? "text-blue-600"
-                            : "text-gray-500"
-                        }`}
-                      />
-                    </div>
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Tab Content */}
-          <div className="p-6">
-            <TabContent id={activeTab} />
+                    <Icon
+                      className={`w-3 h-3 ${activeTab === tab.id ? "text-blue-600" : "text-gray-500"}`}
+                    />
+                  </div>
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
         </div>
-        {activeTab !== "awsRestart" && <CSRBottomCTA />}
 
-        {/* Bottom CTA */}
+        {/* Tab Content */}
+        <div className="p-4 sm:p-6">
+          <TabContent id={activeTab} />
+        </div>
       </div>
+      {activeTab !== "awsRestart" && <CSRBottomCTA />}
+
+      {/* Bottom CTA */}
     </div>
   );
 };
