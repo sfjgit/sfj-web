@@ -12,22 +12,13 @@ import {
   Target,
   BookOpen,
   TrendingUp,
-  Cloud,
-  Check,
 } from "lucide-react";
+import GenerativeAIRoles from "./GenerativeAIRoles";
 import { useRouter } from "next/navigation";
 import CSRBottomCTA from "./Cta";
-import Image from "next/image";
-import { useEffect } from "react";
-import { useTabVisibility } from "./TabVisibilityContext";
-import CareerMapping from "./CareerMapping";
+
 const CSRLandingPage = () => {
   const [activeTab, setActiveTab] = useState("awareness");
-  const { setIsAwsRestartActive } = useTabVisibility();
-
-  useEffect(() => {
-    setIsAwsRestartActive(activeTab === "awsRestart");
-  }, [activeTab, setIsAwsRestartActive]);
   const router = useRouter();
 
   const tabs = [
@@ -43,6 +34,12 @@ const CSRLandingPage = () => {
       icon: Users,
       color: "bg-blue-400",
     },
+    // {
+    //   id: "finishing",
+    //   label: "Rural Empowerment",
+    //   icon: GraduationCap,
+    //   color: "bg-blue-300",
+    // },
     {
       id: "Pwd",
       label: "PWD Empowerment",
@@ -72,12 +69,6 @@ const CSRLandingPage = () => {
       label: "Career Paths",
       icon: TrendingUp,
       color: "bg-blue-800",
-    },
-    {
-      id: "awsRestart",
-      label: "AWS re/Start",
-      icon: Cloud,
-      color: "bg-blue-900",
     },
   ];
 
@@ -328,253 +319,10 @@ const CSRLandingPage = () => {
             </div>
           </div>
         );
-      case "awsRestart":
-        return (
-          <div className="space-y-8">
-            {/* Hero banner */}
-            <div className="relative rounded-2xl overflow-hidden min-h-[600px] flex items-center">
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url('/Aws Restart Hero.svg')" }}
-              />
-              <div className="absolute inset-0 bg-black/10" />
-              <div className="relative w-full px-8 md:px-12 py-12">
-                <div className="max-w-2xl flex flex-col items-start text-left">
-                  <Image
-                    src="/AWS restart logo.svg"
-                    alt="AWS re/Start logo"
-                    width={220}
-                    height={110}
-                    className="h-[3.2rem] md:h-16 w-auto mb-6"
-                  />
-                  <h3 className="text-white text-4xl md:text-5xl font-bold leading-tight mb-4">
-                    AWS re/Start Program
-                  </h3>
-                  <p className="text-white text-xl md:text-2xl font-medium mb-4">
-                    Your cloud career, built from zero to job-ready
-                  </p>
-                  <p className="text-white/90 text-base md:text-lg leading-relaxed mb-8">
-                    SFJ Business Solutions delivers AWS re/Start — a free,
-                    full-time, 12-week cloud computing training program for job
-                    seekers, in official partnership with Amazon Web Services.
-                    No prior technical background required.
-                  </p>
-                  <button
-                    onClick={() => router.push("/contact?type=csr")}
-                    className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-                  >
-                    Enquire Now
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Feature section with image */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div>
-                <div className="mb-4 mt-8">
-                  <h3 className="text-4xl font-semibold text-gray-900">
-                    AWS re/Start
-                  </h3>
-                  <h4 className="text-black-600 text-lg font-medium mt-1">
-                    Preparing individuals for cloud careers with free to the
-                    learner cohort-based training
-                  </h4>
-                  <h3 className="text-3xl font-medium text-gray-900 mt-6">
-                    Helping people build careers in the cloud
-                  </h3>
-                </div>
-                <p className="text-black-600 text-lg leading-relaxed">
-                  AWS re/Start is a cohort-based workforce development program
-                  that equips individuals for cloud careers and connects them
-                  with prospective employers. No prior technology background is
-                  needed to apply. The program is offered at no cost to the
-                  learner and is designed to support unemployed or underemployed
-                  individuals starting a new career path. AWS re/Start&#39;s
-                  partner organizations work to uplift underrepresented groups,
-                  minorities, displaced individuals, young people, and other
-                  communities in need of opportunity.
-                </p>
-                <p className="text-black-600 text-lg leading-relaxed mt-4">
-                  Through structured coursework and hands-on labs built around
-                  real-world scenarios, learners develop the technical skills
-                  required for entry to mid-level cloud roles. The program also
-                  builds professional readiness through resume support and
-                  interview coaching, preparing learners to confidently meet
-                  employers and take on job interviews.
-                </p>
-              </div>
-
-              <div className="relative w-full h-80 md:h-[420px] rounded-xl overflow-hidden">
-                <Image
-                  src="/Aws feature.webp"
-                  alt="AWS re/Start program feature"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-
-            {/* About the curriculum */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div className="relative w-full h-80 md:h-[420px] rounded-2xl overflow-hidden">
-                <Image
-                  src="/Aws csr 2.webp"
-                  alt="AWS re/Start curriculum"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div>
-                <div className="mb-4">
-                  <h3 className="text-3xl font-medium text-gray-900">
-                    About the curriculum
-                  </h3>
-                </div>
-                <p className="text-black-600 text-lg leading-relaxed">
-                  AWS re/Start&#39;s curriculum is built around the learner, not
-                  a fixed syllabus. It adapts to each person&#39;s starting
-                  point, whether they&#39;re completely new to technology or
-                  bring some prior exposure. It shapes itself around individual
-                  goals, connecting every module to the kind of cloud role a
-                  learner is working toward. It flexes across learning
-                  modalities, combining instructor-led sessions, scenario-based
-                  exercises, and hands-on labs so different learning styles are
-                  supported. This adaptability is what allows learners from very
-                  different backgrounds to reach the same outcome: real,
-                  job-ready cloud skills. The result is a program that meets
-                  learners where they are, and moves with them from there.
-                </p>
-              </div>
-            </div>
-
-            {/* What you'll learn */}
-            <div>
-              <h4 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                What you&#39;ll learn
-              </h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {[
-                  {
-                    logo: "/Liux and Network.svg",
-                    title: "Linux and networking",
-                    desc: "The operating fundamentals every cloud role runs on",
-                  },
-                  {
-                    logo: "/Security and Database.svg",
-                    title: "Security and databases",
-                    desc: "Protecting and managing data at cloud scale",
-                  },
-                  {
-                    logo: "/Cloud skill.svg",
-                    title: "Core AWS cloud skills",
-                    desc: "Hands-on labs using real AWS environments",
-                  },
-                  {
-                    logo: "/Job.svg",
-                    title: "Job readiness",
-                    desc: "Resume building, mock interviews, hiring day prep",
-                  },
-                ].map((item) => (
-                  <div key={item.title} className="text-center">
-                    <div className="relative w-full h-56 md:h-64 rounded-xl overflow-hidden mb-3">
-                      <Image
-                        src="/Aws1.png"
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Image
-                          src={item.logo}
-                          alt={`${item.title} icon`}
-                          width={74}
-                          height={74}
-                          className="w-20 h-20 object-contain"
-                        />
-                      </div>
-                    </div>
-                    <div className="text-lg font-bold text-gray-900">
-                      {item.title}
-                    </div>
-                    <div className="text-sm text-gray-600 mt-1">
-                      {item.desc}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Career mapping */}
-            <CareerMapping />
-
-            {/* Eligibility + FAQ split block */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 border border-gray-200 rounded-2xl p-6">
-              {/* Eligibility */}
-              <div>
-                <h4 className="text-xl font-semibold text-gray-900 mb-2">
-                  Check your eligibility
-                </h4>
-                <p className="text-gray-600 text-base mb-3">
-                  To be eligible for the program, you need to fulfil these
-                  requirements:
-                </p>
-                <ul className="space-y-2">
-                  {[
-                    "You are not in full-time employment, or are working regularly more than 16 hours per week",
-                    "You are currently not in education or training",
-                    "You have the legal right to live and work in India",
-                    "You are interested in a career in technology and can demonstrate that interest",
-                    "You are available for 12 consecutive weeks of full-day training, Monday to Friday, 9 AM to 5:30 PM",
-                    "You have your own computing equipment and a steady internet connection",
-                    "You're ready to start working immediately after training, should a job opportunity come up",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <Check className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-base text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* FAQ */}
-              <div>
-                <h4 className="text-xl font-semibold text-gray-900 mb-3">
-                  Frequently asked questions
-                </h4>
-                <div className="space-y-3">
-                  {[
-                    {
-                      q: "Is AWS re/Start really free?",
-                      a: "Yes. There is no cost to the learner for training, materials, or certification exam preparation.",
-                    },
-                    {
-                      q: "Do I need a technical background?",
-                      a: "No prior coding or IT experience is required — the program is built for complete beginners.",
-                    },
-                    {
-                      q: "What happens after I complete the program?",
-                      a: "You'll receive support applying for entry-level cloud roles, including resume review, interview coaching, and access to SFJBS's hiring network.",
-                    },
-                    {
-                      q: "Is the training online or in person?",
-                      a: "Training runs full-day, Monday to Friday, for 12 consecutive weeks — confirm the exact format with our team when you apply.",
-                    },
-                  ].map((faq) => (
-                    <div
-                      key={faq.q}
-                      className="border border-gray-200 rounded-lg p-3"
-                    >
-                      <div className="text-base font-medium text-gray-900">
-                        {faq.q}
-                      </div>
-                      <div className="text-sm text-gray-600 mt-1">{faq.a}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+      case "careers":
+        return <GenerativeAIRoles />;
+      default:
+        return null;
     }
   };
 
@@ -647,7 +395,7 @@ const CSRLandingPage = () => {
         </div>
       </div>
 
-      <div className="py-10 max-w-[100rem] mx-auto px-4">
+      <div className="py-10 max-w-7xl mx-auto">
         {/* Tabbed Content Section */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
           {/* Tab Navigation */}
@@ -688,7 +436,7 @@ const CSRLandingPage = () => {
             <TabContent id={activeTab} />
           </div>
         </div>
-        {activeTab !== "awsRestart" && <CSRBottomCTA />}
+        <CSRBottomCTA />
 
         {/* Bottom CTA */}
       </div>
