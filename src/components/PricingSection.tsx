@@ -1,11 +1,15 @@
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
+
 const TIERS = [
   {
-    icon: "📖",
     label: "Self-Paced",
     price: "₹15,000",
     note: "onwards",
-    accent: "#2563eb",
-    bg: "#eff6ff",
+    description: "Ideal for individuals getting started at their own pace.",
+    cta: "Start Learning",
+    featured: false,
     features: [
       "Recorded sessions",
       "Community forum",
@@ -14,12 +18,11 @@ const TIERS = [
     ],
   },
   {
-    icon: "🎓",
     label: "Live Cohort",
     price: "₹65,000",
     note: "onwards",
-    accent: "#d97706",
-    bg: "#fffbeb",
+    description: "For teams that need live guidance and a mentorship start.",
+    cta: "Get Started",
     featured: true,
     features: [
       "Live classes + recordings",
@@ -29,12 +32,12 @@ const TIERS = [
     ],
   },
   {
-    icon: "🏢",
     label: "Enterprise",
     price: "₹2,00,000",
     note: "customised",
-    accent: "#16a34a",
-    bg: "#f0fdf4",
+    description: "For large organizations needing a dedicated, custom program.",
+    cta: "Contact Sales",
+    featured: false,
     features: [
       "Custom curriculum",
       "On-site / remote",
@@ -46,45 +49,22 @@ const TIERS = [
 
 export default function PricingSection() {
   return (
-    <section
-      style={{
-        padding: "72px 24px",
-        background: "#f8fafc",
-        fontFamily: "'Segoe UI', sans-serif",
-      }}
-    >
-      {/* heading */}
+    <section style={{ padding: "72px 24px", background: "#fff" }}>
       <div style={{ textAlign: "center", marginBottom: 48 }}>
-        <span
-          style={{
-            display: "inline-block",
-            background: "linear-gradient(90deg,#2563eb,#7c3aed)",
-            color: "#fff",
-            fontSize: 12,
-            fontWeight: 700,
-            letterSpacing: ".1em",
-            textTransform: "uppercase",
-            padding: "4px 16px",
-            borderRadius: 100,
-            marginBottom: 16,
-          }}
-        >
-          Flexible Pricing
-        </span>
         <h2
           style={{
-            fontSize: "clamp(26px,4vw,38px)",
-            fontWeight: 800,
+            fontSize: "clamp(28px,4vw,40px)",
+            fontWeight: 700,
             color: "#0f172a",
             margin: "0 0 12px",
             lineHeight: 1.2,
           }}
         >
-          Courses Starting at <span style={{ color: "#2563eb" }}>₹15,000</span>
+          Courses Starting at ₹15,000
         </h2>
         <p
           style={{
-            fontSize: 16,
+            fontSize: 15,
             color: "#64748b",
             maxWidth: 480,
             margin: "0 auto",
@@ -96,7 +76,6 @@ export default function PricingSection() {
         </p>
       </div>
 
-      {/* cards */}
       <div
         style={{
           display: "grid",
@@ -106,91 +85,91 @@ export default function PricingSection() {
           margin: "0 auto 40px",
         }}
       >
-        {TIERS.map((t) => (
-          <div
+        {TIERS.map((t, index) => (
+          <motion.div
             key={t.label}
+            initial={{
+              opacity: 0,
+              y: t.featured ? 30 : 20,
+              scale: 0.96,
+              filter: "blur(8px)",
+            }}
+            whileInView={{
+              opacity: 1,
+              y: t.featured ? -8 : 0,
+              scale: 1,
+              filter: "blur(0px)",
+            }}
+            transition={{ duration: 0.6, delay: index * 0.35, ease: "easeOut" }}
+            viewport={{ once: true }}
             style={{
               background: "#fff",
-              borderRadius: 16,
-              padding: 28,
-              border: t.featured
-                ? `2px solid ${t.accent}`
-                : "1.5px solid #e2e8f0",
-              boxShadow: t.featured
-                ? `0 8px 32px ${t.accent}22`
-                : "0 2px 12px rgba(0,0,0,.05)",
-              position: "relative",
+              borderRadius: 12,
+              padding: 24,
+              border: t.featured ? "2px solid #2563eb" : "1px solid #e2e8f0",
             }}
           >
-            {t.featured && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: -13,
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  background: t.accent,
-                  color: "#fff",
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: ".08em",
-                  textTransform: "uppercase",
-                  padding: "3px 14px",
-                  borderRadius: 100,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Most Popular
-              </div>
-            )}
-
-            {/* icon pill */}
             <div
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 44,
-                height: 44,
-                borderRadius: 12,
-                background: t.bg,
-                fontSize: 22,
-                marginBottom: 16,
-              }}
-            >
-              {t.icon}
-            </div>
-
-            <div
-              style={{
-                fontSize: 13,
+                fontSize: 15,
                 fontWeight: 700,
-                color: t.accent,
-                marginBottom: 6,
-                textTransform: "uppercase",
-                letterSpacing: ".06em",
+                color: "#0f172a",
+                marginBottom: 16,
               }}
             >
               {t.label}
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                gap: 6,
-                marginBottom: 4,
-              }}
-            >
-              <span style={{ fontSize: 30, fontWeight: 800, color: "#0f172a" }}>
-                {t.price}
-              </span>
+            <div style={{ fontSize: 34, fontWeight: 800, color: "#0f172a" }}>
+              {t.price}
             </div>
-            <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 20 }}>
+            <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 16 }}>
               {t.note}
             </div>
 
-            {/* features */}
+            <p
+              style={{
+                fontSize: 13.5,
+                color: "#64748b",
+                lineHeight: 1.5,
+                marginBottom: 20,
+              }}
+            >
+              {t.description}
+            </p>
+
+            <button
+              style={{
+                width: "100%",
+                padding: "10px 0",
+                borderRadius: 8,
+                fontSize: 13.5,
+                fontWeight: 600,
+                marginBottom: 24,
+                cursor: "pointer",
+                border: t.featured ? "none" : "1px solid #cbd5e1",
+                background: t.featured ? "#2563eb" : "#fff",
+                color: t.featured ? "#fff" : "#0f172a",
+              }}
+            >
+              {t.cta}
+            </button>
+
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                color: "#94a3b8",
+                textTransform: "uppercase",
+                letterSpacing: ".06em",
+                borderTop: "1px solid #f1f5f9",
+                paddingTop: 16,
+                marginBottom: 12,
+              }}
+            >
+              Features
+            </div>
+
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
               {t.features.map((f) => (
                 <li
@@ -201,29 +180,28 @@ export default function PricingSection() {
                     gap: 8,
                     fontSize: 13.5,
                     color: "#334155",
-                    padding: "7px 0",
-                    borderBottom: "1px solid #f1f5f9",
+                    padding: "6px 0",
                   }}
                 >
                   <svg
-                    width="14"
-                    height="14"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke={t.accent}
-                    strokeWidth="2.5"
+                    stroke="#94a3b8"
+                    strokeWidth="1.8"
                   >
-                    <polyline points="20 6 9 17 4 12" />
+                    <circle cx="12" cy="12" r="9" />
+                    <polyline points="8.5 12.5 11 15 15.5 9.5" />
                   </svg>
                   {f}
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         ))}
       </div>
 
-      {/* bottom note */}
       <p style={{ textAlign: "center", fontSize: 13, color: "#94a3b8" }}>
         EMI options available · All plans include a certificate of completion
       </p>

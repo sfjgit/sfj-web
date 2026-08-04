@@ -2,7 +2,21 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
-import { MessageSquare, Headphones, Send, Check } from "lucide-react";
+import { MessageSquare, Send, Check } from "lucide-react";
+import { RiContactsLine } from "react-icons/ri";
+import { IoChatbubbles } from "react-icons/io5";
+import Link from "next/link";
+
+// Name tag for the two floating action buttons. Sits to the left of its
+// button and slides in on hover or keyboard focus, so each icon identifies
+// itself without the buttons carrying permanent text. `pointer-events-none`
+// keeps it from stealing the click it is describing.
+const LABEL_CLASS =
+  "pointer-events-none absolute right-full top-1/2 -translate-y-1/2 mr-2 " +
+  "whitespace-nowrap rounded-md bg-slate-900 px-2.5 py-1.5 text-xs font-medium " +
+  "text-white shadow-lg opacity-0 translate-x-1 transition-all duration-200 " +
+  "group-hover:opacity-100 group-hover:translate-x-0 " +
+  "group-focus-visible:opacity-100 group-focus-visible:translate-x-0";
 
 const SFJContactForm = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,39 +74,35 @@ const SFJContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await fetch("/api/form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-      setIsSuccess(true);
+      const result = await response.json();
 
-      // Reset form after successful submission
-      setTimeout(() => {
-        setIsSuccess(false);
-        setFormData({
-          name: "",
-          email: "",
-          countryCode: "+91",
-          phoneNumber: "",
-          type: "general",
-          query: "",
-        });
-        setIsOpen(false);
-      }, 3000);
+      if (result.success) {
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          setFormData({
+            name: "",
+            email: "",
+            countryCode: "+91",
+            phoneNumber: "",
+            type: "general",
+            query: "",
+          });
+          setIsOpen(false);
+        }, 3000);
+      } else {
+        console.error("API Error:", result.message);
+        alert("Something went wrong. Please try again.");
+      }
     } catch (error) {
       console.error("Network Error:", error);
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-        setFormData({
-          name: "",
-          email: "",
-          countryCode: "+91",
-          phoneNumber: "",
-          type: "general",
-          query: "",
-        });
-        setIsOpen(false);
-      }, 3000);
+      alert("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -122,17 +132,30 @@ const SFJContactForm = () => {
   return (
     <>
       {/* Contact Button and Form */}
-      <div className="fixed bottom-6 right-4 md:bottom-6 md:right-6 z-40">
-        <div className="relative">
-          {/* Attention-grabbing pulsing ring */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 opacity-70 blur-sm animate-pulse"></div>
+      <div className="fixed bottom-4 right-4 md:bottom-5 md:right-5 z-40 flex flex-col items-end gap-2">
+        {/* Moved down from the navbar — sits above the chat button.
+            `group` drives the name tag: two identical dark squares are
+            indistinguishable at a glance, so each one labels itself on
+            hover/focus rather than relying on the icon alone. */}
+        <Link
+          href="/contact"
+          aria-label="Contact Us"
+          className="group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
+        >
+          <RiContactsLine className="w-6 h-6 md:w-7 md:h-7" />
+          <span className={LABEL_CLASS}>Contact Us</span>
+        </Link>
 
+        <div className="relative">
+          {/* Rounded message-box plate rather than a circle. The muted dark
+              fill keeps the mark readable over any section it floats above. */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="contact-button relative bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 py-3 md:px-6 md:py-6  rounded-full shadow-xl flex items-center gap-2 font-medium border-2 border-white transition-all duration-300 hover:scale-105"
+            aria-label="Chat with us"
+            className="contact-button group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
           >
-            <Headphones size={24} className="md:size-8 animate-bounce" />
-            <span className="text-xs md:text-lg font-bold">Chat with us</span>
+            <IoChatbubbles className="w-6 h-6 md:w-7 md:h-7" />
+            <span className={LABEL_CLASS}>Chat with us</span>
           </button>
 
           {/* Floating notification dot */}

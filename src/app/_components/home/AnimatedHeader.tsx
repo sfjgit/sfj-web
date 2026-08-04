@@ -74,9 +74,9 @@ const AnimatedHeader1 = () => {
   };
 
   return (
-    <div className="rounded-2xl overflow-hidden h-full pt-10 max-w-7xl mx-auto">
-      <div className="container mx-auto px-6 pt-8">
-        <div className="grid lg:grid-cols-2 gap-8 h-full">
+    <div className="relative w-full -mt-8 rounded-none overflow-hidden h-full pt-10">
+      <div className="max-w-7xl mx-auto px-6 h-full flex items-center">
+        <div className="grid gap-8 w-full">
           {/* Left Content */}
           <motion.div
             className="space-y-6"
@@ -85,7 +85,10 @@ const AnimatedHeader1 = () => {
             animate={controls}
           >
             {/* Header Section */}
-            <div className="space-y-4 pt-6">
+            <div
+              className="space-y-4 pt-6"
+              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.55)" }}
+            >
               {/* Big Agentic AI Title */}
               <motion.div
                 className="relative inline-block"
@@ -94,7 +97,7 @@ const AnimatedHeader1 = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <motion.div
-                  className="relative text-4xl lg:text-5xl font-bold text-blue-400"
+                  className="relative text-4xl lg:text-5xl font-bold text-white"
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{
@@ -130,7 +133,7 @@ const AnimatedHeader1 = () => {
                 )}
               </motion.h1> */}
               {/* Subtitle */}
-              <p className="text-lg lg:text-xl text-gray-700 leading-relaxed">
+              <p className="text-lg lg:text-xl text-white leading-relaxed">
                 Unleash AI that can think, learn, and take action on its
                 own—changing the way work gets done.
               </p>
@@ -152,8 +155,8 @@ const AnimatedHeader1 = () => {
                     className="flex items-center space-x-3"
                     variants={itemVariants}
                   >
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                    <span className=" text-black ">{feature}</span>
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <span className=" text-white ">{feature}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -170,7 +173,7 @@ const AnimatedHeader1 = () => {
                 onClick={() => {
                   router.push("/contact");
                 }}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-lg"
+                className="bg-white hover:bg-gray-100 text-orange-600 px-8 py-4 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-lg"
                 variants={itemVariants}
                 whileHover={{
                   scale: 1.05,
@@ -186,18 +189,6 @@ const AnimatedHeader1 = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Content - Video */}
-          <div className="pt-10">
-            <video
-              src="/gen-ai.webm"
-              className="w-full"
-              autoPlay={true}
-              muted={true}
-              loop={true}
-              playsInline={true}
-              controls={false}
-            />
-          </div>
         </div>
       </div>
     </div>

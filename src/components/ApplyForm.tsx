@@ -26,7 +26,7 @@ export default function ApplyForm({ jobId }: Props) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [step, setStep] = useState<"form" | "submitting" | "redirecting">(
-    "form"
+    "form",
   );
 
   async function handleSubmit() {
@@ -62,7 +62,7 @@ export default function ApplyForm({ jobId }: Props) {
             "Content-Type": "application/json",
             "x-admin-key": process.env.NEXT_PUBLIC_ADMIN_API_KEY ?? "",
           },
-        }
+        },
       );
 
       // 2. Upload resume
@@ -76,7 +76,7 @@ export default function ApplyForm({ jobId }: Props) {
             "Content-Type": "multipart/form-data",
             "x-admin-key": process.env.NEXT_PUBLIC_ADMIN_API_KEY ?? "",
           },
-        }
+        },
       );
 
       // 3. Create application — get applicationId back
@@ -88,7 +88,7 @@ export default function ApplyForm({ jobId }: Props) {
             "Content-Type": "application/json",
             "x-admin-key": process.env.NEXT_PUBLIC_ADMIN_API_KEY ?? "",
           },
-        }
+        },
       );
 
       // 4. Check if job has an active test
@@ -112,8 +112,8 @@ export default function ApplyForm({ jobId }: Props) {
           `/test/${activeTest.id}?appId=${
             application.id
           }&name=${encodeURIComponent(form.name)}&email=${encodeURIComponent(
-            form.email
-          )}`
+            form.email,
+          )}`,
         );
         return;
       } else {
@@ -134,7 +134,7 @@ export default function ApplyForm({ jobId }: Props) {
       setError(
         e?.response?.data?.message ??
           e?.response?.data?.error ??
-          "Something went wrong. Please try again."
+          "Something went wrong. Please try again.",
       );
     } finally {
       setSaving(false);

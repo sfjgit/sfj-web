@@ -1,418 +1,3 @@
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// /* eslint-disable @typescript-eslint/no-unused-vars */
-// "use client";
-// import { useState, useEffect } from "react";
-// import {
-//   Menu,
-//   X,
-//   ChevronDown,
-//   BookOpen,
-//   Users,
-//   Settings,
-//   Building,
-//   GraduationCap,
-//   Heart,
-//   BookOpenCheck,
-// } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-// import { usePathname, useRouter } from "next/navigation";
-// import Link from "next/link";
-// import Image from "next/image";
-// import GoogleTrans from "./GoogleTrans";
-
-// const Navigation = () => {
-//   const [isMenuOpen, setIsMenuOpen] = useState(false);
-//   const [isScrolled, setIsScrolled] = useState(false);
-//   const location = usePathname();
-//   const router = useRouter();
-
-//   // Scroll detection
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       const scrollTop = window.scrollY;
-//       setIsScrolled(scrollTop > 50); // Change threshold as needed
-//     };
-
-//     window.addEventListener("scroll", handleScroll);
-//     return () => window.removeEventListener("scroll", handleScroll);
-//   }, []);
-
-//   // Single navigation array with children and without children
-//   const navigationItems = [
-//     { path: "/", label: "Home", hasChildren: false },
-
-//     {
-//       path: "/services",
-//       label: "Services",
-//       hasChildren: true,
-//       children: [
-//         {
-//           path: "/services/corporate-social-responsibility",
-//           label: "CSR Skilling Partner",
-//           icon: Heart,
-//           description:
-//             "CSR initiatives focused on education and skill development",
-//         },
-//         {
-//           path: "/services/government-initiatives",
-//           label: "Government-Led Skilling Missions",
-//           icon: Building,
-//           description:
-//             "KSDC, Naan Mudhalavan and other state skill development initiatives",
-//         },
-//         {
-//           path: "/services/institutional-training",
-//           label: "Institutional Training (B2I)",
-//           icon: GraduationCap,
-//           description:
-//             "Training for engineering, MBA, and arts & science students",
-//         },
-
-//         {
-//           path: "/services/corporate-it-training-programs",
-//           label: "Corporate IT Training Programs",
-//           icon: BookOpen,
-//           description:
-//             "640+ specialized courses to boost your career and skills",
-//         },
-//         {
-//           path: "/services/it-staffing-company",
-//           label: "Talent as a Service",
-//           icon: Users,
-//           description:
-//             "15,000+ successful placements with top-tier IT professionals",
-//         },
-//       ],
-//     },
-//     {
-//       path: "/initiatives",
-//       label: "Initiatives",
-//       hasChildren: true,
-//       children: [
-//         {
-//           path: "/initiatives/skill-development",
-//           label: "Skill Development",
-//           icon: BookOpenCheck,
-//           description:
-//             "KSDC, Naan Mudhalavan and other state skill development initiatives",
-//         },
-//         {
-//           path: "/initiatives/faculty-development",
-//           label: "Faculty Development",
-//           icon: BookOpenCheck,
-//           description:
-//             "State and institutional faculty development programs aimed at upskilling educators and researchers",
-//         },
-//       ],
-//     },
-//     {
-//       path: "/courses",
-//       label: "Courses",
-//       hasChildren: false,
-//     },
-//     {
-//       path: "/industries",
-//       label: "Industries",
-//       hasChildren: false,
-//     },
-//     {
-//       path: "/impact",
-//       label: "Impact",
-//       hasChildren: false,
-//     },
-
-//     { path: "/jobs", label: "Careers", hasChildren: false },
-//     { path: "/blog", label: "Blogs", hasChildren: false },
-//     // { path: "/partners", label: "Partners", hasChildren: false },
-
-//     // { path: "/about", label: "About Us", hasChildren: false },
-//     // { path: "/", label: "Education", hasChildren: false },
-//   ];
-
-//   // Check if current path matches any service item
-//   const isActiveService =
-//     navigationItems
-//       .find((item) => item.path === "/services")
-//       ?.children?.some((child) => location === child.path) ||
-//     location === "/services";
-
-//   const isActiveItem = (item: any) => {
-//     if (item.hasChildren) {
-//       return (
-//         item.children?.some((child: any) => location === child.path) ||
-//         location === item.path
-//       );
-//     }
-//     return location === item.path;
-//   };
-//   console.log(location, "location");
-
-//   const isLocationBlack = () => {
-//     if (
-//       location === "/services/institutional-training" ||
-//       location === "/" ||
-//       location === "/services/government-initiatives" ||
-//       location === "/services/corporate-it-training-programs" ||
-//       location === "/life-at-sfjbs" ||
-//       location.split("/").includes("careers") ||
-//       location.split("/").includes("blog") ||
-//       location === "/contact"
-//     ) {
-//       return true;
-//     }
-//     return false;
-//   };
-
-//   return (
-//     <nav
-//       className={`fixed   top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
-//         isScrolled || isLocationBlack()
-//           ? "bg-white/95 border-b"
-//           : "bg-white/95 border-b"
-//       }`}
-//     >
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="flex justify-between items-center py-3">
-//           {/* Logo */}
-//           <div className="flex items-center gap-3">
-//             <Link
-//               href="/"
-//               className="flex flex-col items-center group transition-transform hover:scale-105"
-//             >
-//               <div className="relative">
-//                 {isScrolled || isLocationBlack() ? (
-//                   <Image
-//                     src="/app/sfjlogo.png"
-//                     alt="SFJ Logo"
-//                     className="w-16 h-16 object-cover"
-//                     quality={100}
-//                     width={64}
-//                     height={64}
-//                   />
-//                 ) : (
-//                   <Image
-//                     // src="/app/SFJ.png"
-//                     src="/app/sfjlogo.png"
-//                     alt="SFJ Logo"
-//                     className="w-16 h-16 object-cover"
-//                     quality={100}
-//                     width={64}
-//                     height={64}
-//                   />
-//                 )}
-//                 <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-//               </div>
-//               {/* <p className="text-xs font-semibold text-gray-700 mt-1 group-hover:text-blue-600 transition-colors">
-//               Let&apos;s <span className="text-blue-600">Transform</span>
-//             </p> */}
-//             </Link>
-//             {/* <div className="-ml-2 md:ml-0">
-//               <GoogleTrans />
-//             </div> */}
-//           </div>
-//           {/* Desktop Navigation */}
-//           <div className="hidden md:flex items-center space-x-1">
-//             {navigationItems.map((item) => (
-//               <div key={item.path} className="relative">
-//                 {item.hasChildren ? (
-//                   <DropdownMenu>
-//                     <DropdownMenuTrigger asChild>
-//                       <button
-//                         className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
-//                           isActiveItem(item)
-//                             ? "text-blue-600 bg-blue-50 shadow-sm"
-//                             : isScrolled || isLocationBlack()
-//                             ? "text-black"
-//                             : "text-black"
-//                         }`}
-//                       >
-//                         {item.label}
-//                         <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180 duration-200" />
-//                       </button>
-//                     </DropdownMenuTrigger>
-//                     <DropdownMenuContent
-//                       align="start"
-//                       className="w-80 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
-//                     >
-//                       {item.children?.map((child) => (
-//                         <DropdownMenuItem
-//                           key={child.path}
-//                           asChild
-//                           className="p-0 hover:cursor-pointer"
-//                         >
-//                           <Link
-//                             href={child.path}
-//                             className="flex items-start p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
-//                           >
-//                             <div className="flex-1">
-//                               <div className="font-medium text-gray-800 text-sm mb-1 group-hover:text-blue-600 transition-colors">
-//                                 {child.label}
-//                               </div>
-//                             </div>
-//                           </Link>
-//                         </DropdownMenuItem>
-//                       ))}
-//                     </DropdownMenuContent>
-//                   </DropdownMenu>
-//                 ) : item.label === "Education" ? (
-//                   <Link
-//                     target="_blank"
-//                     rel="noopener noreferrer"
-//                     href={item.path}
-//                     className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
-//                       isActiveItem(item)
-//                         ? "text-blue-600 bg-blue-50 shadow-sm"
-//                         : isScrolled || isLocationBlack()
-//                         ? "text-black"
-//                         : "text-black"
-//                     }`}
-//                   >
-//                     {item.label}
-//                   </Link>
-//                 ) : (
-//                   <Link
-//                     href={item.path}
-//                     className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
-//                       isActiveItem(item)
-//                         ? "text-blue-600 bg-blue-50 shadow-sm"
-//                         : isScrolled || isLocationBlack()
-//                         ? "text-black"
-//                         : "text-black"
-//                     }`}
-//                   >
-//                     {item.label}
-//                   </Link>
-//                 )}
-//               </div>
-//             ))}
-//             {/* <Link
-//               target="_blank"
-//               rel="noopener noreferrer"
-//               href={"https://www.bskilling.com/"}
-//               className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 `}
-//             >
-//               Education
-//             </Link> */}
-
-//             {/* Contact Button */}
-//             <Button
-//               onClick={() => router.push("/contact")}
-//               className="ml-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
-//             >
-//               Contact Us
-//             </Button>
-//           </div>
-//           {/* Mobile menu button */}
-//           <div className="md:hidden">
-//             <Button
-//               variant="ghost"
-//               size="sm"
-//               onClick={() => setIsMenuOpen(!isMenuOpen)}
-//               className="relative p-2 rounded-lg hover:bg-blue-50 transition-colors"
-//             >
-//               <div className="relative w-6 h-6">
-//                 <Menu
-//                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
-//                     isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-//                   } ${
-//                     isScrolled || isLocationBlack()
-//                       ? "text-black"
-//                       : "text-black"
-//                   }`}
-//                 />
-//                 <X
-//                   className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
-//                     isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-//                   } ${
-//                     isScrolled || isLocationBlack()
-//                       ? "text-black"
-//                       : "text-black"
-//                   }`}
-//                 />
-//               </div>
-//             </Button>
-//           </div>
-//         </div>
-
-//         {/* Mobile Navigation */}
-//         <div
-//           className={`md:hidden transition-all duration-300 ease-in-out ${
-//             isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-//           } overflow-hidden`}
-//         >
-//           <div className="px-2 pb-4 space-y-2 bg-white/95 backdrop-blur-md rounded-b-xl shadow-lg">
-//             {navigationItems.map((item) => (
-//               <div key={item.path}>
-//                 {item.hasChildren ? (
-//                   <div className="space-y-1">
-//                     <div className="px-3 py-2 text-sm font-semibold text-gray-900 bg-gray-50 rounded-lg">
-//                       {item.label}
-//                     </div>
-//                     <div className="pl-4 space-y-1">
-//                       {item.children?.map((child) => (
-//                         <Link
-//                           key={child.path}
-//                           href={child.path}
-//                           className={`flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
-//                             location === child.path
-//                               ? "text-blue-600 bg-blue-50 font-medium"
-//                               : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
-//                           }`}
-//                           onClick={() => setIsMenuOpen(false)}
-//                         >
-//                           <child.icon className="w-4 h-4 mr-2 flex-shrink-0" />
-//                           <span className="truncate">{child.label}</span>
-//                         </Link>
-//                       ))}
-//                     </div>
-//                   </div>
-//                 ) : (
-//                   <Link
-//                     href={item.path}
-//                     className={`block px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-//                       location === item.path
-//                         ? "text-blue-600 bg-blue-50 font-semibold"
-//                         : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-//                     }`}
-//                     onClick={() => setIsMenuOpen(false)}
-//                   >
-//                     {item.label}
-//                   </Link>
-//                 )}
-//               </div>
-//             ))}
-
-//             {/* Mobile Contact Button */}
-//             <div className="pt-2">
-//               <Button
-//                 className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
-//                 onClick={() => {
-//                   router.push("/contact");
-//                   setIsMenuOpen(false);
-//                 }}
-//               >
-//                 Contact Us
-//               </Button>
-//             </div>
-//             {/* Mobile Translate Button */}
-//             {/* <div className="pt-3 flex justify-center">
-//               <GoogleTrans />
-//             </div> */}
-//           </div>
-//         </div>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Navigation;
-
 // components/Navigation.tsx (Updated)
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -422,6 +7,7 @@ import {
   Menu,
   X,
   ChevronDown,
+  ChevronRight,
   BookOpen,
   Users,
   Settings,
@@ -432,6 +18,7 @@ import {
   User,
   LogOut,
 } from "lucide-react";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -439,6 +26,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -461,6 +51,8 @@ interface UserProfile {
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isInitiativesOpen, setIsInitiativesOpen] = useState(false);
+  const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -506,6 +98,40 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Dismiss the Services mega-menu on any click outside it (including on the
+  // navbar itself, which sits above the backdrop), on Escape, and on scroll.
+  useEffect(() => {
+    if (!isSolutionsOpen) return;
+
+    const handlePointerDown = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest?.("[data-services-menu], [data-services-trigger]"))
+        return;
+      setIsSolutionsOpen(false);
+    };
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsSolutionsOpen(false);
+    };
+    const close = () => setIsSolutionsOpen(false);
+
+    // Capture phase: the hero carousel and other widgets call
+    // stopPropagation() on their own pointer handlers, which would otherwise
+    // swallow the event before it ever reached a bubble-phase listener here.
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    document.addEventListener("mousedown", handlePointerDown, true);
+    document.addEventListener("touchstart", handlePointerDown, true);
+    document.addEventListener("keydown", handleKey);
+    window.addEventListener("scroll", close, { passive: true });
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+      document.removeEventListener("mousedown", handlePointerDown, true);
+      document.removeEventListener("touchstart", handlePointerDown, true);
+      document.removeEventListener("keydown", handleKey);
+      window.removeEventListener("scroll", close);
+    };
+  }, [isSolutionsOpen]);
+
   const handleLogout = async () => {
     try {
       await api.post("/auth/signout");
@@ -523,74 +149,78 @@ const Navigation = () => {
 
   // Single navigation array with children and without children
   const navigationItems = [
-    { path: "/", label: "Home", hasChildren: false },
+    // { path: "/", label: "Home", hasChildren: false },
     {
       path: "/services",
       label: "Services",
       hasChildren: true,
       children: [
         {
-          path: "/services/corporate-social-responsibility",
-          label: "CSR Skilling Partner",
-          icon: Heart,
-          description:
-            "CSR initiatives focused on education and skill development",
-        },
-        {
-          path: "/services/government-initiatives",
-          label: "Government-Led Skilling Missions",
-          icon: Building,
-          description:
-            "KSDC, Naan Mudhalavan and other state skill development initiatives",
-        },
-        {
-          path: "/services/institutional-training",
-          label: "Institutional Training (B2I)",
-          icon: GraduationCap,
-          description:
-            "Training for engineering, MBA, and arts & science students",
-        },
-        {
           path: "/services/corporate-it-training-programs",
-          label: "Corporate IT Training Programs",
+          label: "Knowledge-as-a-Service (KaaS)",
           icon: BookOpen,
-          description:
-            "640+ specialized courses to boost your career and skills",
+          description: "Gen AI upskilling, cross-skilling, reskilling",
+          group: "KaaS",
+          groupTitle: "For Kaas & GCCs",
+          hasChildren: false,
         },
         {
           path: "/services/it-staffing-company",
           label: "Talent as a Service",
           icon: Users,
-          description:
-            "15,000+ successful placements with top-tier IT professionals",
+          description: "Trained, deploy-ready IT talent",
+          group: "KaaS",
+          groupTitle: "KaaS & GCCs",
+          hasChildren: false,
         },
-      ],
-    },
-    {
-      path: "/initiatives",
-      label: "Initiatives",
-      hasChildren: true,
-      children: [
+
+        {
+          path: "/services/government-initiatives",
+          label: "Government-Led Skilling Missions",
+          icon: Building,
+          description: "KSDC, Naan Mudhalavan & state programs",
+          group: "Government",
+          groupTitle: "For Government",
+          hasChildren: false,
+        },
+        {
+          path: "/services/institutional-training",
+          label: "Institutional Training (B2I)",
+          icon: GraduationCap,
+          description: "Polytechnic, Arts, Science, Engg, MBA",
+          group: "Institutions",
+          groupTitle: "For Institutions",
+          hasChildren: false,
+        },
         {
           path: "/initiatives/skill-development",
           label: "Skill Development",
-          icon: BookOpenCheck,
-          description:
-            "KSDC, Naan Mudhalavan and other state skill development initiatives",
+          icon: GraduationCap,
+          description: "KSDC, Naan Mudhalavan & state skilling",
+          group: "Government",
+          groupTitle: "For Government",
+          hasChildren: false,
+        },
+
+        {
+          path: "/services/corporate-social-responsibility",
+          label: "CSR Skilling Partner",
+          icon: Heart,
+          description: "Inclusive groups, women, PWD, LGBTQ+",
+          group: "CSR",
+          groupTitle: "For CSR",
+          hasChildren: false,
         },
         {
           path: "/initiatives/faculty-development",
           label: "Faculty Development",
           icon: BookOpenCheck,
-          description:
-            "State and institutional faculty development programs aimed at upskilling educators and researchers",
+          description: "Upskilling educators and researchers",
+          group: "Government",
+          groupTitle: "For Government",
+          hasChildren: false,
         },
       ],
-    },
-    {
-      path: "/courses",
-      label: "Courses",
-      hasChildren: false,
     },
     {
       path: "/industries",
@@ -598,14 +228,20 @@ const Navigation = () => {
       hasChildren: false,
     },
     {
-      path: "/impact",
-      label: "Impact",
-      hasChildren: false,
+      path: "/company",
+      label: "Company",
+      hasChildren: true,
+      children: [
+        {
+          path: "/impact",
+          label: "Impact",
+          hasChildren: false,
+        },
+        { path: "/jobs", label: "Careers", hasChildren: false },
+        { path: "/blog", label: "Blogs", hasChildren: false },
+      ],
     },
-    { path: "/jobs", label: "Careers", hasChildren: false },
-    { path: "/blog", label: "Blogs", hasChildren: false },
   ];
-
   const isActiveItem = (item: any) => {
     if (item.hasChildren) {
       return (
@@ -641,19 +277,29 @@ const Navigation = () => {
     if (user?.email) return user.email.split("@")[0];
     return "User";
   };
+  const groupChildren = (children: any[]) => {
+    const groups: { title: string; items: any[] }[] = [];
+    const seen = new Map<string, number>();
+    children.forEach((child) => {
+      if (!seen.has(child.group)) {
+        seen.set(child.group, groups.length);
+        groups.push({ title: child.groupTitle, items: [] });
+      }
+      groups[seen.get(child.group)!].items.push(child);
+    });
+    return groups;
+  };
+
+  const serviceGroups = groupChildren(
+    navigationItems.find((i) => i.label === "Services")?.children || [],
+  );
 
   return (
-    <nav
-      className={`fixed top-0 w-full backdrop-blur-md border-gray-200/50 z-50 transition-all duration-300 ${
-        isScrolled || isLocationBlack()
-          ? "bg-white/95 border-b"
-          : "bg-white/95 border-b"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-3">
+    <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6">
+      <div className="relative max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 px-6">
+        <div className="flex items-center gap-4 py-2">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-1">
             <Link
               href="/"
               className="flex flex-col items-center group transition-transform hover:scale-105"
@@ -662,21 +308,40 @@ const Navigation = () => {
                 <Image
                   src="/app/sfjlogo.png"
                   alt="SFJ Logo"
-                  className="w-16 h-16 object-cover"
+                  className="w-9 h-9 object-cover"
                   quality={100}
-                  width={64}
-                  height={64}
+                  width={36}
+                  height={36}
                 />
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          {/* Desktop Navigation - center links */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0">
             {navigationItems.map((item) => (
               <div key={item.path} className="relative">
-                {item.hasChildren ? (
+                {item.label === "Services" ? (
+                  <button
+                    data-services-trigger
+                    onClick={() => setIsSolutionsOpen((v) => !v)}
+                    className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
+                      isActiveItem(item) || isSolutionsOpen
+                        ? "text-blue-600 bg-blue-50 shadow-sm"
+                        : isScrolled || isLocationBlack()
+                          ? "text-black"
+                          : "text-black"
+                    }`}
+                  >
+                    Services
+                    <ChevronDown
+                      className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                        isSolutionsOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                ) : item.hasChildren ? (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button
@@ -696,7 +361,7 @@ const Navigation = () => {
                       align="start"
                       className="w-80 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
                     >
-                      {item.children?.map((child) => (
+                      {item.children?.map((child: any) => (
                         <DropdownMenuItem
                           key={child.path}
                           asChild
@@ -732,14 +397,10 @@ const Navigation = () => {
                 )}
               </div>
             ))}
+          </div>
 
-            <Button
-              onClick={() => router.push("/contact")}
-              className="ml-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
-            >
-              Contact Us
-            </Button>
-
+          {/* Desktop Navigation - right buttons */}
+          <div className="hidden md:flex items-center flex-1 justify-end">
             {/* Auth Section */}
             {isAuthLoading ? (
               <div className="ml-4 w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
@@ -800,10 +461,11 @@ const Navigation = () => {
               <>
                 <Button
                   onClick={() => router.push("/signin")}
-                  variant="ghost"
-                  className="ml-4 text-sm font-medium text-gray-700 hover:text-blue-600"
+                  aria-label="Sign Up"
+                  title="Sign Up"
+                  className="ml-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 >
-                  Sign In
+                  <AiOutlineUserAdd className="w-[1.15rem] h-[1.15rem]" />
                 </Button>
                 {/* <Button
                   onClick={() => router.push("/contact")}
@@ -847,6 +509,56 @@ const Navigation = () => {
           </div>
         </div>
 
+        {isSolutionsOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setIsSolutionsOpen(false)}
+            />
+            <div
+              data-services-menu
+              onMouseLeave={() => setIsSolutionsOpen(false)}
+              className="absolute left-0 right-0 top-full mt-2 p-5 bg-white border border-gray-200/50 shadow-xl rounded-xl z-50"
+            >
+              {/* Columns are sized to the number of groups, so removing a
+                  group never leaves an empty slot on the right. */}
+              <div
+                className="grid gap-5 items-start"
+                style={{
+                  gridTemplateColumns: `repeat(${serviceGroups.length}, minmax(0, 1fr))`,
+                }}
+              >
+                {serviceGroups.map((group: any) => (
+                  <div key={group.title} className="min-w-0">
+                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2 pb-2 border-b-2 border-gray-300">
+                      {group.title}
+                    </div>
+                    <div className="space-y-1">
+                      {group.items.map((child: any) => (
+                        <Link
+                          key={child.path}
+                          href={child.path}
+                          onClick={() => setIsSolutionsOpen(false)}
+                          className="block p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
+                        >
+                          <div className="font-medium text-gray-800 text-sm group-hover:text-blue-600 transition-colors">
+                            {child.label}
+                          </div>
+                          {child.description && (
+                            <div className="text-xs text-gray-500 mt-0.5">
+                              {child.description}
+                            </div>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
         {/* Mobile Navigation */}
         <div
           className={`md:hidden transition-all duration-300 ease-in-out ${
@@ -854,7 +566,7 @@ const Navigation = () => {
           } overflow-hidden`}
         >
           <div className="px-2 pb-4 space-y-2 bg-white/95 backdrop-blur-md rounded-b-xl shadow-lg">
-            {navigationItems.map((item) => (
+            {navigationItems.map((item: any) => (
               <div key={item.path}>
                 {item.hasChildren ? (
                   <div className="space-y-1">
@@ -862,21 +574,50 @@ const Navigation = () => {
                       {item.label}
                     </div>
                     <div className="pl-4 space-y-1">
-                      {item.children?.map((child) => (
-                        <Link
-                          key={child.path}
-                          href={child.path}
-                          className={`flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
-                            location === child.path
-                              ? "text-blue-600 bg-blue-50 font-medium"
-                              : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
-                          }`}
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          <child.icon className="w-4 h-4 mr-2 flex-shrink-0" />
-                          <span className="truncate">{child.label}</span>
-                        </Link>
-                      ))}
+                      {item.children?.map((child: any) =>
+                        child.hasChildren ? (
+                          <div key={child.label} className="space-y-1">
+                            <div className="px-3 py-2 text-sm font-medium text-gray-700">
+                              {child.label}
+                            </div>
+                            <div className="pl-4 space-y-1">
+                              {child.children?.map((sub: any) => (
+                                <Link
+                                  key={sub.path}
+                                  href={sub.path}
+                                  className={`flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
+                                    location === sub.path
+                                      ? "text-blue-600 bg-blue-50 font-medium"
+                                      : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                                  }`}
+                                  onClick={() => setIsMenuOpen(false)}
+                                >
+                                  {sub.icon && (
+                                    <sub.icon className="w-4 h-4 mr-2 flex-shrink-0" />
+                                  )}
+                                  <span className="truncate">{sub.label}</span>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <Link
+                            key={child.path}
+                            href={child.path}
+                            className={`flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
+                              location === child.path
+                                ? "text-blue-600 bg-blue-50 font-medium"
+                                : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                            }`}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {child.icon && (
+                              <child.icon className="w-4 h-4 mr-2 flex-shrink-0" />
+                            )}
+                            <span className="truncate">{child.label}</span>
+                          </Link>
+                        ),
+                      )}
                     </div>
                   </div>
                 ) : (

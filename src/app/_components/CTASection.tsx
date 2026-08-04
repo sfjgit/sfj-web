@@ -41,44 +41,50 @@ const CTASection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <motion.h2
-            className="text-4xl md:text-6xl font-bold text-white mb-6"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Ready to Transform Your Workforce?
-          </motion.h2>
+          <div className="overflow-hidden mb-6">
+            <motion.h2
+              className="text-4xl md:text-6xl font-bold text-white"
+              initial={{ y: "100%", opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              Ready to Transform Your Workforce?
+            </motion.h2>
+          </div>
 
-          <motion.p
-            className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            Join 300,000+ professionals who have advanced their careers with SFJ
-            Business Solutions
-          </motion.p>
+          <div className="overflow-hidden mb-8 max-w-2xl mx-auto">
+            <motion.p
+              className="text-xl text-gray-300"
+              initial={{ y: "100%", opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              Join 300,000+ professionals who have advanced their careers with
+              SFJ Business Solutions
+            </motion.p>
+          </div>
 
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <Link href={"/contact"}>
-              <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all duration-300"
-              >
-                Contact Our Team
-              </motion.button>
-            </Link>
-          </motion.div>
+          <div className="overflow-hidden">
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ y: "100%", opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              <Link href={"/contact"}>
+                <motion.button
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-900 transition-all duration-300"
+                >
+                  Contact Our Team
+                </motion.button>
+              </Link>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

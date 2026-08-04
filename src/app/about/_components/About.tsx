@@ -424,17 +424,6 @@ const OfficeCard: React.FC<OfficeCardProps> = ({ office }) => (
   </div>
 );
 
-const Footer: React.FC = () => (
-  <footer className="bg-gradient-to-br from-slate-200 to-gray-300 text-gray-800 py-8 sm:py-12">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p className="text-gray-700 text-sm sm:text-base font-medium">
-        © 2025 SFJ Business Solutions. Bridging the global skills gap through
-        innovative technology training.
-      </p>
-    </div>
-  </footer>
-);
-
 // Main Component
 const AboutPage: React.FC = () => {
   const [visibleItems, setVisibleItems] = useState<Set<string>>(new Set());
@@ -480,7 +469,6 @@ const AboutPage: React.FC = () => {
       {/* <TeamSection /> */}
       {/* <StakeholdersSection /> */}
       <GlobalPresenceSection />
-      <Footer />
     </div>
   );
 };

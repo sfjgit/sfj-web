@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
 import { motion } from "framer-motion";
 // import "swiper/css";
 
@@ -18,12 +16,14 @@ const PartnersSection = () => {
     "/edu&car/Peoplecert-Scrum.png",
   ];
 
-  // Duplicate logos to ensure smooth infinite loop even with few images
-  const duplicatedLogos = [...partnerLogos, ...partnerLogos, ...partnerLogos];
+  // With only four logos the row would be narrower than the viewport, leaving
+  // a visible gap on each pass. Repeating the set fills the strip; the track
+  // then renders this sequence twice so the -50% loop stays seamless.
+  const sequence = Array.from({ length: 4 }, () => partnerLogos).flat();
 
   return (
     <section className="py-5 pt-10 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -32,11 +32,11 @@ const PartnersSection = () => {
           className="text-center mb-16"
         >
           <div className="flex items-center justify-center mb-6">
-            <div className="w-20 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+            <div className="w-20 h-0.5 bg-gray-900 rounded-full"></div>
             <h2 className="text-4xl md:text-4xl font-bold text-gray-900 mx-6">
               Certified Learning Partners
             </h2>
-            <div className="w-20 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+            <div className="w-20 h-0.5 bg-gray-900 rounded-full"></div>
           </div>
         </motion.div>
 
@@ -45,51 +45,61 @@ const PartnersSection = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
+          className="relative overflow-hidden"
         >
-          <Swiper
-            modules={[Autoplay]}
-            slidesPerView={2}
-            spaceBetween={40}
-            autoplay={{
-              delay: 0,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: false,
-            }}
-            speed={5000}
-            loop={true}
-            // loopedSlides={duplicatedLogos.length}
-            breakpoints={{
-              640: { slidesPerView: 3, spaceBetween: 40 },
-              768: { slidesPerView: 4, spaceBetween: 50 },
-              1024: { slidesPerView: 5, spaceBetween: 60 },
-            }}
-            className="h-36 partner-swiper"
-          >
-            {duplicatedLogos.map((logo, index) => (
-              <SwiperSlide
-                key={index}
-                className="!flex !justify-center !items-center !h-full"
+          <div className="partner-marquee flex items-center w-max">
+            {["a", "b"].map((half) => (
+              <div
+                key={half}
+                className="flex items-center"
+                aria-hidden={half === "b"}
               >
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center justify-center w-full h-full"
-                >
-                  <Image
-                    src={logo}
-                    alt={`Partner ${(index % partnerLogos.length) + 1}`}
-                    width={150}
-                    height={80}
-                    className="max-h-20 max-w-full w-auto h-auto object-contain  transition-all duration-300"
-                    quality={100}
-                    priority={index < 5}
-                  />
-                </motion.div>
-              </SwiperSlide>
+                {sequence.map((logo, index) => (
+                  <div
+                    key={`${half}-${index}`}
+                    className="flex items-center justify-center h-10 sm:h-11 lg:h-12 w-24 mx-6 flex-shrink-0"
+                  >
+                    <Image
+                      src={logo}
+                      alt={half === "b" ? "" : `Partner ${index + 1}`}
+                      width={96}
+                      height={36}
+                      className="h-full w-auto max-w-full object-contain"
+                      // Monochrome, tuned to #3a3a3b (58/255 ≈ 0.23 luminance).
+                      style={{ filter: "grayscale(1) brightness(0.23)" }}
+                      quality={100}
+                    />
+                  </div>
+                ))}
+              </div>
             ))}
-          </Swiper>
+          </div>
         </motion.div>
       </div>
+      <style jsx global>{`
+        .partner-marquee {
+          /* Constant-speed, never-pausing scroll. translate3d keeps the row on
+             its own compositor layer so every frame is a GPU transform — no
+             layout, no repaint, steady 60fps. Travelling exactly -50% lands
+             the second half where the first began, so the loop is invisible. */
+          animation: partnerScroll 40s linear infinite;
+          will-change: transform;
+          backface-visibility: hidden;
+        }
+        @keyframes partnerScroll {
+          from {
+            transform: translate3d(0, 0, 0);
+          }
+          to {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .partner-marquee {
+            animation: none;
+          }
+        }
+      `}</style>
     </section>
   );
 };

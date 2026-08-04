@@ -80,7 +80,7 @@ export const useAxios = (): AxiosInstance => {
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => Promise.reject(error),
     );
 
     // ============================================
@@ -141,7 +141,7 @@ export const useAxios = (): AxiosInstance => {
         }
 
         return Promise.reject(error);
-      }
+      },
     );
 
     return instance;
@@ -164,7 +164,7 @@ const performTokenRefresh = async (retries = 2): Promise<boolean> => {
         {
           withCredentials: true,
           timeout: 10000,
-        }
+        },
       );
 
       const newAccessToken = response.data?.data?.accessToken;
@@ -185,7 +185,7 @@ const performTokenRefresh = async (retries = 2): Promise<boolean> => {
       if ((isNetworkError || isServerError) && attempt < retries) {
         console.warn(`⚠️ Refresh attempt ${attempt + 1} failed, retrying...`);
         await new Promise((resolve) =>
-          setTimeout(resolve, 1000 * (attempt + 1))
+          setTimeout(resolve, 1000 * (attempt + 1)),
         );
         continue;
       }
@@ -223,7 +223,7 @@ export const rehydrateAuth = async (): Promise<boolean> => {
 
   return false;
 };
-
+export default useAxios;
 // ============================================
 // USAGE EXAMPLE
 // ============================================

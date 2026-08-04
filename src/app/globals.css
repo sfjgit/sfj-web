@@ -171,13 +171,46 @@ body {
   overflow-x: hidden;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
+/* Capability strip (TaaS hero): the logo row travels one full set to the
+   left, so logos enter on the right and exit on the left. Defined here rather
+   than in styled-jsx so the keyframes are always present, including after the
+   track is remounted when the active card changes. */
+@keyframes capabilityLogoScroll {
+  from {
+    transform: translate3d(0, 0, 0);
   }
-  body {
-    @apply bg-background text-foreground;
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
+}
+
+@keyframes capabilityProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Fluid root scale.
+   1920px wide is the reference design, where 1rem = 16px (0.8333vw = 16px at
+   1920). Because Tailwind sizes type, spacing, and max-widths in rem, scaling
+   the root scales the whole layout proportionally instead of only reflowing
+   it — a 1440px window renders the same composition at ~75%.
+   Floored at 11px so text stays legible on small laptops, and allowed up to
+   20px on QHD+ so 2560px screens don't strand content in whitespace. */
+@media (min-width: 768px) {
+  html {
+    font-size: clamp(11px, 0.8333vw, 20px);
+  }
+}
+
+* {
+  @apply border-border outline-ring/50;
+}
+body {
+  @apply bg-background text-foreground;
 }
 
 #google_translate_wrapper {

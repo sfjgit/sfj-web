@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import CTAWithFooter from "./CTAWithFooter";
 import SFJContactForm from "./SFJContactForm";
 import CookieBanner from "@/components/CookieBanner";
 import PushNotificationButton from "@/components/PushNotificationButton";
@@ -64,7 +64,8 @@ export default function ClientProvider({
 
         {!hideLayout && (
           <>
-            <Footer />
+            {/* Same CTA + footer on every page, home included. */}
+            <CTAWithFooter />
             <SFJContactForm />
             <CookieBanner />
             <div className="p-4 bg-gray-100">

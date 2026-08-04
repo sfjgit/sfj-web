@@ -2,14 +2,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+
 import {
   Users,
   Building2,
@@ -31,6 +25,68 @@ import {
   Star,
 } from "lucide-react";
 
+const parseStatNumber = (value: string) => {
+  const match = value.match(/^(\d+)(.*)$/);
+  if (!match) return { target: 0, suffix: value };
+  return { target: parseInt(match[1], 10), suffix: match[2] };
+};
+
+const AnimatedStatCard = ({
+  value,
+  delay,
+}: {
+  value: string;
+  delay: number;
+}) => {
+  const { target, suffix } = parseStatNumber(value);
+  const [count, setCount] = React.useState(0);
+  const hasAnimated = React.useRef(false);
+
+  const startCount = () => {
+    if (hasAnimated.current) return;
+    hasAnimated.current = true;
+    const duration = 2200;
+    const startTime = performance.now();
+    const step = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      setCount(Math.round(progress * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      onViewportEnter={startCount}
+      transition={{ duration: 0.5, delay }}
+      viewport={{ once: true }}
+    >
+      <div className="text-2xl font-bold text-gray-900 leading-none">
+        {count}
+        {suffix}
+      </div>
+    </motion.div>
+  );
+};
+
+<svg
+  width="56"
+  height="56"
+  viewBox="0 0 56 56"
+  className="absolute inset-0 text-gray-400"
+>
+  <line x1="28" y1="28" x2="28" y2="4" stroke="currentColor" strokeWidth="1" />
+  <line x1="28" y1="28" x2="45" y2="11" stroke="currentColor" strokeWidth="1" />
+  <line x1="28" y1="28" x2="52" y2="28" stroke="currentColor" strokeWidth="1" />
+  <line x1="28" y1="28" x2="45" y2="45" stroke="currentColor" strokeWidth="1" />
+  <line x1="28" y1="28" x2="28" y2="52" stroke="currentColor" strokeWidth="1" />
+  <line x1="28" y1="28" x2="11" y2="45" stroke="currentColor" strokeWidth="1" />
+  <line x1="28" y1="28" x2="4" y2="28" stroke="currentColor" strokeWidth="1" />
+  <line x1="28" y1="28" x2="11" y2="11" stroke="currentColor" strokeWidth="1" />
+</svg>;
+
 const FootprintSection = () => {
   const footprintStats = [
     {
@@ -38,80 +94,56 @@ const FootprintSection = () => {
       number: "400+",
       title: "Clients",
       icon: <Users className="w-6 h-6" />,
-      gradient: "from-blue-500 to-cyan-500",
       description: "Global enterprises trust us",
-      bgColor: "bg-blue-50",
-      iconBg: "bg-blue-500",
     },
     {
       id: 2,
       number: "20+",
       title: "Fortune 100 Clients",
       icon: <Building2 className="w-6 h-6" />,
-      gradient: "from-purple-500 to-pink-500",
       description: "Industry-leading partnerships",
-      bgColor: "bg-purple-50",
-      iconBg: "bg-purple-500",
     },
     {
       id: 3,
       number: "15K+",
       title: "IT Placements",
       icon: <MapPin className="w-6 h-6" />,
-      gradient: "from-green-500 to-emerald-500",
       description: "Successful career transitions",
-      bgColor: "bg-green-50",
-      iconBg: "bg-green-500",
     },
     {
       id: 4,
       number: "200+",
       title: "CXOs Placed",
       icon: <UserCheck className="w-6 h-6" />,
-      gradient: "from-orange-500 to-red-500",
       description: "Executive leadership roles",
-      bgColor: "bg-orange-50",
-      iconBg: "bg-orange-500",
     },
     {
       id: 5,
       number: "30K+",
       title: "SAP Professionals",
       icon: <GraduationCap className="w-6 h-6" />,
-      gradient: "from-indigo-500 to-blue-500",
       description: "SAP-certified experts",
-      bgColor: "bg-indigo-50",
-      iconBg: "bg-indigo-500",
     },
     {
       id: 6,
       number: "10K+",
       title: "Oracle Professionals",
       icon: <Award className="w-6 h-6" />,
-      gradient: "from-teal-500 to-cyan-500",
       description: "Oracle-certified specialists",
-      bgColor: "bg-teal-50",
-      iconBg: "bg-teal-500",
     },
     {
       id: 7,
       number: "5K+",
       title: "Trainers",
       icon: <Target className="w-6 h-6" />,
-      gradient: "from-rose-500 to-pink-500",
       description: "Expert instructors worldwide",
-      bgColor: "bg-rose-50",
-      iconBg: "bg-rose-500",
     },
     {
       id: 8,
       number: "1K+",
       title: "SMEs",
       icon: <Star className="w-6 h-6" />,
-      gradient: "from-yellow-500 to-orange-500",
       description: "Subject matter experts",
-      bgColor: "bg-yellow-50",
-      iconBg: "bg-yellow-500",
     },
   ];
 
@@ -121,9 +153,6 @@ const FootprintSection = () => {
       title: "Manufacturing",
       icon: <Factory className="w-8 h-8" />,
       description: "Industrial automation & process optimization",
-      color: "text-gray-700",
-      bgColor: "bg-gray-50",
-      iconBg: "bg-gray-600",
       badge: "Heavy Industry",
     },
     {
@@ -131,9 +160,6 @@ const FootprintSection = () => {
       title: "BFSI",
       icon: <Banknote className="w-8 h-8" />,
       description: "Banking, Financial Services & Insurance",
-      color: "text-green-700",
-      bgColor: "bg-green-50",
-      iconBg: "bg-green-600",
       badge: "Financial",
     },
     {
@@ -141,9 +167,6 @@ const FootprintSection = () => {
       title: "Travel & Transportation",
       icon: <Plane className="w-8 h-8" />,
       description: "Logistics & transportation solutions",
-      color: "text-blue-700",
-      bgColor: "bg-blue-50",
-      iconBg: "bg-blue-600",
       badge: "Mobility",
     },
     {
@@ -151,9 +174,6 @@ const FootprintSection = () => {
       title: "Media",
       icon: <Radio className="w-8 h-8" />,
       description: "Digital media & broadcasting platforms",
-      color: "text-purple-700",
-      bgColor: "bg-purple-50",
-      iconBg: "bg-purple-600",
       badge: "Entertainment",
     },
     {
@@ -161,9 +181,6 @@ const FootprintSection = () => {
       title: "Healthcare",
       icon: <Heart className="w-8 h-8" />,
       description: "Healthcare technology & patient care",
-      color: "text-red-700",
-      bgColor: "bg-red-50",
-      iconBg: "bg-red-600",
       badge: "Medical",
     },
     {
@@ -171,9 +188,6 @@ const FootprintSection = () => {
       title: "Energy & Utilities",
       icon: <Zap className="w-8 h-8" />,
       description: "Power generation & utility management",
-      color: "text-yellow-700",
-      bgColor: "bg-yellow-50",
-      iconBg: "bg-yellow-600",
       badge: "Energy",
     },
     {
@@ -181,9 +195,6 @@ const FootprintSection = () => {
       title: "Consumer Goods",
       icon: <ShoppingBag className="w-8 h-8" />,
       description: "Consumer products & brand management",
-      color: "text-pink-700",
-      bgColor: "bg-pink-50",
-      iconBg: "bg-pink-600",
       badge: "Consumer",
     },
     {
@@ -191,9 +202,6 @@ const FootprintSection = () => {
       title: "Retail",
       icon: <Store className="w-8 h-8" />,
       description: "E-commerce & retail technology",
-      color: "text-indigo-700",
-      bgColor: "bg-indigo-50",
-      iconBg: "bg-indigo-600",
       badge: "Commerce",
     },
   ];
@@ -214,18 +222,16 @@ const FootprintSection = () => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.5, ease: "easeOut" as const },
     },
   };
 
   return (
-    <section className="py-24 pt-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden">
-      {/* Background Decorations */}
+    <section className="py-24 pt-0 bg-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100 to-transparent rounded-full blur-3xl opacity-20 -translate-x-48 -translate-y-48"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-purple-100 to-transparent rounded-full blur-3xl opacity-20 translate-x-48 translate-y-48"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
+      <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -233,22 +239,8 @@ const FootprintSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="w-16 h-0.5 bg-gradient-to-r from-transparent to-blue-600 rounded-full"></div>
-            <Badge
-              variant="outline"
-              className="text-blue-600 border-blue-200 bg-blue-50"
-            >
-              <Globe className="w-4 h-4 mr-2" />
-              Global Presence
-            </Badge>
-            <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-purple-600 rounded-full"></div>
-          </div>
           <h2 className="text-4xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our Global{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Impact
-            </span>
+            Our Global Impact
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Transforming businesses globally with our expertise and proven track
@@ -256,7 +248,6 @@ const FootprintSection = () => {
           </p>
         </motion.div>
 
-        {/* Tabs Component */}
         <Tabs defaultValue="footprint" className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
             <TabsTrigger value="footprint" className="flex items-center gap-2">
@@ -269,7 +260,6 @@ const FootprintSection = () => {
             </TabsTrigger>
           </TabsList>
 
-          {/* Footprint Stats Tab */}
           <TabsContent value="footprint" className="mt-0">
             <motion.div
               variants={containerVariants}
@@ -285,42 +275,19 @@ const FootprintSection = () => {
                   whileHover={{ scale: 1.02, y: -4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Card
-                    className={`h-full ${stat.bgColor} border-0 shadow-lg hover:shadow-xl transition-all duration-300 group`}
-                  >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between">
-                        <div
-                          className={`p-3 rounded-xl ${stat.iconBg} text-white group-hover:scale-110 transition-transform duration-300`}
-                        >
-                          {stat.icon}
-                        </div>
-                        <motion.div
-                          className={`text-3xl font-bold bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent`}
-                          initial={{ scale: 0 }}
-                          whileInView={{ scale: 1 }}
-                          transition={{ duration: 0.5, delay: index * 0.1 }}
-                          viewport={{ once: true }}
-                        >
-                          {stat.number}
-                        </motion.div>
+                  <Card className="h-full bg-gray-100 border-0 shadow-none hover:shadow-sm transition-all duration-300 group">
+                    <CardContent className="p-2.5 flex items-center gap-2">
+                      <div className="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-white">
+                        {stat.icon}
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <CardTitle className="text-lg mb-2 text-gray-900">
-                        {stat.title}
-                      </CardTitle>
-                      <CardDescription className="text-gray-600">
-                        {stat.description}
-                      </CardDescription>
-                      <div className="mt-4 w-full h-2 bg-white/50 rounded-full overflow-hidden">
-                        <motion.div
-                          className={`h-full bg-gradient-to-r ${stat.gradient} rounded-full`}
-                          initial={{ width: 0 }}
-                          whileInView={{ width: "100%" }}
-                          transition={{ duration: 1.5, delay: index * 0.2 }}
-                          viewport={{ once: true }}
+                      <div>
+                        <AnimatedStatCard
+                          value={stat.number}
+                          delay={index * 0.1}
                         />
+                        <div className="text-sm text-gray-500">
+                          {stat.title}
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -329,57 +296,33 @@ const FootprintSection = () => {
             </motion.div>
           </TabsContent>
 
-          {/* Industries Tab */}
           <TabsContent value="industries" className="mt-0">
             <motion.div
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3"
             >
-              {industries.map((industry, index) => (
+              {industries.map((industry) => (
                 <motion.div
                   key={industry.id}
                   variants={itemVariants}
                   whileHover={{ scale: 1.02, y: -4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Card
-                    className={`h-full ${industry.bgColor} border-0 shadow-lg hover:shadow-xl transition-all duration-300 group`}
-                  >
-                    <CardHeader>
-                      <div className="flex items-start justify-between mb-3">
-                        <div
-                          className={`p-3 rounded-xl ${industry.iconBg} text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}
-                        >
-                          {industry.icon}
-                        </div>
-                        <Badge variant="secondary" className="text-xs">
-                          {industry.badge}
-                        </Badge>
+                  <Card className="h-full bg-gray-100 border-0 shadow-none hover:shadow-sm transition-all duration-300 group">
+                    <CardContent className="p-4 flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-white">
+                        {industry.icon}
                       </div>
-                      <CardTitle
-                        className={`text-xl ${industry.color} group-hover:scale-105 transition-transform duration-300`}
-                      >
-                        {industry.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-gray-600 mb-4">
-                        {industry.description}
-                      </CardDescription>
-                      <div className="w-full h-1 bg-white/50 rounded-full overflow-hidden">
-                        <motion.div
-                          className={`h-full ${industry.iconBg.replace(
-                            "bg-",
-                            "bg-gradient-to-r from-"
-                          )} to-opacity-70 rounded-full`}
-                          initial={{ width: 0 }}
-                          whileInView={{ width: "100%" }}
-                          transition={{ duration: 1.2, delay: index * 0.15 }}
-                          viewport={{ once: true }}
-                        />
+                      <div>
+                        <div className="text-base font-bold text-gray-900">
+                          {industry.title}
+                        </div>
+                        <div className="text-xs text-gray-500 line-clamp-1">
+                          {industry.description}
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -389,7 +332,6 @@ const FootprintSection = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Bottom Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

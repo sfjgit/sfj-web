@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState } from "react";
 import {
@@ -142,73 +141,55 @@ const HeroSection: React.FC = () => {
 
   const currentSegment: EducationSegment = educationSegments[activeTab];
 
+  // bg-cover at every size. `bg-contain` scaled this 1600x900 artwork to the
+  // section's width — 202px tall on a 360px phone — while the section itself
+  // stood at its 26rem floor, so the page background showed through above and
+  // below the image as grey bands. Covering crops the sides instead, which is
+  // the right trade for a background.
   return (
-    <section id="overview" className="pt-20 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-10">
+    <section
+      id="overview"
+      className="relative pt-20 flex flex-col justify-start bg-center bg-no-repeat bg-cover min-h-[26rem] sm:min-h-[30rem] lg:min-h-[88dvh]"
+      style={{
+        backgroundImage: "url('/app/b2i/hero-b2i.webp')",
+      }}
+    >
+      {/* Phones show far less of the wide artwork, so the copy needs a scrim
+          to stay readable; from lg up the text shadow alone is enough. */}
+      <div className="absolute inset-0 bg-black/40 lg:bg-transparent" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-10 w-full lg:-mt-[4dvh]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start pt-5">
-          {/* Left Column - Main Content */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-2 text-blue-600">
-              <Award className="h-5 w-5" />
-              <span className="text-sm font-semibold tracking-wide uppercase">
+          {/* Copy sits high in the frame, over the open sky. Stats and the
+              CTA are deliberately left out. */}
+          <div
+            className="space-y-4"
+            style={{ textShadow: "0 2px 14px rgba(0,0,0,0.85)" }}
+          >
+            <div className="flex items-center space-x-2 text-white">
+              <Award className="h-4 w-4" />
+              <span className="text-xs font-semibold tracking-wide uppercase">
                 Industry-Leading Training
               </span>
             </div>
-            <h1 className="hidden">
+            <h1 className="sr-only">
               Institutional Training Programs | Skill Development for Students
             </h1>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+            <h2 className="font-bold text-white leading-tight" style={{ fontSize: "clamp(1.35rem, 2.1vw, 2.25rem)" }}>
               Create Industry-Ready AI-Driven Graduates,
-              <span className="text-blue-600"> Not Just Graduates</span>
+              <span className="text-white"> Not Just Graduates</span>
             </h2>
 
-            <p className="text-lg text-gray-600">
+            <p className="text-white" style={{ fontSize: "clamp(0.85rem, 0.95vw, 1.05rem)" }}>
               Comprehensive training programs across Polytechnic, Arts &
               Science, B.Com, Engineering, MBA, Medical, Paramedical and
               School-College partnerships.
             </p>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                <div className="text-2xl font-bold text-blue-600">20,000+</div>
-                <div className="text-xs text-gray-600">Learners Trained</div>
-              </div>
-              <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                <div className="text-2xl font-bold text-blue-600">200+</div>
-                <div className="text-xs text-gray-600">
-                  Partner Institutions
-                </div>
-              </div>
-              <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-                <div className="text-2xl font-bold text-blue-600">95%</div>
-                <div className="text-xs text-gray-600">Success Rate</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/contact?type=b2i">
-                <button
-                  type="button"
-                  className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center text-sm"
-                >
-                  Contact Us
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </button>
-              </Link>
-              {/* <button
-                type="button"
-                className="border border-blue-600 text-blue-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-50 transition-colors text-sm"
-              >
-                Schedule Demo
-              </button> */}
-            </div>
           </div>
 
-          <img
-            src="/app/b2i/hero.png"
-            alt="b2i"
-            className="w-full rounded-md object-cover mt-5"
-          />
+          {/* Right column intentionally empty — the artwork is now the
+              full-bleed background of the section. */}
+          <div aria-hidden="true" />
           {/* 
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             <div className="border-b border-gray-200">
