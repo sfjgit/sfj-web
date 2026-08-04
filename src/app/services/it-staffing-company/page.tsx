@@ -1,7 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 import { Metadata } from "next";
 import Script from "next/script";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -9,20 +7,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Users,
-  Award,
-  Heart,
-  FileText,
-  Building2,
-  TrendingUp,
-  Globe,
-} from "lucide-react";
+import { Users, Award, Heart, FileText } from "lucide-react";
 import ITStaffingSolutions from "./_components/Section";
 import SFJStatsSection from "./_components/SFJStatsSection";
 import TaasScroller from "./_components/Taas";
-import Link from "next/link";
+import CapabilityStrip from "./_components/CapabilityStrip";
 
 export const metadata: Metadata = {
   title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
@@ -119,80 +108,76 @@ export default function ITStaffingPage() {
       />
 
       <div className=" ">
-        {/* Hero Section - Compact */}
-        <section className="py-16 px-4 bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 pt-28">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              {/* Left Content */}
-              <div className="space-y-6">
-                <Badge variant="secondary" className="px-3 py-1 text-sm">
-                  <Globe className="w-4 h-4 mr-2" />
-                  Global IT Staffing Leader
-                </Badge>
+        {/* Height is a floor, never a ceiling. A fixed max-height clipped the
+            copy + 10-card strip + logo row on phones, where the stacked
+            content is far taller than any desktop-derived cap; the cap only
+            makes sense from lg up, where the layout is side-by-side. */}
+        <section
+          className="relative px-4 sm:px-6 lg:px-8 pt-20 sm:pt-28 lg:pt-32 pb-8 sm:pb-10 flex flex-col bg-center bg-no-repeat bg-cover bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem]"
+          style={{
+            backgroundImage: "url('/app/it/taas-hero-2.webp')",
+          }}
+        >
+          {/* Fade over the artwork so the white copy reads cleanly. Heavier on
+              phones: bg-cover crops the wide photo to a narrow centre slice
+              there, which lands the bright window on top of the copy. */}
+          <div className="absolute inset-0 bg-black/45 sm:bg-black/25" />
+
+          <div className="max-w-[100rem] mx-auto w-full relative">
+            {/* Single column now that the hero photo is gone. */}
+            <div className="grid gap-8 items-center">
+              <div className="space-y-4 sm:space-y-6 max-w-3xl">
                 <h1 className="hidden">IT Staffing & Services Company</h1>
-                <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
-                  Your Trusted Global
-                  <span className="text-blue-600"> IT Staffing</span>
+                {/* Lower floors on the clamps than the desktop design would
+                    suggest: on a 360px phone this copy ran to 3 heading lines
+                    plus 9 body lines and pushed the capability strip off the
+                    first screen. */}
+                <h2
+                  className="font-bold text-white leading-tight"
+                  style={{ fontSize: "clamp(1.5rem, 2.6vw, 3rem)" }}
+                >
+                  Build Future-Ready Technology Teams, Faster
                 </h2>
 
-                <div className="space-y-3 text-white">
-                  <div className="flex items-start gap-3">
-                    <TrendingUp className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
-                    <p>
-                      India&apos;s IT sector contributes 7.5% to GDP, creating
-                      massive demand for skilled professionals worldwide
-                    </p>
-                  </div>
+                <p
+                  className="text-white leading-normal sm:leading-relaxed"
+                  style={{ fontSize: "clamp(0.8125rem, 0.95vw, 1.05rem)" }}
+                >
+                  Access skills-validated professionals across application
+                  engineering, cloud, DevOps, data, AI, enterprise platforms,
+                  cybersecurity, testing, mobile, integration and
+                  infrastructure. SFJBS helps enterprises, GCCs and
+                  public-sector organisations hire permanent employees, deploy
+                  subcontract professionals and scale project teams through
+                  structured sourcing, assessment, onboarding and workforce
+                  management.
+                </p>
 
-                  <div className="flex items-start gap-3">
-                    <Building2 className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
-                    <p>
-                      Finding right technical talent while managing business
-                      operations is increasingly challenging globally
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Link href={"/contact?type=it-staffing"}>
-                    <Button
-                      size="lg"
-                      className="px-6 py-2 bg-blue-600 hover:bg-blue-700"
-                    >
-                      Find IT Talent
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right Content - Key Points */}
-              <div className="space-y-4">
-                <img
-                  src="/app/it/hero.png"
-                  alt="It-staffing"
-                  className="w-full object-cover rounded-md border-4 border-white"
-                />
               </div>
             </div>
           </div>
+
+          {/* Interactive capability strip: 10 cards with auto-advance and a
+              logo carousel that follows the active card. */}
+          <CapabilityStrip />
         </section>
 
         <TaasScroller />
 
         {/* Services Section */}
-        <section className="py-12 px-4 bg-white">
+        <section className="py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-white">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                Our IT Staffing Services
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+                Our Services
               </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
                 Comprehensive solutions designed to meet your technical hiring
                 needs with precision and efficiency
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {services.map((service, index) => (
                 <Card
                   key={index}

@@ -1,12 +1,10 @@
 import ClientsSection from "./_components/Clients";
 import FootprintSection from "./_components/FootprintSection";
 import PartnersSection from "./_components/PartnersSection";
-import CTASection from "./_components/CTASection";
 // import FloatingActionButton from "./_components/FloatingActionButton";
 import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
 import Script from "next/script";
-import PricingSection from "@/components/PricingSection";
 //front end
 export const metadata: Metadata = {
   title:
@@ -78,10 +76,6 @@ export default function HomePage() {
       <PartnersSection />
 
       <FootprintSection />
-
-      <PricingSection />
-
-      <CTASection />
       {/* <FloatingActionButton /> */}
     </div>
   );

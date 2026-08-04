@@ -10,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Users,
   TrendingUp,
@@ -30,12 +29,10 @@ import {
   Cloud,
   Shield,
   Smartphone,
-  ChevronRight,
   Building,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Scroller from "./Scroller";
-import Link from "next/link";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -51,141 +48,328 @@ const stagger = {
   },
 };
 
+const heroCards = [
+  {
+    era: "1990s–2010",
+    title: "Rule-Based Systems & Early ML",
+    body: "Expert systems and statistical models powered early fraud detection, search, and recommendations. Intelligence was narrow and hand-engineered — every rule written by humans, setting the stage for machine learning's rise.",
+    tags: ["RULES", "EARLY ML"],
+    stat: "27.3",
+  },
+  {
+    era: "2010–2015",
+    title: "Deep Learning Breakthrough",
+    body: "Deep neural networks moved AI from labs into products. Breakthroughs in image recognition and speech processing proved data plus compute could outperform hand-coded rules, laying the foundation for modern AI.",
+    tags: ["NEURAL", "VISION"],
+    stat: "31.8",
+  },
+  {
+    era: "2015–2018",
+    title: "Transformers & Attention",
+    body: "Transformer architecture and attention mechanisms redefined language understanding. Processing entire sequences in parallel unlocked translation, summarization, and comprehension — becoming the blueprint for every modern AI system that followed.",
+    tags: ["NLP", "ATTENTION"],
+    stat: "44.1",
+  },
+  {
+    era: "2018–2021",
+    title: "Large Language Models",
+    body: "Scaling transformers with massive datasets produced models that write, reason, and answer with human-like fluency. Enterprises began adopting AI for content, code, and customer engagement at scale.",
+    tags: ["LLM", "SCALE"],
+    stat: "58.6",
+  },
+  {
+    era: "2021–2023",
+    title: "Generative AI at Scale",
+    body: "Generative AI went mainstream — text, images, and code created on demand. Millions adopted AI assistants, and businesses raced to embed generative capabilities into products, workflows, and everyday operations.",
+    tags: ["GEN AI", "MULTIMODAL"],
+    stat: "72.4",
+  },
+  {
+    era: "2023–2026",
+    title: "Agentic & Autonomous AI",
+    body: "AI evolved from answering questions to completing work. Autonomous agents plan, reason, and execute multi-step tasks — driving urgent demand for professionals who can build and govern intelligent systems.",
+    tags: ["AGENTS", "AUTONOMY"],
+    stat: "89.5",
+  },
+];
+
+const heroGridCards = [
+  {
+    era: "Upskilling",
+    title: "Role-Based Learning Paths",
+    body: "Structured learning paths mapped to specific job roles deepen expertise where it matters. Hands-on labs and expert-led sessions ensure every professional advances with skills aligned to business outcomes.",
+    tags: ["PATHS"],
+    stat: "12.4",
+  },
+  {
+    era: "Cross-Skilling",
+    title: "Adjacent Capability Builds",
+    body: "Cross-skilling builds capabilities adjacent to core roles — developers learning cloud, engineers adopting ML. Versatile teams collaborate across functions and adapt quickly as technology and priorities evolve.",
+    tags: ["BREADTH"],
+    stat: "18.9",
+  },
+  {
+    era: "Reskilling",
+    title: "Redeployment Programs",
+    body: "Reskilling moves talent from declining roles into high-demand functions. Training, projects, and mentorship redeploy employees into AI, cloud, and data roles — retaining knowledge while reducing hiring costs.",
+    tags: ["REDEPLOY"],
+    stat: "24.7",
+  },
+  {
+    era: "Certification",
+    title: "OEM-Certified Outcomes",
+    body: "Programs culminate in industry-recognized OEM certifications validating real capability. Certified outcomes give enterprises measurable proof of workforce readiness and skills that accelerate delivery from day one.",
+    tags: ["CERTIFIED"],
+    stat: "36.2",
+  },
+];
+
+// Background clip per staircase card, by position. Leave a slot undefined and
+// that card falls back to the still image.
+const heroCardVideos: (string | undefined)[] = [
+  "/Kaas/Ai Cube.mp4",
+  "/Kaas/Ai 2.mp4",
+  "/Kaas/Ai 3.mp4",
+  "/Kaas/Ai 4.mp4",
+  "/Kaas/Ai 5.mp4",
+  "/Kaas/Ai 6.mp4",
+  "/Kaas/Ai9.mp4",
+];
+
+// Background clip per "What's Next" card, by position.
+const heroGridVideos: (string | undefined)[] = [
+  "/Kaas/Ai 7.mp4",
+  "/Kaas/Ai 8.mp4",
+  "/Kaas/Ai9.mp4",
+  "/Kaas/Ai 10.mp4",
+];
+
+type HeroCardData = (typeof heroCards)[number];
+
+// `stacked` cards sit in a normal responsive grid, so they take fixed type
+// sizes; the staircase cards are sized as a % of the viewport, so theirs has
+// to scale with vw or it overflows on smaller screens.
+const HeroCard = ({
+  card,
+  video,
+  stacked,
+}: {
+  card: HeroCardData;
+  video?: string;
+  stacked?: boolean;
+}) => (
+  <div className="relative h-full w-full overflow-hidden rounded-md bg-[#041F26] ring-1 ring-white/10 shadow-lg">
+    {/* Media wash behind the copy — a looping clip when one is supplied,
+        otherwise the still used on the rest of the cards. */}
+    {video ? (
+      <video
+        src={video}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+    ) : (
+      <div
+        className="absolute inset-0 opacity-30 bg-cover bg-center"
+        style={{ backgroundImage: "url('/Kaashero1.webp')" }}
+      />
+    )}
+    <div className="absolute inset-0 bg-gradient-to-r from-[#041F26]/75 via-[#041F26]/45 to-transparent" />
+    {/* Light black scrim on the top layer so the copy stays legible */}
+    <div className="absolute inset-0 bg-black/5" />
+
+    {/* Type scales with the viewport because the cards themselves are sized
+        as a percentage of it — fixed rem sizes overflowed on smaller laptops. */}
+    <div className="relative h-full flex flex-col justify-center p-[7%] text-white overflow-hidden">
+      {/* Title */}
+      <h2
+        className="leading-tight font-bold text-white"
+        style={{
+          // Staircase type is pure vw so the whole composition scales in exact
+          // proportion to the 1920 reference at any window width.
+          fontSize: stacked ? "clamp(0.7rem, 1.4vw, 0.95rem)" : "0.85cqw",
+        }}
+      >
+        {card.era}
+      </h2>
+      {/* Subtitle */}
+      <h3
+        className="mt-[3%] leading-tight font-semibold"
+        style={{
+          fontSize: stacked ? "clamp(0.62rem, 1.1vw, 0.8rem)" : "0.68cqw",
+        }}
+      >
+        {card.title}
+      </h3>
+      <div
+        className="mt-auto flex gap-[4%] pt-[4%] uppercase tracking-wider text-white/50"
+        style={{
+          fontSize: stacked ? "clamp(0.4rem, 0.7vw, 0.5rem)" : "0.36cqw",
+        }}
+      >
+        {card.tags.map((tag) => (
+          <span key={tag}>{tag}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
 export default function CorporateTrainingClient() {
   return (
     <div className="min-h-screen ">
       {/* Hero Section */}
-      <section className="bg-white overflow-hidden pt-10">
-        {/* Geometric Background Pattern */}
-
-        <div className="max-w-7xl mx-auto px-6 py-8 relative">
-          <div className="grid lg:grid-cols-2 gap-8 h-full items-center">
-            {/* Left Content */}
-            <div className="space-y-4 pt-10">
-              {/* Header Section */}
-              <motion.div
-                className="space-y-3"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                <div className="space-y-2">
-                  {/* Main Title as Badge */}
-                  <div className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full shadow-lg">
-                    Corporate Training Solutions
-                  </div>
-                  {/* Subtitle - Bigger Text */}
-                  <h2 className="text-2xl lg:text-3xl text-gray-800 font-bold leading-tight mt-3">
-                    Transform Your{" "}
-                    <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text">
-                      Workforce
-                    </span>
-                    <br />
-                    <span className="text-blue-600">
-                      'Bridge Every Skill Gap'
-                    </span>
-                  </h2>
-                </div>
-              </motion.div>
-
-              {/* Description */}
-              <motion.p
-                className="text-base text-gray-600 leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                Comprehensive Corporate Training programs designed to bridge
-                skill gaps and accelerate organizational growth through
-                cutting-edge AI and digital transformation.
-              </motion.p>
-
-              {/* Features */}
-              <motion.div
-                className="grid grid-cols-2 gap-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                {[
-                  "AI-Driven Learning",
-                  "Custom Curricula",
-                  "Skills Assessment",
-                  "Progress Tracking",
-                  "Industry Experts",
-                  "Certification Programs",
-                ].map((feature, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-50 to-indigo-50 p-2 rounded border border-blue-100"
-                  >
-                    <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full"></div>
-                    <span className="text-sm font-medium text-gray-700">
-                      {feature}
-                    </span>
-                  </div>
-                ))}
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div
-                className="flex flex-col sm:flex-row gap-3 pt-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                <Link href={"/contact?type=b2b"}>
-                  <button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-center text-sm group">
-                    Contact Us
-                    <ChevronRight className="ml-2 h-4 w-4 inline group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </Link>
-                {/* <button className="bg-white/90 hover:cursor-pointer backdrop-blur-sm hover:bg-white text-gray-700 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md text-sm">
-                  Learn More
-                </button> */}
-              </motion.div>
+      {/* --- Hero: phones get the stacked layout; every size from 640px up
+              gets the desktop composition, scaled proportionally --- */}
+      <section
+        className="sm:hidden pt-24 pb-12 px-5"
+        style={{
+          backgroundImage: "linear-gradient(to bottom, #041F26, #DFE2E8)",
+        }}
+      >
+        {/* Capped width so the cards stay card-sized on tablets and scaled
+            laptops instead of stretching to fill the viewport. */}
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center text-black">
+            <div className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-white">
+              AI Technology Milestone
             </div>
+            <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+              EVOLUTION
+            </h2>
+            <h1 className="mt-2 text-sm sm:text-base font-semibold text-white/80">
+              What is the future of AI?
+            </h1>
+          </div>
 
-            {/* Right Content - Image with Geometric Background */}
-            <motion.div
-              className="relative h-full flex-col flex justify-center items-end"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              {/* Geometric shapes behind image */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="absolute top-10 right-10 w-24 h-24 bg-gradient-to-br from-blue-400 to-indigo-400 transform rotate-45 opacity-10"></div>
-                <div className="absolute bottom-20 left-10 w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full opacity-15"></div>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {heroCards.map((card, i) => (
+              <div key={card.era} className="aspect-[16/9]">
+                <HeroCard card={card} video={heroCardVideos[i]} stacked />
               </div>
+            ))}
+          </div>
 
-              {/* Main Image */}
-              <div className="relative z-10">
-                <img
-                  src="/app/corporate-training/Corporate.png"
-                  alt="Corporate Training Program"
-                  className="w-[80%] object-cover rounded-lg shadow-2xl border-4 border-white transform hover:scale-105 transition-transform duration-500"
-                />
-
-                {/* Floating stats cards */}
-                <div className="absolute -top-4 -left-10 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
-                  <div className="text-xs text-gray-500">Success Rate</div>
-                  <div className="text-lg font-bold text-blue-600">95%</div>
+          <div className="mt-14">
+            <div className="text-sm sm:text-base font-extrabold uppercase text-black">
+              What Next ?..
+            </div>
+            <h2 className="mt-1 max-w-2xl text-sm sm:text-base font-semibold leading-relaxed text-black">
+              Every era demanded new skills, This one demands them faster
+            </h2>
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {heroGridCards.map((card, i) => (
+                <div key={card.era} className="aspect-video">
+                  <HeroCard card={card} video={heroGridVideos[i]} stacked />
                 </div>
-
-                <div className="absolute -bottom-4 right-10 bg-white rounded-lg shadow-lg p-3 border border-blue-100">
-                  <div className="text-xs text-gray-500">
-                    Enterprise Clients
-                  </div>
-                  <div className="text-lg font-bold text-blue-600">350+</div>
-                </div>
-              </div>
-            </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <Scroller />
+      {/* From 640px up the layout never reflows — the 1920x950 composition is
+          rendered at whatever scale fits. Below lg the canvas is a normal block
+          whose height comes from its aspect ratio, so the section is exactly as
+          tall as the artwork (no letterbox whitespace on a tablet). From lg up
+          it letterboxes inside the tall viewport hero as before. */}
+      <section
+        className="hidden sm:flex overflow-hidden pt-10 flex-col lg:h-[88dvh] lg:max-h-[56.25rem]"
+        style={{
+          backgroundImage: "linear-gradient(to right, #041F26, #DFE2E8)",
+        }}
+      >
+        <div className="relative flex-1 flex items-end min-h-0 w-full">
+
+          {/* Content slots. Six 4:3 cards climbing left-to-right, plus a 2x2
+              block of 16:9 cards in the bottom-right corner.
+
+              Everything inside is positioned as a % of this canvas, and the
+              canvas is a size container, so type measured in `cqw` scales with
+              it. The canvas holds the 1920x950 reference ratio and shrinks to
+              fit whichever axis runs out first — so a short window (e.g.
+              1915x785) gets the same composition, just smaller, instead of
+              cards spilling past the fold. */}
+          <div
+            className="relative w-full lg:absolute lg:bottom-0 lg:left-1/2 lg:-translate-x-1/2 pointer-events-none"
+            style={{
+              aspectRatio: "1920 / 950",
+              maxWidth: "100%",
+              maxHeight: "100%",
+              containerType: "size",
+            }}
+          >
+            {/* Artwork lives inside the canvas so it scales with the rest of
+                the composition rather than with the raw viewport height. */}
+            <img
+              src="/Kaashero1.webp"
+              alt="Knowledge-as-a-Service training"
+              className="absolute left-0 bottom-0 h-full w-auto max-w-full object-contain object-left-bottom -translate-x-[5%]"
+            />
+
+            {/* Section title above the staircase */}
+            <div className="absolute left-[42%] top-[13%] inline-flex flex-col items-center text-center text-[#041F26]">
+              <div
+                className="font-bold uppercase tracking-[0.25em] text-black"
+                style={{ fontSize: "0.95cqw" }}
+              >
+                AI Technology Milestone
+              </div>
+              <h2
+                className="mt-2 font-extrabold tracking-tight text-black"
+                style={{ fontSize: "3.2cqw" }}
+              >
+                EVOLUTION
+              </h2>
+            </div>
+            {/* Eyebrow + heading above the 2x2 block, centred over its width */}
+            <div className="absolute left-[72.5%] top-[50%] w-[24%] flex flex-col items-start text-left text-black">
+              <div
+                className="font-extrabold uppercase tracking-normal"
+                style={{ fontSize: "1cqw" }}
+              >
+                What Next ?..
+              </div>
+              <h2
+                className="mt-2 font-semibold leading-normal"
+                style={{ fontSize: "0.95cqw" }}
+              >
+                Every era demanded new skills, This one demands them faster
+              </h2>
+            </div>
+
+            {heroCards.map((card, i) => (
+              <div
+                key={card.era}
+                className="absolute w-[10.75%] aspect-[4/3]"
+                style={{
+                  left: `${27.25 + i * 10.75}%`,
+                  top: `${61.2 - i * 8.5}%`,
+                }}
+              >
+                <HeroCard card={card} video={heroCardVideos[i]} />
+              </div>
+            ))}
+
+            <div className="absolute left-[72.5%] top-[62%] w-[24%] grid grid-cols-2 gap-1">
+              {heroGridCards.map((card, i) => (
+                <div key={card.era} className="aspect-video">
+                  <HeroCard card={card} video={heroGridVideos[i]} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Client logos — their own band directly under the hero, like the
+          partner strip on the home page. */}
+      <div className="bg-white border-b border-gray-200">
+        <Scroller />
+      </div>
 
       {/* Training Mandate Section */}
       {/* Training Mandate Section - Enhanced */}
@@ -982,39 +1166,8 @@ export default function CorporateTrainingClient() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-        <div className="container mx-auto px-4">
-          <motion.div className="text-center max-w-4xl mx-auto" {...fadeInUp}>
-            <h2 className="text-4xl font-bold mb-6">
-              Ready to Transform Your Workforce?
-            </h2>
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              Join thousands of organizations that have empowered their teams
-              with SFJ&apos;s comprehensive training solutions. Let&#39;s build
-              the future-ready workforce your business needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {/* <Button
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                Start Your Training Journey{" "}
-                <ChevronRight className="ml-2 h-5 w-5" />
-              </Button> */}
-              <Link href="/contact?type=b2b">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-gray-600 hover:bg-white/10"
-                >
-                  Schedule Consultation
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* The site-wide CTA + footer is rendered by ClientProvider, so this
+          page no longer carries its own dark CTA block. */}
     </div>
   );
 }

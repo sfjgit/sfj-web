@@ -53,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <meta
           name="p:domain_verify"
@@ -179,9 +179,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         /> */}
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-KKM45FLN"
