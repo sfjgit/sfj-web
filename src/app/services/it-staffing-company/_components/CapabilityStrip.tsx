@@ -281,17 +281,13 @@ const CapabilityStrip = () => {
     });
   }, [activeIndex]);
 
-  // Ten videos decoding at once stalls phones and trips iOS Safari's limit on
-  // concurrent playback. Only the active card animates; the rest hold their
-  // last frame, which keeps the strip looking identical while it plays.
+  // All ten clips run together by design — the strip is meant to read as a
+  // wall of live footage, not a slideshow. Autoplay can be refused (a tab
+  // restored from bfcache, a browser that paused it while backgrounded), so
+  // nudge any stalled video back into playing rather than leaving it frozen.
   useEffect(() => {
-    videoRefs.current.forEach((video, i) => {
-      if (!video) return;
-      if (i === activeIndex) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
+    videoRefs.current.forEach((video) => {
+      if (video?.paused) video.play().catch(() => {});
     });
   }, [activeIndex]);
 
@@ -335,11 +331,11 @@ const CapabilityStrip = () => {
                       videoRefs.current[i] = el;
                     }}
                     src={card.video}
-                    autoPlay={i === 0}
+                    autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="auto"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   {/* Very light scrim — the title leans on its own shadow so
