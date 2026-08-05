@@ -896,7 +896,7 @@ export default function CareersPage() {
 
   return (
     <div
-      className="min-h-screen bg-[#FBFAF7] text-[#16181D]"
+      className="min-h-screen bg-[#FBFAF7] text-[#16181D] mt-8"
       style={{ fontFamily: "var(--font-body)" }}
     >
       {/* Hero */}
@@ -908,12 +908,12 @@ export default function CareersPage() {
           className="mt-3 max-w-2xl text-4xl leading-[1.05] text-[#16181D] sm:text-5xl"
           style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
         >
-          Roles open right now.
+          Current Job Openings
         </h1>
-        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#6F7278]">
+        {/* <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#6F7278]">
           Search by job title or skill. Rough spelling is fine — we&rsquo;ll
           still find the match.
-        </p>
+        </p> */}
       </header>
 
       <SearchBar

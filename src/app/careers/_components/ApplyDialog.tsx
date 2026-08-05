@@ -304,7 +304,7 @@ function ApplyModal({
               </div>
 
               {/* Optional details */}
-              <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-[#9A9890]">
+              {/* <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-[#9A9890]">
                 Optional
               </p>
               <div className="mt-2 grid grid-cols-2 gap-3">
@@ -376,7 +376,7 @@ function ApplyModal({
                   className={`${inputCls} mt-1.5 resize-none`}
                   placeholder="A line or two on why you're a fit (optional)"
                 />
-              </div>
+              </div> */}
 
               {/* Consent */}
               <label className="mt-4 flex cursor-pointer items-start gap-2.5">
