@@ -127,21 +127,21 @@ const heroGridCards = [
 // Background clip per staircase card, by position. Leave a slot undefined and
 // that card falls back to the still image.
 const heroCardVideos: (string | undefined)[] = [
-  "/Kaas/Ai Cube.mp4",
-  "/Kaas/Ai 2.mp4",
-  "/Kaas/Ai 3.mp4",
-  "/Kaas/Ai 4.mp4",
-  "/Kaas/Ai 5.mp4",
-  "/Kaas/Ai 6.mp4",
-  "/Kaas/Ai9.mp4",
+  "/Kaas/Ai Cube.webm",
+  "/Kaas/Ai 2.webm",
+  "/Kaas/Ai 3.webm",
+  "/Kaas/Ai 4.webm",
+  "/Kaas/Ai 5.webm",
+  "/Kaas/Ai 6.webm",
+  "/Kaas/Ai9.webm",
 ];
 
 // Background clip per "What's Next" card, by position.
 const heroGridVideos: (string | undefined)[] = [
-  "/Kaas/Ai 7.mp4",
-  "/Kaas/Ai 8.mp4",
-  "/Kaas/Ai9.mp4",
-  "/Kaas/Ai 10.mp4",
+  "/Kaas/Ai 7.webm",
+  "/Kaas/Ai 8.webm",
+  "/Kaas/Ai9.webm",
+  "/Kaas/Ai 10.webm",
 ];
 
 type HeroCardData = (typeof heroCards)[number];
