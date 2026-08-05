@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { MessageSquare, Send, Check } from "lucide-react";
 import { RiContactsLine } from "react-icons/ri";
-import { IoChatbubbles } from "react-icons/io5";
+import Image from "next/image";
 import Link from "next/link";
 
 // Name tag for the two floating action buttons. Sits to the left of its
@@ -152,9 +152,24 @@ const SFJContactForm = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Chat with us"
-            className="contact-button group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
+            className="contact-button group relative bg-slate-700 hover:bg-slate-800 text-white p-1.5 md:p-2 rounded-xl shadow-lg hover:shadow-2xl flex items-center justify-center transition-shadow duration-300"
+            // Perspective must sit on an ancestor for the child's rotateX/Y to
+            // render as depth rather than a flat squash.
+            style={{ perspective: "700px" }}
           >
-            <IoChatbubbles className="w-6 h-6 md:w-7 md:h-7" />
+            {/* Pre-cropped to the mascot's ink box — the source artwork sits in
+                a 1536x1024 canvas that is 79% empty, so object-contain would
+                fit the blank canvas and render the mascot at half size. */}
+            <span className="chat-mascot-tilt block">
+              <Image
+                src="/mascot-chat.png"
+                alt=""
+                aria-hidden="true"
+                width={40}
+                height={40}
+                className="chat-mascot w-8 h-8 md:w-10 md:h-10 object-contain drop-shadow-md"
+              />
+            </span>
             <span className={LABEL_CLASS}>Chat with us</span>
           </button>
 

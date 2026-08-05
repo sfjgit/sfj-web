@@ -150,64 +150,64 @@ export const capabilityCards: {
     id: "agentic-ai",
     title: "Agentic AI & Generative AI",
     logos: AGENTIC_LOGOS,
-    video: "/Kaas/Ai Cube.mp4",
+    video: "/Kaas/Ai Cube.webm",
   },
   {
     id: "app-engineering",
     title: "Application Engineering & Full Stack",
     logos: APP_ENGINEERING_LOGOS,
     video:
-      "/Taas/Agentic Ai & Gen Ai/vedios/Application Engineering & Full Stack.mp4",
+      "/Taas/Agentic Ai & Gen Ai/vedios/Application Engineering & Full Stack.webm",
   },
   {
     id: "cloud-devops",
     title: "Cloud, DevOps & Platform Engineering",
     logos: CLOUD_DEVOPS_LOGOS,
     video:
-      "/Taas/Agentic Ai & Gen Ai/vedios/Cloud, DevOps & Platform Engineering.mp4",
+      "/Taas/Agentic Ai & Gen Ai/vedios/Cloud, DevOps & Platform Engineering.webm",
   },
   {
     id: "data-ai",
     title: "Data Engineering, AI & Analytics",
     logos: DATA_AI_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Data Engineering, AI & Analytics.mp4",
+    video: "/Taas/Agentic Ai & Gen Ai/vedios/Data Engineering, AI & Analytics.webm",
   },
   {
     id: "enterprise-apps",
     title: "Enterprise Applications",
     logos: ENTERPRISE_APP_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Enterprise Applications.mp4",
+    video: "/Taas/Agentic Ai & Gen Ai/vedios/Enterprise Applications.webm",
   },
   {
     id: "cybersecurity",
     title: "Cybersecurity",
     logos: CYBERSECURITY_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Cybersecurity.mp4",
+    video: "/Taas/Agentic Ai & Gen Ai/vedios/Cybersecurity.webm",
   },
   {
     id: "testing-qe",
     title: "Testing & Quality Engineering",
     logos: TESTING_LOGOS,
-    video: "/Kaas/Ai 8.mp4",
+    video: "/Kaas/Ai 8.webm",
   },
   {
     id: "mobile-apps",
     title: "Mobile Application Development",
     logos: MOBILE_LOGOS,
-    video: "/Kaas/Ai9.mp4",
+    video: "/Kaas/Ai9.webm",
   },
   {
     id: "integration-automation",
     title: "Integration & Automation",
     logos: INTEGRATION_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Integration Automation.mp4",
+    video: "/Taas/Agentic Ai & Gen Ai/vedios/Integration Automation.webm",
   },
   {
     id: "data-center",
     title: "Data Center & Infrastructure",
     logos: DATA_CENTER_LOGOS,
     video:
-      "/Taas/Agentic Ai & Gen Ai/vedios/Data Center & Infrastructure1.mp4",
+      "/Taas/Agentic Ai & Gen Ai/vedios/Data Center & Infrastructure1.webm",
   },
 ];
 

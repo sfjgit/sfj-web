@@ -110,8 +110,8 @@ const AwsRestartContent = () => {
             </p>
             <p className="text-white/90 text-base md:text-lg leading-relaxed mb-8">
               SFJ Business Solutions delivers AWS re/Start — a free, full-time,
-              12-week cloud computing training program for job seekers, in
-              official partnership with Amazon Web Services. No prior technical
+              12-week cloud computing training program for, in official
+              partnership with Amazon Web Services. No prior technical
               background required.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">

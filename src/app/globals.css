@@ -193,6 +193,55 @@ body {
   }
 }
 
+/* Floating chat mascot ---------------------------------------------------
+   Idle motion for the mascot on the chat button. Rotating around Y with a
+   small X tilt reads as a head turning and gives the flat artwork volume;
+   the button supplies the perspective. */
+@keyframes mascotFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotateY(14deg) rotateX(6deg);
+  }
+  50% {
+    transform: translateY(-3px) rotateY(0deg) rotateX(0deg);
+  }
+  75% {
+    transform: translateY(-2px) rotateY(-14deg) rotateX(6deg);
+  }
+}
+
+.chat-mascot {
+  animation: mascotFloat 4.5s ease-in-out infinite;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* The hover tilt lives on a separate wrapper from the idle float: a single
+   element can only hold one transform, so the animation would overwrite the
+   hover state (or vice versa). Nesting them lets the two compose. */
+.chat-mascot-tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.group:hover .chat-mascot-tilt,
+.group:focus-visible .chat-mascot-tilt {
+  transform: rotateY(-20deg) rotateX(12deg) scale(1.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-mascot {
+    animation: none;
+  }
+  .group:hover .chat-mascot-tilt,
+  .group:focus-visible .chat-mascot-tilt {
+    transform: none;
+  }
+}
+
 /* Fluid root scale.
    1920px wide is the reference design, where 1rem = 16px (0.8333vw = 16px at
    1920). Because Tailwind sizes type, spacing, and max-widths in rem, scaling
