@@ -42,7 +42,7 @@ const awsFaqs = [
   },
   {
     q: "Will I receive a certificate?",
-    a: "Learners who successfully complete the program receive an AWS re/Start Certificate of Completion and are prepared to take the AWS Certified Cloud Practitioner certification exam.",
+    a: "Learners who successfully complete the program receive an AWS re/Start Certificate of Completion and are prepared to take the AWS certified cloud practitioner exam voucher.",
   },
   {
     q: "Does SFJ provide placement support?",
@@ -110,8 +110,8 @@ const AwsRestartContent = () => {
             </p>
             <p className="text-white/90 text-base md:text-lg leading-relaxed mb-8">
               SFJ Business Solutions delivers AWS re/Start — a free, full-time,
-              12-week cloud computing training program for job seekers, in
-              official partnership with Amazon Web Services. No prior technical
+              12-week cloud computing training program for, in official
+              partnership with Amazon Web Services. No prior technical
               background required.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
@@ -129,7 +129,7 @@ const AwsRestartContent = () => {
                 rel="noopener noreferrer"
                 className="inline-block border border-white/50 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
               >
-                Book a Call
+                Book a Call - CSR
               </a>
             </div>
           </div>
@@ -167,7 +167,7 @@ const AwsRestartContent = () => {
             collaborates with AWS to deliver the AWS re/Start program,
             empowering learners with both technical expertise and workplace
             readiness. The comprehensive curriculum covers cloud computing
-            fundamentals, Linux, networking, security, Python, and core AWS
+            fundamentals, AI, ML, Networking, Linux, Security, Python, core AWS
             services through interactive labs and real-world scenarios. In
             addition to technical training, participants develop essential
             professional skills such as communication, teamwork,

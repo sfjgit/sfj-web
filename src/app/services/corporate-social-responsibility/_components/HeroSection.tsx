@@ -34,6 +34,24 @@ const CSRLandingPage = () => {
     setIsAwsRestartActive(activeTab === "awsRestart");
   }, [activeTab, setIsAwsRestartActive]);
   const router = useRouter();
+
+  // AWS re/Start is the default tab, so opening the bare CSR URL already shows
+  // the AWS screen — but no navigation has fired, so the address bar still
+  // reads /services/corporate-social-responsibility. Correct it on arrival so
+  // the URL matches what is on screen without the user having to click the tab.
+  //
+  // `replace`, not `push`: this fixes the current history entry rather than
+  // adding one. With `push` the bare URL would sit directly behind the
+  // corrected one and Back would bounce straight forward again.
+  //
+  // No loop: /aws-restart derives the same tab from its own pathname, so the
+  // second guard is already true on arrival there.
+  useEffect(() => {
+    if (activeTab !== "awsRestart") return;
+    if (pathname?.includes("/aws-restart")) return;
+    router.replace("/services/corporate-social-responsibility/aws-restart");
+  }, [activeTab, pathname, router]);
+
   const handleTabClick = (tabId: string) => {
     const isCurrentlyOnAwsRestartPage = pathname?.includes("/aws-restart");
 
