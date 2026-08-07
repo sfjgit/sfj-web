@@ -42,7 +42,7 @@ const awsFaqs = [
   },
   {
     q: "Will I receive a certificate?",
-    a: "Learners who successfully complete the program receive an AWS re/Start Certificate of Completion and are prepared to take the AWS certified cloud practitioner exam voucher.",
+    a: "Learners who successfully complete the program receive an AWS re/Start Certificate of Completion and the AWS certified cloud practitioner exam voucher.",
   },
   {
     q: "Does SFJ provide placement support?",

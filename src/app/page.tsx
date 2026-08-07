@@ -37,7 +37,7 @@ export const metadata: Metadata = {
       "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training Programs & Tech Solutions",
     description:
       "SFJBS is an enterprise upskilling partner in Bangalore, India, offering enterprise training, IT consulting services, and tech solutions for future-ready teams.",
-    images: ["https://www.sfjbs.com/ind.png"], // Replace with your actual image URL
+    images: ["https://www.sfjbs.com/ind.png"], // Replace with your actual image URL yes
   },
   alternates: {
     canonical: "https://www.sfjbs.com",
