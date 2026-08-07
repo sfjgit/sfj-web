@@ -99,6 +99,27 @@ export default function RootLayout({
           }}
         />
 
+        {/* RB2B Script */}
+        <Script
+          id="rb2b-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+      !function(key) {
+        if (window.reb2b) return;
+        window.reb2b = { loaded: true };
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";
+        document.getElementsByTagName("script")[0].parentNode.insertBefore(
+          s,
+          document.getElementsByTagName("script")[0]
+        );
+      }("QO92DHZ7PPN7");
+    `,
+          }}
+        />
+
         {/* Organization Schema */}
         <Script
           id="organization-schema"
