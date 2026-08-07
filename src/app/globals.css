@@ -171,6 +171,14 @@ body {
   overflow-x: hidden;
 }
 
+/* Pauses a scrolling logo marquee on hover. A shared class rather than a
+   component-scoped styled-jsx rule so a marquee can live in a server
+   component (styled-jsx requires "use client"). Used by the B2G partner
+   logo strip. */
+.marquee-pause-hover:hover {
+  animation-play-state: paused;
+}
+
 /* Capability strip (TaaS hero): the logo row travels one full set to the
    left, so logos enter on the right and exit on the left. Defined here rather
    than in styled-jsx so the keyframes are always present, including after the

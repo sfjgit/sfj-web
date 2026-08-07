@@ -13,7 +13,7 @@ import {
   FaHandshake,
   FaChartLine,
 } from "react-icons/fa";
-import PartnershipsCarousel from "./Hero";
+import GovernmentHero from "./Hero";
 import CourseCatalog from "./CourseCatalog";
 
 const ties = [
@@ -104,7 +104,7 @@ export default function GovernmentTrainingRedesign() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       {/* Hero Section - Redesigned */}
-      <PartnershipsCarousel />
+      <GovernmentHero />
 
       {/* Stats Section */}
       <section className="py-16 bg-white">
