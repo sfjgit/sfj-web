@@ -74,6 +74,52 @@ export default function RootLayout({
           }}
         />
 
+        {/* Leadfeeder Script */}
+        <Script
+          id="leadfeeder-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+      (function(ss,ex){
+        window.ldfdr = window.ldfdr || function(){
+          (ldfdr._q = ldfdr._q || []).push([].slice.call(arguments));
+        };
+        (function(d,s){
+          var fs = d.getElementsByTagName(s)[0];
+          function ce(src){
+            var cs = d.createElement(s);
+            cs.src = src;
+            cs.async = 1;
+            fs.parentNode.insertBefore(cs,fs);
+          };
+          ce('https://sc.lfeeder.com/lftracker_v1_' + ss + (ex ? '_' + ex : '') + '.js');
+        })(document,'script');
+      })('lYNOR8x5q2N7WQJZ');
+    `,
+          }}
+        />
+
+        {/* RB2B Script */}
+        <Script
+          id="rb2b-script"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+      !function(key) {
+        if (window.reb2b) return;
+        window.reb2b = { loaded: true };
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";
+        document.getElementsByTagName("script")[0].parentNode.insertBefore(
+          s,
+          document.getElementsByTagName("script")[0]
+        );
+      }("QO92DHZ7PPN7");
+    `,
+          }}
+        />
+
         {/* Organization Schema */}
         <Script
           id="organization-schema"
@@ -179,9 +225,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         /> */}
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-KKM45FLN"
