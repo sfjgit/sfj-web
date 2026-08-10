@@ -159,26 +159,29 @@ const Navigation = () => {
           path: "/services/corporate-it-training-programs",
           label: "Knowledge-as-a-Service (KaaS)",
           icon: BookOpen,
-          description: "Gen AI upskilling, cross-skilling, reskilling",
+          description:
+            "Upskill enterprise teams in AI, cloud and emerging technologies faster.",
           group: "KaaS",
-          groupTitle: "For Kaas & GCCs",
+          groupTitle: "For Enterprises & GCCs",
           hasChildren: false,
         },
         {
           path: "/services/it-staffing-company",
-          label: "Talent as a Service",
+          label: "Talent-as-a-Service (TaaS)",
           icon: Users,
-          description: "Trained, deploy-ready IT talent",
+          description:
+            "Deploy skilled technology professionals across critical roles, functions and levels.",
           group: "KaaS",
-          groupTitle: "KaaS & GCCs",
+          groupTitle: "For Enterprises & GCCs",
           hasChildren: false,
         },
 
         {
           path: "/services/government-initiatives",
-          label: "Government-Led Skilling Missions",
+          label: "Government Skilling Missions",
           icon: Building,
-          description: "KSDC, Naan Mudhalavan & state programs",
+          description:
+            "Execute large-scale government skilling mandates with measurable workforce outcomes nationwide.",
           group: "Government",
           groupTitle: "For Government",
           hasChildren: false,
@@ -187,7 +190,8 @@ const Navigation = () => {
           path: "/services/institutional-training",
           label: "Institutional Training (B2I)",
           icon: GraduationCap,
-          description: "Polytechnic, Arts, Science, Engg, MBA",
+          description:
+            "Prepare students for careers through industry-aligned, outcome-driven institutional training programs.",
           group: "Institutions",
           groupTitle: "For Institutions",
           hasChildren: false,
@@ -196,7 +200,8 @@ const Navigation = () => {
           path: "/initiatives/skill-development",
           label: "Skill Development",
           icon: GraduationCap,
-          description: "KSDC, Naan Mudhalavan & state skilling",
+          description:
+            "Build job-ready youth through industry-aligned technical, digital and professional skills.",
           group: "Government",
           groupTitle: "For Government",
           hasChildren: false,
@@ -206,7 +211,8 @@ const Navigation = () => {
           path: "/services/corporate-social-responsibility",
           label: "CSR Skilling Partner",
           icon: Heart,
-          description: "Inclusive groups, women, PWD, LGBTQ+",
+          description:
+            "Create sustainable livelihoods through inclusive, outcome-driven skilling for underserved communities.",
           group: "CSR",
           groupTitle: "For CSR",
           hasChildren: false,
@@ -215,7 +221,8 @@ const Navigation = () => {
           path: "/initiatives/faculty-development",
           label: "Faculty Development",
           icon: BookOpenCheck,
-          description: "Upskilling educators and researchers",
+          description:
+            "Equip educators with AI, emerging technology, research and teaching capabilities.",
           group: "Government",
           groupTitle: "For Government",
           hasChildren: false,

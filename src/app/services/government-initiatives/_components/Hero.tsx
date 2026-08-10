@@ -36,25 +36,28 @@ const GovernmentHero = () => (
           which is exactly where the map is. */}
       <div className="relative">
         <Image
-          src="/B2G/B2G.webp"
-          alt="Government leaders around a table with a holographic map of India"
-          width={1774}
-          height={887}
+          src="/B2G/B2Gnew.png"
+          alt="A P J Abdul Kalam beside a holographic map of India, with a team collaborating on national skilling initiatives"
+          width={1672}
+          height={941}
           priority
           sizes="100vw"
           className="w-full h-auto lg:h-[88dvh] lg:object-cover lg:object-top"
         />
 
-        {/* Linear gradient scrim, left to right: 90% black at the left edge,
-            76% at the 32% mark, fully clear by 55%. Scoped to the image
-            wrapper so it never tints the copy panel that sits below the
-            artwork on mobile. pointer-events-none so it cannot intercept
-            clicks. */}
+        {/* Linear gradient scrim, mirrored from the old artwork: this image
+            carries its own portrait + quote on the LEFT, so darkening that
+            side would fight content that's already baked into the photo.
+            The right side (people, panels, laptops) is instead where the
+            copy now sits, so the dark edge moved there. Lightened a step off
+            the original 90/76 stops so more of the artwork shows through.
+            Scoped to the image wrapper so it never tints the copy panel
+            below the artwork on mobile. */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.76) 32%, rgba(0,0,0,0) 55%)",
+              "linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 32%, rgba(0,0,0,0) 55%)",
           }}
         />
       </div>
@@ -64,14 +67,18 @@ const GovernmentHero = () => (
           `relative` keeps it painting above the gradient, which would
           otherwise cover it as the later-positioned element. */}
       <div className="relative px-6 py-6 lg:absolute lg:inset-0 lg:flex lg:items-center lg:px-0 lg:py-0">
-        {/* Wider container at lg pulls the copy further left: the block is
-            centred, so raising the cap from 80rem to 90rem moves its left
-            edge outward rather than changing its width. */}
+        {/* max-w-[90rem] widens the reference column at lg so lg:px-12
+            reaches further toward the true screen edges before ml-auto below
+            pins the copy to its right side. */}
         <div className="w-full max-w-7xl lg:max-w-[90rem] mx-auto lg:px-12">
-          {/* Nudged up off the vertical centre line, and 10% of its own width
-              further left. Both axes on one element — a second transform would
-              overwrite the first rather than combine with it. */}
-          <div className="max-w-md lg:max-w-lg space-y-3 sm:space-y-4 text-left lg:-translate-x-[30%] lg:-translate-y-8">
+          {/* lg:ml-auto pushes the block flush against the container's right
+              edge — the image's busy side now, per the mirrored gradient
+              above — rather than the translate-x used when the copy sat on
+              the left. ml-auto scales safely with the container; the old
+              translate-x was a percentage of THIS block's own width and
+              nearly pushed content off-screen once reused elsewhere (see the
+              stats block below, which had the same bug). */}
+          <div className="max-w-md lg:max-w-lg lg:ml-auto space-y-3 sm:space-y-4 text-left lg:-translate-y-8">
             {/* Type is 10% up on the previous step: every value in both clamps
                 scaled by 1.1, so the floor, the fluid rate and the ceiling all
                 grow together and the scaling curve is unchanged. */}
@@ -104,26 +111,20 @@ const GovernmentHero = () => (
           </div>
         </div>
 
-        {/* From lg, pinned to the bottom-left corner of the artwork instead of
-            the vertically-centred/translated heading block: the reference
-            shows the stats anchored to the image's bottom edge, independent
-            of wherever the heading happens to sit. inset-x-0 spans the full
-            fill layer so the inner wrapper can re-apply the exact same
-            max-w/px/translate the heading uses, keeping both left edges
-            aligned without duplicating the offset by hand. */}
+        {/* From lg, pinned to the bottom-right corner of the artwork — the
+            same side the heading now sits on, independent of wherever the
+            heading happens to sit vertically. inset-x-0 spans the full fill
+            layer so the inner wrapper can re-apply the exact same
+            max-w/px container the heading uses, then flex+justify-end pins
+            the row's right edge to the container's right edge — the same
+            edge ml-auto gives the heading above, so both stay aligned.
+            (The previous version used a fixed translate-x to match the
+            heading's position; justify-end doesn't need that number at all,
+            and can't repeat the earlier bug where a translate tuned for one
+            element's width overshot when reused on a wider one.) */}
         <div className="hidden lg:block lg:absolute lg:inset-x-0 lg:bottom-10 xl:bottom-14">
-          <div className="max-w-7xl lg:max-w-[90rem] mx-auto lg:px-12">
-            {/* Fixed length, not -30% like the heading: percentage translate
-                is relative to the ELEMENT'S OWN width, and this row (four
-                stats plus labels) is far wider than the heading's max-w-lg
-                box. -30% of the stats row's own ~700px width overshot the
-                heading's actual -153.6px shift by nearly 2x, pushing "5+" —
-                the leftmost item — off the left edge of the viewport
-                entirely. 9.6rem is that same 153.6px, as a value that no
-                longer depends on this row's own width. */}
-            <div className="lg:-translate-x-[9.6rem]">
-              <StatsCounter />
-            </div>
+          <div className="max-w-7xl lg:max-w-[90rem] mx-auto lg:px-12 flex justify-end">
+            <StatsCounter />
           </div>
         </div>
       </div>

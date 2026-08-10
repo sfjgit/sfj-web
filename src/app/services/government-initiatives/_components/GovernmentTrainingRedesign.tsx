@@ -11,7 +11,6 @@ import {
   FaRocket,
   FaShieldAlt,
   FaHandshake,
-  FaChartLine,
 } from "react-icons/fa";
 import GovernmentHero from "./Hero";
 import CourseCatalog from "./CourseCatalog";
@@ -83,13 +82,6 @@ const ties = [
   },
 ];
 
-const stats = [
-  { id: 1, number: "5+", label: "Government Partners", icon: FaHandshake },
-  { id: 2, number: "120K+", label: "Students Trained", icon: FaGraduationCap },
-  { id: 3, number: "95%", label: "Placement Rate", icon: FaChartLine },
-  { id: 4, number: "10+", label: "Training Programs", icon: FaCertificate },
-];
-
 export default function GovernmentTrainingRedesign() {
   const [activePartner, setActivePartner] = useState(null);
 
@@ -106,30 +98,10 @@ export default function GovernmentTrainingRedesign() {
       {/* Hero Section - Redesigned */}
       <GovernmentHero />
 
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat) => {
-              const IconComponent = stat.icon;
-              return (
-                <div
-                  key={stat.id}
-                  className="text-center p-6 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow"
-                >
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <IconComponent className="text-2xl text-blue-600" />
-                  </div>
-                  <h3 className="text-3xl font-bold text-gray-900 mb-2">
-                    {stat.number}
-                  </h3>
-                  <p className="text-gray-600 font-medium">{stat.label}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* The static stats grid that used to render here (Government Partners,
+          Students Trained, Placement Rate, Training Programs) duplicated the
+          animated count-up version already built into GovernmentHero, so it
+          was removed. */}
       <CourseCatalog />
 
       {/* Government Partnerships Section */}
