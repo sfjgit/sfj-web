@@ -6,20 +6,18 @@ import {
   BookOpen,
   Briefcase,
   GraduationCap,
-  School,
   Building,
+  Stethoscope,
+  Syringe,
 } from "lucide-react";
 
 const HorizontalScrollNavbar = () => {
-  const [activeSection, setActiveSection] = useState("schools");
+  // "schools" was the default active tab; removed below, so the default
+  // moves to the new first tab instead of pointing at a section that's no
+  // longer in the list.
+  const [activeSection, setActiveSection] = useState("polytechnic");
 
   const sections = [
-    {
-      id: "schools",
-      label: "Schools",
-      icon: <School className="h-5 w-5" />,
-      href: "#schools",
-    },
     {
       id: "polytechnic",
       label: "Polytechnic",
@@ -54,13 +52,13 @@ const HorizontalScrollNavbar = () => {
     {
       id: "medical",
       label: "Medical",
-      icon: <GraduationCap className="h-5 w-5" />,
+      icon: <Stethoscope className="h-5 w-5" />,
       href: "#medical",
     },
     {
       id: "paramedical",
       label: "Paramedical",
-      icon: <GraduationCap className="h-5 w-5" />,
+      icon: <Syringe className="h-5 w-5" />,
       href: "#paramedical",
     },
     {
@@ -111,25 +109,50 @@ const HorizontalScrollNavbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Split into two clusters pinned to opposite edges with the gap between
+  // them, rather than one packed, scrollable row. Grouped by id rather than
+  // sections.slice(0, 4) — a positional slice would have silently reshuffled
+  // which tabs land in which cluster the next time an item is added or
+  // removed from `sections`.
+  const leftIds = new Set(["polytechnic", "engineering", "arts"]);
+  const leftSections = sections.filter((s) => leftIds.has(s.id));
+  const rightSections = sections.filter((s) => !leftIds.has(s.id));
+
+  const renderTab = (section: (typeof sections)[number]) => (
+    <button
+      key={section.id}
+      onClick={() => handleSectionClick(section.id, section.href)}
+      className={`flex-shrink-0 flex flex-col items-center justify-center min-w-[100px] h-16 px-3 py-2 rounded-lg transition-all duration-300 ${
+        activeSection === section.id
+          ? "bg-blue-600 text-white shadow-lg"
+          : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800"
+      }`}
+    >
+      <div className="mb-1">{section.icon}</div>
+      <span className="text-xs font-medium">{section.label}</span>
+    </button>
+  );
+
   return (
     <nav className="w-full bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto  pl-8 py-3">
-        {/* Horizontal Scroll Container */}
-        <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
-          {sections.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => handleSectionClick(section.id, section.href)}
-              className={`flex-shrink-0 flex flex-col items-center justify-center min-w-[100px] h-16 px-3 py-2 rounded-lg transition-all duration-300 ${
-                activeSection === section.id
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800"
-              }`}
-            >
-              <div className="mb-1">{section.icon}</div>
-              <span className="text-xs font-medium">{section.label}</span>
-            </button>
-          ))}
+      {/* Full width, not max-w-7xl: that cap was leaving a large dead strip
+          between the right cluster and the true edge of the screen on wide
+          viewports, since justify-between only pushes clusters to the edges
+          of whatever container they're given. Small edge padding instead of
+          a width cap — the middle gap should come from justify-between, not
+          from unused space stranded past the right cluster. */}
+      <div className="w-full px-4 sm:px-6 py-3">
+        {/* justify-between pushes the two clusters to the row's opposite
+            edges, leaving the gap in the middle rather than packing every
+            tab into one scrollable strip. Each cluster still scrolls on its
+            own if it ever runs out of room on a narrow screen. */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+            {leftSections.map(renderTab)}
+          </div>
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+            {rightSections.map(renderTab)}
+          </div>
         </div>
       </div>
 
