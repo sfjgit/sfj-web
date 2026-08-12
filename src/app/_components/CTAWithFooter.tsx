@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, ChevronDown } from "lucide-react";
 import * as Flags from "country-flag-icons/react/3x2";
@@ -124,10 +125,81 @@ const offices: any = {
   },
 };
 
+// Same single-CTA layout/animation as before, but the copy now depends on
+// which service page it's rendered on (matched by path prefix, since
+// CTAWithFooter is shared and rendered on every page via ClientProvider).
+// type values match ContactPage.tsx's typeOptions so the link pre-selects
+// the right inquiry type on arrival.
+const pageCtaMap: Record<
+  string,
+  { heading: string; description: string; buttonLabel: string; type: string }
+> = {
+  "/services/corporate-it-training-programs": {
+    heading: "Tell us where the gap is",
+    description:
+      "Send us a role, a technology or a team. We'll come back with a skills baseline and what it would take to close it.",
+    buttonLabel: "Talk to our team",
+    type: "b2b",
+  },
+  "/services/it-staffing-company": {
+    heading: "Tell us the role you can't fill",
+    description:
+      "Send a job description, or just a technology and a start date. We'll come back with who we have and how fast they can start.",
+    buttonLabel: "Talk to our team",
+    type: "it-staffing",
+  },
+  "/services/government-initiatives": {
+    heading: "Talk to us about your mission",
+    description:
+      "Send us the scheme, the districts and the target cohort. We'll come back with a delivery model, a mobilisation plan and how we report against it.",
+    buttonLabel: "Contact our team",
+    type: "b2g",
+  },
+  "/initiatives/faculty-development": {
+    heading: "Plan an FDP for your faculty",
+    description:
+      "Send us the department, the technologies and how many educators. We'll come back with a schedule that fits around teaching commitments.",
+    buttonLabel: "Contact our team",
+    type: "b2i",
+  },
+  "/services/institutional-training": {
+    heading: "Talk to us about your next batch",
+    description:
+      "Send us the department, the batch size and your timeline. We'll come back with a programme that fits your academic calendar.",
+    buttonLabel: "Contact our team",
+    type: "b2i",
+  },
+  "/services/corporate-social-responsibility": {
+    heading: "Talk to us about your CSR mandate",
+    description:
+      "Send us your focus area, budget cycle and geography. We'll come back with a programme design and an impact measurement plan.",
+    buttonLabel: "Contact our team",
+    type: "csr",
+  },
+};
+
+const DEFAULT_CTA = {
+  heading: "Ready to Transform Your Workforce?",
+  description:
+    "Join 300,000+ professionals who have advanced their careers with SFJ Business Solutions",
+  buttonLabel: "Contact Our Team",
+  type: "",
+};
+
 const CTAWithFooter = () => {
   const [selectedOffice, setSelectedOffice] = useState("india");
   const [officeMenuOpen, setOfficeMenuOpen] = useState(false);
   const currentOffice = offices[selectedOffice];
+
+  // Matches the current route against the longest matching key in
+  // pageCtaMap (so a page under /services/x can't accidentally match a
+  // shorter, unrelated prefix), falling back to the generic CTA for pages
+  // with no dedicated entry (home, about, contact, etc.).
+  const pathname = usePathname();
+  const matchedRoute = Object.keys(pageCtaMap)
+    .filter((route) => pathname?.startsWith(route))
+    .sort((a, b) => b.length - a.length)[0];
+  const cta = matchedRoute ? pageCtaMap[matchedRoute] : DEFAULT_CTA;
 
   return (
     <div
@@ -138,6 +210,7 @@ const CTAWithFooter = () => {
       <section className="relative py-14">
         <div className="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <motion.div
+            key={cta.heading}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -151,7 +224,7 @@ const CTAWithFooter = () => {
                 transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
                 viewport={{ once: true }}
               >
-                Ready to Transform Your Workforce?
+                {cta.heading}
               </motion.h2>
             </div>
 
@@ -163,8 +236,7 @@ const CTAWithFooter = () => {
                 transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
                 viewport={{ once: true }}
               >
-                Join 300,000+ professionals who have advanced their careers with
-                SFJ Business Solutions
+                {cta.description}
               </motion.p>
             </div>
 
@@ -176,13 +248,13 @@ const CTAWithFooter = () => {
                 transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
                 viewport={{ once: true }}
               >
-                <Link href={"/contact"}>
+                <Link href={cta.type ? `/contact?type=${cta.type}` : "/contact"}>
                   <motion.button
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     className="border-2 border-gray-900 text-gray-900 px-6 py-3 rounded-full text-sm font-semibold hover:bg-gray-900 hover:text-white transition-all duration-300"
                   >
-                    Contact Our Team
+                    {cta.buttonLabel}
                   </motion.button>
                 </Link>
               </motion.div>

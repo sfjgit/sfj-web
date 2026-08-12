@@ -2,16 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-// Same full-bleed-photo + dark scrim + clamp-sized heading pattern used on
-// the other rebuilt service hero sections (government-initiatives/Hero.tsx,
-// institutional-training/HeroSection.tsx, the TaaS hero in
-// it-staffing-company/page.tsx) — kept consistent across the "For X" pages
-// linked from the nav.
-const CSRHeroSection = () => (
-  <section className="relative w-full min-h-[26rem] sm:min-h-[30rem] lg:min-h-[88dvh] flex flex-col justify-center bg-slate-900">
+// Same full-bleed-photo + dark scrim + clamp-sized heading pattern as
+// CSRHeroSection.tsx and the other rebuilt service hero sections — same
+// background photo as the main CSR hero too, so the two pages read as one
+// program rather than two different visual treatments.
+const AwsRestartHeroSection = () => (
+  <section className="relative w-full min-h-[28rem] sm:min-h-[34rem] lg:min-h-[88dvh] flex flex-col justify-center bg-slate-900">
     <Image
       src="/CSR heo.png"
-      alt="Students working together in a computer lab as part of SFJ Business Solutions' CSR-led skilling programs"
+      alt="Students working together in a computer lab as part of SFJ Business Solutions' AWS re/Start program"
       fill
       priority
       sizes="100vw"
@@ -56,4 +55,4 @@ const CSRHeroSection = () => (
   </section>
 );
 
-export default CSRHeroSection;
+export default AwsRestartHeroSection;
