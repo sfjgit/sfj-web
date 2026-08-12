@@ -10,6 +10,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface ContentBlock {
   type:
@@ -53,6 +59,11 @@ interface Blog {
     name: string;
     slug: string;
     color?: string;
+  }>;
+  faqs?: Array<{
+    _id: string;
+    question: string;
+    answer: string;
   }>;
   status: string;
   publishedAt?: string;
@@ -672,7 +683,7 @@ export default function SingleBlogPage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Hero Image */}
             {heroImage && (
-              <div className="relative h-64 md:h-80 rounded-xl overflow-hidden bg-gray-200">
+              <div className="relative rounded-xl overflow-hidden bg-gray-200">
                 <img
                   src={heroImage}
                   alt={blog.title}
@@ -709,7 +720,7 @@ export default function SingleBlogPage() {
                 </h2>
                 <nav className="space-y-2">
                   {blog.tableOfContents.map((item) => (
-                    <a
+                    <Link
                       key={item.id}
                       href={`#${item.id}`}
                       className={`block py-2 px-3 rounded-lg transition-all hover:bg-blue-50 ${
@@ -720,7 +731,7 @@ export default function SingleBlogPage() {
                       style={{ marginLeft: `${(item.level - 1) * 16}px` }}
                     >
                       {item.text}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>
@@ -739,32 +750,32 @@ export default function SingleBlogPage() {
                     <div className="">
                       <div
                         className="prose prose-lg max-w-none 
-              [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-gray-700
-              [&_h1]:my-6 [&_h1]:first:mt-0 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900
-              [&_h2]:my-6 [&_h2]:first:mt-0 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-900
-              [&_h3]:my-6 [&_h3]:first:mt-0 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900
-              [&_h4]:my-4 [&_h4]:first:mt-0 [&_h4]:text-lg [&_h4]:font-bold [&_h4]:text-gray-900
-              [&_h5]:my-4 [&_h5]:first:mt-0 [&_h5]:text-base [&_h5]:font-bold [&_h5]:text-gray-900
-              [&_h6]:my-4 [&_h6]:first:mt-0 [&_h6]:text-sm [&_h6]:font-bold [&_h6]:text-gray-900
-              [&_ul]:mb-6 [&_ul]:pl-6 [&_ul]:space-y-2 [&_ul]:list-disc [&_ul]:list-outside
-              [&_ol]:mb-6 [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol]:list-decimal [&_ol]:list-outside
-              [&_li]:text-gray-700 [&_li]:leading-relaxed [&_li]:mb-1
-              [&_ul_li]:relative [&_ul_li]:pl-2
-              [&_ol_li]:relative [&_ol_li]:pl-2
-              [&_ul_ul]:mt-2 [&_ul_ul]:mb-2 [&_ul_ul]:pl-4
-              [&_ol_ol]:mt-2 [&_ol_ol]:mb-2 [&_ol_ol]:pl-4
-              [&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:pl-4 [&_blockquote]:bg-blue-50 [&_blockquote]:p-4 [&_blockquote]:rounded-r-lg
-              [&_blockquote_p]:text-gray-800 [&_blockquote_p]:text-lg [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:mb-0
-              [&_pre]:my-6 [&_pre]:bg-gray-900 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:overflow-x-auto
-              [&_code]:text-green-400 [&_code]:font-mono [&_code]:text-sm
-              [&_img]:my-6 [&_img]:rounded-lg [&_img]:shadow-sm
-              [&_table]:my-6 [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-gray-200
-              [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:text-left [&_th]:font-semibold
-              [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
-              [&_hr]:my-6 [&_hr]:border-gray-200
-              [&_strong]:font-semibold [&_strong]:text-gray-900
-              [&_em]:italic
-              [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-700"
+                        [&_p]:mb-4 [&_p]:leading-relaxed [&_p]:text-gray-700
+                        [&_h1]:my-6 [&_h1]:first:mt-0 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900
+                        [&_h2]:my-6 [&_h2]:first:mt-0 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-900
+                        [&_h3]:my-6 [&_h3]:first:mt-0 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-gray-900
+                        [&_h4]:my-4 [&_h4]:first:mt-0 [&_h4]:text-lg [&_h4]:font-bold [&_h4]:text-gray-900
+                        [&_h5]:my-4 [&_h5]:first:mt-0 [&_h5]:text-base [&_h5]:font-bold [&_h5]:text-gray-900
+                        [&_h6]:my-4 [&_h6]:first:mt-0 [&_h6]:text-sm [&_h6]:font-bold [&_h6]:text-gray-900
+                        [&_ul]:mb-6 [&_ul]:pl-6 [&_ul]:space-y-2 [&_ul]:list-disc [&_ul]:list-outside
+                        [&_ol]:mb-6 [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol]:list-decimal [&_ol]:list-outside
+                        [&_li]:text-gray-700 [&_li]:leading-relaxed [&_li]:mb-1
+                        [&_ul_li]:relative [&_ul_li]:pl-2
+                        [&_ol_li]:relative [&_ol_li]:pl-2
+                        [&_ul_ul]:mt-2 [&_ul_ul]:mb-2 [&_ul_ul]:pl-4
+                        [&_ol_ol]:mt-2 [&_ol_ol]:mb-2 [&_ol_ol]:pl-4
+                        [&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:pl-4 [&_blockquote]:bg-blue-50 [&_blockquote]:p-4 [&_blockquote]:rounded-r-lg
+                        [&_blockquote_p]:text-gray-800 [&_blockquote_p]:text-lg [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:mb-0
+                        [&_pre]:my-6 [&_pre]:bg-gray-900 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:whitespace-pre-wrap [&_pre]:break-words
+                        [&_pre_code]:text-green-400 [&_pre_code]:font-mono [&_pre_code]:text-sm [&_pre_code]:bg-transparent [&_pre_code]:whitespace-pre-wrap [&_pre_code]:break-words
+                        [&_img]:my-6 [&_img]:rounded-lg [&_img]:shadow-sm
+                        [&_table]:my-6 [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-gray-200
+                        [&_th]:border [&_th]:border-gray-200 [&_th]:bg-gray-50 [&_th]:p-3 [&_th]:text-left [&_th]:font-semibold
+                        [&_td]:border [&_td]:border-gray-200 [&_td]:p-3
+                        [&_hr]:my-6 [&_hr]:border-gray-200
+                        [&_strong]:font-semibold [&_strong]:text-gray-900
+                        [&_em]:italic
+                        [&_a]:text-blue-600 [&_a]:underline [&_a]:hover:text-blue-700"
                         dangerouslySetInnerHTML={{
                           __html: cleanupHTMLContent(blog.content),
                         }}
@@ -831,6 +842,44 @@ export default function SingleBlogPage() {
                     </Link>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* FAQ Section */}
+            {blog.faqs && blog.faqs.length > 0 && (
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-8-3a1 1 0 00-.894.553l-1 2A1 1 0 009 11h2a1 1 0 100-2h-.382l.276-.553A1 1 0 0010 7zm0 6a1 1 0 100 2 1 1 0 000-2z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Frequently Asked Questions (FAQs)
+                </h3>
+
+                <Accordion type="single" collapsible className="w-full">
+                  {blog.faqs.map((faq, index) => (
+                    <AccordionItem
+                      key={faq._id || index}
+                      value={`item-${index}`}
+                      className="border-b border-gray-200"
+                    >
+                      <AccordionTrigger className="text-left font-semibold text-gray-800 hover:text-blue-600">
+                        {faq.question}
+                      </AccordionTrigger>
+
+                      <AccordionContent className="text-gray-600 leading-relaxed">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </div>
             )}
           </div>

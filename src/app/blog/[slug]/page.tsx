@@ -1,6 +1,7 @@
 import React from "react";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import SingleBlogPage from "./_components/Page";
+import Script from "next/script";
 
 interface Blog {
   _id: string;
@@ -21,6 +22,10 @@ interface Blog {
     name: string;
     slug: string;
     color?: string;
+  }>;
+  faqs?: Array<{
+    question: string;
+    answer: string;
   }>;
   status: string;
   publishedAt?: string;
@@ -53,7 +58,7 @@ const fetchBlogData = async (slug: string): Promise<Blog | null> => {
       `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/admin/blogs/slug/${slug}`,
       {
         next: { revalidate: 3600 }, // Revalidate every hour
-      }
+      },
     );
 
     if (!response.ok) {
@@ -68,9 +73,7 @@ const fetchBlogData = async (slug: string): Promise<Blog | null> => {
   }
 };
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
   const blog = await fetchBlogData(slug);
 
@@ -185,6 +188,84 @@ export async function generateMetadata({
   };
 }
 
-export default function BlogPage() {
-  return <SingleBlogPage />;
+export default async function BlogPage({ params }: PageProps) {
+  const { slug } = await params;
+  const blog = await fetchBlogData(slug);
+
+  if (!blog) {
+    return <div>Blog Not Found</div>;
+  }
+
+  const heroImage = blog.banner || blog.featuredImage;
+  const publishedDate = blog.publishedAt || blog.createdAt;
+  const categories = blog.categories.map((cat) => cat.name).join(", ");
+  // const tags = blog.tags.map((tag) => tag.name).join(", ");
+
+  // Create structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: blog.seo.metaTitle || blog.title,
+    description: blog.seo.metaDescription || blog.summary,
+    image: heroImage ? [heroImage] : [],
+    datePublished: publishedDate,
+    dateModified: blog.updatedAt,
+    author: {
+      "@type": "Organization",
+      name: "SFJ Business Solutions", // Replace with your actual blog/company name
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "SFJ Business Solutions", // Replace with your actual blog/company name
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.sfjbs.com/blog/${blog.slug}`,
+    },
+    articleSection: categories,
+    keywords: blog.seo.keywords.join(", "),
+    wordCount: blog.content.split(" ").length,
+    timeRequired: `PT${blog.readTime}M`,
+    inLanguage: blog.language || "en",
+  };
+
+  const faqSchema =
+    blog.faqs && blog.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: blog.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
+
+  return (
+    <>
+      <Script
+        id="blog-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+
+      {faqSchema && (
+        <Script
+          id="faq-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(faqSchema),
+          }}
+        />
+      )}
+
+      <SingleBlogPage />
+    </>
+  );
 }

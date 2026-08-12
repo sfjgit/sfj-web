@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { motion } from "framer-motion";
-import "swiper/css";
+// import "swiper/css";
 
 const PartnersSection = () => {
   const partnerLogos = [
@@ -12,6 +12,10 @@ const PartnersSection = () => {
     "/edu&car/AWS.png",
     "/edu&car/2.jpg",
     "/edu&car/6.png",
+    "/edu&car/Comptia.png",
+    "/edu&car/Peoplecert DevOps.png",
+    "/edu&car/Prince2.png",
+    "/edu&car/Peoplecert-Scrum.png",
   ];
 
   // Duplicate logos to ensure smooth infinite loop even with few images

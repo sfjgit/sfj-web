@@ -155,6 +155,22 @@ html {
   scrollbar-width: none;
 }
 
+/* Scrollable strips (e.g. tab bars) without a visible scrollbar */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Never let a stray wide element scroll the whole page sideways on mobile */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -272,4 +288,112 @@ body.translated-ltr {
 
 .goog-te-gadget {
   display: none !important;
+}
+
+/* Card with a permanent light-gray border and a short neon-green highlight
+   that travels along the exact border path (rounded corners included) on hover. */
+.sweep-card {
+  position: relative;
+}
+
+.sweep-card .sweep-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.sweep-card:hover .sweep-svg {
+  opacity: 1;
+}
+
+.sweep-card .sweep-svg rect {
+  x: 1px;
+  y: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  rx: 15px;
+  ry: 15px;
+  fill: none;
+  stroke: #22c55e;
+  stroke-width: 1;
+  stroke-linecap: butt;
+  /* Each rect draws one 1.4%-long piece of the beam. pathLength is normalised
+     to 100 in the markup; pieces are spaced 0.5% apart so each overlaps the
+     next by ~0.9% and the beam reads as one unbroken ~6.9% line. */
+  stroke-dasharray: 1.4 98.6;
+}
+
+/* All pieces share one animation; a negative delay lags each one slightly
+   behind the previous, so together they read as a single line whose leading
+   edge is solid and whose trailing edge fades out. */
+.sweep-card:hover .sweep-svg rect {
+  animation: sweepBorder 5.5s linear infinite;
+}
+
+.sweep-card .sweep-svg rect:nth-child(1) {
+  opacity: 1;
+}
+.sweep-card .sweep-svg rect:nth-child(2) {
+  opacity: 0.95;
+  animation-delay: -5.4725s;
+}
+.sweep-card .sweep-svg rect:nth-child(3) {
+  opacity: 0.88;
+  animation-delay: -5.445s;
+}
+.sweep-card .sweep-svg rect:nth-child(4) {
+  opacity: 0.79;
+  animation-delay: -5.4175s;
+}
+.sweep-card .sweep-svg rect:nth-child(5) {
+  opacity: 0.69;
+  animation-delay: -5.39s;
+}
+.sweep-card .sweep-svg rect:nth-child(6) {
+  opacity: 0.58;
+  animation-delay: -5.3625s;
+}
+.sweep-card .sweep-svg rect:nth-child(7) {
+  opacity: 0.47;
+  animation-delay: -5.335s;
+}
+.sweep-card .sweep-svg rect:nth-child(8) {
+  opacity: 0.37;
+  animation-delay: -5.3075s;
+}
+.sweep-card .sweep-svg rect:nth-child(9) {
+  opacity: 0.27;
+  animation-delay: -5.28s;
+}
+.sweep-card .sweep-svg rect:nth-child(10) {
+  opacity: 0.18;
+  animation-delay: -5.2525s;
+}
+.sweep-card .sweep-svg rect:nth-child(11) {
+  opacity: 0.1;
+  animation-delay: -5.225s;
+}
+.sweep-card .sweep-svg rect:nth-child(12) {
+  opacity: 0.04;
+  animation-delay: -5.1975s;
+}
+
+@keyframes sweepBorder {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sweep-card:hover .sweep-svg rect {
+    animation: none;
+  }
 }

@@ -18,7 +18,7 @@ const PartnershipsCarousel = () => {
       name: "Karnataka Skill Development Corporation",
       description:
         "In partnership with bSkilling, we drive impactful programs focused on innovation and skill development.",
-      img: "/app/b2g/ksdc.png",
+      img: "/app/b2g/dept_photo1760354874.png",
       details: {
         programs: [
           "Digital Skills Training",

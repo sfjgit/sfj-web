@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Metadata } from "next";
 import GlobalPresenceSection from "./Global";
+import Link from "next/link";
 
 // Types
 interface TeamMember {
@@ -324,7 +325,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => (
       </p>
     </div>
 
-    <a
+    <Link
       className="hover:scale-105 mt-5 transition-all"
       href={member.description}
       target="_blank"
@@ -348,7 +349,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => (
           d="M54 39c-8 0-15 7-15 15 0 7 7 14 15 14 7 0 14-7 14-14 0-8-7-15-14-15zM161 105c-2-15-9-25-30-25-12 0-20 5-24 11l0 0 0-11-23 0 0 16 0 66 24 0 0-41c0-10 2-21 15-21 13 0 14 13 14 22l0 40 25 0 0-45 0 0c0-4 0-8-1-12z"
         />
       </svg>
-    </a>
+    </Link>
   </div>
 );
 

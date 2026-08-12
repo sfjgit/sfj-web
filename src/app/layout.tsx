@@ -1,13 +1,18 @@
-import Footer from "@/components/Footer";
 import "./globals.css";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import ClientProvider from "./_components/ClientProvider";
-import Navigation from "@/components/Navigation";
 import Script from "next/script";
-import SFJContactForm from "./_components/SFJContactForm";
-import CookieBanner from "@/components/CookieBanner";
-import PushNotificationButton from "@/components/PushNotificationButton";
-import { Suspense } from "react";
+import { Geist, Geist_Mono } from "next/font/google";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title:
@@ -20,7 +25,6 @@ export const metadata: Metadata = {
   creator: "SFJ Business Solutions",
   publisher: "SFJ Business Solutions",
   robots: "index, follow",
-  // viewport: "width=device-width, initial-scale=1, maximum-scale=5",
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -36,6 +40,11 @@ export const metadata: Metadata = {
     googlebot:
       "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -170,7 +179,9 @@ export default function RootLayout({
           strategy="afterInteractive"
         /> */}
       </head>
-      <body className="font-sans">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} font-sans`}
+      >
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-KKM45FLN"
@@ -199,19 +210,7 @@ export default function RootLayout({
           className="fixed top-4 right-4 z-50"
         ></div> */}
 
-        <ClientProvider>
-          <Suspense fallback={<div>Loading.</div>}>
-            <Navigation />
-          </Suspense>
-          {children}
-          <Footer />
-          <SFJContactForm />
-          <CookieBanner />
-
-          <div className="p-4 bg-gray-100">
-            <PushNotificationButton />
-          </div>
-        </ClientProvider>
+        <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
   );

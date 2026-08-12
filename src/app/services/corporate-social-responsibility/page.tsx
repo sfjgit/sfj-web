@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Script from "next/script";
+// import { Suspense } from "react";
 
 import {
   Users,
@@ -18,6 +19,9 @@ import { CSRStrategyFramework } from "./_components/stats";
 import IndustryImpact from "./_components/IndustryImpact";
 import CSRLandingPage from "./_components/HeroSection";
 import { Metadata } from "next";
+import CSRProgramsSection from "./_components/CSRProgramsSection";
+import { TabVisibilityProvider } from "./_components/TabVisibilityContext";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
@@ -194,7 +198,12 @@ export default function CSRPage() {
       />
 
       <div className="min-h-screen bg-white ">
-        <CSRLandingPage />
+        <TabVisibilityProvider>
+          <Suspense fallback={null}>
+            <CSRLandingPage />
+          </Suspense>
+        </TabVisibilityProvider>
+        {/* <CSRLandingPage /> */}
         {/* <CSRHeroSection /> */}
 
         {/* <SkillDevelopmentDashboard /> */}
@@ -265,6 +274,7 @@ export default function CSRPage() {
 
         {/* Industry Impact Section */}
         {<IndustryImpact industryImpacts={industryImpacts} />}
+        <CSRProgramsSection />
 
         {/* Partners Section */}
         <section className="py-20 bg-gray-900 text-white">

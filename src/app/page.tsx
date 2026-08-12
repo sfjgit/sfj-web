@@ -6,7 +6,8 @@ import CTASection from "./_components/CTASection";
 import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
 import Script from "next/script";
-
+import PricingSection from "@/components/PricingSection";
+//front end
 export const metadata: Metadata = {
   title:
     "Enterprise Upskilling Partner in Bangalore, India | Enterprise Training Programs & Tech Solutions",
@@ -64,7 +65,7 @@ export default function HomePage() {
         }}
       />
 
-      {/* <div className=" bg-gray-100">
+      {/* <div className=" bg-g00">
         <button className="p-2 bg-blue-500 text-white rounded">
           Test Button
         </button>
@@ -77,6 +78,8 @@ export default function HomePage() {
       <PartnersSection />
 
       <FootprintSection />
+
+      <PricingSection />
 
       <CTASection />
       {/* <FloatingActionButton /> */}
