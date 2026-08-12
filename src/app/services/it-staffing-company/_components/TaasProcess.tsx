@@ -27,35 +27,35 @@ const STEPS = [
     label: "Planning",
     description:
       "We start with the role, the team it sits in and the date you need it filled. You get a sourcing strategy and a timeline before anyone screens a single CV.",
-    image: "/taas/process/01-planning.webp",
+    image: "/Taas/process/01-planning.webp",
     alt: "Recruiter and hiring manager discussing a role brief across the table",
   },
   {
     label: "Shortlisting",
     description:
       "We search our bench and our network against your actual requirement, not against a keyword. Only profiles that clear the brief reach your desk.",
-    image: "/taas/process/02-shortlisting.webp",
+    image: "/Taas/process/02-shortlisting.webp",
     alt: "Recruiter marking up a shortlist of candidate profiles",
   },
   {
     label: "Assessment",
     description:
       "Technical evaluation, skills validation and background verification — all done by us, before your panel spends an hour on anyone.",
-    image: "/taas/process/03-assessment.webp",
+    image: "/Taas/process/03-assessment.webp",
     alt: "Professional completing a technical assessment at a dual-monitor workstation",
   },
   {
     label: "Selection",
     description:
       "You interview a short list, not a long one. We coordinate the panels, carry the feedback both ways and close the offer.",
-    image: "/taas/process/04-selection.webp",
+    image: "/Taas/process/04-selection.webp",
     alt: "Candidate speaking with an interview panel around a conference table",
   },
   {
     label: "Onboarding",
     description:
       "Contracts, compliance and documentation handled end to end, so your new hire starts on the date you agreed.",
-    image: "/taas/process/05-onboarding.webp",
+    image: "/Taas/process/05-onboarding.webp",
     alt: "New hire wearing an ID badge greeting colleagues in the office",
   },
 ];
