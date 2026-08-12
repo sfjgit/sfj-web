@@ -5,9 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, ChevronDown } from "lucide-react";
 import * as Flags from "country-flag-icons/react/3x2";
-import { FaStar } from "react-icons/fa";
-import { FaRegStarHalfStroke, FaX } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
+import { FaX } from "react-icons/fa6";
 import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 const socialLinks = [
@@ -76,11 +74,6 @@ const solutions = [
 ];
 
 const initiatives = [
-  {
-    name: "Skill Development",
-    desc: "Workforce Transformation",
-    path: "/initiatives/skill-development",
-  },
   {
     name: "Faculty Development",
     desc: "Train-the-Trainer & FDP",
@@ -228,35 +221,6 @@ const CTAWithFooter = () => {
                   solutions.
                 </p>
 
-                <div className="bg-transparent rounded-xl pt-0">
-                  <div className="flex items-center gap-2 mb-3">
-                    <FcGoogle size={20} />
-                    <h4 className="text-xs font-medium text-gray-900">
-                      Google Reviews
-                    </h4>
-                  </div>
-                  <div className="flex items-center text-sm font-medium text-gray-900 mb-3">
-                    <span className="mr-3">3.8</span>
-                    <div className="flex items-center gap-1">
-                      <FaStar className="text-yellow-400" size={14} />
-                      <FaStar className="text-yellow-400" size={14} />
-                      <FaStar className="text-yellow-400" size={14} />
-                      <FaRegStarHalfStroke
-                        className="text-yellow-400"
-                        size={14}
-                      />
-                    </div>
-                  </div>
-                  <a
-                    href="https://g.page/r/CS0LPoJm0AKbEBM/review"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-700 hover:text-blue-800 transition-colors text-xs"
-                  >
-                    Rate Us on Google
-                  </a>
-                </div>
-
                 <div>
                   <h3 className="font-semibold text-xs mb-3">Follow Us</h3>
                   <div className="flex space-x-3">
@@ -381,14 +345,6 @@ const CTAWithFooter = () => {
                         className="text-gray-700 hover:text-gray-900 transition-colors text-[11px]"
                       >
                         Life@SFJ
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/impact"
-                        className="text-gray-700 hover:text-gray-900 transition-colors text-[11px]"
-                      >
-                        Impact
                       </Link>
                     </li>
                   </ul>

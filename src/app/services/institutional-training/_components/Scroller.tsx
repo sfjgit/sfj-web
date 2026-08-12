@@ -9,6 +9,9 @@ import {
   Building,
   Stethoscope,
   Syringe,
+  Sprout,
+  Scale,
+  Wrench,
 } from "lucide-react";
 
 const HorizontalScrollNavbar = () => {
@@ -67,11 +70,29 @@ const HorizontalScrollNavbar = () => {
       icon: <Briefcase className="h-5 w-5" />,
       href: "#faculty",
     },
+    {
+      id: "agriculture",
+      label: "Agriculture",
+      icon: <Sprout className="h-5 w-5" />,
+      href: "#agriculture",
+    },
+    {
+      id: "law",
+      label: "Law",
+      icon: <Scale className="h-5 w-5" />,
+      href: "#law",
+    },
+    {
+      id: "iti",
+      label: "ITI",
+      icon: <Wrench className="h-5 w-5" />,
+      href: "#iti",
+    },
   ];
 
   const handleSectionClick = (
     sectionId: React.SetStateAction<string>,
-    href: string
+    href: string,
   ) => {
     setActiveSection(sectionId);
     // Smooth scroll to section
@@ -109,15 +130,6 @@ const HorizontalScrollNavbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Split into two clusters pinned to opposite edges with the gap between
-  // them, rather than one packed, scrollable row. Grouped by id rather than
-  // sections.slice(0, 4) — a positional slice would have silently reshuffled
-  // which tabs land in which cluster the next time an item is added or
-  // removed from `sections`.
-  const leftIds = new Set(["polytechnic", "engineering", "arts"]);
-  const leftSections = sections.filter((s) => leftIds.has(s.id));
-  const rightSections = sections.filter((s) => !leftIds.has(s.id));
-
   const renderTab = (section: (typeof sections)[number]) => (
     <button
       key={section.id}
@@ -135,24 +147,14 @@ const HorizontalScrollNavbar = () => {
 
   return (
     <nav className="w-full bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-      {/* Full width, not max-w-7xl: that cap was leaving a large dead strip
-          between the right cluster and the true edge of the screen on wide
-          viewports, since justify-between only pushes clusters to the edges
-          of whatever container they're given. Small edge padding instead of
-          a width cap — the middle gap should come from justify-between, not
-          from unused space stranded past the right cluster. */}
+      {/* One centered row rather than a two-cluster split: with 10 tabs now
+          (Agriculture, Law and ITI added), a fixed gap in the middle no
+          longer made sense. flex-wrap lets it settle onto a second centered
+          line on narrower screens instead of overflowing or forcing
+          horizontal scroll. */}
       <div className="w-full px-4 sm:px-6 py-3">
-        {/* justify-between pushes the two clusters to the row's opposite
-            edges, leaving the gap in the middle rather than packing every
-            tab into one scrollable strip. Each cluster still scrolls on its
-            own if it ever runs out of room on a narrow screen. */}
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-            {leftSections.map(renderTab)}
-          </div>
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-            {rightSections.map(renderTab)}
-          </div>
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {sections.map(renderTab)}
         </div>
       </div>
 

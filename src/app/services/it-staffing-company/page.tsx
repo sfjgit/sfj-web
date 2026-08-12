@@ -1,13 +1,5 @@
 import { Metadata } from "next";
 import Script from "next/script";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Users, Award, Heart, FileText } from "lucide-react";
 import ITStaffingSolutions from "./_components/Section";
 import SFJStatsSection from "./_components/SFJStatsSection";
 import TaasScroller from "./_components/Taas";
@@ -54,32 +46,6 @@ export const metadata: Metadata = {
 };
 
 export default function ITStaffingPage() {
-  const services = [
-    {
-      icon: Users,
-      title: "Pre-Screened IT Professionals",
-      description:
-        "Rigorous evaluation, skill assessment, and background verification for quality hiring",
-    },
-    {
-      icon: Award,
-      title: "Technical Specialists",
-      description:
-        "Domain experts with specific certifications and hands-on project experience",
-    },
-    {
-      icon: Heart,
-      title: "Cultural Fit Matching",
-      description:
-        "Candidates aligned with your company culture and team dynamics",
-    },
-    {
-      icon: FileText,
-      title: "Complete Documentation",
-      description: "Full contract, compliance, and administrative support",
-    },
-  ];
-
   return (
     <>
       <Script
@@ -163,48 +129,8 @@ export default function ITStaffingPage() {
         </section>
 
         <TaasScroller />
-
-        {/* Services Section */}
-        <section className="py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
-                Our Services
-              </h2>
-              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-                Comprehensive solutions designed to meet your technical hiring
-                needs with precision and efficiency
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {services.map((service, index) => (
-                <Card
-                  key={index}
-                  className="hover:shadow-lg transition-shadow h-full"
-                >
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-blue-100 rounded-lg">
-                        <service.icon className="w-5 h-5 text-blue-600" />
-                      </div>
-                      <CardTitle className="text-lg leading-tight">
-                        {service.title}
-                      </CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <CardDescription className="text-gray-600 text-sm leading-relaxed">
-                      {service.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-        <ITStaffingSolutions />
         <SFJStatsSection />
+        <ITStaffingSolutions />
       </div>
     </>
   );

@@ -254,13 +254,6 @@ const ClientsSection = () => {
         "15,000+ successful placements with top-tier IT professionals.",
     },
     {
-      path: "/initiatives/skill-development",
-      label: "Skill Development",
-      img: "/services/Skill2.webp",
-      description:
-        "KSDC, Naan Mudhalavan and other state skill development initiatives.",
-    },
-    {
       path: "/initiatives/faculty-development",
       label: "Faculty Development",
       img: "/services/Faculty Development.webp",
@@ -436,15 +429,6 @@ const ClientsSection = () => {
               15 years of workforce transformation across enterprises,
               government, and institutions
             </p>
-          </Reveal>
-
-          <Reveal delay={140}>
-            <Link
-              href="/impact"
-              className="inline-block text-blue-600 font-semibold text-sm border-b border-blue-600 hover:text-blue-800 hover:border-blue-800 transition-colors duration-200 mb-8"
-            >
-              See Our Impact →
-            </Link>
           </Reveal>
 
           {/* Stats Cards — moved here, right below the link */}
