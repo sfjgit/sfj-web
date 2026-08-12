@@ -197,17 +197,6 @@ const Navigation = () => {
           hasChildren: false,
         },
         {
-          path: "/initiatives/skill-development",
-          label: "Skill Development",
-          icon: GraduationCap,
-          description:
-            "Build job-ready youth through industry-aligned technical, digital and professional skills.",
-          group: "Government",
-          groupTitle: "For Government",
-          hasChildren: false,
-        },
-
-        {
           path: "/services/corporate-social-responsibility",
           label: "CSR Skilling Partner",
           icon: Heart,
@@ -239,11 +228,6 @@ const Navigation = () => {
       label: "Company",
       hasChildren: true,
       children: [
-        {
-          path: "/impact",
-          label: "Impact",
-          hasChildren: false,
-        },
         // { path: "/jobs", label: "Careers", hasChildren: false },
         { path: "/careers", label: "Careers", hasChildren: false },
         { path: "/blog", label: "Blogs", hasChildren: false },
@@ -471,9 +455,10 @@ const Navigation = () => {
                   onClick={() => router.push("/signin")}
                   aria-label="Sign Up"
                   title="Sign Up"
-                  className="ml-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                  className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 >
                   <AiOutlineUserAdd className="w-[1.15rem] h-[1.15rem]" />
+                  <span>Sign Up</span>
                 </Button>
                 {/* <Button
                   onClick={() => router.push("/contact")}

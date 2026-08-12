@@ -192,6 +192,23 @@ body {
   }
 }
 
+/* Swipe-up + blur-to-focus entrance. Used on content that mounts fresh each
+   time it appears (e.g. a panel's copy block re-rendering when it becomes
+   active) — a plain CSS animation replays on its own every time the element
+   remounts, no JS reset needed the way a `transition` would require. */
+@keyframes revealUpBlur {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
 @keyframes capabilityProgress {
   from {
     width: 0%;

@@ -12,6 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
+import CollegePartners from "./CollegePartners";
 
 interface EducationSegment {
   title: string;
@@ -275,6 +276,13 @@ const HeroSection: React.FC = () => {
           </div> */}
         </div>
       </div>
+
+      {/* mt-auto inside CollegePartners pushes it to the bottom of this
+          section's flex column — the section is `flex flex-col`, so it lands
+          flush with the hero's bottom edge regardless of how tall the copy
+          above ends up being, the same technique the TaaS hero uses to pin
+          its capability strip. */}
+      <CollegePartners />
     </section>
   );
 };

@@ -13,7 +13,6 @@ import {
   FaHandshake,
 } from "react-icons/fa";
 import GovernmentHero from "./Hero";
-import CourseCatalog from "./CourseCatalog";
 
 const ties = [
   {
@@ -102,7 +101,6 @@ export default function GovernmentTrainingRedesign() {
           Students Trained, Placement Rate, Training Programs) duplicated the
           animated count-up version already built into GovernmentHero, so it
           was removed. */}
-      <CourseCatalog />
 
       {/* Government Partnerships Section */}
       <section id="partnerships" className="py-20 bg-gray-50">

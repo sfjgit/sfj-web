@@ -50,8 +50,16 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // Apply cache control headers to all routes in development
-        source: "/(.*)",
+        // Apply cache control headers to all routes in development — but not
+        // to _next/image or _next/static. Without this exclusion, dev's
+        // no-store override was also landing on Next's own image-
+        // optimization endpoint, forcing every optimized image (including
+        // the 5 process-accordion photos) to be re-fetched and re-processed
+        // on every request instead of being cached after the first load —
+        // the actual cause of the interaction lag. The other header block
+        // below already carves out this same exclusion for a different
+        // reason; this mirrors it.
+        source: "/((?!_next/static|_next/image).*)",
         headers: [
           {
             key: "Cache-Control",
