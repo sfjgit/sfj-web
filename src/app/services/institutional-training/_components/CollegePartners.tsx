@@ -1,26 +1,38 @@
 import React from "react";
 
 const COLLEGES = [
-  "PESCE Mandya",
-  "GPT Holealur",
-  "GEC Hassan",
-  "AVC College",
-  "GPT Koppal",
-  "JICM",
-  "RRCE",
-  "AVCCE",
-  "RLJP",
-  "GAC Salem",
-  "SFC Bengaluru",
-  "SSWC Salem",
-  "TACW",
-  "SKP Bengaluru",
-  "MCET",
-  "CASCW",
-  "NLPTC",
-  "TKSCAS",
-  "SCAD Polytechnic",
-  "GCE Srirangam",
+  { name: "PESCE Mandya", url: "https://pesce.ac.in/" },
+  {
+    name: "GPT Holealur",
+    url: "https://gpt.karnataka.gov.in/gptholealur/public/en",
+  },
+  {
+    name: "GEC Hassan",
+    url: "https://gec.karnataka.gov.in/gechassan/public/en",
+  },
+  { name: "AVC College", url: "https://avccollege.net/" },
+  {
+    name: "GPT Koppal",
+    url: "https://gpt.karnataka.gov.in/gptkoppal/public/en",
+  },
+  { name: "JICM", url: "https://jyothyicm.ac.in/" },
+  { name: "RRCE", url: "https://www.rrce.org/" },
+  { name: "AVCCE", url: "https://www.avccengg.net/" },
+  { name: "RLJP", url: "https://www.rljp.in/" },
+  { name: "GAC Salem", url: "https://gacsalem7.ac.in/" },
+  { name: "SFC Bengaluru", url: "https://www.stfranciscollege.edu.in/" },
+  {
+    name: "SSWC Salem",
+    url: "https://shrisowdesvariwomenscollege.org/",
+  },
+  { name: "TACW", url: "https://www.tacw.in/" },
+  { name: "SKP Bengaluru", url: "https://www.sreis.in/skp" },
+  { name: "MCET", url: "https://mcetengg.org/" },
+  { name: "CASCW", url: "https://chezhianwomencollege.in/" },
+  { name: "NLPTC", url: "https://nlptc.edu.in/" },
+  { name: "TKSCAS", url: "https://tkscas.com/" },
+  { name: "SCAD Polytechnic", url: "https://www.scadpoly.ac.in/" },
+  { name: "GCE Srirangam", url: "https://www.gces.edu.in/" },
 ];
 
 // Duplicated once so a single lap already fills wide screens, then rendered
@@ -78,13 +90,17 @@ const CollegePartners = () => {
                 aria-hidden={half === "b"}
               >
                 {SEQUENCE.map((college, index) => (
-                  <span
+                  <a
                     key={`${half}-${index}`}
-                    className="flex-shrink-0 mx-4 sm:mx-6 whitespace-nowrap text-base sm:text-lg font-bold text-white"
+                    href={college.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={half === "b" ? -1 : 0}
+                    className="flex-shrink-0 mx-4 sm:mx-6 whitespace-nowrap text-base sm:text-lg font-bold text-white hover:underline"
                     style={{ textShadow: "0 2px 10px rgba(0,0,0,0.85)" }}
                   >
-                    {college}
-                  </span>
+                    {college.name}
+                  </a>
                 ))}
               </div>
             ))}

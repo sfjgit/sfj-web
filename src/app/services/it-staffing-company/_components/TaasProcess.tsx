@@ -82,6 +82,7 @@ export default function TaasProcess() {
   const [hasEntered, setHasEntered] = useState(false);
 
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const tabStripRef = useRef<HTMLDivElement>(null);
   const mountedRef = useRef(false);
   const pausedRef = useRef(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -134,6 +135,11 @@ export default function TaasProcess() {
       return;
     }
 
+    // rootMargin shrinks the bottom of the "viewport" used for this check
+    // by 20% — the section only counts as entered once you've scrolled
+    // enough that its top has cleared that line, not the instant a sliver
+    // of it peeks over the bottom edge (which, for a section this tall,
+    // could already be satisfied at page load on a shorter screen).
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -141,19 +147,22 @@ export default function TaasProcess() {
           observer.disconnect();
         }
       },
-      { threshold: 0.2 },
+      { threshold: 0, rootMargin: "0px 0px -20% 0px" },
     );
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
-  // Auto-advance loop. Elapsed time only accumulates while pausedRef is
-  // false, so a hover/visibility pause freezes progress in place — on
-  // resume it continues from where it left off instead of resetting or
-  // jumping ahead. Runs fresh (elapsed = 0) every time `cycle` changes,
-  // i.e. every step change, whether auto or manual.
+  // Auto-advance loop. Gated on hasEntered — the timer doesn't start
+  // ticking until the section has actually scrolled into view, so it
+  // never gets a head start while off-screen below the fold. Elapsed
+  // time only accumulates while pausedRef is false, so a hover/visibility
+  // pause freezes progress in place — on resume it continues from where
+  // it left off instead of resetting or jumping ahead. Runs fresh
+  // (elapsed = 0) every time `cycle` changes, i.e. every step change,
+  // whether auto or manual.
   useEffect(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || !hasEntered) return;
     let raf: number;
     let last = performance.now();
     let elapsed = 0;
@@ -172,7 +181,7 @@ export default function TaasProcess() {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cycle, reducedMotion]);
+  }, [cycle, reducedMotion, hasEntered]);
 
   // Caption text: fades out (old content, same node — no remount yet),
   // then swaps and fades back in. Skipped on first mount, and skipped
@@ -195,12 +204,18 @@ export default function TaasProcess() {
   }, [activeIndex, reducedMotion]);
 
   // Keep the active tab in view when the strip is horizontally scrollable
-  // (mobile).
+  // (mobile only — desktop lays the 5 tabs out in a grid that always fits).
+  // Scrolls the strip's own scrollLeft rather than using scrollIntoView,
+  // which would walk up to the document when the strip itself has no
+  // overflow to scroll and drag the whole page down on every auto-advance.
   useEffect(() => {
-    tabRefs.current[activeIndex]?.scrollIntoView({
+    const strip = tabStripRef.current;
+    const tab = tabRefs.current[activeIndex];
+    if (!strip || !tab) return;
+    if (strip.scrollWidth <= strip.clientWidth) return;
+    strip.scrollTo({
+      left: Math.max(0, tab.offsetLeft - (strip.clientWidth - tab.clientWidth) / 2),
       behavior: "smooth",
-      inline: "center",
-      block: "nearest",
     });
   }, [activeIndex]);
 
@@ -225,7 +240,7 @@ export default function TaasProcess() {
 
   const nextIndex = (activeIndex + 1) % STEPS.length;
   const current = STEPS[displayIndex];
-  const showAnimatedBar = !reducedMotion;
+  const showAnimatedBar = !reducedMotion && hasEntered;
   // Drives animation-play-state on the progress line, so a hover or
   // tab-visibility pause freezes the line instead of drifting out of
   // sync with the (also paused) advance timer above. The page turn
@@ -356,6 +371,7 @@ export default function TaasProcess() {
         </div>
 
         <div
+          ref={tabStripRef}
           className="taasTabStrip"
           role="tablist"
           aria-label="Staffing process steps"

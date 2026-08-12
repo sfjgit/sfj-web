@@ -633,7 +633,7 @@ const CSRLandingPage = () => {
   };
 
   return (
-    <div className="w-full max-w-[100rem] mx-auto pt-20 md:pt-24 py-10 px-3 sm:px-4 overflow-x-hidden">
+    <div className="w-full max-w-[100rem] mx-auto py-10 px-3 sm:px-4 overflow-x-hidden">
       {/* Tabbed Content Section */}
       <div className="w-full min-w-0 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
         {/* Tab Navigation */}

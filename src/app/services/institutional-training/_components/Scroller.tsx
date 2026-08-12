@@ -1,174 +1,92 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState, useEffect } from "react";
-import {
-  Settings,
-  BookOpen,
-  Briefcase,
-  GraduationCap,
-  Building,
-  Stethoscope,
-  Syringe,
-  Sprout,
-  Scale,
-  Wrench,
-} from "lucide-react";
 
-const HorizontalScrollNavbar = () => {
-  // "schools" was the default active tab; removed below, so the default
-  // moves to the new first tab instead of pointing at a section that's no
-  // longer in the list.
-  const [activeSection, setActiveSection] = useState("polytechnic");
+// Same 15 logos as the "AI Tools Students Master" section (School.tsx).
+// This used to share the bar with a category tab strip, which was removed
+// once CategoryChooser.tsx took over category navigation — the logos now
+// get the full width instead of just the leftover space beside the tabs.
+const AI_TOOLS = [
+  { name: "Animaker", logo: "/tools/animaker.png" },
+  { name: "Bing", logo: "/tools/bing.jpg" },
+  { name: "Character AI", logo: "/tools/character-ai.png" },
+  { name: "ChatGPT", logo: "/tools/chatgpt.png" },
+  { name: "Crayon", logo: "/tools/crayon.png" },
+  { name: "DALL-E", logo: "/tools/dall-e.webp" },
+  { name: "Diffit", logo: "/tools/diffit.png" },
+  { name: "ElevenLabs", logo: "/tools/elevenlabs.png" },
+  { name: "Gemini", logo: "/tools/gemini.png" },
+  { name: "Grammarly", logo: "/tools/grammarly.webp" },
+  { name: "Magic School", logo: "/tools/magic-school.png" },
+  { name: "Mindgrasp", logo: "/tools/mindgrasp.webp" },
+  { name: "Notion AI", logo: "/tools/notion-ai.webp" },
+  { name: "Pictory", logo: "/tools/pictory.png" },
+  { name: "Voicify", logo: "/tools/voicify.png" },
+];
 
-  const sections = [
-    {
-      id: "polytechnic",
-      label: "Polytechnic",
-      icon: <Building className="h-5 w-5" />,
-      href: "#polytechnic",
-    },
+// Most logos share one box, sized by height. Two need their own: ElevenLabs
+// is an extremely wide wordmark (7.5:1) that a shared box squashes down to
+// a sliver, and Magic School is a stacked two-line wordmark that needs real
+// height to read, not width — same per-logo override pattern already used
+// for the TaaS client-logo strip elsewhere on the site.
+const logoBoxOverrides: Record<string, string> = {
+  ElevenLabs: "w-80 h-12",
+  "Magic School": "w-20 h-20",
+};
 
-    // {
-    //   id: "bcom",
-    //   label: "B.Com",
-    //   icon: <Briefcase className="h-5 w-5" />,
-    //   href: "#bcom",
-    // },
-    {
-      id: "engineering",
-      label: "Engineering",
-      icon: <Settings className="h-5 w-5" />,
-      href: "#engineering",
-    },
-    {
-      id: "arts",
-      label: "Arts",
-      icon: <BookOpen className="h-5 w-5" />,
-      href: "#arts",
-    },
-    {
-      id: "mba",
-      label: "MBA",
-      icon: <GraduationCap className="h-5 w-5" />,
-      href: "#mba",
-    },
-    {
-      id: "medical",
-      label: "Medical",
-      icon: <Stethoscope className="h-5 w-5" />,
-      href: "#medical",
-    },
-    {
-      id: "paramedical",
-      label: "Paramedical",
-      icon: <Syringe className="h-5 w-5" />,
-      href: "#paramedical",
-    },
-    {
-      id: "faculty",
-      label: "Faculty on Demand",
-      icon: <Briefcase className="h-5 w-5" />,
-      href: "#faculty",
-    },
-    {
-      id: "agriculture",
-      label: "Agriculture",
-      icon: <Sprout className="h-5 w-5" />,
-      href: "#agriculture",
-    },
-    {
-      id: "law",
-      label: "Law",
-      icon: <Scale className="h-5 w-5" />,
-      href: "#law",
-    },
-    {
-      id: "iti",
-      label: "ITI",
-      icon: <Wrench className="h-5 w-5" />,
-      href: "#iti",
-    },
-  ];
-
-  const handleSectionClick = (
-    sectionId: React.SetStateAction<string>,
-    href: string,
-  ) => {
-    setActiveSection(sectionId);
-    // Smooth scroll to section
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
-  // Listen for scroll events to update active section
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
-
-      sections.forEach((section) => {
-        const element = document.querySelector(section.href);
-        if (element) {
-          // @ts-expect-error error
-          const offsetTop = element.offsetTop;
-          // @ts-expect-error error
-
-          const offsetBottom = offsetTop + element.offsetHeight;
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(section.id);
-          }
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const renderTab = (section: (typeof sections)[number]) => (
-    <button
-      key={section.id}
-      onClick={() => handleSectionClick(section.id, section.href)}
-      className={`flex-shrink-0 flex flex-col items-center justify-center min-w-[100px] h-16 px-3 py-2 rounded-lg transition-all duration-300 ${
-        activeSection === section.id
-          ? "bg-blue-600 text-white shadow-lg"
-          : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800"
-      }`}
-    >
-      <div className="mb-1">{section.icon}</div>
-      <span className="text-xs font-medium">{section.label}</span>
-    </button>
-  );
-
+const AIToolsBar = () => {
   return (
     <nav className="w-full bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-      {/* One centered row rather than a two-cluster split: with 10 tabs now
-          (Agriculture, Law and ITI added), a fixed gap in the middle no
-          longer made sense. flex-wrap lets it settle onto a second centered
-          line on narrower screens instead of overflowing or forcing
-          horizontal scroll. */}
       <div className="w-full px-4 sm:px-6 py-3">
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-          {sections.map(renderTab)}
+        <div className="flex items-center gap-3">
+          <span className="flex-shrink-0 text-base font-semibold text-gray-700 whitespace-nowrap">
+            AI Tools
+          </span>
+          <div
+            className="relative flex-1 min-w-0 overflow-hidden h-20"
+            style={{
+              maskImage:
+                "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+            }}
+          >
+            <div
+              className="marquee-pause-hover flex items-center w-max"
+              style={{
+                animation: "capabilityLogoScroll 28s linear infinite",
+                willChange: "transform",
+                backfaceVisibility: "hidden",
+              }}
+            >
+              {["a", "b"].map((half) => (
+                <div
+                  className="flex items-center"
+                  key={half}
+                  aria-hidden={half === "b"}
+                >
+                  {AI_TOOLS.map((tool, index) => (
+                    <div
+                      key={`${half}-${index}`}
+                      className={`flex-shrink-0 mx-3 flex items-center justify-center ${
+                        logoBoxOverrides[tool.name] ?? "w-48 h-12"
+                      }`}
+                    >
+                      <img
+                        src={"/app/b2i" + tool.logo}
+                        alt={tool.name}
+                        className="max-w-full max-h-full object-contain"
+                        style={{ filter: "grayscale(1) brightness(0.5)" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </nav>
   );
 };
 
-export default HorizontalScrollNavbar;
+export default AIToolsBar;

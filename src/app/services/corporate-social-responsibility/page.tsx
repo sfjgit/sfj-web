@@ -18,6 +18,7 @@ import { CSRStrategyFramework } from "./_components/stats";
 
 import IndustryImpact from "./_components/IndustryImpact";
 import CSRLandingPage from "./_components/HeroSection";
+import CSRHeroSection from "./_components/CSRHeroSection";
 import { Metadata } from "next";
 import CSRProgramsSection from "./_components/CSRProgramsSection";
 import { TabVisibilityProvider } from "./_components/TabVisibilityContext";
@@ -198,13 +199,12 @@ export default function CSRPage() {
       />
 
       <div className="min-h-screen bg-white ">
+        <CSRHeroSection />
         <TabVisibilityProvider>
           <Suspense fallback={null}>
             <CSRLandingPage />
           </Suspense>
         </TabVisibilityProvider>
-        {/* <CSRLandingPage /> */}
-        {/* <CSRHeroSection /> */}
 
         {/* <SkillDevelopmentDashboard /> */}
         <CSRStrategyFramework />

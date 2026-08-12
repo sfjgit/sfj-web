@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 import CSRLandingPage from "../_components/HeroSection";
+import AwsRestartHeroSection from "../_components/AwsRestartHeroSection";
 import { TabVisibilityProvider } from "../_components/TabVisibilityContext";
 
 // This route now receives the default CSR traffic, not just explicit clicks on
@@ -33,10 +34,13 @@ export const metadata: Metadata = {
 
 export default function AwsRestartPage() {
   return (
-    <TabVisibilityProvider>
-      <Suspense fallback={null}>
-        <CSRLandingPage />
-      </Suspense>
-    </TabVisibilityProvider>
+    <>
+      <AwsRestartHeroSection />
+      <TabVisibilityProvider>
+        <Suspense fallback={null}>
+          <CSRLandingPage />
+        </Suspense>
+      </TabVisibilityProvider>
+    </>
   );
 }
