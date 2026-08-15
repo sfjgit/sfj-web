@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Carousel,
   CarouselApi,
@@ -28,6 +28,18 @@ const BACKGROUND_VIDEOS = [
 // advanced to this index (0-based) — i.e. hero-1 plays with no text, and
 // the heading/subheading start appearing from hero-2 on.
 const TEXT_STARTS_AT_VIDEO = 1;
+
+// Explicit video-index → text-slide-key mapping, keyed by BACKGROUND_VIDEOS
+// index. This makes the correspondence a direct lookup instead of an
+// accumulated "advance by one" count, which could drift out of sync.
+// hero-1 (index 0) has no entry since the text overlay is hidden then.
+const VIDEO_TO_SLIDE_KEY: Record<number, string> = {
+  1: "enterprise", // hero-2
+  2: "institutional", // hero-3
+  3: "government", // hero-4
+  4: "csr", // hero-5
+  5: "ai-consulting", // hero-6
+};
 
 const TEXT_SHADOW = "0 2px 14px rgba(0,0,0,0.85)";
 
@@ -88,18 +100,22 @@ const HeroCarousel = () => {
 
   // Full-bleed background video: one clip at a time, advancing to the next
   // (looping back to the first) whenever the current one finishes playing.
-  // The text carousel has no clock of its own — every time the video
-  // advances, the text advances with it (once it's past the hidden intro
-  // videos), so the two are always in lockstep instead of drifting apart.
   const [videoIndex, setVideoIndex] = useState(0);
   const advanceVideo = useCallback(() => {
-    setVideoIndex((prev) => {
-      if (prev >= TEXT_STARTS_AT_VIDEO) {
-        api?.scrollNext();
-      }
-      return (prev + 1) % BACKGROUND_VIDEOS.length;
-    });
-  }, [api]);
+    setVideoIndex((prev) => (prev + 1) % BACKGROUND_VIDEOS.length);
+  }, []);
+
+  // Keep the text carousel's position an explicit function of videoIndex
+  // (via VIDEO_TO_SLIDE_KEY) rather than nudging it forward by one on every
+  // video change — a direct lookup can't drift out of sync the way an
+  // accumulated "advance by one" count could.
+  useEffect(() => {
+    if (!api) return;
+    const key = VIDEO_TO_SLIDE_KEY[videoIndex];
+    if (!key) return;
+    const slideIndex = SLIDES.findIndex((slide) => slide.key === key);
+    if (slideIndex >= 0) api.scrollTo(slideIndex);
+  }, [api, videoIndex]);
 
   return (
     <div className="relative overflow-hidden border-b bg-black h-[calc(100dvh-60px)] sm:h-[calc(100dvh-100px)] lg:h-[calc(100dvh-100px)] min-h-[32.5rem] max-h-[53.125rem] transition-all duration-500">
@@ -139,9 +155,9 @@ const HeroCarousel = () => {
             {SLIDES.map((slide) => (
               <CarouselItem
                 key={slide.key}
-                className="h-full pt-0 flex flex-col justify-center"
+                className="h-full pt-0 flex flex-col justify-center "
               >
-                <div className="max-w-xl">
+                <div className="max-w-7xl  w-full -translate-y-18 sm:-translate-y-24 lg:-translate-y-30">
                   {/* Eyebrow breadcrumb, styled after the reference — small
                       letter-spaced label with a thin rule extending beside it. */}
                   <div
@@ -154,10 +170,15 @@ const HeroCarousel = () => {
                     <span className="h-px w-10 sm:w-16 bg-white/40" />
                   </div>
 
+                  {/* Forced onto one line each via whitespace-nowrap — the
+                      font size is driven almost entirely by viewport width
+                      (vw) rather than a fixed rem, since these are long,
+                      unedited sentences that still have to fit edge to edge
+                      without wrapping on any screen size. */}
                   <h2
                     className="text-white font-bold leading-tight mb-4"
                     style={{
-                      fontSize: "clamp(1.75rem, 3vw, 3.25rem)",
+                      fontSize: "clamp(1rem, 4.2vw, 3.25rem)",
                       textShadow: TEXT_SHADOW,
                     }}
                   >
@@ -167,13 +188,12 @@ const HeroCarousel = () => {
                   <p
                     className="text-slate-100 leading-relaxed mb-6"
                     style={{
-                      fontSize: "clamp(0.875rem, 0.95vw, 1.05rem)",
+                      fontSize: "clamp(0.625rem, 1.7vw, 1.05rem)",
                       textShadow: TEXT_SHADOW,
                     }}
                   >
                     {slide.subheading}
                   </p>
-
                   <Link
                     href={slide.href}
                     className="inline-flex items-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-gray-100 text-sm"
