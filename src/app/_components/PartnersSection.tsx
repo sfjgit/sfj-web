@@ -8,7 +8,6 @@ const PartnersSection = () => {
   const partnerLogos = [
     "/edu&car/micro.png",
     "/edu&car/AWS.png",
-    "/edu&car/2.jpg",
     "/edu&car/6.png",
     "/edu&car/Comptia.png",
     "/edu&car/Peoplecert DevOps.png",
