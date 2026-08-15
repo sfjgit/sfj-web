@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   Search,
   Building2,
@@ -27,8 +28,9 @@ import {
   Fuel,
   TreePine,
   Package,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
-import Link from "next/link";
 
 const IndustriesPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,6 +38,12 @@ const IndustriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hoveredIndustry, setHoveredIndustry] = useState(null);
+  const [showAll, setShowAll] = useState(false);
+
+  // One full row (4-wide grid) shows by default; the rest sit behind
+  // "Show more categories", same collapse pattern as the institutional
+  // -training category chooser.
+  const COLLAPSED_COUNT = 4;
 
   const categories = [
     { id: "all", label: "All Industries", count: 30 },
@@ -502,72 +510,62 @@ const IndustriesPage = () => {
       selectedCategory === "all" || industry.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const visibleIndustries = showAll
+    ? filteredIndustries
+    : filteredIndustries.slice(0, COLLAPSED_COUNT);
+
   return (
     <div className="min-h-screen">
       {/* Header Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 pt-20">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+      <section className="relative w-full bg-slate-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-12 sm:pb-16 pl-2 pr-4 sm:pl-2 sm:pr-6 lg:pl-2 lg:pr-8 overflow-hidden">
+        <Image
+          src="/In.webp"
+          alt="Leaders in front of a digital map of India with satellite and rocket-launch imagery, representing nationwide industry impact"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[50%_20%]"
+        />
+        <div className="absolute inset-0 bg-black/30 sm:bg-black/15" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
+        <div className="relative max-w-7xl mx-auto w-full">
+          <div className="max-w-3xl">
             <div className="inline-flex items-center px-4 py-2 bg-blue-500/10 border border-blue-400/20 rounded-full text-sm font-medium text-blue-300 backdrop-blur-sm mb-6">
               <Globe className="w-4 h-4 mr-2" />
               Trusted Across Industries
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6">
+            <h1
+              className="font-bold text-white mb-6 leading-tight"
+              style={{
+                fontSize: "clamp(2rem, 4.2vw, 4.25rem)",
+                textShadow: "0 2px 14px rgba(0,0,0,0.85)",
+              }}
+            >
               Industries We{" "}
               <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">
                 Serve
               </span>
             </h1>
 
-            <p className="text-xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-8">
+            <p
+              className="text-slate-200 leading-relaxed"
+              style={{
+                fontSize: "clamp(1rem, 1.3vw, 1.25rem)",
+                textShadow: "0 2px 14px rgba(0,0,0,0.85)",
+              }}
+            >
               Delivering excellence across 29+ diverse sectors with tailored
               solutions that drive growth, innovation, and digital
               transformation for businesses of all sizes
             </p>
-
-            {/* Search and Filter */}
-            <div className="max-w-4xl mx-auto">
-              <div className="flex flex-col lg:flex-row gap-4 items-center justify-center">
-                {/* <div className="relative flex-1 max-w-md">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Search industries..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                </div> */}
-
-                {/* <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category.id}
-                      onClick={() => setSelectedCategory(category.id)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                        selectedCategory === category.id
-                          ? "bg-blue-500 text-white shadow-lg"
-                          : "bg-white/10 text-white/80 hover:bg-white/20"
-                      }`}
-                    >
-                      {category.label}
-                      <span className="ml-2 text-xs opacity-75">
-                        ({category.count})
-                      </span>
-                    </button>
-                  ))}
-                </div> */}
-              </div>
-            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Industries Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* <div className="flex flex-wrap gap-4">
           {categories.map((category) => (
             <button
@@ -590,7 +588,10 @@ const IndustriesPage = () => {
           {categories.map((category, index) => (
             <button
               key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
+              onClick={() => {
+                setSelectedCategory(category.id);
+                setShowAll(false);
+              }}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedCategory === category.id
                   ? "bg-blue-500 text-white shadow-lg"
@@ -609,8 +610,8 @@ const IndustriesPage = () => {
 
         <br />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredIndustries.map((industry, index) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {visibleIndustries.map((industry, index) => {
             const Icon = industry.icon;
             return (
               <div
@@ -627,10 +628,8 @@ const IndustriesPage = () => {
                   {/* Header with Icon and Title */}
                   <div className="p-6 pb-4">
                     <div className="flex items-center justify-between mb-4">
-                      <div
-                        className={`p-3 rounded-xl bg-gradient-to-r ${industry.color} shadow-lg`}
-                      >
-                        <Icon className="w-6 h-6 text-white" />
+                      <div className="p-3 rounded-xl bg-gray-100">
+                        <Icon className="w-6 h-6 text-gray-900" />
                       </div>
                       <div className="text-right">
                         <div className="text-xs text-gray-500 font-medium uppercase tracking-wide">
@@ -682,6 +681,26 @@ const IndustriesPage = () => {
           })}
         </div>
 
+        {filteredIndustries.length > COLLAPSED_COUNT && (
+          <div className="text-center mt-10">
+            <button
+              type="button"
+              onClick={() => setShowAll((v) => !v)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-300 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+            >
+              {showAll ? (
+                <>
+                  Show fewer categories <ChevronUp className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  Show more categories <ChevronDown className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
         {/* No Results */}
         {filteredIndustries.length === 0 && (
           <div className="text-center py-16">
@@ -698,30 +717,6 @@ const IndustriesPage = () => {
         )}
       </div>
 
-      {/* Bottom CTA */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 py-16">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Transform Your Industry?
-          </h2>
-          <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of organizations across these industries who trust us
-            to deliver innovative solutions that drive growth and digital
-            transformation.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center">
-              Get Started Today
-              <ChevronDown className="w-5 h-5 ml-2 rotate-[-90deg]" />
-            </button> */}
-            <Link href="/contact" passHref>
-              <button className="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200">
-                Contact Our Experts
-              </button>
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

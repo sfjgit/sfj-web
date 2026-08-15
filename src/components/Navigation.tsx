@@ -17,9 +17,9 @@ import {
   BookOpenCheck,
   User,
   LogOut,
-  Presentation,
   ClipboardList,
   Database,
+  Globe,
 } from "lucide-react";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
@@ -187,7 +187,7 @@ const Navigation = () => {
     // { path: "/", label: "Home", hasChildren: false },
     {
       path: "/services",
-      label: "Services",
+      label: "What We Do",
       hasChildren: true,
       children: [
         {
@@ -251,6 +251,16 @@ const Navigation = () => {
           groupTitle: "For Government",
           hasChildren: false,
         },
+        {
+          path: "/industries",
+          label: "Industries",
+          icon: Globe,
+          description:
+            "Explore tailored solutions across 29+ industry verticals.",
+          group: "Industries",
+          groupTitle: "By Industry",
+          hasChildren: false,
+        },
       ],
     },
     {
@@ -265,13 +275,6 @@ const Navigation = () => {
           label: "LMS",
           desc: "A modern learning management system to create, manage and deliver engaging learning experiences.",
           icon: GraduationCap,
-          hasChildren: false,
-        },
-        {
-          path: "#",
-          label: "Bskilling",
-          desc: "Corporate training and skilling platform to upskill teams and improve workforce capabilities.",
-          icon: Presentation,
           hasChildren: false,
         },
         {
@@ -291,13 +294,8 @@ const Navigation = () => {
       ],
     },
     {
-      path: "/industries",
-      label: "Industries",
-      hasChildren: false,
-    },
-    {
       path: "/company",
-      label: "Company",
+      label: "Who We Are",
       hasChildren: true,
       children: [
         // { path: "/jobs", label: "Careers", hasChildren: false },
@@ -355,7 +353,7 @@ const Navigation = () => {
   };
 
   const serviceGroups = groupChildren(
-    navigationItems.find((i) => i.label === "Services")?.children || [],
+    navigationItems.find((i) => i.label === "What We Do")?.children || [],
   );
 
   const productItems =
@@ -389,7 +387,7 @@ const Navigation = () => {
           <div className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0">
             {navigationItems.map((item) => (
               <div key={item.path} className="relative">
-                {item.label === "Services" ? (
+                {item.label === "What We Do" ? (
                   <button
                     data-services-trigger
                     onClick={() => setIsSolutionsOpen((v) => !v)}
@@ -401,7 +399,7 @@ const Navigation = () => {
                           : "text-black"
                     }`}
                   >
-                    Services
+                    What We Do
                     <ChevronDown
                       className={`ml-1 h-4 w-4 transition-transform duration-200 ${
                         isSolutionsOpen ? "rotate-180" : ""
@@ -655,7 +653,12 @@ const Navigation = () => {
               onMouseLeave={() => setIsProductsOpen(false)}
               className="absolute left-0 right-0 top-full mt-2 p-5 bg-white border border-gray-200/50 shadow-xl rounded-xl z-50"
             >
-              <div className="grid grid-cols-4 divide-x divide-gray-200">
+              <div
+                className="grid divide-x divide-gray-200"
+                style={{
+                  gridTemplateColumns: `repeat(${productItems.length}, minmax(0, 1fr))`,
+                }}
+              >
                 {productItems.map((child: any) => (
                   <Link
                     key={child.label}
