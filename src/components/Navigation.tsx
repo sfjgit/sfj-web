@@ -42,6 +42,7 @@ import {
   clearAccessToken,
 } from "@/hooks/useAxios";
 import { useAxios } from "@/hooks/useAxios";
+import { FiDatabase } from "react-icons/fi";
 
 interface UserProfile {
   _id: string;
@@ -542,13 +543,14 @@ const Navigation = () => {
             ) : (
               <>
                 <Button
-                  onClick={() => router.push("/signin")}
-                  aria-label="Sign Up"
-                  title="Sign Up"
+                  // onClick={() => router.push("/signin")}
+                  aria-label="Login"
+                  title="Login"
                   className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 >
-                  <AiOutlineUserAdd className="w-[1.15rem] h-[1.15rem]" />
-                  <span>Sign Up</span>
+                  {/* <AiOutlineUserAdd className="w-[1.15rem] h-[1.15rem]" /> */}
+                  <FiDatabase />
+                  <span>Login</span>
                 </Button>
                 {/* <Button
                   onClick={() => router.push("/contact")}
