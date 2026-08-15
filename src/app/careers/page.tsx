@@ -461,6 +461,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   useCallback,
   useDeferredValue,
@@ -896,25 +897,43 @@ export default function CareersPage() {
 
   return (
     <div
-      className="min-h-screen bg-[#FBFAF7] text-[#16181D] mt-8"
+      className="min-h-screen bg-[#FBFAF7] text-[#16181D]"
       style={{ fontFamily: "var(--font-body)" }}
     >
       {/* Hero */}
-      <header className="mx-auto max-w-6xl px-5 pb-8 pt-16 sm:pt-24">
-        <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-[#0F5E4A]">
-          SFJ Business Solutions · Careers
-        </p>
-        <h1
-          className="mt-3 max-w-2xl text-4xl leading-[1.05] text-[#16181D] sm:text-5xl"
-          style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
-        >
-          Current Job Openings
-        </h1>
-        {/* <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[#6F7278]">
-          Search by job title or skill. Rough spelling is fine — we&rsquo;ll
-          still find the match.
-        </p> */}
-      </header>
+      {/* B2G.webp — clean 2:1 photo, no baked-in text, close to this
+          section's own ratio so object-cover only trims a little off the
+          top/bottom. Height formula matches the TaaS hero
+          (it-staffing-company/page.tsx). */}
+      <section className="relative w-full bg-slate-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-10 sm:pb-12 px-5 overflow-hidden">
+        <Image
+          src="/B2G/B2G.webp"
+          alt="Business leaders in a boardroom discussion beneath a digital map of India, representing careers and growth at SFJ Business Solutions"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/25 sm:bg-black/10" />
+
+        <div className="relative mx-auto max-w-6xl w-full">
+          <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-[#B9E8D4]">
+            SFJ Business Solutions · Careers
+          </p>
+          <h1
+            className="mt-3 max-w-2xl text-white"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: "clamp(2rem, 4vw, 3.25rem)",
+              lineHeight: 1.05,
+              textShadow: "0 2px 14px rgba(0,0,0,0.85)",
+            }}
+          >
+            Current Job Openings
+          </h1>
+        </div>
+      </section>
 
       <SearchBar
         query={query}

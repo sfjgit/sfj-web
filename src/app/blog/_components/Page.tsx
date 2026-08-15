@@ -4,7 +4,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
+import { Newspaper, ChevronDown, ChevronUp } from "lucide-react";
 
 interface Blog {
   _id: string;
@@ -131,6 +133,16 @@ export default function BlogLandingPage() {
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [activeSeries, setActiveSeries] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  const [showAllBlogs, setShowAllBlogs] = useState(false);
+
+  // One collapsed row of pills shows by default; the rest sit behind
+  // "Show more categories", same collapse pattern used on the industries page.
+  const CATEGORY_COLLAPSED_COUNT = 6;
+
+  // Only the first 3 article cards show by default; the rest of this page's
+  // batch sit behind "Show more articles", same collapse pattern.
+  const BLOG_COLLAPSED_COUNT = 3;
 
   // Query for blogs with dependencies on filters
   const {
@@ -179,6 +191,14 @@ export default function BlogLandingPage() {
   const blogs = blogsData?.data || [];
   const totalPages = blogsData?.meta?.totalPages || 1;
 
+  const visibleCategories = showAllCategories
+    ? categories
+    : categories.slice(0, CATEGORY_COLLAPSED_COUNT);
+
+  const visibleBlogs = showAllBlogs
+    ? blogs
+    : blogs.slice(0, BLOG_COLLAPSED_COUNT);
+
   const getDifficultyColor = (difficulty?: string) => {
     switch (difficulty) {
       case "beginner":
@@ -210,6 +230,8 @@ export default function BlogLandingPage() {
   const handleCategoryChange = (categoryId: string) => {
     setActiveCategory(activeCategory === categoryId ? "" : categoryId);
     setCurrentPage(1);
+    setShowAllCategories(false);
+    setShowAllBlogs(false);
   };
 
   const handleSeriesChange = (seriesId: string) => {
@@ -224,6 +246,7 @@ export default function BlogLandingPage() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    setShowAllBlogs(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -242,20 +265,56 @@ export default function BlogLandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 mt-20">
-      <div className="w-full mx-auto sm:px-6 lg:px-10 py-12 2xl:px-20 xl:px-12">
-        {/* Main Heading */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
-            Blogs
-          </h1>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      {/* Hero Section */}
+      <section className="relative w-full bg-slate-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-10 overflow-hidden">
+        <Image
+          src="/blog/blog-hero.webp"
+          alt="Team members collaborating around a table with laptops in a modern office, representing SFJBS's technology and business insights"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/25 sm:bg-black/10" />
 
+        <div className="relative max-w-7xl mx-auto w-full">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-500/10 border border-blue-400/20 rounded-full text-sm font-medium text-blue-300 backdrop-blur-sm mb-6">
+              <Newspaper className="w-4 h-4 mr-2" />
+              Insights & Resources
+            </div>
+
+            <h1
+              className="font-bold text-white mb-4 leading-tight"
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3.75rem)",
+                textShadow: "0 2px 14px rgba(0,0,0,0.85)",
+              }}
+            >
+              Blogs
+            </h1>
+
+            <p
+              className="text-slate-200 leading-relaxed"
+              style={{
+                fontSize: "clamp(1rem, 1.3vw, 1.25rem)",
+                textShadow: "0 2px 14px rgba(0,0,0,0.85)",
+              }}
+            >
+              Practical insights on cybersecurity, cloud, ERP and the skills
+              reshaping enterprise technology teams.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div className="w-full mx-auto sm:px-6 lg:px-10 py-12 2xl:px-20 xl:px-12">
         {/* Categories Section */}
         {!categoriesLoading && categories.length > 0 && (
           <div className="mb-8">
             <div className="flex flex-wrap justify-center gap-3">
-              {categories.map((category) => (
+              {visibleCategories.map((category) => (
                 <button
                   key={category._id}
                   onClick={() => handleCategoryChange(category._id)}
@@ -289,6 +348,27 @@ export default function BlogLandingPage() {
                 </button>
               ))}
             </div>
+
+            {categories.length > CATEGORY_COLLAPSED_COUNT && (
+              <div className="text-center mt-5">
+                <button
+                  type="button"
+                  onClick={() => setShowAllCategories((v) => !v)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-300 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+                >
+                  {showAllCategories ? (
+                    <>
+                      Show fewer categories <ChevronUp className="w-4 h-4" />
+                    </>
+                  ) : (
+                    <>
+                      Show more categories{" "}
+                      <ChevronDown className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -414,7 +494,7 @@ export default function BlogLandingPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mb-12">
-            {blogs.map((blog) => (
+            {visibleBlogs.map((blog) => (
               <article
                 key={blog._id}
                 className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 hover:-translate-y-1"
@@ -552,6 +632,26 @@ export default function BlogLandingPage() {
                 </div>
               </article>
             ))}
+          </div>
+        )}
+
+        {blogs.length > BLOG_COLLAPSED_COUNT && (
+          <div className="text-center mb-12">
+            <button
+              type="button"
+              onClick={() => setShowAllBlogs((v) => !v)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-300 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors"
+            >
+              {showAllBlogs ? (
+                <>
+                  Show fewer articles <ChevronUp className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  Show more articles <ChevronDown className="w-4 h-4" />
+                </>
+              )}
+            </button>
           </div>
         )}
 

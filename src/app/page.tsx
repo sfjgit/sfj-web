@@ -70,9 +70,9 @@ export default function HomePage() {
 
       <HeroCarousel />
 
-      <ClientsSection />
-
       <PartnersSection />
+
+      <ClientsSection />
       {/* <FloatingActionButton /> */}
     </div>
   );
