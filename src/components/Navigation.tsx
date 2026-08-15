@@ -17,6 +17,9 @@ import {
   BookOpenCheck,
   User,
   LogOut,
+  Presentation,
+  ClipboardList,
+  Database,
 } from "lucide-react";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
@@ -53,6 +56,7 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isInitiativesOpen, setIsInitiativesOpen] = useState(false);
   const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -131,6 +135,37 @@ const Navigation = () => {
       window.removeEventListener("scroll", close);
     };
   }, [isSolutionsOpen]);
+
+  // Same dismiss behavior as the Services mega-menu, scoped to the Products
+  // panel instead.
+  useEffect(() => {
+    if (!isProductsOpen) return;
+
+    const handlePointerDown = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest?.("[data-products-menu], [data-products-trigger]"))
+        return;
+      setIsProductsOpen(false);
+    };
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsProductsOpen(false);
+    };
+    const close = () => setIsProductsOpen(false);
+
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    document.addEventListener("mousedown", handlePointerDown, true);
+    document.addEventListener("touchstart", handlePointerDown, true);
+    document.addEventListener("keydown", handleKey);
+    window.addEventListener("scroll", close, { passive: true });
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+      document.removeEventListener("mousedown", handlePointerDown, true);
+      document.removeEventListener("touchstart", handlePointerDown, true);
+      document.removeEventListener("keydown", handleKey);
+      window.removeEventListener("scroll", close);
+    };
+  }, [isProductsOpen]);
 
   const handleLogout = async () => {
     try {
@@ -219,6 +254,43 @@ const Navigation = () => {
       ],
     },
     {
+      path: "/products",
+      label: "Products",
+      hasChildren: true,
+      // Links are placeholders (#) until the /products pages exist — swap
+      // in real paths or external URLs once they're ready.
+      children: [
+        {
+          path: "#",
+          label: "LMS",
+          desc: "A modern learning management system to create, manage and deliver engaging learning experiences.",
+          icon: GraduationCap,
+          hasChildren: false,
+        },
+        {
+          path: "#",
+          label: "Bskilling",
+          desc: "Corporate training and skilling platform to upskill teams and improve workforce capabilities.",
+          icon: Presentation,
+          hasChildren: false,
+        },
+        {
+          path: "#",
+          label: "ATS",
+          desc: "Applicant tracking system to streamline hiring and manage talent acquisition efficiently.",
+          icon: ClipboardList,
+          hasChildren: false,
+        },
+        {
+          path: "#",
+          label: "CASPA",
+          desc: "Centralized assessment platform for skill evaluation and certification.",
+          icon: Database,
+          hasChildren: false,
+        },
+      ],
+    },
+    {
       path: "/industries",
       label: "Industries",
       hasChildren: false,
@@ -286,6 +358,9 @@ const Navigation = () => {
     navigationItems.find((i) => i.label === "Services")?.children || [],
   );
 
+  const productItems =
+    navigationItems.find((i) => i.label === "Products")?.children || [];
+
   return (
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6">
       <div className="relative max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 px-6">
@@ -330,6 +405,23 @@ const Navigation = () => {
                     <ChevronDown
                       className={`ml-1 h-4 w-4 transition-transform duration-200 ${
                         isSolutionsOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                ) : item.label === "Products" ? (
+                  <button
+                    data-products-trigger
+                    onClick={() => setIsProductsOpen((v) => !v)}
+                    className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
+                      isActiveItem(item) || isProductsOpen
+                        ? "text-blue-600 bg-blue-50 shadow-sm"
+                        : "text-black"
+                    }`}
+                  >
+                    Products
+                    <ChevronDown
+                      className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                        isProductsOpen ? "rotate-180" : ""
                       }`}
                     />
                   </button>
@@ -546,6 +638,42 @@ const Navigation = () => {
                       ))}
                     </div>
                   </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {isProductsOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setIsProductsOpen(false)}
+            />
+            <div
+              data-products-menu
+              onMouseLeave={() => setIsProductsOpen(false)}
+              className="absolute left-0 right-0 top-full mt-2 p-5 bg-white border border-gray-200/50 shadow-xl rounded-xl z-50"
+            >
+              <div className="grid grid-cols-4 divide-x divide-gray-200">
+                {productItems.map((child: any) => (
+                  <Link
+                    key={child.label}
+                    href={child.path}
+                    onClick={() => setIsProductsOpen(false)}
+                    className="flex flex-col items-start gap-2 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-gray-100 text-gray-900 flex items-center justify-center">
+                      {child.icon && <child.icon className="w-6 h-6" />}
+                    </div>
+                    <div className="text-base font-bold text-gray-900">
+                      {child.label}
+                    </div>
+                    <div className="text-xs text-gray-600 leading-relaxed">
+                      {child.desc}
+                    </div>
+                    <div className="mt-1 h-0.5 w-6 rounded-full bg-gray-300" />
+                  </Link>
                 ))}
               </div>
             </div>

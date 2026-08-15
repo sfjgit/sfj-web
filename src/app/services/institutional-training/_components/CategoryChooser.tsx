@@ -15,12 +15,21 @@ import {
   Briefcase,
   ChevronDown,
   ChevronUp,
-  ArrowRight,
+  type LucideIcon,
 } from "lucide-react";
+import { AI_TOOLS } from "./Scroller";
+
+export type Category = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  href: string;
+  image: string;
+};
 
 // Same anchors the tab strip (Scroller.tsx) already links to, so a card's
 // arrow scrolls to the same section a matching tab would.
-const CATEGORIES = [
+export const CATEGORIES: Category[] = [
   {
     title: "SkillgenAI",
     description:
@@ -111,13 +120,17 @@ const handleJump = (href: string) => {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
-export default function CategoryChooser() {
+export default function CategoryChooser({
+  categories = CATEGORIES,
+}: {
+  categories?: Category[];
+} = {}) {
   const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? CATEGORIES : CATEGORIES.slice(0, COLLAPSED_COUNT);
+  const visible = showAll ? categories : categories.slice(0, COLLAPSED_COUNT);
 
   return (
     <div className="bg-white py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[110rem] mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 max-w-2xl">
           Choose your institution category
         </h2>
@@ -129,7 +142,6 @@ export default function CategoryChooser() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {visible.map((category) => {
-            const Icon = category.icon;
             return (
               <button
                 key={category.title}
@@ -138,11 +150,8 @@ export default function CategoryChooser() {
                 className="text-left bg-gray-100 border border-gray-200 rounded-2xl overflow-visible hover:shadow-lg transition-shadow p-4"
               >
                 <div className="relative">
-                  {/* overflow-hidden lives here, clipping only the image to
-                      its own rounded corners — the badge below is a
-                      sibling, not a child, so it can overhang past this
-                      edge. Image is inset (not flush) so the card's own
-                      background shows as a margin all the way around it. */}
+                  {/* Image is inset (not flush) so the card's own background
+                      shows as a margin all the way around it. */}
                   <div className="relative aspect-[4/3] rounded-xl bg-white overflow-hidden">
                     <Image
                       src={category.image}
@@ -152,26 +161,70 @@ export default function CategoryChooser() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="absolute -bottom-4 left-2 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md">
-                    <Icon className="w-4 h-4" />
-                  </div>
                 </div>
 
-                <div className="pt-7">
+                <div className="pt-3">
                   <h3 className="text-base font-bold text-gray-900 mb-1.5">
                     {category.title}
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed mb-3">
                     {category.description}
                   </p>
-                  <ArrowRight className="w-4 h-4 text-blue-600" />
+
+                  {/* Scrolling AI-tool logo strip below the text, on the
+                      card's own light background — so it uses the same
+                      darkened-logo treatment as the AI Tools nav bar rather
+                      than the white/inverted version needed on a photo. */}
+                  <div
+                    className="relative -mx-4 overflow-hidden h-8"
+                    style={{
+                      maskImage:
+                        "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                      WebkitMaskImage:
+                        "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                    }}
+                  >
+                    <div
+                      className="marquee-pause-hover flex items-center h-full w-max"
+                      style={{
+                        animation: "capabilityLogoScroll 22s linear infinite",
+                        willChange: "transform",
+                        backfaceVisibility: "hidden",
+                      }}
+                    >
+                      {["a", "b"].map((half) => (
+                        <div
+                          className="flex items-center h-full"
+                          key={half}
+                          aria-hidden={half === "b"}
+                        >
+                          {AI_TOOLS.map((tool, index) => (
+                            <div
+                              key={`${half}-${index}`}
+                              className="flex-shrink-0 mx-2.5 flex items-center justify-center h-6 w-16"
+                            >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={"/app/b2i" + tool.logo}
+                                alt=""
+                                loading="lazy"
+                                decoding="async"
+                                className="max-w-full max-h-full object-contain"
+                                style={{ filter: "grayscale(1) brightness(0.5)" }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </button>
             );
           })}
         </div>
 
-        {CATEGORIES.length > COLLAPSED_COUNT && (
+        {categories.length > COLLAPSED_COUNT && (
           <div className="text-center mt-10">
             <button
               type="button"

@@ -138,14 +138,16 @@ const DATA_CENTER_LOGOS = [
   (file) => `/Taas/Agentic Ai & Gen Ai/Data Center & Infrastructure/${file}`,
 );
 
-// One entry per card. `logos` drives the row underneath — swap the empty
-// arrays for real paths as each capability's logo set lands.
-export const capabilityCards: {
+export type CapabilityCard = {
   id: string;
   title: string;
   logos: string[];
   video?: string;
-}[] = [
+};
+
+// One entry per card. `logos` drives the row underneath — swap the empty
+// arrays for real paths as each capability's logo set lands.
+export const capabilityCards: CapabilityCard[] = [
   {
     id: "agentic-ai",
     title: "Agentic AI & Generative AI",
@@ -236,7 +238,11 @@ const LOGO_SCALE_OVERRIDES: Record<string, string> = {
 const logoScaleClass = (path: string) =>
   LOGO_SCALE_OVERRIDES[path.split("/").pop() ?? ""] ?? "";
 
-const CapabilityStrip = () => {
+const CapabilityStrip = ({
+  cards = capabilityCards,
+}: {
+  cards?: CapabilityCard[];
+} = {}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   // Bumped on every switch and used as the progress bar's key, so React
   // discards the half-filled bar and mounts a fresh one at 0%.
@@ -255,14 +261,14 @@ const CapabilityStrip = () => {
   // the countdown after a manual click instead of firing on the old schedule.
   useEffect(() => {
     timerRef.current = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % capabilityCards.length);
+      setActiveIndex((i) => (i + 1) % cards.length);
       setCycle((c) => c + 1);
     }, CYCLE_MS);
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [cycle]);
+  }, [cycle, cards.length]);
 
   // Below xl the ten cards can't all fit, so the row scrolls. Auto-advance
   // would otherwise move the highlight to a card that is off-screen and the
@@ -291,7 +297,7 @@ const CapabilityStrip = () => {
     });
   }, [activeIndex]);
 
-  const activeCard = capabilityCards[activeIndex];
+  const activeCard = cards[activeIndex];
   // Duplicated once so the -50% travel loops with no visible seam.
   const marqueeLogos = [...activeCard.logos, ...activeCard.logos];
 
@@ -307,7 +313,7 @@ const CapabilityStrip = () => {
         ref={rowRef}
         className="flex gap-2 sm:gap-3 overflow-x-auto overscroll-x-contain snap-x px-1 py-1.5 -mx-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {capabilityCards.map((card, i) => {
+        {cards.map((card, i) => {
           const isActive = i === activeIndex;
           return (
             <button

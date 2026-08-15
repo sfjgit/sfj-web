@@ -87,7 +87,7 @@ const AwsRestartContent = () => {
   return (
     <div className="space-y-8">
       {/* Hero banner */}
-      <div className="relative rounded-2xl overflow-hidden min-h-[420px] md:min-h-[600px] flex items-center">
+      <div className="relative rounded-2xl overflow-hidden min-h-[520px] md:min-h-[740px] flex items-center">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/Aws Restart Hero.svg')" }}
@@ -180,7 +180,7 @@ const AwsRestartContent = () => {
           </p>
         </div>
 
-        <div className="relative w-full h-80 md:h-[420px] rounded-xl overflow-hidden">
+        <div className="relative w-full h-[26rem] md:h-[540px] rounded-xl overflow-hidden">
           <Image
             src="/Aws feature.webp"
             alt="AWS re/Start program feature"
@@ -192,7 +192,7 @@ const AwsRestartContent = () => {
 
       {/* About the curriculum */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div className="relative w-full h-80 md:h-[420px] rounded-2xl overflow-hidden">
+        <div className="relative w-full h-[26rem] md:h-[540px] rounded-2xl overflow-hidden">
           <Image
             src="/Aws csr 2.webp"
             alt="AWS re/Start curriculum"
