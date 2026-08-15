@@ -323,7 +323,7 @@ const ClientsSection = () => {
     });
   };
 
-  // No negative top margin on this section: it carries its own opaque gradient
+  // No negative top margin on this section: it carries its own opaque gradient---------
   // background, so pulling it up over the hero repaints the hero's last few
   // pixels while the hero's carousel (z-10) still draws above it — the artwork
   // then appears to spill past the section boundary instead of sitting in it.
