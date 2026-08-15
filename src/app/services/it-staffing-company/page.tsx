@@ -87,7 +87,7 @@ export default function ITStaffingPage() {
           {/* Fade over the artwork so the white copy reads cleanly. Heavier on
               phones: bg-cover crops the wide photo to a narrow centre slice
               there, which lands the bright window on top of the copy. */}
-          <div className="absolute inset-0 bg-black/45 sm:bg-black/25" />
+          <div className="absolute inset-0 bg-black/35 sm:bg-black/15" />
 
           <div className="max-w-[100rem] mx-auto w-full relative">
             {/* Single column now that the hero photo is gone. */}
@@ -100,14 +100,20 @@ export default function ITStaffingPage() {
                     first screen. */}
                 <h2
                   className="font-bold text-white leading-tight"
-                  style={{ fontSize: "clamp(1.5rem, 2.6vw, 3rem)" }}
+                  style={{
+                    fontSize: "clamp(1.5rem, 2.6vw, 3rem)",
+                    textShadow: "0 2px 14px rgba(0,0,0,0.85)",
+                  }}
                 >
                   Build Future-Ready Technology Teams, Faster
                 </h2>
 
                 <p
                   className="text-white leading-normal sm:leading-relaxed"
-                  style={{ fontSize: "clamp(0.8125rem, 0.95vw, 1.05rem)" }}
+                  style={{
+                    fontSize: "clamp(0.8125rem, 0.95vw, 1.05rem)",
+                    textShadow: "0 2px 14px rgba(0,0,0,0.85)",
+                  }}
                 >
                   Access skills-validated professionals across application
                   engineering, cloud, DevOps, data, AI, enterprise platforms,

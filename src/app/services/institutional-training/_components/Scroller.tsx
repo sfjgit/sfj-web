@@ -1,3 +1,5 @@
+
+
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
@@ -5,7 +7,7 @@
 // This used to share the bar with a category tab strip, which was removed
 // once CategoryChooser.tsx took over category navigation — the logos now
 // get the full width instead of just the leftover space beside the tabs.
-const AI_TOOLS = [
+export const AI_TOOLS = [
   { name: "Animaker", logo: "/tools/animaker.png" },
   { name: "Bing", logo: "/tools/bing.jpg" },
   { name: "Character AI", logo: "/tools/character-ai.png" },
@@ -29,8 +31,8 @@ const AI_TOOLS = [
 // height to read, not width — same per-logo override pattern already used
 // for the TaaS client-logo strip elsewhere on the site.
 const logoBoxOverrides: Record<string, string> = {
-  ElevenLabs: "w-80 h-12",
-  "Magic School": "w-20 h-20",
+  ElevenLabs: "w-52 h-7",
+  "Magic School": "w-12 h-12",
 };
 
 const AIToolsBar = () => {
@@ -42,7 +44,7 @@ const AIToolsBar = () => {
             AI Tools
           </span>
           <div
-            className="relative flex-1 min-w-0 overflow-hidden h-20"
+            className="relative flex-1 min-w-0 overflow-hidden h-14"
             style={{
               maskImage:
                 "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
@@ -68,7 +70,7 @@ const AIToolsBar = () => {
                     <div
                       key={`${half}-${index}`}
                       className={`flex-shrink-0 mx-3 flex items-center justify-center ${
-                        logoBoxOverrides[tool.name] ?? "w-48 h-12"
+                        logoBoxOverrides[tool.name] ?? "w-28 h-7"
                       }`}
                     >
                       <img

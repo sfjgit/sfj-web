@@ -1,5 +1,4 @@
 import ClientsSection from "./_components/Clients";
-import FootprintSection from "./_components/FootprintSection";
 import PartnersSection from "./_components/PartnersSection";
 // import FloatingActionButton from "./_components/FloatingActionButton";
 import HeroCarousel from "./_components/Hero";
@@ -74,8 +73,6 @@ export default function HomePage() {
       <ClientsSection />
 
       <PartnersSection />
-
-      <FootprintSection />
       {/* <FloatingActionButton /> */}
     </div>
   );
