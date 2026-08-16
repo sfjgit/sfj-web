@@ -280,7 +280,7 @@ const FounderSection: React.FC = () => (
                 Sivasarathy—affectionately known as Siva—is the Founder and CEO
                 of SFJ Business Solutions Pvt. Ltd., a premier provider of IT
                 consulting, outsourcing, and workforce skilling services. With
-                more than 20 years of experience across key technical domains
+                more than two decades of experience across key technical domains
                 like SAP and Oracle, he has successfully led numerous projects,
                 implemented complex solutions, and delivered strategic
                 consulting services. Prior to founding SFJ Business Solutions in

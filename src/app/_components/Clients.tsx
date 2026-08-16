@@ -283,7 +283,7 @@ const ClientsSection = () => {
     {
       path: "/services/kaas",
       label: "Corporate IT Training Programs",
-      img: "/services/Corporate IT Training programs2.webp",
+      img: "/services/Corporate IT Training Programs2.webp",
       description:
         "640+ specialized courses designed by industry experts to accelerate your career growth.",
     },

@@ -166,9 +166,44 @@ for (const file of sourceFiles) {
   }
 }
 
+/**
+ * Case-sensitive existence check.
+ *
+ * `existsSync` asks the filesystem, and NTFS/APFS answer case-insensitively:
+ * "/services/Corporate IT Training programs2.webp" resolved happily on a
+ * Windows dev box while the file on disk is "…Programs2.webp". The Linux
+ * build host disagreed, so this check passed locally and failed the Vercel
+ * build on the same commit — the worst kind of failure, because the image was
+ * also silently 404ing in production. Walking the path segment by segment and
+ * requiring an exact name match makes the result identical on every platform.
+ */
+const dirEntries = new Map();
+function readDirCached(dir) {
+  if (!dirEntries.has(dir)) {
+    try {
+      dirEntries.set(dir, new Set(readdirSync(dir)));
+    } catch {
+      dirEntries.set(dir, new Set());
+    }
+  }
+  return dirEntries.get(dir);
+}
+
+function existsExact(root, relPath) {
+  const segments = relPath.split("/").filter(Boolean);
+  let current = root;
+  for (let i = 0; i < segments.length; i++) {
+    if (!readDirCached(current).has(segments[i])) return false;
+    current = join(current, segments[i]);
+    const isLast = i === segments.length - 1;
+    if (!isLast && !statSync(current).isDirectory()) return false;
+  }
+  return true;
+}
+
 for (const [assetPath, files] of referencedAssets) {
   const decoded = decodeURIComponent(assetPath);
-  if (!existsSync(join(PUBLIC, decoded))) {
+  if (!existsExact(PUBLIC, decoded)) {
     fail(
       "asset-refs",
       `${assetPath} does not exist in public/ — referenced from ${[...files].join(", ")}`,
@@ -427,7 +462,13 @@ const YEARS_CLAIM_RE = /\b(?:over\s+|For\s+)?(\d{1,2})\+?\s+years\b/gi;
 
 for (const file of sourceFiles) {
   if (file.endsWith(join("config", "site.ts"))) continue;
-  const code = stripComments(readFileSync(file, "utf8"));
+  // CRLF normalised first: the proximity window below counts characters, and
+  // with core.autocrlf=true a Windows checkout carries one extra byte per
+  // line. That shifted the 60-char window just far enough to drop the trigger
+  // word, so this check disagreed with the LF checkout on the build host.
+  const code = stripComments(
+    readFileSync(file, "utf8").replace(/\r\n/g, "\n"),
+  );
   for (const match of code.matchAll(YEARS_CLAIM_RE)) {
     const claimed = Number(match[1]);
     // Only company-age claims matter; programme durations ("12 weeks",
