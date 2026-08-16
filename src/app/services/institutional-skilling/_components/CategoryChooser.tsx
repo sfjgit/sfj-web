@@ -120,10 +120,22 @@ const handleJump = (href: string) => {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
+// The institutional-skilling page addresses institutions picking a category
+// for their students; faculty-development addresses the educators themselves.
+// Same grid of disciplines, different question being answered — so the copy
+// above it is a prop and these defaults keep the institutional page as it was.
+const DEFAULT_HEADING = "Choose your institution category";
+const DEFAULT_DESCRIPTION =
+  "Built for your department, not adapted to it. Ten programmes spanning school, trade, diploma, degree and faculty — each with its own certification path.";
+
 export default function CategoryChooser({
   categories = CATEGORIES,
+  heading = DEFAULT_HEADING,
+  description = DEFAULT_DESCRIPTION,
 }: {
   categories?: Category[];
+  heading?: string;
+  description?: string;
 } = {}) {
   const [showAll, setShowAll] = useState(false);
   const visible = showAll ? categories : categories.slice(0, COLLAPSED_COUNT);
@@ -131,14 +143,18 @@ export default function CategoryChooser({
   return (
     <div className="bg-white py-16">
       <div className="max-w-[110rem] mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 max-w-2xl">
-          Choose your institution category
-        </h2>
-        <p className="text-gray-600 mt-3 text-base sm:text-lg leading-relaxed max-w-2xl">
-          Built for your department, not adapted to it. Ten programmes
-          spanning school, trade, diploma, degree and faculty — each with its
-          own certification path.
-        </p>
+        {/* Left-aligned, flush with the card grid's left edge below. The
+            paragraph keeps a 3xl measure rather than running the full 110rem
+            container — line lengths past ~75 characters are hard to track
+            back to the next line. */}
+        <div className="text-left">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            {heading}
+          </h2>
+          <p className="text-gray-600 mt-3 text-base sm:text-lg leading-relaxed max-w-3xl">
+            {description}
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {visible.map((category) => {

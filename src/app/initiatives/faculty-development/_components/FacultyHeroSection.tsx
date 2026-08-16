@@ -85,7 +85,7 @@ const FacultyHeroSection = () => (
             href="/contact?type=b2i"
             className="inline-flex items-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
           >
-            Apply now
+            Register now
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>
