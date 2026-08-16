@@ -66,11 +66,11 @@ const ContactForm = () => {
 
   const typeOptions = [
     { value: "general", label: "General Inquiry" },
-    { value: "b2b", label: "Corporate Training" },
-    { value: "b2i", label: "Institution" },
-    { value: "b2g", label: "Govt Skilling Mission" },
-    { value: "csr", label: "Corporate Social Responsibility" },
-    { value: "it-staffing", label: "IT Staffing" },
+    { value: "b2b", label: "Enterprise Skilling" },
+    { value: "b2i", label: "Institutional Skilling" },
+    { value: "b2g", label: "Govt Skilling" },
+    { value: "csr", label: "CSR Skilling" },
+    { value: "it-staffing", label: "AI Consulting" },
   ];
 
   const subCategoryOptions = [

@@ -21,7 +21,6 @@ import {
   Database,
   Globe,
 } from "lucide-react";
-import { AiOutlineUserAdd } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -42,6 +41,7 @@ import {
   clearAccessToken,
 } from "@/hooks/useAxios";
 import { useAxios } from "@/hooks/useAxios";
+import { CiLogin } from "react-icons/ci";
 
 interface UserProfile {
   _id: string;
@@ -59,7 +59,6 @@ const Navigation = () => {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const location = usePathname();
   const router = useRouter();
   const api = useAxios();
@@ -82,8 +81,6 @@ const Navigation = () => {
       } catch (error) {
         console.error("Auth init error:", error);
         setUser(null);
-      } finally {
-        setIsAuthLoading(false);
       }
     };
 
@@ -273,21 +270,21 @@ const Navigation = () => {
         {
           path: "#",
           label: "LMS",
-          desc: "A modern learning management system to create, manage and deliver engaging learning experiences.",
+          desc: "One AI core, learning reimagined—skilling, mastery, growth, insight—built for the self-driving workforce.",
           icon: GraduationCap,
           hasChildren: false,
         },
         {
           path: "#",
           label: "ATS",
-          desc: "Applicant tracking system to streamline hiring and manage talent acquisition efficiently.",
+          desc: "One AI core, human potential unlocked—hiring, growth, retention, reporting—built for the self-driving workforce.",
           icon: ClipboardList,
           hasChildren: false,
         },
         {
           path: "#",
           label: "CASPA",
-          desc: "Centralized assessment platform for skill evaluation and certification.",
+          desc: "Intelligent automation reimagined—Order-to-Cash, Procure-to-Pay, Hire-to-Retire, Record-to-Report—powering tomorrow's autonomous enterprise, today.",
           icon: Database,
           hasChildren: false,
         },
@@ -483,10 +480,12 @@ const Navigation = () => {
 
           {/* Desktop Navigation - right buttons */}
           <div className="hidden md:flex items-center flex-1 justify-end">
-            {/* Auth Section */}
-            {isAuthLoading ? (
-              <div className="ml-4 w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
-            ) : user ? (
+            {/* Auth Section — defaults to the logged-out state immediately
+                rather than a loading skeleton, since confirming a session
+                always needs a network round trip (the refresh token lives
+                in an httpOnly cookie JS can't read synchronously). Swaps to
+                the avatar once/if that check confirms a user. */}
+            {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="ml-4 flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-blue-50 transition-all duration-200 group">
@@ -542,13 +541,13 @@ const Navigation = () => {
             ) : (
               <>
                 <Button
-                  onClick={() => router.push("/signin")}
-                  aria-label="Sign Up"
-                  title="Sign Up"
+                  // onClick={() => router.push("/signin")}
+                  aria-label="Login"
+                  title="Login"
                   className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 >
-                  <AiOutlineUserAdd className="w-[1.15rem] h-[1.15rem]" />
-                  <span>Sign Up</span>
+                  <CiLogin className="w-[1.15rem] h-[1.15rem]" />
+                  <span>Login</span>
                 </Button>
                 {/* <Button
                   onClick={() => router.push("/contact")}
@@ -760,12 +759,9 @@ const Navigation = () => {
               </div>
             ))}
 
-            {/* Mobile Auth Section */}
-            {isAuthLoading ? (
-              <div className="pt-2 flex justify-center">
-                <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
-              </div>
-            ) : user ? (
+            {/* Mobile Auth Section — same instant logged-out default as
+                the desktop auth section above. */}
+            {user ? (
               <div className="pt-2 space-y-2">
                 <div className="px-3 py-2 bg-blue-50 rounded-lg">
                   <p className="text-sm font-medium text-gray-900">

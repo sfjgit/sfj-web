@@ -1,24 +1,24 @@
 "use client";
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import { motion } from "framer-motion";
 // import "swiper/css";
 
 const PartnersSection = () => {
-  const partnerLogos = [
-    "/edu&car/micro.png",
-    "/edu&car/AWS.png",
-    "/edu&car/6.png",
-    "/edu&car/Comptia.png",
-    "/edu&car/Peoplecert DevOps.png",
-    "/edu&car/Prince2.png",
-    "/edu&car/Peoplecert-Scrum.png",
-  ];
+  // const partnerLogos = [
+  //   "/edu&car/micro.png",
+  //   "/edu&car/AWS.png",
+  //   "/edu&car/6.png",
+  //   "/edu&car/Comptia.png",
+  //   "/edu&car/Peoplecert DevOps.png",
+  //   "/edu&car/Prince2.png",
+  //   "/edu&car/Peoplecert-Scrum.png",
+  // ];
 
   // With only four logos the row would be narrower than the viewport, leaving
   // a visible gap on each pass. Repeating the set fills the strip; the track
   // then renders this sequence twice so the -50% loop stays seamless.
-  const sequence = Array.from({ length: 4 }, () => partnerLogos).flat();
+  // const sequence = Array.from({ length: 4 }, () => partnerLogos).flat();
 
   return (
     <section className="py-5 pt-10 bg-white">
@@ -32,11 +32,11 @@ const PartnersSection = () => {
           viewport={{ once: true }}
           className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8 py-3 sm:py-4 lg:py-5 border-b border-gray-200 mb-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8"
         >
-          <div className="flex-shrink-0">
+          {/* <div className="flex-shrink-0">
             <h2 className="text-base sm:text-lg md:text-xl font-medium text-gray-700 tracking-tight whitespace-nowrap">
               Certified Learning Partners
             </h2>
-          </div>
+          </div> */}
 
           <div
             className="relative flex-1 min-w-0 overflow-hidden"
@@ -47,7 +47,7 @@ const PartnersSection = () => {
                 "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
             }}
           >
-            <div className="partner-marquee flex items-center w-max">
+            {/* <div className="partner-marquee flex items-center w-max">
               {["a", "b"].map((half) => (
                 <div
                   key={half}
@@ -73,7 +73,7 @@ const PartnersSection = () => {
                   ))}
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </motion.div>
       </div>
