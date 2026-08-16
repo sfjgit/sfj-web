@@ -57,6 +57,11 @@ const Navigation = () => {
   const [isInitiativesOpen, setIsInitiativesOpen] = useState(false);
   const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  // Which mobile accordion section is expanded. Only one at a time, mirroring
+  // the desktop behaviour where opening one mega-menu closes the other.
+  const [openMobileSection, setOpenMobileSection] = useState<string | null>(
+    null,
+  );
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
   const location = usePathname();
@@ -98,6 +103,12 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Collapse any expanded mobile section whenever the drawer itself closes, so
+  // reopening the menu always starts from a clean, fully collapsed state.
+  useEffect(() => {
+    if (!isMenuOpen) setOpenMobileSection(null);
+  }, [isMenuOpen]);
 
   // Dismiss the Services mega-menu on any click outside it (including on the
   // navbar itself, which sits above the backdrop), on Escape, and on scroll.
@@ -177,6 +188,11 @@ const Navigation = () => {
       setUser(null);
       router.push("/");
     }
+  };
+
+  const closeMobileMenu = () => {
+    setIsMenuOpen(false);
+    setOpenMobileSection(null);
   };
 
   // Single navigation array with children and without children
@@ -357,6 +373,9 @@ const Navigation = () => {
 
   const productItems =
     navigationItems.find((i) => i.label === "Products")?.children || [];
+
+  const slugify = (value: string) =>
+    value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
   return (
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6">
@@ -689,88 +708,179 @@ const Navigation = () => {
           </>
         )}
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation — mirrors the desktop mega-menus. Each top-level
+            item is a collapsible accordion rather than an always-open flat
+            list: "What We Do" keeps its group headings and descriptions,
+            "Products" keeps its icon tiles and copy, and anything else falls
+            back to a plain link list. The drawer scrolls once the expanded
+            panel outgrows the viewport. */}
         <div
           id="mobile-navigation"
           className={`md:hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-          } overflow-hidden`}
+            isMenuOpen
+              ? "max-h-[calc(100vh-7rem)] opacity-100 overflow-y-auto"
+              : "max-h-0 opacity-0 overflow-hidden"
+          }`}
         >
-          <div className="px-2 pb-4 space-y-2 bg-white/95 backdrop-blur-md rounded-b-xl shadow-lg">
-            {navigationItems.map((item: any) => (
-              <div key={item.path}>
-                {item.hasChildren ? (
-                  <div className="space-y-1">
-                    <div className="px-3 py-2 text-sm font-semibold text-gray-900 bg-gray-50 rounded-lg">
+          <div className="px-2 pb-4 bg-white/95 backdrop-blur-md rounded-b-xl shadow-lg">
+            {navigationItems.map((item: any) => {
+              if (!item.hasChildren) {
+                return (
+                  <div
+                    key={item.path}
+                    className="border-b border-gray-100 last:border-b-0"
+                  >
+                    <Link
+                      href={item.path}
+                      className={`block px-3 py-3 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                        location === item.path
+                          ? "text-blue-600 bg-blue-50"
+                          : "text-gray-800 hover:text-blue-600 hover:bg-gray-50"
+                      }`}
+                      onClick={closeMobileMenu}
+                    >
                       {item.label}
-                    </div>
-                    <div className="pl-4 space-y-1">
-                      {item.children?.map((child: any) =>
-                        child.hasChildren ? (
-                          <div key={child.label} className="space-y-1">
-                            <div className="px-3 py-2 text-sm font-medium text-gray-700">
-                              {child.label}
+                    </Link>
+                  </div>
+                );
+              }
+
+              const sectionId = slugify(item.label);
+              const isSectionOpen = openMobileSection === item.label;
+
+              return (
+                <div
+                  key={item.path}
+                  className="border-b border-gray-100 last:border-b-0"
+                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenMobileSection(isSectionOpen ? null : item.label)
+                    }
+                    aria-expanded={isSectionOpen}
+                    aria-controls={`mobile-panel-${sectionId}`}
+                    className={`w-full flex items-center justify-between gap-2 px-3 py-3 text-sm font-semibold rounded-lg transition-colors duration-200 ${
+                      isSectionOpen || isActiveItem(item)
+                        ? "text-blue-600 bg-blue-50"
+                        : "text-gray-900 hover:bg-gray-50"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <ChevronDown
+                      className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
+                        isSectionOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    id={`mobile-panel-${sectionId}`}
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      isSectionOpen
+                        ? "max-h-[2000px] opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    {item.label === "What We Do" ? (
+                      <div className="px-1 pt-2 pb-3 space-y-4">
+                        {serviceGroups.map((group: any) => (
+                          <div key={group.title}>
+                            <div className="text-[11px] font-semibold text-blue-600 uppercase tracking-wide mb-2 pb-1.5 border-b-2 border-gray-200 px-1">
+                              {group.title}
                             </div>
-                            <div className="pl-4 space-y-1">
-                              {child.children?.map((sub: any) => (
+                            <div className="space-y-1">
+                              {group.items.map((child: any) => (
                                 <Link
-                                  key={sub.path}
-                                  href={sub.path}
-                                  className={`flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
-                                    location === sub.path
-                                      ? "text-blue-600 bg-blue-50 font-medium"
-                                      : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
-                                  }`}
-                                  onClick={() => setIsMenuOpen(false)}
+                                  key={child.path}
+                                  href={child.path}
+                                  onClick={closeMobileMenu}
+                                  className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-blue-50 active:bg-blue-50 transition-colors duration-200 group"
                                 >
-                                  {sub.icon && (
-                                    <sub.icon className="w-4 h-4 mr-2 flex-shrink-0" />
+                                  {child.icon && (
+                                    <child.icon className="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-500 group-hover:text-blue-600 transition-colors" />
                                   )}
-                                  <span className="truncate">{sub.label}</span>
+                                  <div className="min-w-0">
+                                    <div
+                                      className={`text-sm font-medium transition-colors group-hover:text-blue-600 ${
+                                        location === child.path
+                                          ? "text-blue-600"
+                                          : "text-gray-800"
+                                      }`}
+                                    >
+                                      {child.label}
+                                    </div>
+                                    {child.description && (
+                                      <div className="text-xs text-gray-500 mt-0.5 leading-relaxed">
+                                        {child.description}
+                                      </div>
+                                    )}
+                                  </div>
                                 </Link>
                               ))}
                             </div>
                           </div>
-                        ) : (
+                        ))}
+                      </div>
+                    ) : item.label === "Products" ? (
+                      <div className="px-1 pt-2 pb-3 divide-y divide-gray-100">
+                        {productItems.map((child: any) => (
                           <Link
                             key={child.path}
                             href={child.path}
-                            className={`flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
+                            onClick={closeMobileMenu}
+                            className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 active:bg-gray-50 transition-colors duration-200 group"
+                          >
+                            <div className="w-10 h-10 rounded-xl bg-gray-100 text-gray-900 flex items-center justify-center flex-shrink-0">
+                              {child.icon && <child.icon className="w-5 h-5" />}
+                            </div>
+                            <div className="min-w-0">
+                              <div
+                                className={`text-sm font-bold transition-colors group-hover:text-blue-600 ${
+                                  location === child.path
+                                    ? "text-blue-600"
+                                    : "text-gray-900"
+                                }`}
+                              >
+                                {child.label}
+                              </div>
+                              <div className="text-xs text-gray-600 leading-relaxed mt-0.5">
+                                {child.desc}
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="px-1 pt-1 pb-3 space-y-1">
+                        {item.children?.map((child: any) => (
+                          <Link
+                            key={child.path}
+                            href={child.path}
+                            onClick={closeMobileMenu}
+                            className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-lg transition-all duration-200 ${
                               location === child.path
                                 ? "text-blue-600 bg-blue-50 font-medium"
-                                : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                                : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
                             }`}
-                            onClick={() => setIsMenuOpen(false)}
                           >
                             {child.icon && (
-                              <child.icon className="w-4 h-4 mr-2 flex-shrink-0" />
+                              <child.icon className="w-4 h-4 flex-shrink-0" />
                             )}
                             <span className="truncate">{child.label}</span>
                           </Link>
-                        ),
-                      )}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <Link
-                    href={item.path}
-                    className={`block px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                      location === item.path
-                        ? "text-blue-600 bg-blue-50 font-semibold"
-                        : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                )}
-              </div>
-            ))}
+                </div>
+              );
+            })}
 
             {/* Mobile Auth Section — same instant logged-out default as
                 the desktop auth section above. */}
             {user ? (
-              <div className="pt-2 space-y-2">
+              <div className="pt-3 space-y-2">
                 <div className="px-3 py-2 bg-blue-50 rounded-lg">
                   <p className="text-sm font-medium text-gray-900">
                     {getUserDisplayName()}
@@ -780,7 +890,7 @@ const Navigation = () => {
                 <Link
                   href="/lms/dashboard"
                   className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={closeMobileMenu}
                 >
                   <GraduationCap className="w-4 h-4" />
                   My Courses
@@ -788,7 +898,7 @@ const Navigation = () => {
                 <Link
                   href="/lms/profile"
                   className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={closeMobileMenu}
                 >
                   <User className="w-4 h-4" />
                   Profile
@@ -796,7 +906,7 @@ const Navigation = () => {
                 <button
                   onClick={() => {
                     handleLogout();
-                    setIsMenuOpen(false);
+                    closeMobileMenu();
                   }}
                   className="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors text-left"
                 >
@@ -805,21 +915,22 @@ const Navigation = () => {
                 </button>
               </div>
             ) : (
-              <div className="pt-2 space-y-2">
+              <div className="pt-3 space-y-2">
                 <Button
-                  className="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                  className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
-                    router.push("/signin");
-                    setIsMenuOpen(false);
+                    // router.push("/signin");
+                    closeMobileMenu();
                   }}
                 >
-                  Sign In
+                  <CiLogin className="w-[1.15rem] h-[1.15rem]" />
+                  <span>Login</span>
                 </Button>
                 {/* <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
                     router.push("/contact");
-                    setIsMenuOpen(false);
+                    closeMobileMenu();
                   }}
                 >
                   Contact Us
