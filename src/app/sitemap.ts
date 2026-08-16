@@ -59,8 +59,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // STATIC ROUTES — generated from the PUBLIC_ROUTES manifest in
   // config/site.ts, not a second hand-maintained array. That duplication is
-  // what dropped /internships, /initiatives/faculty-development and every
-  // legal page out of the sitemap (CR-01).
+  // what dropped /initiatives/faculty-development and every legal page out of
+  // the sitemap (CR-01).
   //
   // No `lastModified` on static entries: every route previously carried the
   // build timestamp, so each deploy told Google "all 11 pages changed" and

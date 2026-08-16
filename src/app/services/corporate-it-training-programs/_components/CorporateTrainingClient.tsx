@@ -447,7 +447,8 @@ export default function CorporateTrainingClient() {
                     500+ enterprise clients served
                   </div>
                   <div className="text-gray-300 text-sm mt-1">
-                    Including Accenture, TCS, Wipro, SAP and Siemens
+                    From Agentic AI to data centre infrastructure — 10
+                    technology practices, one hiring partner.
                   </div>
                 </div>
               </div>

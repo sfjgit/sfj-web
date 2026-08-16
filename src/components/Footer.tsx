@@ -14,7 +14,7 @@
 //     name: "Instagram",
 //     url: "https://www.instagram.com/sfjbs_bangalore/",
 //     icon: <FaInstagram className="w-6 h-6" />,
-//   },
+//   }, 
 //   {
 //     name: "LinkedIn",
 //     url: "https://www.linkedin.com/company/sfj-business-solutions-pvt-ltd-/",
@@ -66,11 +66,6 @@
 //     name: "Institutional Training (B2I)",
 //     desc: "Universities, Colleges & ITIs",
 //     path: "/services/institutional-training",
-//   },
-//   {
-//     name: "Internship Programs",
-//     desc: "Industry-Integrated Learning",
-//     path: "/internships",
 //   },
 // ];
 
@@ -776,11 +771,6 @@ const solutions = [
     desc: "Universities, Colleges & ITIs",
     path: "/services/institutional-training",
   },
-  {
-    name: "Internship Programs",
-    desc: "Industry-Integrated Learning",
-    path: "/internships",
-  },
 ];
 
 const initiatives = [
@@ -1018,9 +1008,8 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-600 text-[10px] leading-relaxed">
-              Empowering global talent for the AI-driven future through
-              comprehensive workforce development and professional training
-              solutions.
+              Equipping global talent with the skills to succeed in an AI-driven
+              world.
             </p>
             <GoogleReviews />
           </div>

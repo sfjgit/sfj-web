@@ -88,8 +88,8 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
  * Every indexable public route, in one place.
  *
  * The sitemap is generated from this list rather than a hand-maintained copy,
- * which is what let /internships, /initiatives/faculty-development and the
- * legal pages fall out of sitemap.xml (CR-01). Add a route here when you add
+ * which is what let /initiatives/faculty-development and the legal pages fall
+ * out of sitemap.xml (CR-01). Add a route here when you add
  * a page — `npm run check:routes` fails the build if a route directory exists
  * with no entry.
  */
@@ -99,7 +99,6 @@ export const PUBLIC_ROUTES = [
   "/contact",
   "/careers",
   "/industries",
-  "/internships",
   "/life-at-sfjbs",
   "/partners",
   "/blog",

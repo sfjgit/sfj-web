@@ -10,8 +10,8 @@ interface Stat {
 const STATS: Stat[] = [
   { target: 5, suffix: "+", label: "Government Partners" },
   { target: 120, suffix: "K+", label: "Students Trained" },
-  { target: 95, suffix: "%", label: "Placement Rate" },
-  { target: 10, suffix: "+", label: "Training Programs" },
+  { target: 95, suffix: "%", label: "Certification Pass Rate" },
+  { target: 100, suffix: "+", label: "Training Programs" },
 ];
 
 // Counts 0 -> target once the row scrolls into view. A single observer on the

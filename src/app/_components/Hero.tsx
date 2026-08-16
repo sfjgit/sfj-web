@@ -5,8 +5,6 @@ import {
   CarouselApi,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
 import { ArrowRight, Pause, Play } from "lucide-react";
@@ -63,7 +61,7 @@ const SLIDES = [
     eyebrow: "WHAT WE DO / INSTITUTIONAL SKILLING",
     heading: "Turn your campus into a talent engine",
     subheading:
-      "Practical learning, industry certifications, internships and placement support that turn campuses into career launchpads.",
+      "Practical learning, industry certifications and placement support that turn campuses into career launchpads.",
     cta: "Partner With Us",
     href: "/services/institutional-training",
   },
@@ -269,8 +267,12 @@ const HeroCarousel = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-4 bg-white/80 backdrop-blur-sm hover:bg-white shadow-lg" />
-          <CarouselNext className="right-4 bg-white/80 backdrop-blur-sm hover:bg-white shadow-lg" />
+          {/* No prev/next controls: this carousel is driven by the background
+              video (see the videoIndex effect above), so a manual jump would
+              be overridden on the next clip change. The vertical variant also
+              placed the "previous" arrow at -top-12, which floated it over
+              the hero beside the navbar. Pausing is handled by the WCAG
+              control on the hero itself. */}
         </Carousel>
       </div>
     </div>

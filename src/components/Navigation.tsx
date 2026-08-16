@@ -302,7 +302,7 @@ const Navigation = () => {
         {
           path: "/products/caspa",
           label: "CASPA",
-          desc: "Intelligent automation reimagined—Order-to-Cash, Procure-to-Pay, Hire-to-Retire, Record-to-Report—powering tomorrow's autonomous enterprise, today.",
+          desc: "AI-powered ERP for SMEs—automating sales, finance, HR, procurement and operations from one platform.",
           icon: Database,
           hasChildren: false,
         },
@@ -568,7 +568,7 @@ const Navigation = () => {
                   className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 >
                   <CiLogin className="w-[1.15rem] h-[1.15rem]" />
-                  <span>Login</span>
+                  {/* <span></span> */}
                 </Button>
                 {/* <Button
                   onClick={() => router.push("/contact")}

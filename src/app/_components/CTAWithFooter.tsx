@@ -69,11 +69,6 @@ const solutions = [
     desc: "Universities, Colleges & ITIs",
     path: "/services/institutional-training",
   },
-  {
-    name: "Internship Programs",
-    desc: "Industry-Integrated Learning",
-    path: "/internships",
-  },
 ];
 
 const initiatives = [
@@ -326,9 +321,8 @@ const CTAWithFooter = () => {
                 </div>
 
                 <p className="text-gray-700 text-[10px] leading-relaxed">
-                  Empowering global talent for the AI-driven future through
-                  comprehensive workforce development and professional training
-                  solutions.
+                  Equipping global talent with the skills to succeed in an
+                  AI-driven world.
                 </p>
 
                 <div>
