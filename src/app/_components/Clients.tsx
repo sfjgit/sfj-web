@@ -274,7 +274,7 @@ const ClientsSection = () => {
         "Partnering with KSDC, Naan Mudhalavan and state programs to build skilled workforce.",
     },
     {
-      path: "/services/institutional-training",
+      path: "/services/institutional-skilling",
       label: "Institutional Training (B2I)",
       img: "/services/Institutional Training2.webp",
       description:

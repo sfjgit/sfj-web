@@ -2,11 +2,11 @@
 import FacultyHeroSection from "./FacultyHeroSection";
 import CategoryChooser, {
   CATEGORIES,
-} from "@/app/services/institutional-training/_components/CategoryChooser";
+} from "@/app/services/institutional-skilling/_components/CategoryChooser";
 
-// Same component/content as the institutional-training page, minus
+// Same component/content as the institutional-skilling page, minus
 // SkillgenAI and Faculty on Demand — dropped on this page only, the
-// institutional-training page still shows all 10.
+// institutional-skilling page still shows all 10.
 const FACULTY_CATEGORIES = CATEGORIES.filter(
   (c) => c.title !== "SkillgenAI" && c.title !== "Faculty on Demand",
 );

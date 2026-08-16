@@ -22,7 +22,7 @@ const AnimatedHeader = () => {
         "KSDC, Naan Mudhalavan and other state skill development initiatives",
     },
     {
-      path: "/services/institutional-training",
+      path: "/services/institutional-skilling",
       label: "Institutional Training",
       description: "Training for engineering, MBA, and arts & science students",
     },

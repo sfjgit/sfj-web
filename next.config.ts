@@ -73,6 +73,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/services/institutional-training",
+        destination: "/services/institutional-skilling",
+        permanent: true,
+      },
+      {
         source: "/career",
         destination: "/careers",
         permanent: true,

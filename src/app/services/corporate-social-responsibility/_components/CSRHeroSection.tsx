@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 // Same full-bleed-photo + dark scrim + clamp-sized heading pattern used on
 // the other rebuilt service hero sections (government-ssc-skilling/Hero.tsx,
-// institutional-training/HeroSection.tsx, the TaaS hero in
+// institutional-skilling/HeroSection.tsx, the TaaS hero in
 // taas/page.tsx) — kept consistent across the "For X" pages
 // linked from the nav.
 const CSRHeroSection = () => (

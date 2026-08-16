@@ -36,7 +36,7 @@ const FACULTY_CAPABILITY_CARDS = capabilityCards.slice(0, 7).map((card, i) => ({
 
 // Same full-bleed-photo + dark scrim + clamp-sized heading pattern used on
 // the other rebuilt service hero sections (CSRHeroSection.tsx,
-// government-ssc-skilling/Hero.tsx, institutional-training/HeroSection.tsx,
+// government-ssc-skilling/Hero.tsx, institutional-skilling/HeroSection.tsx,
 // the TaaS hero in taas/page.tsx).
 const FacultyHeroSection = () => (
   <section className="relative w-full min-h-[26rem] sm:min-h-[30rem] lg:min-h-[88dvh] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 bg-slate-900">

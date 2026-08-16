@@ -65,7 +65,7 @@
 //   {
 //     name: "Institutional Training (B2I)",
 //     desc: "Universities, Colleges & ITIs",
-//     path: "/services/institutional-training",
+//     path: "/services/institutional-skilling",
 //   },
 // ];
 
@@ -769,7 +769,7 @@ const solutions = [
   {
     name: "Institutional Training (B2I)",
     desc: "Universities, Colleges & ITIs",
-    path: "/services/institutional-training",
+    path: "/services/institutional-skilling",
   },
 ];
 

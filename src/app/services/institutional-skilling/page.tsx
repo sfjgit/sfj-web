@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "Institutional Training Programs for Colleges | SFJBS",
     description:
       "IT and AI training programmes for colleges and universities — industry-aligned curriculum, certifications and placement support for your students.",
-    url: "https://www.sfjbs.com/services/institutional-training",
+    url: "https://www.sfjbs.com/services/institutional-skilling",
     type: "website",
     images: [
       {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://www.sfjbs.com/services/institutional-training",
+    canonical: "https://www.sfjbs.com/services/institutional-skilling",
   },
 };
 
@@ -68,7 +68,7 @@ const InstitutionalTrainingPage = () => {
                 "@type": "ListItem",
                 position: 2,
                 name: "Institutional Training",
-                item: "https://www.sfjbs.com/services/institutional-training",
+                item: "https://www.sfjbs.com/services/institutional-skilling",
               },
             ],
           }),

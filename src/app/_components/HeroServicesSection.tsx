@@ -111,7 +111,7 @@ const HeroServicesSection = () => {
       description: "Training for engineering, MBA, and arts & science students",
       cta: "Join Program",
       img: "/app/home/B2I.png",
-      link: "/services/institutional-training",
+      link: "/services/institutional-skilling",
       clients: "10+",
     },
     {

@@ -67,7 +67,7 @@ const solutions = [
   {
     name: "Institutional Training (B2I)",
     desc: "Universities, Colleges & ITIs",
-    path: "/services/institutional-training",
+    path: "/services/institutional-skilling",
   },
 ];
 
@@ -183,7 +183,7 @@ const pageCtaMap: Record<
     buttonLabel: "Contact our team",
     type: "b2i",
   },
-  "/services/institutional-training": {
+  "/services/institutional-skilling": {
     heading: "Talk to us about your next batch",
     description:
       "Send us the department, the batch size and your timeline. We'll come back with a programme that fits your academic calendar.",

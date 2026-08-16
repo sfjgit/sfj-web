@@ -11,7 +11,7 @@ export default function SFJBSEnterpriseSection() {
       label: "Government-Led Skilling Missions",
     },
     {
-      path: "/services/institutional-training",
+      path: "/services/institutional-skilling",
       label: "Institutional Training (B2I)",
     },
     {

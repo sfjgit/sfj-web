@@ -63,7 +63,7 @@ const SLIDES = [
     subheading:
       "Practical learning, industry certifications and placement support that turn campuses into career launchpads.",
     cta: "Partner With Us",
-    href: "/services/institutional-training",
+    href: "/services/institutional-skilling",
   },
   {
     key: "government",

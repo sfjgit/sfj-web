@@ -109,7 +109,7 @@ export const PUBLIC_ROUTES = [
   "/services/corporate-social-responsibility",
   "/services/corporate-social-responsibility/aws-restart",
   "/services/government-ssc-skilling",
-  "/services/institutional-training",
+  "/services/institutional-skilling",
   "/services/taas",
   "/initiatives/faculty-development",
   "/privacy-policy",

@@ -235,7 +235,7 @@ const Navigation = () => {
           hasChildren: false,
         },
         {
-          path: "/services/institutional-training",
+          path: "/services/institutional-skilling",
           label: "Institutional Training (B2I)",
           icon: GraduationCap,
           description:
@@ -331,7 +331,7 @@ const Navigation = () => {
 
   const isLocationBlack = () => {
     if (
-      location === "/services/institutional-training" ||
+      location === "/services/institutional-skilling" ||
       location === "/" ||
       location === "/services/government-ssc-skilling" ||
       location === "/services/kaas" ||
