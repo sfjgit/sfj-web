@@ -280,9 +280,9 @@ export default function CorporateTrainingClient() {
             <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
               EVOLUTION
             </h2>
-            <h1 className="mt-2 text-sm sm:text-base font-semibold text-white/80">
+            <h2 className="mt-2 text-sm sm:text-base font-semibold text-white/80">
               What is the future of AI?
-            </h1>
+            </h2>
           </div>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -413,7 +413,6 @@ export default function CorporateTrainingClient() {
       {/* Training Mandate Section */}
       {/* Training Mandate Section - Enhanced */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 relative overflow-hidden">
-
         <div className="container mx-auto px-4 relative">
           <motion.div
             className="max-w-[96rem] mx-auto"
@@ -462,15 +461,14 @@ export default function CorporateTrainingClient() {
                 {/* Title + copy above the stats. */}
                 <div className="max-w-5xl text-left">
                   <h3 className="text-4xl sm:text-5xl font-semibold text-gray-900">
-                    Every era demanded new skills. This one demands them
-                    faster.
+                    Every era demanded new skills. This one demands them faster.
                   </h3>
                   <p className="text-gray-600 mt-3 text-base sm:text-lg leading-relaxed">
                     We upskill, cross-skill and reskill working professionals
-                    across cloud, data, AI, security and enterprise
-                    applications — with OEM-certified outcomes and delivery
-                    that fits how your teams actually work. From skills
-                    assessment to redeployment, run as one managed programme.
+                    across cloud, data, AI, security and enterprise applications
+                    — with OEM-certified outcomes and delivery that fits how
+                    your teams actually work. From skills assessment to
+                    redeployment, run as one managed programme.
                   </p>
                 </div>
 
@@ -521,7 +519,6 @@ export default function CorporateTrainingClient() {
                 </div>
               </div>
             </motion.div>
-
           </motion.div>
         </div>
       </section>

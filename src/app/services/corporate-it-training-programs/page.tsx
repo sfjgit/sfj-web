@@ -3,45 +3,42 @@ import Script from "next/script";
 import CorporateTrainingClient from "./_components/CorporateTrainingClient";
 
 export const metadata: Metadata = {
-  title:
-    "Corporate IT Training Programs for Employees | Boost Your Team's Skills | SFJBS",
+  title: "Corporate AI & IT Training Programs for Enterprises | SFJBS",
   description:
-    "SFJBS provides comprehensive corporate IT training programs, trusted by 350+ enterprise clients. Empower your employees, close skill gaps, and elevate your team's expertise with our tailored IT training solutions in Bengaluru and beyond.",
+    "SFJBS delivers enterprise AI, cloud, and IT training trusted by 500+ companies including Accenture, TCS, Wipro, SAP, and Siemens. OEM-certified upskilling, cross-skilling, and reskilling programs tailored to how your teams work.",
   keywords:
-    "corporate IT training programs, employee training, IT skill development, enterprise IT training, corporate tech training, customized IT training, IT upskilling, Bengaluru IT training",
+    "corporate AI training programs, enterprise IT upskilling, cross-skilling programs, reskilling programs, OEM certified training, cloud and data training, corporate training Bengaluru, enterprise training solutions",
   openGraph: {
-    title:
-      "Corporate IT Training Programs for Employees | Boost Your Team's Skills | SFJBS",
+    title: "Corporate AI & IT Training Programs for Enterprises | SFJBS",
     description:
-      "SFJBS provides comprehensive corporate IT training programs, trusted by 350+ enterprise clients. Empower your employees, close skill gaps, and elevate your team's expertise with our tailored IT training solutions in Bengaluru and beyond.",
-    url: "https://www.sfjbs.com/services/corporate-it-training-programs",
+      "Trusted by 500+ enterprise clients, SFJBS builds AI, cloud, data, and security training programs with OEM-certified outcomes — from skills assessment to redeployment.",
+    url: "https://www.sfjbs.com/corporate-training",
     type: "website",
     images: [
       {
-        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911740199_Corporate%20Training%20Solution%20sfjbs.webp", // Replace with your actual image URL
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911740199_Corporate%20Training%20Solution%20sfjbs.webp",
         width: 1200,
         height: 630,
-        alt: "Custom corporate IT training programs to boost employee skills and productivity",
+        alt: "SFJBS corporate AI and IT training programs for enterprise teams",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Corporate IT Training Programs for Employees | Boost Your Team's Skills | SFJBS",
+    title: "Corporate AI & IT Training Programs for Enterprises | SFJBS",
     description:
-      "SFJBS provides comprehensive corporate IT training programs, trusted by 350+ enterprise clients. Empower your employees, close skill gaps, and elevate your team's expertise with our tailored IT training solutions in Bengaluru and beyond.",
+      "Trusted by 500+ enterprise clients, SFJBS builds AI, cloud, data, and security training programs with OEM-certified outcomes.",
     images: [
       {
-        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911740199_Corporate%20Training%20Solution%20sfjbs.webp", // Replace with your actual image URL
+        url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911740199_Corporate%20Training%20Solution%20sfjbs.webp",
         width: 1200,
         height: 630,
-        alt: "Custom corporate IT training programs to boost employee skills and productivity",
+        alt: "SFJBS corporate AI and IT training programs for enterprise teams",
       },
     ],
   },
   alternates: {
-    canonical: "https://www.sfjbs.com/services/corporate-it-training-programs",
+    canonical: "https://www.sfjbs.com/corporate-training",
   },
 };
 

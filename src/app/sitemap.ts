@@ -31,7 +31,7 @@ async function fetchAllBlogs(): Promise<BlogPost[]> {
         `https://sfj-admin.vercel.app/api/admin/blogs?page=${page}&limit=50&status=published`,
         {
           next: { revalidate: 3600 },
-        }
+        },
       );
 
       if (!response.ok) break;
@@ -63,6 +63,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/about",
     "/contact",
     "/life-at-sfjbs",
+    // Missing CR-01 routes
+    "/internships",
+    "/privacy-policy",
+    "/refund-policy",
+    "/terms-and-conditions",
+    "/extension-privacy-policy",
+    "/initiatives/faculty-development",
   ];
 
   const serviceRoutes = [

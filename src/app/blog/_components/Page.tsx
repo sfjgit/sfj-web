@@ -269,14 +269,19 @@ export default function BlogLandingPage() {
       {/* Hero Section */}
       <section className="relative w-full bg-slate-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-10 overflow-hidden">
         <Image
-          src="/blog/blog-hero.webp"
-          alt="Team members collaborating around a table with laptops in a modern office, representing SFJBS's technology and business insights"
+          src="/Blog.webp"
+          alt="Colleagues discussing research beside a large screen showing SFJBS blog categories — AI and data, cloud and platforms, and cybersecurity"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/25 sm:bg-black/10" />
+        {/* The left third of this photo is a bright daylight window, so a
+            left-weighted gradient carries the headline contrast instead of a
+            heavy flat scrim — keeps the photo bright and leaves the screen on
+            the right readable. */}
+        <div className="absolute inset-0 bg-black/15 sm:bg-black/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
 
         <div className="relative max-w-7xl mx-auto w-full">
           <div className="max-w-2xl">

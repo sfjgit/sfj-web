@@ -245,6 +245,41 @@ export default async function BlogPage({ params }: PageProps) {
         }
       : null;
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.sfjbs.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://www.sfjbs.com/blog",
+      },
+      ...(blog.categories?.[0]
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: blog.categories[0].name,
+              item: `https://www.sfjbs.com/blog/category/${blog.categories[0].slug}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: blog.categories?.[0] ? 4 : 3,
+        name: blog.title,
+        item: `https://www.sfjbs.com/blog/${blog.slug}`,
+      },
+    ],
+  };
+
   return (
     <>
       <Script
@@ -264,6 +299,14 @@ export default async function BlogPage({ params }: PageProps) {
           }}
         />
       )}
+
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
 
       <SingleBlogPage />
     </>

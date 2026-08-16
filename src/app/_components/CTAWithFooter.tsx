@@ -248,7 +248,9 @@ const CTAWithFooter = () => {
                 transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
                 viewport={{ once: true }}
               >
-                <Link href={cta.type ? `/contact?type=${cta.type}` : "/contact"}>
+                <Link
+                  href={cta.type ? `/contact?type=${cta.type}` : "/contact"}
+                >
                   <motion.button
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}

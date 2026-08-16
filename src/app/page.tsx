@@ -140,11 +140,11 @@ export default function HomePage() {
             "@type": "Organization",
             name: "SFJ Business Solutions",
             url: "https://www.sfjbs.com",
-            aggregateRating: {
-              "@type": "AggregateRating",
-              ratingValue: "3.8",
-              reviewCount: "150",
-            },
+            // aggregateRating: {
+            //   "@type": "AggregateRating",
+            //   ratingValue: "3.8",
+            //   reviewCount: "150",
+            // },
           }),
         }}
       />

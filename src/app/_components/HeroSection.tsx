@@ -60,7 +60,8 @@ const HeroServicesSection = () => {
         "15,000+ successful placements with top-tier IT professionals",
       cta: "Find Talent",
       img: "/app/home/talent-as-service.png",
-      link: "/services/talent-as-service",
+      // link: "/services/talent-as-service",
+      link: "/services/it-staffing-company",
       clients: "50+",
     },
     {

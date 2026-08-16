@@ -131,7 +131,7 @@ const ContactForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-        }
+        },
       );
 
       const result = await response.json();
@@ -234,7 +234,8 @@ const ContactForm = () => {
         </div>
 
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 hover:shadow-2xl transition-shadow duration-300">
-          <div className="space-y-8">
+          {/* <div className="space-y-8"> */}
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Service Type Selection */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-4">
@@ -301,15 +302,29 @@ const ContactForm = () => {
             {/* Personal Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">
+                {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                  Full Name *
+                </label> */}
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-slate-700 mb-3"
+                >
                   Full Name *
                 </label>
+
                 <div className="relative">
                   <User className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
-                  <input
+                  {/* <input
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                    placeholder="Enter your full name"
+                  /> */}
+                  <input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -321,12 +336,27 @@ const ContactForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">
+                {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                  Email Address *
+                </label> */}
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-slate-700 mb-3"
+                >
                   Email Address *
                 </label>
                 <div className="relative">
                   <Mail className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  {/* <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                    placeholder="Enter your email address"
+                  /> */}
                   <input
+                    id="email"
+                    name="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
@@ -344,7 +374,13 @@ const ContactForm = () => {
 
             {/* Phone Number */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-3">
+              {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                Phone Number *
+              </label> */}
+              <label
+                htmlFor="phoneNumber"
+                className="block text-sm font-semibold text-slate-700 mb-3"
+              >
                 Phone Number *
               </label>
               <div className="flex gap-3">
@@ -386,7 +422,17 @@ const ContactForm = () => {
 
                 <div className="flex-1 relative">
                   <Phone className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  {/* <input
+                    value={formData.phoneNumber}
+                    onChange={(e) =>
+                      handleInputChange("phoneNumber", e.target.value)
+                    }
+                    className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                    placeholder="Enter your phone number"
+                  /> */}
                   <input
+                    id="phoneNumber"
+                    name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={(e) =>
                       handleInputChange("phoneNumber", e.target.value)
@@ -461,12 +507,29 @@ const ContactForm = () => {
 
             {/* Website URL */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-3">
+              {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                Website URL (Optional)
+              </label> */}
+              <label
+                htmlFor="websiteUrl"
+                className="block text-sm font-semibold text-slate-700 mb-3"
+              >
                 Website URL (Optional)
               </label>
               <div className="relative">
                 <Globe className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                {/* <input
+                  type="url"
+                  value={formData.websiteUrl}
+                  onChange={(e) =>
+                    handleInputChange("websiteUrl", e.target.value)
+                  }
+                  className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                  placeholder="https://your-website.com"
+                /> */}
                 <input
+                  id="websiteUrl"
+                  name="websiteUrl"
                   type="url"
                   value={formData.websiteUrl}
                   onChange={(e) =>
@@ -485,12 +548,27 @@ const ContactForm = () => {
 
             {/* Message */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-3">
+              {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                Your Message *
+              </label> */}
+              <label
+                htmlFor="query"
+                className="block text-sm font-semibold text-slate-700 mb-3"
+              >
                 Your Message *
               </label>
               <div className="relative">
                 <MessageSquare className="w-5 h-5 text-slate-400 absolute left-3 top-4" />
+                {/* <textarea
+                  rows={5}
+                  value={formData.query}
+                  onChange={(e) => handleInputChange("query", e.target.value)}
+                  className="w-full pl-11 pr-4 py-4 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 resize-none bg-white/50 hover:bg-white/80"
+                  placeholder="Tell us about your requirements, goals, or any specific questions you have..."
+                /> */}
                 <textarea
+                  id="query"
+                  name="query"
                   rows={5}
                   value={formData.query}
                   onChange={(e) => handleInputChange("query", e.target.value)}
@@ -508,7 +586,8 @@ const ContactForm = () => {
             {/* Submit Button */}
             <div className="pt-6">
               <button
-                onClick={handleSubmit}
+                // onClick={handleSubmit}
+                type="submit"
                 disabled={isSubmitting}
                 className="w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-200 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
@@ -525,7 +604,8 @@ const ContactForm = () => {
                 )}
               </button>
             </div>
-          </div>
+          </form>
+          {/* </div> */}
         </div>
 
         {/* Map Section */}

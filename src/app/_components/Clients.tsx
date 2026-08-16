@@ -92,6 +92,38 @@ const Reveal = ({
 
 // Count-up now takes a `start` flag instead of its own IntersectionObserver,
 // so it can be triggered in sync with the card's Reveal animation.
+// const AnimatedNumber = ({
+//   target,
+//   suffix = "+",
+//   start,
+// }: {
+//   target: number;
+//   suffix?: string;
+//   start: boolean;
+// }) => {
+//   const [count, setCount] = useState(0);
+//   const hasAnimated = React.useRef(false);
+
+//   useEffect(() => {
+//     if (!start || hasAnimated.current) return;
+//     hasAnimated.current = true;
+//     const duration = 1200;
+//     const startTime = performance.now();
+//     const step = (now: number) => {
+//       const progress = Math.min((now - startTime) / duration, 1);
+//       setCount(Math.round(progress * target));
+//       if (progress < 1) requestAnimationFrame(step);
+//     };
+//     requestAnimationFrame(step);
+//   }, [start, target]);
+
+//   return (
+//     <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+//       {count}
+//       {suffix}
+//     </div>
+//   );
+// };
 const AnimatedNumber = ({
   target,
   suffix = "+",
@@ -101,19 +133,27 @@ const AnimatedNumber = ({
   suffix?: string;
   start: boolean;
 }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(target);
   const hasAnimated = React.useRef(false);
 
   useEffect(() => {
     if (!start || hasAnimated.current) return;
+
     hasAnimated.current = true;
+
     const duration = 1200;
     const startTime = performance.now();
+
     const step = (now: number) => {
       const progress = Math.min((now - startTime) / duration, 1);
+
       setCount(Math.round(progress * target));
-      if (progress < 1) requestAnimationFrame(step);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
     };
+
     requestAnimationFrame(step);
   }, [start, target]);
 
@@ -419,9 +459,9 @@ const ClientsSection = () => {
           className="text-left mb-20"
         >
           <Reveal delay={0}>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
               Our Global Impact
-            </h1>
+            </h2>
           </Reveal>
 
           <Reveal delay={70}>
@@ -666,28 +706,28 @@ const ClientsSection = () => {
         .client-flow-swiper .swiper-slide:hover {
           z-index: 10;
         }
-.testimonial-marquee {
-  animation: testimonialScroll 30s linear infinite;
-}
-.testimonial-marquee:hover {
-  animation-play-state: paused;
-}
-@keyframes testimonialScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
+        .testimonial-marquee {
+          animation: testimonialScroll 30s linear infinite;
+        }
+        .testimonial-marquee:hover {
+          animation-play-state: paused;
+        }
+        @keyframes testimonialScroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
 
-@keyframes statFloat {
         @keyframes statFloat {
           0%,
           75%,
           100% {
             transform: translateY(0);
           }
+
           37% {
             transform: translateY(-10px);
           }
