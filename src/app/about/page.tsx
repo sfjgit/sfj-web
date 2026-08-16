@@ -6,13 +6,11 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "About SFJBS | Leading IT Staffing & Training Company",
   description:
-    "SFJBS is a premier IT staffing, services, and training company with over 14 years of industry expertise. Discover our mission, values, and commitment to driving tech talent and business success.",
-  keywords:
-    "about SFJBS, IT staffing company, IT services company, IT training provider, company profile, our mission, corporate values, technology solutions provider, Bengaluru IT company",
+    "15 years building workforce capability across enterprises, campuses and government missions. Our mission, how we work, and where we operate.",
   openGraph: {
     title: "About SFJBS | Leading IT Staffing & Training Company",
     description:
-      "SFJBS is a premier IT staffing, services, and training company with over 14 years of industry expertise. Discover our mission, values, and commitment to driving tech talent and business success.",
+      "15 years building workforce capability across enterprises, campuses and government missions. Our mission, how we work, and where we operate.",
     url: "https://www.sfjbs.com/about",
     type: "website",
   },
@@ -20,7 +18,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "About SFJBS | Leading IT Staffing & Training Company",
     description:
-      "SFJBS is a premier IT staffing, services, and training company with over 14 years of industry expertise. Discover our mission, values, and commitment to driving tech talent and business success.",
+      "15 years building workforce capability across enterprises, campuses and government missions. Our mission, how we work, and where we operate.",
   },
   alternates: {
     canonical: "https://www.sfjbs.com/about",

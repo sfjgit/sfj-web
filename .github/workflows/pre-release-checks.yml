@@ -1,0 +1,43 @@
+name: Pre-release checks
+
+# The audit's process finding (section 10) was that nine P0 defects reached a
+# shippable build because nothing gated them — no link check, no metadata
+# assertions, no accessibility pass. This workflow is that gate.
+#
+# It fails the PR on:
+#   • any internal link or asset reference that 404s      (RE-01)
+#   • any route with a wrong canonical, a >60-char title,
+#     a duplicate title, or a missing description         (RE-02)
+#   • any route missing from the sitemap manifest         (CR-01)
+#   • any corporate claim that contradicts config/site.ts (RE-06)
+#   • lint errors, including jsx-no-target-blank          (SEC-03)
+#   • a TypeScript or Next build failure
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Static site checks (links, assets, metadata, claims)
+        run: npm run check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"

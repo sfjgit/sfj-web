@@ -250,33 +250,32 @@ export default function BlogLandingPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Show loading state only on initial load
-  if (blogsLoading && !blogs.length) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-        <div className="flex justify-center items-center min-h-96">
-          <div className="relative">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200"></div>
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-t-blue-600 absolute top-0 left-0"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // This used to be an early return: while the initial fetch was in flight the
+  // component rendered nothing but a spinner — and since that is exactly the
+  // state the server renders in, /blog shipped with zero H1 elements and no
+  // hero copy in its HTML (OP-05, A11-03). The hero is static content that
+  // does not depend on the fetch, so it always renders now and only the grid
+  // below shows a loading state.
+  const initialLoading = blogsLoading && !blogs.length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       {/* Hero Section */}
       <section className="relative w-full bg-slate-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-10 sm:pb-12 px-4 sm:px-6 lg:px-10 overflow-hidden">
         <Image
-          src="/blog/blog-hero.webp"
-          alt="Team members collaborating around a table with laptops in a modern office, representing SFJBS's technology and business insights"
+          src="/Blog.webp"
+          alt="Colleagues discussing research beside a large screen showing SFJBS blog categories — AI and data, cloud and platforms, and cybersecurity"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/25 sm:bg-black/10" />
+        {/* The left third of this photo is a bright daylight window, so a
+            left-weighted gradient carries the headline contrast instead of a
+            heavy flat scrim — keeps the photo bright and leaves the screen on
+            the right readable. */}
+        <div className="absolute inset-0 bg-black/15 sm:bg-black/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
 
         <div className="relative max-w-7xl mx-auto w-full">
           <div className="max-w-2xl">
@@ -310,6 +309,15 @@ export default function BlogLandingPage() {
       </section>
 
       <div className="w-full mx-auto sm:px-6 lg:px-10 py-12 2xl:px-20 xl:px-12">
+        {initialLoading && (
+          <div className="flex justify-center items-center min-h-96">
+            <div className="relative" role="status" aria-label="Loading articles">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-t-blue-600 absolute top-0 left-0"></div>
+            </div>
+          </div>
+        )}
+
         {/* Categories Section */}
         {!categoriesLoading && categories.length > 0 && (
           <div className="mb-8">

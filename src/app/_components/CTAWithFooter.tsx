@@ -8,6 +8,8 @@ import { MapPin, Phone, Mail, ChevronDown } from "lucide-react";
 import * as Flags from "country-flag-icons/react/3x2";
 import { FaX } from "react-icons/fa6";
 import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { COMPANY, CONTACT, METRICS } from "@/config/site";
+import { trackCtaClick, trackEmailClick, trackPhoneClick } from "@/lib/analytics";
 
 const socialLinks = [
   {
@@ -45,7 +47,7 @@ const solutions = [
   {
     name: "Corporate IT Training (KaaS)",
     desc: "Upskilling, Reskilling & Certification",
-    path: "/services/corporate-it-training-programs",
+    path: "/services/kaas",
   },
   {
     name: "CSR Skilling Partner",
@@ -55,22 +57,17 @@ const solutions = [
   {
     name: "Talent as a Service (TaaS)",
     desc: "Hire | Deploy | Managed Talent",
-    path: "/services/it-staffing-company",
+    path: "/services/taas",
   },
   {
     name: "Government-Led Skilling Missions",
     desc: "Central & State Skill Programs",
-    path: "/services/government-initiatives",
+    path: "/services/government-ssc-skilling",
   },
   {
     name: "Institutional Training (B2I)",
     desc: "Universities, Colleges & ITIs",
-    path: "/services/institutional-training",
-  },
-  {
-    name: "Internship Programs",
-    desc: "Industry-Integrated Learning",
-    path: "/internships",
+    path: "/services/institutional-skilling",
   },
 ];
 
@@ -82,20 +79,42 @@ const initiatives = [
   },
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const offices: any = {
+/**
+ * `phone` is what the visitor reads; `phoneHref` is what gets dialled.
+ *
+ * The India entry used to be the single string "+91 9845348601 " — embedded
+ * spaces and a trailing space — piped straight into `href={"tel:" + phone}`.
+ * That URI is malformed and fails to dial on some Android handsets, losing a
+ * lead every time someone taps it (SEC-04). Splitting display from href makes
+ * the dial string impossible to get wrong by editing the label, and the type
+ * below (this was `any`) makes a missing `phoneHref` a compile error rather
+ * than a silently broken link.
+ */
+interface Office {
+  flag: string;
+  name: string;
+  company: string;
+  address: string[];
+  phone?: string;
+  phoneHref?: string;
+  email?: string;
+  fax?: string;
+}
+
+const offices: Record<string, Office> = {
   india: {
     flag: "IN",
     name: "India - Head Office",
-    company: "SFJ Business Solutions Pvt. Ltd.",
+    company: COMPANY.legalName,
     address: [
       "Uma Sree Dream World, Unit -2,",
       "B-Block, 4th Floor, Kudlu Gate,",
       "Hosur Main Road,",
       "Bangalore – 560068. Karnataka, INDIA",
     ],
-    phone: "+91 9845348601 ",
-    email: "growth@sfjbs.com",
+    phone: CONTACT.phoneDisplay,
+    phoneHref: CONTACT.phoneHref,
+    email: CONTACT.email,
   },
   uae: {
     flag: "AE",
@@ -106,7 +125,8 @@ const offices: any = {
       "(Next To Crown Plaza Hotel)",
       "P.O. Box : 58575, Dubai, UAE",
     ],
-    phone: "+971 43 425125",
+    phone: "+971 4 342 5125",
+    phoneHref: "+97143425125",
     fax: "+971 43 425126",
   },
   singapore: {
@@ -114,7 +134,8 @@ const offices: any = {
     name: "Singapore Office",
     company: "SFJ Business Solutions Pte. Ltd.",
     address: ["2 KALLANG AVENUE,", "#08-16, CT HUB,", "Singapore – 339 407"],
-    phone: "+65 62935695",
+    phone: "+65 6293 5695",
+    phoneHref: "+6562935695",
     fax: "+65 62935657",
   },
   usa: {
@@ -134,21 +155,21 @@ const pageCtaMap: Record<
   string,
   { heading: string; description: string; buttonLabel: string; type: string }
 > = {
-  "/services/corporate-it-training-programs": {
+  "/services/kaas": {
     heading: "Tell us where the gap is",
     description:
       "Send us a role, a technology or a team. We'll come back with a skills baseline and what it would take to close it.",
     buttonLabel: "Talk to our team",
     type: "b2b",
   },
-  "/services/it-staffing-company": {
+  "/services/taas": {
     heading: "Tell us the role you can't fill",
     description:
       "Send a job description, or just a technology and a start date. We'll come back with who we have and how fast they can start.",
     buttonLabel: "Talk to our team",
     type: "it-staffing",
   },
-  "/services/government-initiatives": {
+  "/services/government-ssc-skilling": {
     heading: "Talk to us about your mission",
     description:
       "Send us the scheme, the districts and the target cohort. We'll come back with a delivery model, a mobilisation plan and how we report against it.",
@@ -162,7 +183,7 @@ const pageCtaMap: Record<
     buttonLabel: "Contact our team",
     type: "b2i",
   },
-  "/services/institutional-training": {
+  "/services/institutional-skilling": {
     heading: "Talk to us about your next batch",
     description:
       "Send us the department, the batch size and your timeline. We'll come back with a programme that fits your academic calendar.",
@@ -180,8 +201,7 @@ const pageCtaMap: Record<
 
 const DEFAULT_CTA = {
   heading: "Ready to Transform Your Workforce?",
-  description:
-    "Join 300,000+ professionals who have advanced their careers with SFJ Business Solutions",
+  description: `Join ${METRICS.professionalsTrainedLabel} professionals who have advanced their careers with ${COMPANY.name}`,
   buttonLabel: "Contact Our Team",
   type: "",
 };
@@ -248,7 +268,20 @@ const CTAWithFooter = () => {
                 transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
                 viewport={{ once: true }}
               >
-                <Link href={cta.type ? `/contact?type=${cta.type}` : "/contact"}>
+                <Link
+                  href={cta.type ? `/contact?type=${cta.type}` : "/contact"}
+                  // AN-01: the primary CTA on every page now reports which
+                  // service line generated the click, so enquiries can be
+                  // attributed instead of landing in one undifferentiated
+                  // bucket.
+                  onClick={() =>
+                    trackCtaClick({
+                      label: cta.buttonLabel,
+                      serviceLine: cta.type || "general",
+                      destination: "/contact",
+                    })
+                  }
+                >
                   <motion.button
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
@@ -272,7 +305,7 @@ const CTAWithFooter = () => {
               <div className="lg:col-span-1 space-y-4">
                 <div className="flex items-center space-x-2">
                   <Image
-                    src="/logo/SFJ (9).png"
+                    src="/logo/sfj-logo.png"
                     alt="SFJ Logo"
                     className="w-12 h-12 object-cover"
                     quality={100}
@@ -288,9 +321,8 @@ const CTAWithFooter = () => {
                 </div>
 
                 <p className="text-gray-700 text-[10px] leading-relaxed">
-                  Empowering global talent for the AI-driven future through
-                  comprehensive workforce development and professional training
-                  solutions.
+                  Equipping global talent with the skills to succeed in an
+                  AI-driven world.
                 </p>
 
                 <div>
@@ -301,7 +333,7 @@ const CTAWithFooter = () => {
                         key={social.name}
                         href={social.url}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         className="hover:scale-105 transition-transform text-gray-900 [&>svg]:w-4 [&>svg]:h-4"
                         title={social.name}
                       >
@@ -539,7 +571,13 @@ const CTAWithFooter = () => {
                         <div className="flex items-start gap-1.5">
                           <Phone className="w-3 h-3 text-gray-500 mt-0.5 flex-shrink-0" />
                           <a
-                            href={`tel:${currentOffice.phone}`}
+                            href={`tel:${
+                              currentOffice.phoneHref ??
+                              String(currentOffice.phone).replace(/[^\d+]/g, "")
+                            }`}
+                            onClick={() =>
+                              trackPhoneClick(String(currentOffice.phone))
+                            }
                             className="text-[10px] text-gray-700 hover:text-gray-900 transition-colors"
                           >
                             {currentOffice.phone}
@@ -552,6 +590,9 @@ const CTAWithFooter = () => {
                           <Mail className="w-3 h-3 text-gray-500 mt-0.5 flex-shrink-0" />
                           <a
                             href={`mailto:${currentOffice.email}`}
+                            onClick={() =>
+                              trackEmailClick(String(currentOffice.email))
+                            }
                             className="text-[10px] text-gray-700 hover:text-gray-900 transition-colors"
                           >
                             {currentOffice.email}

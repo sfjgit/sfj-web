@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -22,11 +21,17 @@ import {
   BookOpen,
   MessageCircle,
 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { trackFormError, trackFormSubmit } from "@/lib/analytics";
 
-const ContactForm = () => {
-  const query = useSearchParams();
-  const type = query.get("type");
+/**
+ * `defaultType` arrives as a prop from the server component rather than from
+ * `useSearchParams()`. That hook is a server-rendering bail-out: with it, Next
+ * shipped /contact as an empty shell — zero inputs, zero labels, zero H1 in the
+ * delivered HTML (P0-08). As a prop, the whole form renders on the server and
+ * progressively enhances.
+ */
+const ContactForm = ({ defaultType }: { defaultType?: string }) => {
+  const type = defaultType ?? null;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,7 +43,18 @@ const ContactForm = () => {
     query: "",
   });
 
+  // Anti-spam (P0-08). `companyFax` is a honeypot — hidden from sighted users
+  // and from screen readers, so only a form-filling bot ever populates it.
+  // `mountedAt` gives the server an elapsed-time signal: a human cannot
+  // complete six fields in under two seconds.
+  const [honeypot, setHoneypot] = useState("");
+  const mountedAt = React.useRef<number>(0);
+  useEffect(() => {
+    mountedAt.current = Date.now();
+  }, []);
+
   const [errors, setErrors] = useState<any>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState({
     value: "+91",
@@ -57,8 +73,6 @@ const ContactForm = () => {
   ];
 
   useEffect(() => {
-    console.log(type, "type");
-    console.log(query, "query");
     if (type) {
       setFormData((prev) => ({ ...prev, type: type }));
     }
@@ -116,74 +130,75 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const resetForm = () =>
+    setFormData({
+      name: "",
+      email: "",
+      countryCode: "+91",
+      phoneNumber: "",
+      type: type ?? "general",
+      subCategory: "",
+      websiteUrl: "",
+      query: "",
+    });
+
+  /**
+   * Both the API-error and network-error branches used to set `isSuccess` and
+   * show "Thank You! Your message has been sent successfully" — so a visitor
+   * whose enquiry never left the browser was told it had arrived, and nobody
+   * on either side found out. Failures are now surfaced, with the phone number
+   * and email as a fallback route, and reported to GTM so submission drop-off
+   * can be alerted on (AN-01).
+   */
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setSubmitError(null);
     if (!validateForm()) return;
 
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/form`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("/api/form", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          companyFax: honeypot,
+          elapsedMs: mountedAt.current ? Date.now() - mountedAt.current : 0,
+          landingPage:
+            typeof window !== "undefined" ? window.location.pathname : "",
+        }),
+      });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => ({ success: false }));
 
-      if (result.success) {
+      if (response.ok && result.success) {
+        trackFormSubmit({
+          formName: "contact",
+          serviceLine: formData.type,
+        });
         setIsSuccess(true);
         setTimeout(() => {
           setIsSuccess(false);
-          setFormData({
-            name: "",
-            email: "",
-            countryCode: "+91",
-            phoneNumber: "",
-            type: type ?? "b2b",
-            subCategory: "",
-            websiteUrl: "",
-            query: "",
-          });
+          resetForm();
         }, 3000);
-      } else {
-        console.error("API Error:", result.message);
-        setIsSuccess(true);
-        setTimeout(() => {
-          setIsSuccess(false);
-          setFormData({
-            name: "",
-            email: "",
-            countryCode: "+91",
-            phoneNumber: "",
-            type: type ?? "b2b",
-            subCategory: "",
-            websiteUrl: "",
-            query: "",
-          });
-        }, 3000);
+        return;
       }
+
+      const reason =
+        result.message ||
+        "We could not send your message. Please try again, or email growth@sfjbs.com.";
+      console.error("Contact form submission failed:", reason);
+      trackFormError({ formName: "contact", reason: String(reason) });
+      setSubmitError(reason);
     } catch (error) {
       console.error("Network Error:", error);
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-        setFormData({
-          name: "",
-          email: "",
-          countryCode: "+91",
-          phoneNumber: "",
-          type: type ?? "b2b",
-          subCategory: "",
-          websiteUrl: "",
-          query: "",
-        });
-      }, 3000);
+      trackFormError({ formName: "contact", reason: "network_error" });
+      setSubmitError(
+        "We could not reach the server. Please check your connection and try again, or call +91 98453 48601.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -234,7 +249,35 @@ const ContactForm = () => {
         </div>
 
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 hover:shadow-2xl transition-shadow duration-300">
-          <div className="space-y-8">
+          {/* <div className="space-y-8"> */}
+          <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+            {/* Honeypot. `hidden` keeps it out of the layout, tab order and
+                the accessibility tree; only a bot filling every field will
+                populate it, and the server drops any submission that does. */}
+            <div hidden aria-hidden="true">
+              <label htmlFor="companyFax">
+                Company fax (leave this field empty)
+              </label>
+              <input
+                id="companyFax"
+                name="companyFax"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </div>
+
+            {submitError && (
+              <div
+                role="alert"
+                className="rounded-xl border-2 border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800"
+              >
+                {submitError}
+              </div>
+            )}
+
             {/* Service Type Selection */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-4">
@@ -301,12 +344,31 @@ const ContactForm = () => {
             {/* Personal Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">
+                {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                  Full Name *
+                </label> */}
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-semibold text-slate-700 mb-3"
+                >
                   Full Name *
                 </label>
+
                 <div className="relative">
                   <User className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  {/* <input
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                    placeholder="Enter your full name"
+                  /> */}
+                  {/* This input had lost its className in an earlier edit and
+                      was rendering as an unstyled browser default next to
+                      fully-styled siblings. */}
                   <input
+                    id="name"
+                    name="name"
+                    autoComplete="name"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
@@ -321,12 +383,28 @@ const ContactForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-3">
+                {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                  Email Address *
+                </label> */}
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-slate-700 mb-3"
+                >
                   Email Address *
                 </label>
                 <div className="relative">
                   <Mail className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  {/* <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                    placeholder="Enter your email address"
+                  /> */}
                   <input
+                    id="email"
+                    autoComplete="email"
+                    name="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
@@ -344,7 +422,13 @@ const ContactForm = () => {
 
             {/* Phone Number */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-3">
+              {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                Phone Number *
+              </label> */}
+              <label
+                htmlFor="phoneNumber"
+                className="block text-sm font-semibold text-slate-700 mb-3"
+              >
                 Phone Number *
               </label>
               <div className="flex gap-3">
@@ -386,7 +470,20 @@ const ContactForm = () => {
 
                 <div className="flex-1 relative">
                   <Phone className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  {/* <input
+                    value={formData.phoneNumber}
+                    onChange={(e) =>
+                      handleInputChange("phoneNumber", e.target.value)
+                    }
+                    className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                    placeholder="Enter your phone number"
+                  /> */}
                   <input
+                    id="phoneNumber"
+                    type="tel"
+                    inputMode="numeric"
+                    autoComplete="tel-national"
+                    name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={(e) =>
                       handleInputChange("phoneNumber", e.target.value)
@@ -461,12 +558,30 @@ const ContactForm = () => {
 
             {/* Website URL */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-3">
+              {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                Website URL (Optional)
+              </label> */}
+              <label
+                htmlFor="websiteUrl"
+                className="block text-sm font-semibold text-slate-700 mb-3"
+              >
                 Website URL (Optional)
               </label>
               <div className="relative">
                 <Globe className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                {/* <input
+                  type="url"
+                  value={formData.websiteUrl}
+                  onChange={(e) =>
+                    handleInputChange("websiteUrl", e.target.value)
+                  }
+                  className="w-full pl-11 pr-4 py-3.5 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 bg-white/50 hover:bg-white/80"
+                  placeholder="https://your-website.com"
+                /> */}
                 <input
+                  id="websiteUrl"
+                  autoComplete="url"
+                  name="websiteUrl"
                   type="url"
                   value={formData.websiteUrl}
                   onChange={(e) =>
@@ -485,12 +600,27 @@ const ContactForm = () => {
 
             {/* Message */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-3">
+              {/* <label className="block text-sm font-semibold text-slate-700 mb-3">
+                Your Message *
+              </label> */}
+              <label
+                htmlFor="query"
+                className="block text-sm font-semibold text-slate-700 mb-3"
+              >
                 Your Message *
               </label>
               <div className="relative">
                 <MessageSquare className="w-5 h-5 text-slate-400 absolute left-3 top-4" />
+                {/* <textarea
+                  rows={5}
+                  value={formData.query}
+                  onChange={(e) => handleInputChange("query", e.target.value)}
+                  className="w-full pl-11 pr-4 py-4 border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 resize-none bg-white/50 hover:bg-white/80"
+                  placeholder="Tell us about your requirements, goals, or any specific questions you have..."
+                /> */}
                 <textarea
+                  id="query"
+                  name="query"
                   rows={5}
                   value={formData.query}
                   onChange={(e) => handleInputChange("query", e.target.value)}
@@ -508,7 +638,8 @@ const ContactForm = () => {
             {/* Submit Button */}
             <div className="pt-6">
               <button
-                onClick={handleSubmit}
+                // onClick={handleSubmit}
+                type="submit"
                 disabled={isSubmitting}
                 className="w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-200 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
@@ -525,7 +656,8 @@ const ContactForm = () => {
                 )}
               </button>
             </div>
-          </div>
+          </form>
+          {/* </div> */}
         </div>
 
         {/* Map Section */}

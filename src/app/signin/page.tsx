@@ -430,8 +430,13 @@ export default function SigninPage() {
                     </label>
                   </div>
                   <div className="text-sm">
+                    {/* This linked to /forgot-password, a route that does not
+                        exist — a dead end at the exact moment a locked-out
+                        user needs help. The reset flow lives in AuthModal
+                        (ForgotView / useAuth().forgotPassword); until it has
+                        its own route, point people somewhere a human answers. */}
                     <Link
-                      href="/forgot-password"
+                      href="/contact?type=general"
                       className="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
                     >
                       Forgot password?
@@ -481,14 +486,14 @@ export default function SigninPage() {
             <p className="text-xs text-slate-500 dark:text-slate-500">
               By signing in, you agree to our{" "}
               <Link
-                href="/terms"
+                href="/terms-and-conditions"
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
                 Terms
               </Link>{" "}
               and{" "}
               <Link
-                href="/privacy"
+                href="/privacy-policy"
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
                 Privacy Policy

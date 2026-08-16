@@ -1,14 +1,18 @@
 import React from "react";
 import BlogLandingPage from "./_components/Page";
+import BlogArchiveIndex from "./_components/BlogArchiveIndex";
 import { Metadata } from "next";
 import Script from "next/script";
+
+// The archive list below the interactive grid fetches on the server, so the
+// route revalidates hourly rather than caching a snapshot of the post list
+// forever.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "SFJBS Blog | IT Staffing, Training & EdTech Insights",
   description:
-    "Stay updated with the SFJBS blog. Discover expert articles, industry insights, and the latest trends in IT staffing, professional services, corporate training, EdTech Insights and technology.",
-  keywords:
-    "SFJBS blog, IT industry insights, tech articles, IT staffing trends, corporate training news, technology blog, professional services insights, IT expert advice, IT news, industry trends",
+    "Practical writing on enterprise upskilling, cloud, AI, ERP and IT hiring — from the teams who deliver the programmes.",
 
   // Open Graph / Facebook
   openGraph: {
@@ -16,7 +20,7 @@ export const metadata: Metadata = {
     url: "https://www.sfjbs.com/blog",
     title: "SFJBS Blog | IT Staffing, Training & EdTech Insights",
     description:
-      "Stay updated with the SFJBS blog. Discover expert articles, industry insights, and the latest trends in IT staffing, professional services, corporate training, EdTech Insights and technology.",
+      "Practical writing on enterprise upskilling, cloud, AI, ERP and IT hiring — from the teams who deliver the programmes.",
     siteName: "SFJBS",
     locale: "en_US",
   },
@@ -26,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SFJBS Blog | IT Staffing, Training & EdTech Insights",
     description:
-      "Stay updated with the SFJBS blog. Discover expert articles, industry insights, and the latest trends in IT staffing, professional services, corporate training, EdTech Insights and technology.",
+      "Practical writing on enterprise upskilling, cloud, AI, ERP and IT hiring — from the teams who deliver the programmes.",
     creator: "@sfjbs",
     site: "@sfjbs",
   },
@@ -83,6 +87,9 @@ export default function page() {
         }}
       />
       <BlogLandingPage />
+      {/* P0-04: server-rendered links to every post, so the articles are not
+          orphan pages reachable only through sitemap.xml. */}
+      <BlogArchiveIndex />
     </>
   );
 }

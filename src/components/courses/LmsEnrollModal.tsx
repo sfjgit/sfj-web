@@ -582,11 +582,11 @@ export default function LmsEnrollModal({
 
               <p className="text-center text-xs text-gray-400">
                 By continuing you agree to our{" "}
-                <a href="/terms" className="underline">
+                <a href="/terms-and-conditions" className="underline">
                   Terms
                 </a>{" "}
                 and{" "}
-                <a href="/privacy" className="underline">
+                <a href="/privacy-policy" className="underline">
                   Privacy Policy
                 </a>
               </p>
