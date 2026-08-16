@@ -85,6 +85,7 @@ const ContactForm = ({ defaultType }: { defaultType?: string }) => {
     { value: "b2g", label: "Govt Skilling" },
     { value: "csr", label: "CSR Skilling" },
     { value: "it-staffing", label: "AI Consulting" },
+    { value: "faculty-development", label: "Faculty Development" },
   ];
 
   const subCategoryOptions = [
@@ -283,7 +284,7 @@ const ContactForm = ({ defaultType }: { defaultType?: string }) => {
               <label className="block text-sm font-semibold text-slate-700 mb-4">
                 What are you looking for? *
               </label>
-              <div className="flex flex-wrap gap-5">
+              <div className="flex flex-wrap gap-4">
                 {typeOptions.map((option) => {
                   // Define icons for each option
                   const getIcon = (value: any) => {
