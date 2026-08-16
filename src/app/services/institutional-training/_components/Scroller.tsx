@@ -7,22 +7,27 @@
 // This used to share the bar with a category tab strip, which was removed
 // once CategoryChooser.tsx took over category navigation — the logos now
 // get the full width instead of just the leftover space beside the tabs.
+// Full paths, not fragments. These used to be stored as "/tools/x.png" with
+// "/app/b2i" concatenated at each of the two render sites — a split that hid
+// the fact that "/tools/bing.jpg" pointed at a file that is actually named
+// bing.png, so that logo 404'd (CR-02). One complete path per entry means the
+// asset checker can verify them and there is nothing to keep in sync.
 export const AI_TOOLS = [
-  { name: "Animaker", logo: "/tools/animaker.png" },
-  { name: "Bing", logo: "/tools/bing.jpg" },
-  { name: "Character AI", logo: "/tools/character-ai.png" },
-  { name: "ChatGPT", logo: "/tools/chatgpt.png" },
-  { name: "Crayon", logo: "/tools/crayon.png" },
-  { name: "DALL-E", logo: "/tools/dall-e.webp" },
-  { name: "Diffit", logo: "/tools/diffit.png" },
-  { name: "ElevenLabs", logo: "/tools/elevenlabs.png" },
-  { name: "Gemini", logo: "/tools/gemini.png" },
-  { name: "Grammarly", logo: "/tools/grammarly.webp" },
-  { name: "Magic School", logo: "/tools/magic-school.png" },
-  { name: "Mindgrasp", logo: "/tools/mindgrasp.webp" },
-  { name: "Notion AI", logo: "/tools/notion-ai.webp" },
-  { name: "Pictory", logo: "/tools/pictory.png" },
-  { name: "Voicify", logo: "/tools/voicify.png" },
+  { name: "Animaker", logo: "/app/b2i/tools/animaker.png" },
+  { name: "Bing", logo: "/app/b2i/tools/bing.png" },
+  { name: "Character AI", logo: "/app/b2i/tools/character-ai.png" },
+  { name: "ChatGPT", logo: "/app/b2i/tools/chatgpt.png" },
+  { name: "Crayon", logo: "/app/b2i/tools/crayon.png" },
+  { name: "DALL-E", logo: "/app/b2i/tools/dall-e.webp" },
+  { name: "Diffit", logo: "/app/b2i/tools/diffit.png" },
+  { name: "ElevenLabs", logo: "/app/b2i/tools/elevenlabs.png" },
+  { name: "Gemini", logo: "/app/b2i/tools/gemini.png" },
+  { name: "Grammarly", logo: "/app/b2i/tools/grammarly.webp" },
+  { name: "Magic School", logo: "/app/b2i/tools/magic-school.png" },
+  { name: "Mindgrasp", logo: "/app/b2i/tools/mindgrasp.webp" },
+  { name: "Notion AI", logo: "/app/b2i/tools/notion-ai.webp" },
+  { name: "Pictory", logo: "/app/b2i/tools/pictory.png" },
+  { name: "Voicify", logo: "/app/b2i/tools/voicify.png" },
 ];
 
 // Most logos share one box, sized by height. Two need their own: ElevenLabs
@@ -74,7 +79,7 @@ const AIToolsBar = () => {
                       }`}
                     >
                       <img
-                        src={"/app/b2i" + tool.logo}
+                        src={tool.logo}
                         alt={tool.name}
                         className="max-w-full max-h-full object-contain"
                         style={{ filter: "grayscale(1) brightness(0.5)" }}

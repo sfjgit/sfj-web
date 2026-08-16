@@ -264,25 +264,27 @@ const Navigation = () => {
       path: "/products",
       label: "Products",
       hasChildren: true,
-      // Links are placeholders (#) until the /products pages exist — swap
-      // in real paths or external URLs once they're ready.
+      // These were `#` placeholders "until the /products pages exist". They
+      // exist now, and the footer already links to all three — so the header
+      // was the only place still dropping visitors on a no-op anchor. The ATS
+      // entry points at Talent OS, which is the product it describes.
       children: [
         {
-          path: "#",
+          path: "/products/lms",
           label: "LMS",
           desc: "One AI core, learning reimagined—skilling, mastery, growth, insight—built for the self-driving workforce.",
           icon: GraduationCap,
           hasChildren: false,
         },
         {
-          path: "#",
-          label: "ATS",
+          path: "/products/talent-os",
+          label: "Talent OS",
           desc: "One AI core, human potential unlocked—hiring, growth, retention, reporting—built for the self-driving workforce.",
           icon: ClipboardList,
           hasChildren: false,
         },
         {
-          path: "#",
+          path: "/products/caspa",
           label: "CASPA",
           desc: "Intelligent automation reimagined—Order-to-Cash, Procure-to-Pay, Hire-to-Retire, Record-to-Report—powering tomorrow's autonomous enterprise, today.",
           icon: Database,
@@ -561,10 +563,15 @@ const Navigation = () => {
 
           {/* Mobile menu button */}
           <div className="md:hidden">
+            {/* A11-01: this was an icon-only control with no accessible name —
+                a screen reader announced it as just "button". */}
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
               className="relative p-2 rounded-lg hover:bg-blue-50 transition-colors"
             >
               <div className="relative w-6 h-6">
@@ -684,6 +691,7 @@ const Navigation = () => {
 
         {/* Mobile Navigation */}
         <div
+          id="mobile-navigation"
           className={`md:hidden transition-all duration-300 ease-in-out ${
             isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
           } overflow-hidden`}

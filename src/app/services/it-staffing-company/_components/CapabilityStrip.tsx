@@ -9,36 +9,36 @@ const CYCLE_MS = 6000;
 const LOGO_SCROLL_SECONDS = 40;
 
 const AGENTIC_LOGOS = [
-  "Antropic.svg",
+  "antropic.svg",
   // Filename really does carry a double dot.
-  "bedrock..svg",
+  "bedrock.svg",
   "llamaindex-text.svg",
-  "Langchain (2).svg",
+  "langchain-2.svg",
   "googlegemini.svg",
-  "Milvus--Streamline-Svg-Logos.svg",
+  "milvus-streamline-svg-logos.svg",
   "nvidia.svg",
   "openai.svg",
-  "Pinecone.svg",
-  "Vertex_AI_Logo.svg",
+  "pinecone.svg",
+  "vertex-ai-logo.svg",
   "weaviate.svg",
-].map((file) => `/Taas/Agentic Ai & Gen Ai/${file}`);
+].map((file) => `/Taas/agentic-ai/${file}`);
 
 const APP_ENGINEERING_LOGOS = [
   "angular.svg",
   "dotnet.svg",
   "github.svg",
-  "Java.svg",
+  "java.svg",
   "nodedotjs.svg",
-  "python (1).svg",
+  "python-1.svg",
   "react.svg",
   "spring.svg",
 ].map(
   (file) =>
-    `/Taas/Agentic Ai & Gen Ai/Application Engineering & Full Stack/${file}`,
+    `/Taas/agentic-ai/application-engineering-full-stack/${file}`,
 );
 
 const CLOUD_DEVOPS_LOGOS = [
-  "aws (1).svg",
+  "aws-1.svg",
   "docker.svg",
   "gitlab.svg",
   "googlecloud.svg",
@@ -47,7 +47,7 @@ const CLOUD_DEVOPS_LOGOS = [
   "redhat.svg",
   "terraform.svg",
 ].map(
-  (file) => `/Taas/Agentic Ai & Gen Ai/Cloud DevOps & Platform Eng/${file}`,
+  (file) => `/Taas/agentic-ai/cloud-devops-platform-eng/${file}`,
 );
 
 const DATA_AI_LOGOS = [
@@ -60,30 +60,30 @@ const DATA_AI_LOGOS = [
   "tableau.svg",
 ].map(
   (file) =>
-    `/Taas/Agentic Ai & Gen Ai/Data Engineering, AI & Analytics/${file}`,
+    `/Taas/agentic-ai/data-engineering-ai-analytics/${file}`,
 );
 
 const ENTERPRISE_APP_LOGOS = [
   "adobe.svg",
-  "Logo (1).svg",
-  "Microsoft_Dynamics_365_Logo_(2021–present).svg",
+  "logo-1.svg",
+  "microsoft-dynamics-365-logo-2021-present.svg",
   "oracle.svg",
   "salesforce.svg",
-  "sap (1).svg",
-  "Workday_2024_logo.svg",
+  "sap-1.svg",
+  "workday-2024-logo.svg",
   "zoho.svg",
-].map((file) => `/Taas/Agentic Ai & Gen Ai/Enterprise Application/${file}`);
+].map((file) => `/Taas/agentic-ai/enterprise-application/${file}`);
 
 const CYBERSECURITY_LOGOS = [
   "cisco.svg",
-  "CrowdStrike_logo.svg",
-  "Cyberark-logo-dark.svg",
+  "crowdstrike-logo.svg",
+  "cyberark-logo-dark.svg",
   "fortinet.svg",
-  "microsoft (1).svg",
+  "microsoft-1.svg",
   "paloaltonetworks.svg",
   "splunk.svg",
   "zscaler-logo.svg",
-].map((file) => `/Taas/Agentic Ai & Gen Ai/Cybersecurity/${file}`);
+].map((file) => `/Taas/agentic-ai/cybersecurity/${file}`);
 
 const TESTING_LOGOS = [
   "apachejmeter.svg",
@@ -96,46 +96,46 @@ const TESTING_LOGOS = [
   "tricentis.svg",
 ].map(
   (file) =>
-    `/Taas/Agentic Ai & Gen Ai/Testing & Quality Engineering/${file}`,
+    `/Taas/agentic-ai/testing-quality-engineering/${file}`,
 );
 
 // Folder name is misspelled on disk ("devolopment") — referenced as-is.
 const MOBILE_LOGOS = [
   "android.svg",
-  "dotnet (1).svg",
+  "dotnet-1.svg",
   "firebase.svg",
   "flutter.svg",
   "ios.svg",
   "kotlin.svg",
-  "react (1).svg",
+  "react-1.svg",
   "swift.svg",
 ].map(
   (file) =>
-    `/Taas/Agentic Ai & Gen Ai/Mobile Application devolopment/${file}`,
+    `/Taas/agentic-ai/mobile-application-devolopment/${file}`,
 );
 
 const INTEGRATION_LOGOS = [
-  "Boomi-logo-no-tagline.svg",
-  "IBM_logo.svg",
-  "Microsoft_Power_Automate.svg",
-  "MuleSoft Logo.png",
-  "oracle (1).svg",
-  "sap (2).svg",
+  "boomi-logo-no-tagline.svg",
+  "ibm-logo.svg",
+  "microsoft-power-automate.svg",
+  "mulesoft-logo.png",
+  "oracle-1.svg",
+  "sap-2.svg",
   "uipath.svg",
-  "WSO2-Logo-Black.svg",
-].map((file) => `/Taas/Agentic Ai & Gen Ai/Integration & Automation/${file}`);
+  "wso2-logo-black.svg",
+].map((file) => `/Taas/agentic-ai/integration-automation/${file}`);
 
 const DATA_CENTER_LOGOS = [
   "dell.svg",
-  "IBM_logo (1).svg",
+  "ibm-logo-1.svg",
   "logo-lm.svg",
   "netapp.svg",
   "nutanix.svg",
-  "Pure-storage-vector-logo.svg",
-  "redhat (1).svg",
+  "pure-storage-vector-logo.svg",
+  "redhat-1.svg",
   "veeam.svg",
 ].map(
-  (file) => `/Taas/Agentic Ai & Gen Ai/Data Center & Infrastructure/${file}`,
+  (file) => `/Taas/agentic-ai/data-center-infrastructure/${file}`,
 );
 
 export type CapabilityCard = {
@@ -159,32 +159,32 @@ export const capabilityCards: CapabilityCard[] = [
     title: "Application Engineering & Full Stack",
     logos: APP_ENGINEERING_LOGOS,
     video:
-      "/Taas/Agentic Ai & Gen Ai/vedios/Application Engineering & Full Stack.webm",
+      "/Taas/agentic-ai/vedios/application-engineering-full-stack.webm",
   },
   {
     id: "cloud-devops",
     title: "Cloud, DevOps & Platform Engineering",
     logos: CLOUD_DEVOPS_LOGOS,
     video:
-      "/Taas/Agentic Ai & Gen Ai/vedios/Cloud, DevOps & Platform Engineering.webm",
+      "/Taas/agentic-ai/vedios/cloud-devops-platform-engineering.webm",
   },
   {
     id: "data-ai",
     title: "Data Engineering, AI & Analytics",
     logos: DATA_AI_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Data Engineering, AI & Analytics.webm",
+    video: "/Taas/agentic-ai/vedios/data-engineering-ai-analytics.webm",
   },
   {
     id: "enterprise-apps",
     title: "Enterprise Applications",
     logos: ENTERPRISE_APP_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Enterprise Applications.webm",
+    video: "/Taas/agentic-ai/vedios/enterprise-applications.webm",
   },
   {
     id: "cybersecurity",
     title: "Cybersecurity",
     logos: CYBERSECURITY_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Cybersecurity.webm",
+    video: "/Taas/agentic-ai/vedios/cybersecurity.webm",
   },
   {
     id: "testing-qe",
@@ -202,14 +202,14 @@ export const capabilityCards: CapabilityCard[] = [
     id: "integration-automation",
     title: "Integration & Automation",
     logos: INTEGRATION_LOGOS,
-    video: "/Taas/Agentic Ai & Gen Ai/vedios/Integration Automation.webm",
+    video: "/Taas/agentic-ai/vedios/integration-automation.webm",
   },
   {
     id: "data-center",
     title: "Data Center & Infrastructure",
     logos: DATA_CENTER_LOGOS,
     video:
-      "/Taas/Agentic Ai & Gen Ai/vedios/Data Center & Infrastructure1.webm",
+      "/Taas/agentic-ai/vedios/data-center-infrastructure1.webm",
   },
 ];
 
@@ -221,18 +221,18 @@ export const capabilityCards: CapabilityCard[] = [
 // (measured from each SVG's ink bounding box), so they render smaller than
 // their neighbours at the same cap. Those get a scale nudge to compensate.
 const LOGO_SCALE_OVERRIDES: Record<string, string> = {
-  "Vertex_AI_Logo.svg": "scale-[1.3]", // ink is 68x78 inside a 100x100 board
+  "vertex-ai-logo.svg": "scale-[1.3]", // ink is 68x78 inside a 100x100 board
   // These sit on square artboards with the mark occupying only a short band —
   // Milvus is 98x24 ink inside 100x100, LangChain 100x52. `object-contain`
   // fits the empty artboard, not the mark, so they render a fraction of the
   // size of the others. Scale is the ratio needed to bring the ink back up.
-  "Milvus--Streamline-Svg-Logos.svg": "scale-[2.6]",
-  "Langchain (2).svg": "scale-[1.7]",
+  "milvus-streamline-svg-logos.svg": "scale-[2.6]",
+  "langchain-2.svg": "scale-[1.7]",
   "weaviate.svg": "scale-[1.45]",
   "llamaindex-text.svg": "scale-[1.1]",
   "googlegemini.svg": "scale-105",
   "nvidia.svg": "scale-[1.25]",
-  "bedrock..svg": "scale-105",
+  "bedrock.svg": "scale-105",
 };
 
 const logoScaleClass = (path: string) =>

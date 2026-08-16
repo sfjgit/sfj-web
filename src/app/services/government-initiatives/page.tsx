@@ -10,13 +10,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Government Programs & Skill Development | SFJBS Initiatives",
   description:
-    "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
-  keywords:
-    "government initiatives, government training programs, government skill development, IT training for government, public sector skilling, national skill development, government partnerships, government projects IT",
+    "Delivery partner for central and state skilling missions — mobilisation, training, certification and outcome reporting at district and state scale.",
   openGraph: {
     title: "Government Programs & Skill Development | SFJBS Initiatives",
     description:
-      "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
+      "Delivery partner for central and state skilling missions — mobilisation, training, certification and outcome reporting at district and state scale.",
     url: "https://www.sfjbs.com/services/government-initiatives",
     type: "website",
     images: [
@@ -32,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Government Programs & Skill Development | SFJBS Initiatives",
     description:
-      "SFJBS actively participates in government-led initiatives, delivering comprehensive IT skill development and training programs to empower communities and support national objectives.",
+      "Delivery partner for central and state skilling missions — mobilisation, training, certification and outcome reporting at district and state scale.",
     images: [
       {
         url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907878280_Government%20%282%29%20%28Medium%29.webp", // Replace with your actual image URL

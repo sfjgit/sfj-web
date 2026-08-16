@@ -3,6 +3,13 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     qualities: [75, 100],
+    // PF-03: next/image was requesting card-sized slots at w=3840 — a 4K
+    // asset (166 KB WebP) served into a ~400 px card. 3840 and 3072 are
+    // dropped because no slot on the site is genuinely full-bleed 4K; the
+    // remaining widths still cover every real breakpoint including 2× DPR.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ["image/avif", "image/webp"],
   },
 
   async rewrites() {
@@ -100,6 +107,27 @@ const nextConfig: NextConfig = {
           //   key: "Clear-Site-Data",
           //   value: '"cache", "cookies", "storage"',
           // },
+        ],
+      },
+      {
+        // PF-02: static artwork under /public was inheriting the catch-all
+        // `max-age=3600` above, so logos and the multi-hundred-KB hero videos
+        // were revalidated hourly for every returning visitor — wasted
+        // round-trips on the heaviest files on the site, while hashed build
+        // assets under /_next/static correctly got a year.
+        //
+        // These files are content-stable: when the art changes, the filename
+        // changes. This rule sits after the catch-all so it wins.
+        source:
+          "/:path*.:ext(svg|png|jpg|jpeg|gif|webp|avif|ico|webm|mp4|woff|woff2|pdf)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              process.env.NODE_ENV === "development"
+                ? "no-cache, no-store, must-revalidate"
+                : "public, max-age=31536000, immutable",
+          },
         ],
       },
       {

@@ -129,7 +129,7 @@ export default function JobDetailPage() {
               <a
                 href={job.jobDescription.fileUrl}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-blue-600 hover:underline"
               >
                 <FileText size={14} /> Download full Job Description

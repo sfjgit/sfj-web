@@ -255,7 +255,7 @@ const InternshipLanding = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center relative z-10 pt-38">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-10 pb-7">
-              Explore Internships and Scholarships in India 2025/26
+              Explore Internships and Scholarships in India
             </h1>
             <div className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed space-y-4">
               <p className="text-white text-justify pb-10 text-md">

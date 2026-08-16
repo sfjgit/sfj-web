@@ -205,7 +205,7 @@ export default function CategoryChooser({
                             >
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
-                                src={"/app/b2i" + tool.logo}
+                                src={tool.logo}
                                 alt=""
                                 loading="lazy"
                                 decoding="async"

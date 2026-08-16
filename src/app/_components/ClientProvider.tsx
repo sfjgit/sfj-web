@@ -54,7 +54,22 @@ export default function ClientProvider({
       <QueryClientProvider client={queryClient}>
         {!hideLayout && (
           <>
-            <Suspense fallback={<div>Loading...</div>}>
+            {/* The fallback used to be a bare `<div>Loading...</div>`, which
+                painted as the very first visible element on every page — the
+                word "Loading…" in unstyled 16px black on white, above the
+                header, then reflowed when the real header replaced it. That
+                is a direct CLS contributor and it was the first thing a
+                visitor (or a social preview bot) saw on the homepage (P0-09,
+                PF-04). A fixed-height skeleton matching the header's
+                dimensions reserves the same space, so nothing shifts. */}
+            <Suspense
+              fallback={
+                <div
+                  aria-hidden="true"
+                  className="h-[60px] w-full border-b border-gray-200 bg-white sm:h-[100px]"
+                />
+              }
+            >
               <Navigation />
             </Suspense>
           </>

@@ -25,16 +25,13 @@ import { TabVisibilityProvider } from "./_components/TabVisibilityContext";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
+  title: "CSR Skilling Partner for Corporate Programmes | SFJBS",
   description:
-    "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
-  keywords:
-    "corporate social responsibility, CSR programs, community initiatives, social impact, skill development CSR, educational support, corporate citizenship, social upliftment",
+    "Design and deliver CSR skilling programmes with measurable employability outcomes — programme design, delivery and impact reporting from one partner.",
   openGraph: {
-    title:
-      "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
+    title: "CSR Skilling Partner for Corporate Programmes | SFJBS",
     description:
-      "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
+      "Design and deliver CSR skilling programmes with measurable employability outcomes — programme design, delivery and impact reporting from one partner.",
     url: "https://www.sfjbs.com/services/corporate-social-responsibility",
     type: "website",
     images: [
@@ -49,10 +46,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
 
-    title:
-      "Corporate Social Responsibility (CSR) | SFJBS Community Initiatives",
+    title: "CSR Skilling Partner for Corporate Programmes | SFJBS",
     description:
-      "SFJBS is dedicated to Corporate Social Responsibility (CSR), driving meaningful community impact through skill development programs, educational support, and sustainable initiatives for societal betterment.",
+      "Design and deliver CSR skilling programmes with measurable employability outcomes — programme design, delivery and impact reporting from one partner.",
     images: [
       {
         url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907592029_image%20%2849%29.webp", // Replace with your actual image URL

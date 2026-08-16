@@ -1,4 +1,5 @@
 import React from "react";
+import { COMPANY, ORGANIZATION_ID, SITE_URL } from "@/config/site";
 // import { Metadata } from "next";
 import SingleBlogPage from "./_components/Page";
 import Script from "next/script";
@@ -89,48 +90,20 @@ export async function generateMetadata({ params }: PageProps) {
   const categories = blog.categories.map((cat) => cat.name).join(", ");
   const tags = blog.tags.map((tag) => tag.name).join(", ");
 
-  // Create structured data for SEO
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: blog.seo.metaTitle || blog.title,
-    description: blog.seo.metaDescription || blog.summary,
-    image: heroImage ? [heroImage] : [],
-    datePublished: publishedDate,
-    dateModified: blog.updatedAt,
-    author: {
-      "@type": "Organization",
-      name: "Your Blog Name", // Replace with your actual blog/company name
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Your Blog Name", // Replace with your actual blog/company name
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://www.sfjbs.com/blog/${blog.slug}`,
-    },
-    articleSection: categories,
-    keywords: blog.seo.keywords.join(", "),
-    wordCount: blog.content.split(" ").length,
-    timeRequired: `PT${blog.readTime}M`,
-    inLanguage: blog.language || "en",
-  };
-
   return {
     title: blog.seo.metaTitle || blog.title,
     description: blog.seo.metaDescription || blog.summary,
     keywords: blog.seo.keywords.join(", "),
-    authors: [{ name: "Your Blog Name" }], // Replace with actual author info
-    creator: "Your Blog Name", // Replace with actual creator
-    publisher: "Your Blog Name", // Replace with actual publisher
+    authors: [{ name: COMPANY.name }],
+    creator: COMPANY.name,
+    publisher: COMPANY.name,
 
     // Open Graph metadata
     openGraph: {
       title: blog.seo.metaTitle || blog.title,
       description: blog.seo.metaDescription || blog.summary,
-      url: `https://www.sfjbs.com/blog/${blog.slug}`,
-      siteName: "Your Blog Name", // Replace with your site name
+      url: `${SITE_URL}/blog/${blog.slug}`,
+      siteName: COMPANY.name,
       images: heroImage
         ? [
             {
@@ -155,13 +128,11 @@ export async function generateMetadata({ params }: PageProps) {
       title: blog.seo.metaTitle || blog.title,
       description: blog.seo.metaDescription || blog.summary,
       images: heroImage ? [heroImage] : [],
-      creator: "@yourtwitterhandle", // Replace with your Twitter handle
-      site: "@yourtwitterhandle", // Replace with your Twitter handle
     },
 
     // Additional metadata
     alternates: {
-      canonical: `https://www.sfjbs.com/blog/${blog.slug}`,
+      canonical: `${SITE_URL}/blog/${blog.slug}`,
     },
 
     // Robots metadata
@@ -181,10 +152,10 @@ export async function generateMetadata({ params }: PageProps) {
     category: categories,
     classification: blog.difficulty || "general",
 
-    // Structured data as JSON-LD
-    other: {
-      "application/ld+json": JSON.stringify(structuredData),
-    },
+    // NB: JSON-LD is emitted as a real <script type="application/ld+json">
+    // in the component below. It used to also be passed through `other`,
+    // which rendered it as <meta name="application/ld+json" content="{…}"> —
+    // not structured data, just a few KB of junk in every article's head.
   };
 }
 
@@ -210,17 +181,13 @@ export default async function BlogPage({ params }: PageProps) {
     image: heroImage ? [heroImage] : [],
     datePublished: publishedDate,
     dateModified: blog.updatedAt,
-    author: {
-      "@type": "Organization",
-      name: "SFJ Business Solutions", // Replace with your actual blog/company name
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "SFJ Business Solutions", // Replace with your actual blog/company name
-    },
+    // SD-01: point at the one canonical Organization node in the root layout
+    // instead of declaring a second, unlinked copy per article.
+    author: { "@id": ORGANIZATION_ID },
+    publisher: { "@id": ORGANIZATION_ID },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://www.sfjbs.com/blog/${blog.slug}`,
+      "@id": `${SITE_URL}/blog/${blog.slug}`,
     },
     articleSection: categories,
     keywords: blog.seo.keywords.join(", "),
@@ -253,13 +220,13 @@ export default async function BlogPage({ params }: PageProps) {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.sfjbs.com/",
+        item: `${SITE_URL}/`,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: "https://www.sfjbs.com/blog",
+        item: `${SITE_URL}/blog`,
       },
       ...(blog.categories?.[0]
         ? [
@@ -267,7 +234,7 @@ export default async function BlogPage({ params }: PageProps) {
               "@type": "ListItem",
               position: 3,
               name: blog.categories[0].name,
-              item: `https://www.sfjbs.com/blog/category/${blog.categories[0].slug}`,
+              item: `${SITE_URL}/blog?category=${blog.categories[0].slug}`,
             },
           ]
         : []),
@@ -275,7 +242,7 @@ export default async function BlogPage({ params }: PageProps) {
         "@type": "ListItem",
         position: blog.categories?.[0] ? 4 : 3,
         name: blog.title,
-        item: `https://www.sfjbs.com/blog/${blog.slug}`,
+        item: `${SITE_URL}/blog/${blog.slug}`,
       },
     ],
   };

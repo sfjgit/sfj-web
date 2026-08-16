@@ -11,7 +11,7 @@ import Link from "next/link";
 // Types
 interface TeamMember {
   name: string;
-  image: string;
+  image?: string;
   role: string;
   description: string;
 }
@@ -35,32 +35,45 @@ interface VisibleItems {
 }
 
 // Data
+//
+// The four portrait files these entries pointed at (nisha.png, swathi.jpg,
+// rakhi.png, yatin.jpg) were deleted from public/ in 94ebc2d, but the paths
+// stayed — so the About page has been rendering four broken avatar circles
+// ever since. `image` is now optional and TeamCard falls back to an initials
+// monogram, so the section reads correctly with or without a photo. Drop a
+// portrait into public/app/about/ and add the path back to restore it.
 const teamData: TeamMember[] = [
   {
     name: "Nisha Menon",
-    image: "/app/about/nisha.png",
     role: "Delivery Manager",
     description: "https://www.linkedin.com/in/nisha-menon-2a328924/",
   },
   {
     name: "Swati Sharma",
-    image: "/app/about/swathi.jpg",
     role: "Manager(Talent Acquisition)",
     description: "https://www.linkedin.com/in/swati-sharma-aa944113/",
   },
   {
     name: "Rakhi Dujrayan",
-    image: "/app/about/rakhi.png",
     role: "Senior Business Development Manager",
     description: "https://www.linkedin.com/in/rakhi-dujrayan-69192273/",
   },
   {
     name: "Yatin Anand",
-    image: "/app/about/yatin.jpg",
     role: "Manager – Key Accounts",
     description: "https://www.linkedin.com/in/peter-tc",
   },
 ];
+
+/** "Nisha Menon" → "NM". Used when a team member has no portrait on file. */
+function initialsOf(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
 
 const stakeholdersData: Stakeholder[] = [
   {
@@ -176,6 +189,7 @@ const WhoWeAreSection: React.FC = () => (
             <div className="h-48 relative overflow-hidden">
               <Image
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                 alt="Our Vision"
                 className="object-cover hover:scale-105 transition-transform duration-300"
                 src="/app/about/Our-Vision.png"
@@ -201,6 +215,7 @@ const WhoWeAreSection: React.FC = () => (
             <div className="h-48 relative overflow-hidden">
               <Image
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                 alt="Our Mission"
                 className="object-cover hover:scale-105 transition-transform duration-300"
                 src="/app/about/Our-Mission.png"
@@ -309,12 +324,22 @@ interface TeamCardProps {
 const TeamCard: React.FC<TeamCardProps> = ({ member }) => (
   <div className="flex flex-col items-center p-5">
     <div className="relative lg:w-[200px] lg:h-[200px] md:w-[200px] md:h-[200px] w-[200px] h-[200px] rounded-full">
-      <Image
-        className="rounded-full object-cover"
-        alt={`${member.name} profile`}
-        src={member.image}
-        fill
-      />
+      {member.image ? (
+        <Image
+          className="rounded-full object-cover"
+          alt={`${member.name} profile`}
+          src={member.image}
+          fill
+          sizes="200px"
+        />
+      ) : (
+        <div
+          aria-hidden="true"
+          className="flex h-full w-full items-center justify-center rounded-full bg-slate-100 text-4xl font-semibold tracking-wide text-slate-500"
+        >
+          {initialsOf(member.name)}
+        </div>
+      )}
     </div>
     <h2 className="mt-4 text-2xl text-gray-900 capitalize font-bold">
       {member.name}
@@ -329,7 +354,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => (
       className="hover:scale-105 mt-5 transition-all"
       href={member.description}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label={`${member.name} LinkedIn profile`}
     >
       <svg

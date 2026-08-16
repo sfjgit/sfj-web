@@ -1,7 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import type { Metadata } from "next";
+import { canonical } from "@/config/site";
 
-const RefundNote = ({ color = "blue" }: { color?: string }) => {
+export const metadata: Metadata = {
+  title: "Refund Policy | SFJBS",
+  description:
+    "Refund and cancellation terms for SFJ Business Solutions training programmes and course enrolments, including eligibility windows and how to request one.",
+  alternates: { canonical: canonical("/refund-policy") },
+};
+
+const RefundNote =({ color = "blue" }: { color?: string }) => {
   const styles: Record<string, string> = {
     blue: "bg-blue-100 border-blue-300 text-blue-800",
     emerald: "bg-emerald-100 border-emerald-300 text-emerald-800",
@@ -33,9 +42,10 @@ export default function RefundPolicy() {
       {/* Hero Section */}
       <section className="relative h-[500px] bg-white overflow-hidden">
         <Image
-          src="/ban5.png"
+          src="/heros-bg.png"
           alt="Refund Policy"
           fill
+          sizes="100vw"
           className="object-cover opacity-5"
           priority
         />

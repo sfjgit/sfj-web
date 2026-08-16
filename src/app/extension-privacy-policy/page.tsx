@@ -3,6 +3,15 @@
 // Path: src/app/privacy-policy/page.tsx
 
 import React from "react";
+import type { Metadata } from "next";
+import { canonical } from "@/config/site";
+
+export const metadata: Metadata = {
+  title: "Browser Extension Privacy Policy | SFJBS",
+  description:
+    "What the SFJ Business Solutions browser extension accesses, what it stores, what it never collects, and how to remove your data.",
+  alternates: { canonical: canonical("/extension-privacy-policy") },
+};
 
 export default function PrivacyPolicy() {
   return (

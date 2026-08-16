@@ -1,5 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import type { Metadata } from "next";
+import { canonical } from "@/config/site";
+
+// Previously inherited the site-wide fallback title/description and
+// canonicalised to the homepage (P0-03, OP-02).
+export const metadata: Metadata = {
+  title: "Privacy Policy | SFJBS",
+  description:
+    "How SFJ Business Solutions collects, uses, stores and protects personal data across our website, training programmes and talent services.",
+  alternates: { canonical: canonical("/privacy-policy") },
+};
 
 export default function Privacy() {
   return (
@@ -7,9 +18,10 @@ export default function Privacy() {
       {/* Hero Section */}
       <section className="relative h-[400px] bg-white overflow-hidden">
         <Image
-          src="/ban5.png"
+          src="/heros-bg.png"
           alt="Privacy Policy"
           fill
+          sizes="100vw"
           className="object-cover opacity-5"
           priority
         />

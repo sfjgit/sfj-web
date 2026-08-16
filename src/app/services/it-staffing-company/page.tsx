@@ -6,15 +6,13 @@ import TaasScroller from "./_components/Taas";
 import CapabilityStrip from "./_components/CapabilityStrip";
 
 export const metadata: Metadata = {
-  title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
+  title: "IT Staffing & Talent as a Service (TaaS) | SFJBS",
   description:
-    "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
-  keywords:
-    "IT staffing, IT services, tech staffing, technology staffing, IT recruitment, IT staffing company, Bengaluru IT staffing",
+    "Contract, contract-to-hire and managed IT talent from a staffing partner with 15 years in the market and 15,000+ placements across India.",
   openGraph: {
-    title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
+    title: "IT Staffing & Talent as a Service (TaaS) | SFJBS",
     description:
-      "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
+      "Contract, contract-to-hire and managed IT talent from a staffing partner with 15 years in the market and 15,000+ placements across India.",
     url: "https://www.sfjbs.com/services/it-staffing-company",
     type: "website",
     images: [
@@ -28,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "IT Staffing & Services Company | 14+ Years in IT Staffing | SFJBS",
+    title: "IT Staffing & Talent as a Service (TaaS) | SFJBS",
     description:
-      "SFJBS is a trusted IT staffing and services company with over 14 years of experience, connecting businesses with top-tier tech talent and delivering comprehensive IT solutions.",
+      "Contract, contract-to-hire and managed IT talent from a staffing partner with 15 years in the market and 15,000+ placements across India.",
     images: [
       {
         url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754911941402_Talent%20As%20A%20Service.webp", // Replace with your actual image URL

@@ -250,19 +250,13 @@ export default function BlogLandingPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Show loading state only on initial load
-  if (blogsLoading && !blogs.length) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-        <div className="flex justify-center items-center min-h-96">
-          <div className="relative">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200"></div>
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-t-blue-600 absolute top-0 left-0"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // This used to be an early return: while the initial fetch was in flight the
+  // component rendered nothing but a spinner — and since that is exactly the
+  // state the server renders in, /blog shipped with zero H1 elements and no
+  // hero copy in its HTML (OP-05, A11-03). The hero is static content that
+  // does not depend on the fetch, so it always renders now and only the grid
+  // below shows a loading state.
+  const initialLoading = blogsLoading && !blogs.length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
@@ -315,6 +309,15 @@ export default function BlogLandingPage() {
       </section>
 
       <div className="w-full mx-auto sm:px-6 lg:px-10 py-12 2xl:px-20 xl:px-12">
+        {initialLoading && (
+          <div className="flex justify-center items-center min-h-96">
+            <div className="relative" role="status" aria-label="Loading articles">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-t-blue-600 absolute top-0 left-0"></div>
+            </div>
+          </div>
+        )}
+
         {/* Categories Section */}
         {!categoriesLoading && categories.length > 0 && (
           <div className="mb-8">

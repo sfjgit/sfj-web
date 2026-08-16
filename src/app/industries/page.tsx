@@ -6,13 +6,11 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "Industries We Serve | SFJBS IT Solutions & Expertise",
   description:
-    "SFJBS partners with diverse industries, offering tailored IT staffing, training, and technology solutions to drive innovation and efficiency across various sectors.",
-  keywords:
-    "industries served, industry expertise, IT solutions by industry, sector-specific IT, industry verticals, technology for industries, diversified IT services",
+    "How SFJBS builds skills and supplies talent across BFSI, manufacturing, healthcare, GCCs, public sector and technology services.",
   openGraph: {
     title: "Industries We Serve | SFJBS IT Solutions & Expertise",
     description:
-      "SFJBS partners with diverse industries, offering tailored IT staffing, training, and technology solutions to drive innovation and efficiency across various sectors.",
+      "How SFJBS builds skills and supplies talent across BFSI, manufacturing, healthcare, GCCs, public sector and technology services.",
     url: "https://www.sfjbs.com/industries",
     type: "website",
     images: [
@@ -28,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Industries We Serve | SFJBS IT Solutions & Expertise",
     description:
-      "SFJBS partners with diverse industries, offering tailored IT staffing, training, and technology solutions to drive innovation and efficiency across various sectors.",
+      "How SFJBS builds skills and supplies talent across BFSI, manufacturing, healthcare, GCCs, public sector and technology services.",
     images: [
       {
         url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754913197471_Industries%20We%20Serve.webp", // Replace with your actual image URL

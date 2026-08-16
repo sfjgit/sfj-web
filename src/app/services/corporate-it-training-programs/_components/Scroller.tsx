@@ -16,7 +16,7 @@ export default function Scroller() {
     "Peoplecert-Scrum.png",
   ];
 
-  const logoPath = "/edu&car/";
+  const logoPath = "/certifications/";
 
   return (
     <div className="w-full">

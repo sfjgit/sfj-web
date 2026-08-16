@@ -334,7 +334,7 @@
 //           <div className="lg:col-span-1 space-y-4">
 //             <div className="flex items-center space-x-2">
 //               <Image
-//                 src="/logo/SFJ (9).png"
+//                 src="/logo/sfj-logo.png"
 //                 alt="SFJ Logo"
 //                 className="w-12 h-12 object-cover"
 //                 quality={100}
@@ -670,7 +670,7 @@
 //                     key={social.name}
 //                     href={social.url}
 //                     target="_blank"
-//                     rel="noreferrer"
+//                     rel="noopener noreferrer"
 //                     className="text-gray-700 hover:text-gray-900 hover:scale-105 transition-transform [&>svg]:w-4 [&>svg]:h-4"
 //                     title={social.name}
 //                   >
@@ -1003,7 +1003,7 @@ const Footer = () => {
           <div className="lg:col-span-1 space-y-4">
             <div className="flex items-center space-x-2">
               <Image
-                src="/logo/SFJ (9).png"
+                src="/logo/sfj-logo.png"
                 alt="SFJ Logo"
                 className="w-12 h-12 object-cover"
                 quality={100}
@@ -1222,7 +1222,7 @@ const Footer = () => {
                     key={social.name}
                     href={social.url}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="text-gray-700 hover:text-gray-900 hover:scale-105 transition-transform [&>svg]:w-4 [&>svg]:h-4"
                     title={social.name}
                   >

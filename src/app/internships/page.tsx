@@ -11,23 +11,21 @@ export const metadata: Metadata = {
   // keywords:
   //   "internship, internships, IT internship, technology internship, SFJ Business Solutions, Oracle internship, Qualcomm internship, TCS internship, Infosys internship, Bosch internship, Wipro internship, IBM internship, Accenture internship, Microsoft internship, career, launch your career, talent development",
 
-  title: "Internships & Scholarships in India 2025 | Oracle, TCS, Infosys",
+  title: "Internships & Scholarships in India | SFJBS",
   description:
-    "Explore top internships and scholarships in India 2025. Apply for Oracle, TCS, Infosys internships, government internships, and student scholarships directly with SFJBS.",
-  keywords:
-    "Oracle internships, TCS internships, Infosys internships, government internships in India, scholarships for students 2025, IT company internships, summer internships India, engineering internships, management internships, AICTE internships, NSP scholarships",
+    "Current internships and scholarships in India — corporate intakes, government schemes and student scholarships, with how and when to apply.",
 
   // Open Graph metadata
   openGraph: {
     title:
-      "Discover Internship Opportunities at SFJ Business Solutions | Launch Your Career",
+      "Internships & Scholarships in India | SFJBS",
     description:
-      "Explore internship programs with India's top firms—Oracle, Qualcomm, TCS, Infosys, Bosch, Wipro, IBM, Accenture, Microsoft and more—through SFJ Business Solutions.",
+      "Current internships and scholarships in India — corporate intakes, government schemes and student scholarships, with how and when to apply.",
     url: "https://www.sfjbs.com/internships",
     type: "website",
     images: [
       {
-        url: "https://www.sfjbs.com/path/to/your/internships-banner.jpg",
+        url: "/ind.png",
         width: 1200,
         height: 630,
         alt: "SFJ Business Solutions Internship Opportunities",
@@ -39,10 +37,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Discover Internship Opportunities at SFJ Business Solutions | Launch Your Career",
+      "Internships & Scholarships in India | SFJBS",
     description:
-      "Explore internship programs with leading companies like Oracle, Qualcomm, TCS, Infosys, Bosch, Wipro, IBM, Accenture, Microsoft and more via SFJ Business Solutions.",
-    images: ["https://www.sfjbs.com/path/to/your/internships-banner.jpg"],
+      "Current internships and scholarships in India — corporate intakes, government schemes and student scholarships, with how and when to apply.",
+    images: ["/ind.png"],
   },
 
   // Additional SEO metadata
@@ -69,7 +67,7 @@ export default function InternshipsPage() {
   const schemaData = {
     "@context": "https://schema.org/",
     "@type": "ItemList",
-    name: "Internships and Scholarships in India 2025",
+    name: "Internships and Scholarships in India",
     description:
       "Explore IT company internships (Oracle, TCS, Infosys), government internships such as PM Internship Scheme, and scholarships like NSP.",
     numberOfItems: 5,

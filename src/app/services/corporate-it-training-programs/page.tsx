@@ -5,14 +5,12 @@ import CorporateTrainingClient from "./_components/CorporateTrainingClient";
 export const metadata: Metadata = {
   title: "Corporate AI & IT Training Programs for Enterprises | SFJBS",
   description:
-    "SFJBS delivers enterprise AI, cloud, and IT training trusted by 500+ companies including Accenture, TCS, Wipro, SAP, and Siemens. OEM-certified upskilling, cross-skilling, and reskilling programs tailored to how your teams work.",
-  keywords:
-    "corporate AI training programs, enterprise IT upskilling, cross-skilling programs, reskilling programs, OEM certified training, cloud and data training, corporate training Bengaluru, enterprise training solutions",
+    "Enterprise AI, cloud and IT training trusted by 500+ companies. OEM-certified upskilling, cross-skilling and reskilling built around how your teams work.",
   openGraph: {
     title: "Corporate AI & IT Training Programs for Enterprises | SFJBS",
     description:
       "Trusted by 500+ enterprise clients, SFJBS builds AI, cloud, data, and security training programs with OEM-certified outcomes — from skills assessment to redeployment.",
-    url: "https://www.sfjbs.com/corporate-training",
+    url: "https://www.sfjbs.com/services/corporate-it-training-programs",
     type: "website",
     images: [
       {
@@ -38,7 +36,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://www.sfjbs.com/corporate-training",
+    canonical: "https://www.sfjbs.com/services/corporate-it-training-programs",
   },
 };
 

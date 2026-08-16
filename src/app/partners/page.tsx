@@ -97,7 +97,7 @@ const Partners = () => {
           preload="metadata"
           onError={(e) => console.log("Video error:", e)}
         >
-          <source src="/app/home/hero-section.mp4" type="video/mp4" />
+          <source src="/home-hero/hero-1.webm" type="video/webm" />
           Your browser does not support the video tag.
         </video>
 

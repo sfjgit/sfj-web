@@ -1,5 +1,6 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
+import { PUBLIC_ROUTES, SITE_URL, canonical } from "@/config/site";
 
 // regenerate sitemap every hour
 export const revalidate = 3600;
@@ -54,60 +55,28 @@ async function fetchAllBlogs(): Promise<BlogPost[]> {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://www.sfjbs.com";
-
-  const staticRoutes = [
-    "",
-    "/industries",
-    "/careers",
-    "/about",
-    "/contact",
-    "/life-at-sfjbs",
-    // Missing CR-01 routes
-    "/internships",
-    "/privacy-policy",
-    "/refund-policy",
-    "/terms-and-conditions",
-    "/extension-privacy-policy",
-    "/initiatives/faculty-development",
-  ];
-
-  const serviceRoutes = [
-    "/services/corporate-social-responsibility",
-    "/services/government-initiatives",
-    "/services/institutional-training",
-    "/services/corporate-it-training-programs",
-    "/services/it-staffing-company",
-  ];
-
   const blogs = await fetchAllBlogs();
 
-  // STATIC ROUTES
-  const staticEntries: MetadataRoute.Sitemap = [
-    ...staticRoutes,
-    ...serviceRoutes,
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: route === "" ? ("daily" as const) : ("weekly" as const),
-    priority: route === "" ? 1.0 : 0.8,
+  // STATIC ROUTES — generated from the PUBLIC_ROUTES manifest in
+  // config/site.ts, not a second hand-maintained array. That duplication is
+  // what dropped /internships, /initiatives/faculty-development and every
+  // legal page out of the sitemap (CR-01).
+  //
+  // No `lastModified` on static entries: every route previously carried the
+  // build timestamp, so each deploy told Google "all 11 pages changed" and
+  // devalued lastmod as a crawl hint (CR-06). An absent lastmod is a more
+  // honest signal than a false one. `changeFrequency`/`priority` are omitted
+  // too — Google has stated it ignores both.
+  const staticEntries: MetadataRoute.Sitemap = PUBLIC_ROUTES.map((route) => ({
+    url: canonical(route),
   }));
 
-  // BLOG ROUTES
-  const blogEntries: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "daily" as const,
-      priority: 0.9,
-    },
-    ...blogs.map((blog) => ({
-      url: `${baseUrl}/blog/${blog.slug}`,
-      lastModified: new Date(blog.updatedAt),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    })),
-  ];
+  // BLOG ROUTES — these have a genuine per-post updatedAt, so they keep a
+  // real lastModified.
+  const blogEntries: MetadataRoute.Sitemap = blogs.map((blog) => ({
+    url: `${SITE_URL}/blog/${blog.slug}`,
+    lastModified: new Date(blog.updatedAt),
+  }));
 
   return [...staticEntries, ...blogEntries];
 }

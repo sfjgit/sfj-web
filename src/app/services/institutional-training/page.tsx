@@ -6,17 +6,13 @@ import AIToolsBar from "./_components/Scroller";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title:
-    "Institutional Training Programs | Skill Development for Students | SFJBS",
+  title: "Institutional Training Programs for Colleges | SFJBS",
   description:
-    "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
-  keywords:
-    "institutional training programs, student skill development, IT training for students, educational institution training, college IT training, university IT programs, student career readiness, industry-relevant skills",
+    "IT and AI training programmes for colleges and universities — industry-aligned curriculum, certifications and placement support for your students.",
   openGraph: {
-    title:
-      "Institutional Training Programs | Skill Development for Students | SFJBS",
+    title: "Institutional Training Programs for Colleges | SFJBS",
     description:
-      "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
+      "IT and AI training programmes for colleges and universities — industry-aligned curriculum, certifications and placement support for your students.",
     url: "https://www.sfjbs.com/services/institutional-training",
     type: "website",
     images: [
@@ -30,10 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Institutional Training Programs | Skill Development for Students | SFJBS",
+    title: "Institutional Training Programs for Colleges | SFJBS",
     description:
-      "SFJBS partners with educational institutions in Bengaluru and beyond to deliver cutting-edge IT training programs, equipping students with industry-relevant skills and enhancing their career readiness.",
+      "IT and AI training programmes for colleges and universities — industry-aligned curriculum, certifications and placement support for your students.",
     images: [
       {
         url: "https://bskilling-documents.s3.ap-south-1.amazonaws.com/files/1754907955851_B2I.webp", // Replace with your actual image URL

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Users, Building2, Globe, Quote } from "lucide-react";
+import { METRICS } from "@/config/site";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -323,28 +324,34 @@ const ClientsSection = () => {
     },
   ];
 
+  // Every number here reads from config/site.ts. The stats band used to
+  // hard-code 350 enterprise clients while the KaaS page claimed 350+, the
+  // corporate training page claimed 500+ and the homepage CTA claimed
+  // 300,000+ professionals — three different answers to the same question,
+  // all on the same site (TR-01). `npm run check` fails the build if a
+  // contradicting figure reappears.
   const stats = [
     {
       icon: <Building2 className="w-6 h-6" />,
-      number: 350,
+      number: METRICS.enterpriseClients,
       suffix: "+",
       label: "Enterprise Clients",
     },
     {
       icon: <Star className="w-6 h-6" />,
-      number: 98,
+      number: METRICS.clientSatisfactionPct,
       suffix: "%",
       label: "Client Satisfaction",
     },
     {
       icon: <Users className="w-6 h-6" />,
-      number: 15,
+      number: METRICS.yearsOfExperience,
       suffix: "+",
       label: "Years Partnership",
     },
     {
       icon: <Globe className="w-6 h-6" />,
-      number: 25,
+      number: METRICS.countriesServed,
       suffix: "+",
       label: "Countries Served",
     },
@@ -383,8 +390,18 @@ const ClientsSection = () => {
           <Reveal delay={0}>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8 py-3 sm:py-4 lg:py-5 border-b border-gray-200 mb-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
               <div className="flex-shrink-0">
+                {/* TR-03: these fourteen marks (Accenture, TCS, Wipro, SAP,
+                    Siemens, …) are third-party trademarks. "Partners" asserts
+                    a formal relationship; several of these firms actively
+                    enforce against that claim where no partner agreement
+                    exists. "Teams we've trained at" states the same commercial
+                    fact without asserting an endorsement. Reserve the word
+                    "Partner" — and the official badge — for AWS, Microsoft,
+                    CompTIA and PeopleCert, where SFJBS holds real
+                    authorisation. Legal should still confirm display rights
+                    per logo before release. */}
                 <h2 className="text-base sm:text-lg md:text-xl font-medium text-gray-700 tracking-tight whitespace-nowrap">
-                  Trusted by Our Global Partners:
+                  Teams we&rsquo;ve trained at:
                 </h2>
               </div>
 
@@ -406,7 +423,7 @@ const ClientsSection = () => {
                       >
                         <Image
                           src={client.src}
-                          alt={client.name}
+                          alt={`${client.name} logo`}
                           width={96}
                           height={36}
                           className="h-full w-auto max-w-full object-contain"
@@ -429,7 +446,7 @@ const ClientsSection = () => {
                       >
                         <Image
                           src={client.src}
-                          alt={client.name}
+                          alt=""
                           width={96}
                           height={36}
                           className="h-full w-auto max-w-full object-contain"
@@ -466,8 +483,8 @@ const ClientsSection = () => {
 
           <Reveal delay={70}>
             <p className="text-lg text-gray-600 max-w-4xl leading-relaxed mb-4">
-              15 years of workforce transformation across enterprises,
-              government, and institutions
+              {METRICS.yearsOfExperience} years of workforce transformation
+              across enterprises, government, and institutions
             </p>
           </Reveal>
 
@@ -507,9 +524,10 @@ const ClientsSection = () => {
               </Reveal>
               <Reveal delay={70}>
                 <p className="text-gray-600 text-base leading-relaxed mb-8">
-                  For 14+ years, SFJBS has partnered with global enterprises on
-                  Gen AI upskilling, cross-skilling, and reskilling. These
-                  numbers reflect the scale and trust behind that work.
+                  For {METRICS.yearsOfExperience}+ years, SFJBS has partnered
+                  with global enterprises on Gen AI upskilling, cross-skilling,
+                  and reskilling. These numbers reflect the scale and trust
+                  behind that work.
                 </p>
               </Reveal>
 
@@ -531,10 +549,14 @@ const ClientsSection = () => {
 
             <div>
               <div className="relative w-full h-56 sm:h-80 md:h-[26rem] lg:h-[32rem] xl:h-[36rem] rounded-xl overflow-hidden">
+                {/* PF-03: without `sizes`, a `fill` image defaults to 100vw
+                    and next/image fetches it at the largest configured width —
+                    this slot was pulling a 3840px asset for a half-width card. */}
                 <Image
                   src={services[hoveredService].img}
                   alt={services[hoveredService].label}
                   fill
+                  sizes="(max-width: 768px) 100vw, 60vw"
                   className="object-cover"
                 />
               </div>
@@ -658,6 +680,17 @@ const ClientsSection = () => {
 
       {/* Enhanced Custom Swiper Styles */}
       <style jsx global>{`
+        /* WCAG 2.2.2 / 2.3.3 — both logo strips scroll forever on their own.
+           Visitors who have asked their OS for reduced motion get the static
+           first frame instead. Hovering already pauses them for everyone. */
+        @media (prefers-reduced-motion: reduce) {
+          .client-marquee,
+          .testimonial-marquee {
+            animation: none !important;
+            transform: none !important;
+          }
+        }
+
         .client-marquee {
           animation: clientScroll 25s linear infinite;
         }

@@ -464,6 +464,7 @@ const CSRLandingPage = () => {
                   src="/Aws feature.webp"
                   alt="AWS re/Start program feature"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                   className="object-cover"
                 />
               </div>
@@ -476,6 +477,7 @@ const CSRLandingPage = () => {
                   src="/Aws csr 2.webp"
                   alt="AWS re/Start curriculum"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                   className="object-cover"
                 />
               </div>
@@ -536,6 +538,7 @@ const CSRLandingPage = () => {
                         src="/Aws1.png"
                         alt={item.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                         className="object-cover"
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
