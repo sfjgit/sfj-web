@@ -550,15 +550,41 @@ function useOpenings() {
 function JobCard({ r, query }: { r: PublicRequirement; query: string }) {
   const experience = formatExperience(r);
   const salary = formatSalary(r);
-  const skills = [...r.primarySkills, ...r.keySkills].slice(0, 6);
-  const extra = r.primarySkills.length + r.keySkills.length - skills.length;
+  // Every skill now, not the first six: the row is clipped to one line
+  // visually and the toggle below reveals the rest. De-duplicated because
+  // primarySkills and keySkills overlap on some requirements, and a repeat
+  // would collide on the React key.
+  const skills = useMemo(
+    () => Array.from(new Set([...r.primarySkills, ...r.keySkills])),
+    [r.primarySkills, r.keySkills],
+  );
   const active = query.trim().length >= MIN_QUERY_LEN;
 
+  // Whether the toggle is needed depends on how many chips fit on one line,
+  // which changes with the card's width — a phone shows far fewer than a
+  // three-column desktop grid. So it is measured rather than guessed from a
+  // chip count, and re-measured whenever the column resizes.
+  const skillsRef = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [clipped, setClipped] = useState(false);
+  const skillsKey = skills.join("|");
+
+  useEffect(() => {
+    // Only measurable while collapsed — expanded, scrollHeight equals
+    // clientHeight, and the "Show less" control would vanish under the
+    // cursor that just opened it.
+    if (expanded) return;
+    const el = skillsRef.current;
+    if (!el) return;
+    const measure = () => setClipped(el.scrollHeight - el.clientHeight > 1);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [expanded, skillsKey]);
+
   return (
-    <Link
-      href={`/careers/${encodeURIComponent(r.reqCode)}`}
-      className="group flex flex-col rounded-2xl border border-[#E9E7E0] bg-white p-6 outline-none transition-shadow duration-200 hover:shadow-[0_12px_40px_-24px_rgba(15,94,74,0.55)] focus-visible:ring-2 focus-visible:ring-[#0F5E4A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBFAF7] motion-safe:transition-transform motion-safe:hover:-translate-y-0.5"
-    >
+    <div className="group relative flex flex-col rounded-2xl border border-[#E9E7E0] bg-white p-6 transition-shadow duration-200 hover:shadow-[0_12px_40px_-24px_rgba(15,94,74,0.55)] motion-safe:transition-transform motion-safe:hover:-translate-y-0.5">
       <div className="mb-3 flex items-center gap-2">
         <span className="rounded-full border border-[#CBE3D6] bg-[#E4F1EA] px-2.5 py-0.5 text-[11px] font-medium tracking-wide text-[#0B4838]">
           {REMOTE_LABEL[r.remoteType]}
@@ -577,7 +603,18 @@ function JobCard({ r, query }: { r: PublicRequirement; query: string }) {
         className="text-[19px] leading-snug text-[#16181D] transition-colors group-hover:text-[#0F5E4A]"
         style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}
       >
-        {r.title}
+        {/* Stretched link. The card used to be one big <a>, which cannot
+            contain the toggle below: a button inside an anchor is invalid
+            HTML, and the anchor swallows the click before the handler runs.
+            The link now wraps only the title and throws an ::after overlay
+            across the card, so the whole surface stays clickable while real
+            controls can sit above it on their own stacking context. */}
+        <Link
+          href={`/careers/${encodeURIComponent(r.reqCode)}`}
+          className="rounded-sm outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:ring-2 focus-visible:ring-[#0F5E4A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FBFAF7]"
+        >
+          {r.title}
+        </Link>
       </h3>
 
       <p className="mt-1.5 text-[13px] text-[#6F7278]">
@@ -591,26 +628,46 @@ function JobCard({ r, query }: { r: PublicRequirement; query: string }) {
       </p>
 
       {skills.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {skills.map((skill) => {
-            const hit = active && skillMatchesQuery(skill, query);
-            return (
-              <span
-                key={skill}
-                className={
-                  hit
-                    ? "rounded-md bg-[#0F5E4A] px-2 py-0.5 text-[12px] font-medium text-white"
-                    : "rounded-md bg-[#F3F1EB] px-2 py-0.5 text-[12px] text-[#4A4D55]"
-                }
-              >
-                {skill}
-              </span>
-            );
-          })}
-          {extra > 0 && (
-            <span className="rounded-md px-1 py-0.5 text-[12px] text-[#9A9890]">
-              +{extra}
-            </span>
+        <div className="mt-4">
+          {/* leading-5 fixes each chip at 24px (20px line box + 2px padding
+              either side), so max-h-6 clips to exactly one row — the second
+              row would start at 30px with the 6px gap and never peeks
+              through. A guessed pixel height would clip mid-glyph the first
+              time the type scale changed. */}
+          <div
+            ref={skillsRef}
+            className={`flex flex-wrap gap-1.5 ${
+              expanded ? "" : "max-h-6 overflow-hidden"
+            }`}
+          >
+            {skills.map((skill) => {
+              const hit = active && skillMatchesQuery(skill, query);
+              return (
+                <span
+                  key={skill}
+                  className={
+                    hit
+                      ? "rounded-md bg-[#0F5E4A] px-2 py-0.5 text-[12px] font-medium leading-5 text-white"
+                      : "rounded-md bg-[#F3F1EB] px-2 py-0.5 text-[12px] leading-5 text-[#4A4D55]"
+                  }
+                >
+                  {skill}
+                </span>
+              );
+            })}
+          </div>
+
+          {clipped && (
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-expanded={expanded}
+              // z-10 lifts it above the title link's ::after overlay, which
+              // otherwise covers the whole card and would take this click.
+              className="relative z-10 mt-2 rounded-sm text-[12px] font-medium text-[#0F5E4A] underline-offset-2 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-[#0F5E4A] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            >
+              {expanded ? "Show less" : `Show all ${skills.length}`}
+            </button>
           )}
         </div>
       )}
@@ -639,7 +696,7 @@ function JobCard({ r, query }: { r: PublicRequirement; query: string }) {
           </svg>
         </span>
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -679,7 +736,7 @@ function SearchBar({
 
   return (
     <div className="sticky top-0 z-20 border-b border-[#E9E7E0] bg-[#FBFAF7]/85 backdrop-blur-md">
-      <div className="mx-auto max-w-6xl px-5 py-4">
+      <div className="mx-auto max-w-[90rem] px-5 py-4">
         <div className="relative">
           <svg
             width="18"
@@ -919,7 +976,7 @@ export default function CareersPage() {
         <div className="absolute inset-0 bg-black/15 sm:bg-black/5" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
 
-        <div className="relative mx-auto max-w-6xl w-full">
+        <div className="relative mx-auto max-w-[90rem] w-full">
           <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-[#B9E8D4]">
             SFJ Business Solutions · Careers
           </p>
@@ -945,8 +1002,11 @@ export default function CareersPage() {
         resultsLabel={resultsLabel}
       />
 
-      {/* Results */}
-      <main className="mx-auto max-w-6xl px-5 py-10">
+      {/* Results. 90rem rather than the previous 72rem: at 1920 the grid was
+          leaving ~380px of empty page either side. The hero headline and the
+          sticky search bar above use the same measure, so the three stay
+          aligned. */}
+      <main className="mx-auto max-w-[90rem] px-5 py-10">
         {loading ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (

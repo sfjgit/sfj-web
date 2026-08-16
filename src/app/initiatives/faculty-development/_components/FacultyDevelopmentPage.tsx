@@ -1,5 +1,6 @@
 "use client";
 import FacultyHeroSection from "./FacultyHeroSection";
+import FacultyCtaSection from "./FacultyCtaSection";
 import CategoryChooser, {
   CATEGORIES,
 } from "@/app/services/institutional-skilling/_components/CategoryChooser";
@@ -16,7 +17,13 @@ export default function FacultyDevelopmentPage() {
     <div className="min-h-screen bg-white">
       <FacultyHeroSection />
 
-      <CategoryChooser categories={FACULTY_CATEGORIES} />
+      <CategoryChooser
+        categories={FACULTY_CATEGORIES}
+        heading="WHO IT IS FOR"
+        description="Teaching faculty, trainers, instructors, Heads of Department and academic coordinators. No prior AI experience or programming background is assumed — the 30-hour core runs without mathematics. The AWS track is tiered by whether it genuinely helps the discipline."
+      />
+
+      <FacultyCtaSection />
     </div>
   );
 }
