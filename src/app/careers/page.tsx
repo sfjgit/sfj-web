@@ -903,7 +903,7 @@ export default function CareersPage() {
       {/* Hero */}
       {/* Career.webp — 2:1 photo, close to this section's own ratio so
           object-cover only trims a little off the top/bottom. Height formula
-          matches the TaaS hero (it-staffing-company/page.tsx). Note this photo
+          matches the TaaS hero (taas/page.tsx). Note this photo
           does carry baked-in text: etched glass wording on the left and a
           "We're hiring" board on the right, so the scrim below is heavier on
           the left to keep it behind our own headline. */}

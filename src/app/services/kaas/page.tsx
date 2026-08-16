@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Corporate AI & IT Training Programs for Enterprises | SFJBS",
     description:
       "Trusted by 500+ enterprise clients, SFJBS builds AI, cloud, data, and security training programs with OEM-certified outcomes — from skills assessment to redeployment.",
-    url: "https://www.sfjbs.com/services/corporate-it-training-programs",
+    url: "https://www.sfjbs.com/services/kaas",
     type: "website",
     images: [
       {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://www.sfjbs.com/services/corporate-it-training-programs",
+    canonical: "https://www.sfjbs.com/services/kaas",
   },
 };
 
@@ -61,7 +61,7 @@ export default function CorporateTrainingPage() {
                 "@type": "ListItem",
                 position: 2,
                 name: "Corporate IT Training Programs",
-                item: "https://www.sfjbs.com/services/corporate-it-training-programs",
+                item: "https://www.sfjbs.com/services/kaas",
               },
             ],
           }),

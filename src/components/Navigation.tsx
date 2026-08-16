@@ -204,7 +204,7 @@ const Navigation = () => {
       hasChildren: true,
       children: [
         {
-          path: "/services/corporate-it-training-programs",
+          path: "/services/kaas",
           label: "Knowledge-as-a-Service (KaaS)",
           icon: BookOpen,
           description:
@@ -214,7 +214,7 @@ const Navigation = () => {
           hasChildren: false,
         },
         {
-          path: "/services/it-staffing-company",
+          path: "/services/taas",
           label: "Talent-as-a-Service (TaaS)",
           icon: Users,
           description:
@@ -225,7 +225,7 @@ const Navigation = () => {
         },
 
         {
-          path: "/services/government-initiatives",
+          path: "/services/government-ssc-skilling",
           label: "Government Skilling Missions",
           icon: Building,
           description:
@@ -333,8 +333,8 @@ const Navigation = () => {
     if (
       location === "/services/institutional-training" ||
       location === "/" ||
-      location === "/services/government-initiatives" ||
-      location === "/services/corporate-it-training-programs" ||
+      location === "/services/government-ssc-skilling" ||
+      location === "/services/kaas" ||
       location === "/life-at-sfjbs" ||
       location.split("/").includes("careers") ||
       location.split("/").includes("blog") ||

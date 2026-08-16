@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: "IT Staffing & Talent as a Service (TaaS) | SFJBS",
     description:
       "Contract, contract-to-hire and managed IT talent from a staffing partner with 15 years in the market and 15,000+ placements across India.",
-    url: "https://www.sfjbs.com/services/it-staffing-company",
+    url: "https://www.sfjbs.com/services/taas",
     type: "website",
     images: [
       {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://www.sfjbs.com/services/it-staffing-company",
+    canonical: "https://www.sfjbs.com/services/taas",
   },
 };
 
@@ -64,7 +64,7 @@ export default function ITStaffingPage() {
                 "@type": "ListItem",
                 position: 2,
                 name: "IT Staffing Company",
-                item: "https://www.sfjbs.com/services/it-staffing-company",
+                item: "https://www.sfjbs.com/services/taas",
               },
             ],
           }),

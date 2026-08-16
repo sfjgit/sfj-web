@@ -36,14 +36,40 @@ const nextConfig: NextConfig = {
         destination: "/about",
         permanent: true,
       },
+      // The KaaS page moved from /services/corporate-it-training-programs to
+      // /services/kaas. The old URL was indexed and is linked from outside, so
+      // it 301s rather than 404s. Legacy sources point straight at the new
+      // path — a redirect that lands on another redirect loses more of the
+      // signal than a single hop, and Google stops following a chain quickly.
+      {
+        source: "/services/corporate-it-training-programs",
+        destination: "/services/kaas",
+        permanent: true,
+      },
       {
         source: "/solutions/knowledge",
-        destination: "/services/corporate-it-training-programs",
+        destination: "/services/kaas",
+        permanent: true,
+      },
+      // Same move as KaaS above: /services/it-staffing-company is indexed and
+      // externally linked, so it 301s to /services/taas rather than 404ing,
+      // and the legacy /solutions/talent source skips the old path entirely
+      // instead of chaining through it.
+      {
+        source: "/services/it-staffing-company",
+        destination: "/services/taas",
         permanent: true,
       },
       {
         source: "/solutions/talent",
-        destination: "/services/it-staffing-company",
+        destination: "/services/taas",
+        permanent: true,
+      },
+      // Third rename in the same series: /services/government-initiatives →
+      // /services/government-ssc-skilling.
+      {
+        source: "/services/government-initiatives",
+        destination: "/services/government-ssc-skilling",
         permanent: true,
       },
       {

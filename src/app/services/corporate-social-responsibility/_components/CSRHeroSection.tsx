@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 // Same full-bleed-photo + dark scrim + clamp-sized heading pattern used on
-// the other rebuilt service hero sections (government-initiatives/Hero.tsx,
+// the other rebuilt service hero sections (government-ssc-skilling/Hero.tsx,
 // institutional-training/HeroSection.tsx, the TaaS hero in
-// it-staffing-company/page.tsx) — kept consistent across the "For X" pages
+// taas/page.tsx) — kept consistent across the "For X" pages
 // linked from the nav.
 const CSRHeroSection = () => (
   <section className="relative w-full min-h-[26rem] sm:min-h-[30rem] lg:min-h-[88dvh] flex flex-col justify-center bg-slate-900">

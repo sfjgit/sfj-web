@@ -267,7 +267,7 @@ const ClientsSection = () => {
         "Partnering with leading CSR organizations to create opportunities for inclusive groups.",
     },
     {
-      path: "/services/government-initiatives",
+      path: "/services/government-ssc-skilling",
       label: "Government-Led Skilling Missions",
       img: "/services/Gvt2.webp",
       description:
@@ -281,14 +281,14 @@ const ClientsSection = () => {
         "Gen AI training transforming paramedical, dental, and medical professions.",
     },
     {
-      path: "/services/corporate-it-training-programs",
+      path: "/services/kaas",
       label: "Corporate IT Training Programs",
       img: "/services/Corporate IT Training programs2.webp",
       description:
         "640+ specialized courses designed by industry experts to accelerate your career growth.",
     },
     {
-      path: "/services/it-staffing-company",
+      path: "/services/taas",
       label: "Talent as a Service",
       img: "/services/Talent as a Service3.webp",
       description:

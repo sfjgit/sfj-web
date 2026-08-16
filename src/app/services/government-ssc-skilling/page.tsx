@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Government Programs & Skill Development | SFJBS Initiatives",
     description:
       "Delivery partner for central and state skilling missions — mobilisation, training, certification and outcome reporting at district and state scale.",
-    url: "https://www.sfjbs.com/services/government-initiatives",
+    url: "https://www.sfjbs.com/services/government-ssc-skilling",
     type: "website",
     images: [
       {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://www.sfjbs.com/services/government-initiatives",
+    canonical: "https://www.sfjbs.com/services/government-ssc-skilling",
   },
 };
 
@@ -66,7 +66,7 @@ export default function page() {
                 "@type": "ListItem",
                 position: 2,
                 name: "Government Initiatives",
-                item: "https://www.sfjbs.com/services/government-initiatives",
+                item: "https://www.sfjbs.com/services/government-ssc-skilling",
               },
             ],
           }),

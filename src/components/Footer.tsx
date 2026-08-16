@@ -45,7 +45,7 @@
 //   {
 //     name: "Corporate IT Training (KaaS)",
 //     desc: "Upskilling, Reskilling & Certification",
-//     path: "/services/corporate-it-training-programs",
+//     path: "/services/kaas",
 //   },
 //   {
 //     name: "CSR Skilling Partner",
@@ -55,12 +55,12 @@
 //   {
 //     name: "Talent as a Service (TaaS)",
 //     desc: "Hire | Deploy | Managed Talent",
-//     path: "/services/it-staffing-company",
+//     path: "/services/taas",
 //   },
 //   {
 //     name: "Government-Led Skilling Missions",
 //     desc: "Central & State Skill Programs",
-//     path: "/services/government-initiatives",
+//     path: "/services/government-ssc-skilling",
 //   },
 //   {
 //     name: "Institutional Training (B2I)",
@@ -749,7 +749,7 @@ const solutions = [
   {
     name: "Corporate IT Training (KaaS)",
     desc: "Upskilling, Reskilling & Certification",
-    path: "/services/corporate-it-training-programs",
+    path: "/services/kaas",
   },
   {
     name: "CSR Skilling Partner",
@@ -759,12 +759,12 @@ const solutions = [
   {
     name: "Talent as a Service (TaaS)",
     desc: "Hire | Deploy | Managed Talent",
-    path: "/services/it-staffing-company",
+    path: "/services/taas",
   },
   {
     name: "Government-Led Skilling Missions",
     desc: "Central & State Skill Programs",
-    path: "/services/government-initiatives",
+    path: "/services/government-ssc-skilling",
   },
   {
     name: "Institutional Training (B2I)",

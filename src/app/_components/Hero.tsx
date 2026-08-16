@@ -54,7 +54,7 @@ const SLIDES = [
     subheading:
       "500+ enterprise and GCC teams upskilled in AI, cloud and emerging tech, closing capability gaps before they cost you delivery.",
     cta: "Upskill Your Team",
-    href: "/services/corporate-it-training-programs",
+    href: "/services/kaas",
   },
   {
     key: "institutional",
@@ -72,7 +72,7 @@ const SLIDES = [
     subheading:
       "Large-scale, outcome-driven skilling initiatives that convert public investment into job-ready citizens and real economic growth.",
     cta: "Explore Missions",
-    href: "/services/government-initiatives",
+    href: "/services/government-ssc-skilling",
   },
   {
     key: "csr",

@@ -7,7 +7,7 @@ export default function SFJBSEnterpriseSection() {
       label: "CSR Skilling Partner",
     },
     {
-      path: "/services/government-initiatives",
+      path: "/services/government-ssc-skilling",
       label: "Government-Led Skilling Missions",
     },
     {
@@ -15,11 +15,11 @@ export default function SFJBSEnterpriseSection() {
       label: "Institutional Training (B2I)",
     },
     {
-      path: "/services/corporate-it-training-programs",
+      path: "/services/kaas",
       label: "Corporate IT Training Programs",
     },
     {
-      path: "/services/it-staffing-company",
+      path: "/services/taas",
       label: "Talent as a Service",
     },
   ];

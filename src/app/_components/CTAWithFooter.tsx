@@ -47,7 +47,7 @@ const solutions = [
   {
     name: "Corporate IT Training (KaaS)",
     desc: "Upskilling, Reskilling & Certification",
-    path: "/services/corporate-it-training-programs",
+    path: "/services/kaas",
   },
   {
     name: "CSR Skilling Partner",
@@ -57,12 +57,12 @@ const solutions = [
   {
     name: "Talent as a Service (TaaS)",
     desc: "Hire | Deploy | Managed Talent",
-    path: "/services/it-staffing-company",
+    path: "/services/taas",
   },
   {
     name: "Government-Led Skilling Missions",
     desc: "Central & State Skill Programs",
-    path: "/services/government-initiatives",
+    path: "/services/government-ssc-skilling",
   },
   {
     name: "Institutional Training (B2I)",
@@ -155,21 +155,21 @@ const pageCtaMap: Record<
   string,
   { heading: string; description: string; buttonLabel: string; type: string }
 > = {
-  "/services/corporate-it-training-programs": {
+  "/services/kaas": {
     heading: "Tell us where the gap is",
     description:
       "Send us a role, a technology or a team. We'll come back with a skills baseline and what it would take to close it.",
     buttonLabel: "Talk to our team",
     type: "b2b",
   },
-  "/services/it-staffing-company": {
+  "/services/taas": {
     heading: "Tell us the role you can't fill",
     description:
       "Send a job description, or just a technology and a start date. We'll come back with who we have and how fast they can start.",
     buttonLabel: "Talk to our team",
     type: "it-staffing",
   },
-  "/services/government-initiatives": {
+  "/services/government-ssc-skilling": {
     heading: "Talk to us about your mission",
     description:
       "Send us the scheme, the districts and the target cohort. We'll come back with a delivery model, a mobilisation plan and how we report against it.",
