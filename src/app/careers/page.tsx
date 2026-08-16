@@ -901,20 +901,23 @@ export default function CareersPage() {
       style={{ fontFamily: "var(--font-body)" }}
     >
       {/* Hero */}
-      {/* B2G.webp — clean 2:1 photo, no baked-in text, close to this
-          section's own ratio so object-cover only trims a little off the
-          top/bottom. Height formula matches the TaaS hero
-          (it-staffing-company/page.tsx). */}
+      {/* Career.webp — 2:1 photo, close to this section's own ratio so
+          object-cover only trims a little off the top/bottom. Height formula
+          matches the TaaS hero (taas/page.tsx). Note this photo
+          does carry baked-in text: etched glass wording on the left and a
+          "We're hiring" board on the right, so the scrim below is heavier on
+          the left to keep it behind our own headline. */}
       <section className="relative w-full bg-slate-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-10 sm:pb-12 px-5 overflow-hidden">
         <Image
-          src="/B2G/B2G.webp"
-          alt="Business leaders in a boardroom discussion beneath a digital map of India, representing careers and growth at SFJ Business Solutions"
+          src="/Career.webp"
+          alt="SFJ Business Solutions team members collaborating in a meeting room beside a board listing current hiring areas including AI and cloud, cybersecurity, ERP, data analytics and corporate training"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/25 sm:bg-black/10" />
+        <div className="absolute inset-0 bg-black/15 sm:bg-black/5" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/15 to-transparent" />
 
         <div className="relative mx-auto max-w-6xl w-full">
           <p className="text-[13px] font-medium uppercase tracking-[0.18em] text-[#B9E8D4]">

@@ -102,7 +102,7 @@ function buildInvoiceHtml(details: PaymentDetails): string {
 
   <div class="header">
     <div class="logo-block">
-      <img src="/SFJ.png" alt="SFJ Business Solutions" onerror="this.style.display='none'" />
+      <img src="/logo/sfj-logo.png" alt="SFJ Business Solutions" onerror="this.style.display='none'" />
       <div class="company-name">SFJ Business Solutions</div>
       <div class="company-sub">SFJ Business Solutions Pvt. Ltd.</div>
       <div class="company-sub">GSTIN: 29AAXCS1234F1Z5 · Bengaluru, India</div>

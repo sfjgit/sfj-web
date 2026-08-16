@@ -10,9 +10,7 @@ import { TabVisibilityProvider } from "../_components/TabVisibilityContext";
 export const metadata: Metadata = {
   title: "AWS re/Start Program | Free 12-Week Cloud Training | SFJBS",
   description:
-    "SFJ Business Solutions delivers AWS re/Start — a free, full-time, 12-week cloud computing training program for job seekers, in official partnership with Amazon Web Services. No prior technical background required.",
-  keywords:
-    "AWS re/Start, free cloud training, AWS training program, cloud computing course, job seeker training, AWS partnership, CSR skilling",
+    "A free, full-time, 12-week cloud computing programme for job seekers, delivered by SFJBS with AWS. No prior technical background required.",
   openGraph: {
     title: "AWS re/Start Program | Free 12-Week Cloud Training | SFJBS",
     description:

@@ -6,7 +6,7 @@ const AnimatedHeader = () => {
 
   const services = [
     {
-      path: "/services/corporate-it-training-programs",
+      path: "/services/kaas",
       label: "Corporate Training",
       description: "640+ specialized courses to boost your career and skills",
     },
@@ -16,13 +16,13 @@ const AnimatedHeader = () => {
       description: "CSR initiatives focused on education and skill development",
     },
     {
-      path: "/services/government-initiatives",
+      path: "/services/government-ssc-skilling",
       label: "Government-Led Skilling Missions",
       description:
         "KSDC, Naan Mudhalavan and other state skill development initiatives",
     },
     {
-      path: "/services/institutional-training",
+      path: "/services/institutional-skilling",
       label: "Institutional Training",
       description: "Training for engineering, MBA, and arts & science students",
     },

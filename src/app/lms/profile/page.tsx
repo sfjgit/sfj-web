@@ -216,7 +216,7 @@ export default function ProfilePage() {
             {/* Circle Profile Image with Upload */}
             <div className="relative w-40 h-40 rounded-full border-1 border-gray-300 flex items-center justify-center overflow-hidden shadow-md group">
               <img
-                src={profilePicUrl || "/default-avatar.png"}
+                src={profilePicUrl || "/default-avatar.svg"}
                 alt=" Profile Picture"
                 width={260}
                 height={260}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Users, Building2, Globe, Quote } from "lucide-react";
+import { METRICS } from "@/config/site";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -92,6 +93,38 @@ const Reveal = ({
 
 // Count-up now takes a `start` flag instead of its own IntersectionObserver,
 // so it can be triggered in sync with the card's Reveal animation.
+// const AnimatedNumber = ({
+//   target,
+//   suffix = "+",
+//   start,
+// }: {
+//   target: number;
+//   suffix?: string;
+//   start: boolean;
+// }) => {
+//   const [count, setCount] = useState(0);
+//   const hasAnimated = React.useRef(false);
+
+//   useEffect(() => {
+//     if (!start || hasAnimated.current) return;
+//     hasAnimated.current = true;
+//     const duration = 1200;
+//     const startTime = performance.now();
+//     const step = (now: number) => {
+//       const progress = Math.min((now - startTime) / duration, 1);
+//       setCount(Math.round(progress * target));
+//       if (progress < 1) requestAnimationFrame(step);
+//     };
+//     requestAnimationFrame(step);
+//   }, [start, target]);
+
+//   return (
+//     <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+//       {count}
+//       {suffix}
+//     </div>
+//   );
+// };
 const AnimatedNumber = ({
   target,
   suffix = "+",
@@ -101,19 +134,27 @@ const AnimatedNumber = ({
   suffix?: string;
   start: boolean;
 }) => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(target);
   const hasAnimated = React.useRef(false);
 
   useEffect(() => {
     if (!start || hasAnimated.current) return;
+
     hasAnimated.current = true;
+
     const duration = 1200;
     const startTime = performance.now();
+
     const step = (now: number) => {
       const progress = Math.min((now - startTime) / duration, 1);
+
       setCount(Math.round(progress * target));
-      if (progress < 1) requestAnimationFrame(step);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
     };
+
     requestAnimationFrame(step);
   }, [start, target]);
 
@@ -226,28 +267,28 @@ const ClientsSection = () => {
         "Partnering with leading CSR organizations to create opportunities for inclusive groups.",
     },
     {
-      path: "/services/government-initiatives",
+      path: "/services/government-ssc-skilling",
       label: "Government-Led Skilling Missions",
       img: "/services/Gvt2.webp",
       description:
         "Partnering with KSDC, Naan Mudhalavan and state programs to build skilled workforce.",
     },
     {
-      path: "/services/institutional-training",
+      path: "/services/institutional-skilling",
       label: "Institutional Training (B2I)",
       img: "/services/Institutional Training2.webp",
       description:
         "Gen AI training transforming paramedical, dental, and medical professions.",
     },
     {
-      path: "/services/corporate-it-training-programs",
+      path: "/services/kaas",
       label: "Corporate IT Training Programs",
-      img: "/services/Corporate IT Training programs2.webp",
+      img: "/services/Corporate IT Training Programs2.webp",
       description:
         "640+ specialized courses designed by industry experts to accelerate your career growth.",
     },
     {
-      path: "/services/it-staffing-company",
+      path: "/services/taas",
       label: "Talent as a Service",
       img: "/services/Talent as a Service3.webp",
       description:
@@ -283,28 +324,34 @@ const ClientsSection = () => {
     },
   ];
 
+  // Every number here reads from config/site.ts. The stats band used to
+  // hard-code 350 enterprise clients while the KaaS page claimed 350+, the
+  // corporate training page claimed 500+ and the homepage CTA claimed
+  // 300,000+ professionals — three different answers to the same question,
+  // all on the same site (TR-01). `npm run check` fails the build if a
+  // contradicting figure reappears.
   const stats = [
     {
       icon: <Building2 className="w-6 h-6" />,
-      number: 350,
+      number: METRICS.enterpriseClients,
       suffix: "+",
       label: "Enterprise Clients",
     },
     {
       icon: <Star className="w-6 h-6" />,
-      number: 98,
+      number: METRICS.clientSatisfactionPct,
       suffix: "%",
       label: "Client Satisfaction",
     },
     {
       icon: <Users className="w-6 h-6" />,
-      number: 15,
+      number: METRICS.yearsOfExperience,
       suffix: "+",
       label: "Years Partnership",
     },
     {
       icon: <Globe className="w-6 h-6" />,
-      number: 25,
+      number: METRICS.countriesServed,
       suffix: "+",
       label: "Countries Served",
     },
@@ -343,8 +390,18 @@ const ClientsSection = () => {
           <Reveal delay={0}>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8 py-3 sm:py-4 lg:py-5 border-b border-gray-200 mb-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
               <div className="flex-shrink-0">
+                {/* TR-03: these fourteen marks (Accenture, TCS, Wipro, SAP,
+                    Siemens, …) are third-party trademarks. "Partners" asserts
+                    a formal relationship; several of these firms actively
+                    enforce against that claim where no partner agreement
+                    exists. "Teams we've trained at" states the same commercial
+                    fact without asserting an endorsement. Reserve the word
+                    "Partner" — and the official badge — for AWS, Microsoft,
+                    CompTIA and PeopleCert, where SFJBS holds real
+                    authorisation. Legal should still confirm display rights
+                    per logo before release. */}
                 <h2 className="text-base sm:text-lg md:text-xl font-medium text-gray-700 tracking-tight whitespace-nowrap">
-                  Trusted by Our Global Partners:
+                  Teams we&rsquo;ve trained at:
                 </h2>
               </div>
 
@@ -366,7 +423,7 @@ const ClientsSection = () => {
                       >
                         <Image
                           src={client.src}
-                          alt={client.name}
+                          alt={`${client.name} logo`}
                           width={96}
                           height={36}
                           className="h-full w-auto max-w-full object-contain"
@@ -389,7 +446,7 @@ const ClientsSection = () => {
                       >
                         <Image
                           src={client.src}
-                          alt={client.name}
+                          alt=""
                           width={96}
                           height={36}
                           className="h-full w-auto max-w-full object-contain"
@@ -419,15 +476,15 @@ const ClientsSection = () => {
           className="text-left mb-20"
         >
           <Reveal delay={0}>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
               Our Global Impact
-            </h1>
+            </h2>
           </Reveal>
 
           <Reveal delay={70}>
             <p className="text-lg text-gray-600 max-w-4xl leading-relaxed mb-4">
-              15 years of workforce transformation across enterprises,
-              government, and institutions
+              {METRICS.yearsOfExperience} years of workforce transformation
+              across enterprises, government, and institutions
             </p>
           </Reveal>
 
@@ -467,9 +524,10 @@ const ClientsSection = () => {
               </Reveal>
               <Reveal delay={70}>
                 <p className="text-gray-600 text-base leading-relaxed mb-8">
-                  For 14+ years, SFJBS has partnered with global enterprises on
-                  Gen AI upskilling, cross-skilling, and reskilling. These
-                  numbers reflect the scale and trust behind that work.
+                  For {METRICS.yearsOfExperience}+ years, SFJBS has partnered
+                  with global enterprises on Gen AI upskilling, cross-skilling,
+                  and reskilling. These numbers reflect the scale and trust
+                  behind that work.
                 </p>
               </Reveal>
 
@@ -491,10 +549,14 @@ const ClientsSection = () => {
 
             <div>
               <div className="relative w-full h-56 sm:h-80 md:h-[26rem] lg:h-[32rem] xl:h-[36rem] rounded-xl overflow-hidden">
+                {/* PF-03: without `sizes`, a `fill` image defaults to 100vw
+                    and next/image fetches it at the largest configured width —
+                    this slot was pulling a 3840px asset for a half-width card. */}
                 <Image
                   src={services[hoveredService].img}
                   alt={services[hoveredService].label}
                   fill
+                  sizes="(max-width: 768px) 100vw, 60vw"
                   className="object-cover"
                 />
               </div>
@@ -618,6 +680,17 @@ const ClientsSection = () => {
 
       {/* Enhanced Custom Swiper Styles */}
       <style jsx global>{`
+        /* WCAG 2.2.2 / 2.3.3 — both logo strips scroll forever on their own.
+           Visitors who have asked their OS for reduced motion get the static
+           first frame instead. Hovering already pauses them for everyone. */
+        @media (prefers-reduced-motion: reduce) {
+          .client-marquee,
+          .testimonial-marquee {
+            animation: none !important;
+            transform: none !important;
+          }
+        }
+
         .client-marquee {
           animation: clientScroll 25s linear infinite;
         }
@@ -666,28 +739,28 @@ const ClientsSection = () => {
         .client-flow-swiper .swiper-slide:hover {
           z-index: 10;
         }
-.testimonial-marquee {
-  animation: testimonialScroll 30s linear infinite;
-}
-.testimonial-marquee:hover {
-  animation-play-state: paused;
-}
-@keyframes testimonialScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
+        .testimonial-marquee {
+          animation: testimonialScroll 30s linear infinite;
+        }
+        .testimonial-marquee:hover {
+          animation-play-state: paused;
+        }
+        @keyframes testimonialScroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
 
-@keyframes statFloat {
         @keyframes statFloat {
           0%,
           75%,
           100% {
             transform: translateY(0);
           }
+
           37% {
             transform: translateY(-10px);
           }

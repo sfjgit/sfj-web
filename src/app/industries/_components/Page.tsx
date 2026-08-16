@@ -520,14 +520,14 @@ const IndustriesPage = () => {
       {/* Header Section */}
       <section className="relative w-full bg-slate-900 min-h-[32rem] sm:min-h-[36rem] lg:min-h-[max(38rem,min(60vw,calc(100dvh-120px)))] lg:max-h-[56rem] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-12 sm:pb-16 pl-2 pr-4 sm:pl-2 sm:pr-6 lg:pl-2 lg:pr-8 overflow-hidden">
         <Image
-          src="/In.webp"
-          alt="Leaders in front of a digital map of India with satellite and rocket-launch imagery, representing nationwide industry impact"
+          src="/Industries.webp"
+          alt="Professionals in discussion around a glowing interactive table, with a robotics line, laboratory, data centre and analytics floor visible behind them, representing the industries SFJ Business Solutions serves"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[50%_20%]"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-black/30 sm:bg-black/15" />
+        <div className="absolute inset-0 bg-black/15 sm:bg-black/5" />
 
         <div className="relative max-w-7xl mx-auto w-full">
           <div className="max-w-3xl">

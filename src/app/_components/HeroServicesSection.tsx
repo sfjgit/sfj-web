@@ -63,7 +63,7 @@ const HeroServicesSection = () => {
       description: "640+ specialized courses to boost your career and skills",
       cta: "Start Learning",
       img: "/app/home/knowledge-as-service.png",
-      link: "/services/corporate-it-training-programs",
+      link: "/services/kaas",
       clients: "200+",
     },
     {
@@ -75,7 +75,8 @@ const HeroServicesSection = () => {
         "15,000+ successful placements with top-tier IT professionals",
       cta: "Find Talent",
       img: "/app/home/talent-as-service.png",
-      link: "/services/talent-as-service",
+      // link: "/services/talent-as-service",
+      link: "/services/taas",
       clients: "50+",
     },
     {
@@ -99,7 +100,7 @@ const HeroServicesSection = () => {
         "KSDC, Naan Mudhalavan and other state skill development initiatives",
       cta: "Explore Programs",
       img: "/app/home/govt.png",
-      link: "/services/government-initiatives",
+      link: "/services/government-ssc-skilling",
       clients: "3+",
     },
     {
@@ -110,7 +111,7 @@ const HeroServicesSection = () => {
       description: "Training for engineering, MBA, and arts & science students",
       cta: "Join Program",
       img: "/app/home/B2I.png",
-      link: "/services/institutional-training",
+      link: "/services/institutional-skilling",
       clients: "10+",
     },
     {

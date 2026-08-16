@@ -14,7 +14,7 @@
 //     name: "Instagram",
 //     url: "https://www.instagram.com/sfjbs_bangalore/",
 //     icon: <FaInstagram className="w-6 h-6" />,
-//   },
+//   }, 
 //   {
 //     name: "LinkedIn",
 //     url: "https://www.linkedin.com/company/sfj-business-solutions-pvt-ltd-/",
@@ -45,7 +45,7 @@
 //   {
 //     name: "Corporate IT Training (KaaS)",
 //     desc: "Upskilling, Reskilling & Certification",
-//     path: "/services/corporate-it-training-programs",
+//     path: "/services/kaas",
 //   },
 //   {
 //     name: "CSR Skilling Partner",
@@ -55,22 +55,17 @@
 //   {
 //     name: "Talent as a Service (TaaS)",
 //     desc: "Hire | Deploy | Managed Talent",
-//     path: "/services/it-staffing-company",
+//     path: "/services/taas",
 //   },
 //   {
 //     name: "Government-Led Skilling Missions",
 //     desc: "Central & State Skill Programs",
-//     path: "/services/government-initiatives",
+//     path: "/services/government-ssc-skilling",
 //   },
 //   {
 //     name: "Institutional Training (B2I)",
 //     desc: "Universities, Colleges & ITIs",
-//     path: "/services/institutional-training",
-//   },
-//   {
-//     name: "Internship Programs",
-//     desc: "Industry-Integrated Learning",
-//     path: "/internships",
+//     path: "/services/institutional-skilling",
 //   },
 // ];
 
@@ -334,7 +329,7 @@
 //           <div className="lg:col-span-1 space-y-4">
 //             <div className="flex items-center space-x-2">
 //               <Image
-//                 src="/logo/SFJ (9).png"
+//                 src="/logo/sfj-logo.png"
 //                 alt="SFJ Logo"
 //                 className="w-12 h-12 object-cover"
 //                 quality={100}
@@ -670,7 +665,7 @@
 //                     key={social.name}
 //                     href={social.url}
 //                     target="_blank"
-//                     rel="noreferrer"
+//                     rel="noopener noreferrer"
 //                     className="text-gray-700 hover:text-gray-900 hover:scale-105 transition-transform [&>svg]:w-4 [&>svg]:h-4"
 //                     title={social.name}
 //                   >
@@ -754,7 +749,7 @@ const solutions = [
   {
     name: "Corporate IT Training (KaaS)",
     desc: "Upskilling, Reskilling & Certification",
-    path: "/services/corporate-it-training-programs",
+    path: "/services/kaas",
   },
   {
     name: "CSR Skilling Partner",
@@ -764,22 +759,17 @@ const solutions = [
   {
     name: "Talent as a Service (TaaS)",
     desc: "Hire | Deploy | Managed Talent",
-    path: "/services/it-staffing-company",
+    path: "/services/taas",
   },
   {
     name: "Government-Led Skilling Missions",
     desc: "Central & State Skill Programs",
-    path: "/services/government-initiatives",
+    path: "/services/government-ssc-skilling",
   },
   {
     name: "Institutional Training (B2I)",
     desc: "Universities, Colleges & ITIs",
-    path: "/services/institutional-training",
-  },
-  {
-    name: "Internship Programs",
-    desc: "Industry-Integrated Learning",
-    path: "/internships",
+    path: "/services/institutional-skilling",
   },
 ];
 
@@ -1003,7 +993,7 @@ const Footer = () => {
           <div className="lg:col-span-1 space-y-4">
             <div className="flex items-center space-x-2">
               <Image
-                src="/logo/SFJ (9).png"
+                src="/logo/sfj-logo.png"
                 alt="SFJ Logo"
                 className="w-12 h-12 object-cover"
                 quality={100}
@@ -1018,9 +1008,8 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-600 text-[10px] leading-relaxed">
-              Empowering global talent for the AI-driven future through
-              comprehensive workforce development and professional training
-              solutions.
+              Equipping global talent with the skills to succeed in an AI-driven
+              world.
             </p>
             <GoogleReviews />
           </div>
@@ -1222,7 +1211,7 @@ const Footer = () => {
                     key={social.name}
                     href={social.url}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="text-gray-700 hover:text-gray-900 hover:scale-105 transition-transform [&>svg]:w-4 [&>svg]:h-4"
                     title={social.name}
                   >

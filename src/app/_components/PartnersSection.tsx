@@ -6,13 +6,13 @@ import { motion } from "framer-motion";
 
 const PartnersSection = () => {
   // const partnerLogos = [
-  //   "/edu&car/micro.png",
-  //   "/edu&car/AWS.png",
-  //   "/edu&car/6.png",
-  //   "/edu&car/Comptia.png",
-  //   "/edu&car/Peoplecert DevOps.png",
-  //   "/edu&car/Prince2.png",
-  //   "/edu&car/Peoplecert-Scrum.png",
+  //   "/certifications/micro.png",
+  //   "/certifications/AWS.png",
+  //   "/certifications/6.png",
+  //   "/certifications/Comptia.png",
+  //   "/certifications/Peoplecert DevOps.png",
+  //   "/certifications/Prince2.png",
+  //   "/certifications/Peoplecert-Scrum.png",
   // ];
 
   // With only four logos the row would be narrower than the viewport, leaving

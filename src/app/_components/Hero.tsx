@@ -5,11 +5,10 @@ import {
   CarouselApi,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Pause, Play } from "lucide-react";
+import { trackCtaClick } from "@/lib/analytics";
 
 // hero-1.webm has its own baked-in title card ("AI Skilled Talent,
 // Engineered at Scale") burned into the footage. It's back in and plays
@@ -55,16 +54,16 @@ const SLIDES = [
     subheading:
       "500+ enterprise and GCC teams upskilled in AI, cloud and emerging tech, closing capability gaps before they cost you delivery.",
     cta: "Upskill Your Team",
-    href: "/services/corporate-it-training-programs",
+    href: "/services/kaas",
   },
   {
     key: "institutional",
     eyebrow: "WHAT WE DO / INSTITUTIONAL SKILLING",
     heading: "Turn your campus into a talent engine",
     subheading:
-      "Practical learning, industry certifications, internships and placement support that turn campuses into career launchpads.",
+      "Practical learning, industry certifications and placement support that turn campuses into career launchpads.",
     cta: "Partner With Us",
-    href: "/services/institutional-training",
+    href: "/services/institutional-skilling",
   },
   {
     key: "government",
@@ -73,7 +72,7 @@ const SLIDES = [
     subheading:
       "Large-scale, outcome-driven skilling initiatives that convert public investment into job-ready citizens and real economic growth.",
     cta: "Explore Missions",
-    href: "/services/government-initiatives",
+    href: "/services/government-ssc-skilling",
   },
   {
     key: "csr",
@@ -105,6 +104,38 @@ const HeroCarousel = () => {
     setVideoIndex((prev) => (prev + 1) % BACKGROUND_VIDEOS.length);
   }, []);
 
+  /**
+   * A11-05 — WCAG 2.2.2 (Pause, Stop, Hide). This hero starts moving
+   * automatically and never stops: the video advances on `ended` and drags the
+   * text carousel with it. Content that auto-animates for more than five
+   * seconds has to be pausable, and visitors who have asked their OS for
+   * reduced motion should not get it running at all.
+   *
+   * `paused` starts true under `prefers-reduced-motion: reduce` — the first
+   * frame still shows, it just does not cycle — and the control below lets
+   * anyone stop or restart it.
+   */
+  const [paused, setPaused] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = (reduce: boolean) => setPaused(reduce);
+    apply(query.matches);
+    const onChange = (e: MediaQueryListEvent) => apply(e.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
+
+  // Keep the actual <video> element in sync with the paused flag, including
+  // when a new clip mounts.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (paused) video.pause();
+    else void video.play().catch(() => {});
+  }, [paused, videoIndex]);
+
   // Keep the text carousel's position an explicit function of videoIndex
   // (via VIDEO_TO_SLIDE_KEY) rather than nudging it forward by one on every
   // video change — a direct lookup can't drift out of sync the way an
@@ -123,16 +154,37 @@ const HeroCarousel = () => {
           on source change. */}
       <video
         key={videoIndex}
+        ref={videoRef}
         autoPlay
         muted
         playsInline
         preload="auto"
+        aria-hidden="true"
         onEnded={advanceVideo}
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src={BACKGROUND_VIDEOS[videoIndex]} type="video/webm" />
       </video>
       <div className="absolute inset-0 bg-black/40 sm:bg-black/25" />
+
+      {/* Pause / play for the auto-advancing background — WCAG 2.2.2. */}
+      <button
+        type="button"
+        onClick={() => setPaused((v) => !v)}
+        aria-label={
+          paused
+            ? "Play background animation"
+            : "Pause background animation"
+        }
+        aria-pressed={paused}
+        className="absolute bottom-4 right-4 z-20 rounded-full bg-black/50 p-2.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      >
+        {paused ? (
+          <Play className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          <Pause className="h-4 w-4" aria-hidden="true" />
+        )}
+      </button>
 
       <div
         className={`relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 pt-14 sm:pt-16 pb-0 h-full flex items-center transition-opacity duration-700 ${
@@ -196,6 +248,16 @@ const HeroCarousel = () => {
                   </p>
                   <Link
                     href={slide.href}
+                    // AN-01: each hero CTA reports which of the five revenue
+                    // lines it belongs to, so homepage traffic can be split by
+                    // service line instead of landing in one bucket.
+                    onClick={() =>
+                      trackCtaClick({
+                        label: slide.cta,
+                        serviceLine: slide.key,
+                        destination: slide.href,
+                      })
+                    }
                     className="inline-flex items-center gap-2 bg-white text-slate-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:bg-gray-100 text-sm"
                   >
                     {slide.cta}
@@ -205,8 +267,12 @@ const HeroCarousel = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-4 bg-white/80 backdrop-blur-sm hover:bg-white shadow-lg" />
-          <CarouselNext className="right-4 bg-white/80 backdrop-blur-sm hover:bg-white shadow-lg" />
+          {/* No prev/next controls: this carousel is driven by the background
+              video (see the videoIndex effect above), so a manual jump would
+              be overridden on the next clip change. The vertical variant also
+              placed the "previous" arrow at -top-12, which floated it over
+              the hero beside the navbar. Pausing is handled by the WCAG
+              control on the hero itself. */}
         </Carousel>
       </div>
     </div>

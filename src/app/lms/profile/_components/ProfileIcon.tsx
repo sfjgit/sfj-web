@@ -17,13 +17,14 @@ interface ProfileIconProps {
   name: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function ProfileIcon({ gender, name }: ProfileIconProps) {
-  const avatarSrc =
-    gender === "Male"
-      ? "/male_icon.jpeg"
-      : gender === "Female"
-        ? "/female_icon.png"
-        : "https://github.com/shadcn.png"; // default
+  // Both gendered icon files (/male_icon.jpeg, /female_icon.png) were missing
+  // from public/, and the "default" branch hot-linked github.com/shadcn.png —
+  // a scaffolding placeholder that shipped to production and leaks a request
+  // to GitHub on every profile render. One neutral, locally-served avatar; the
+  // AvatarFallback below still shows the user's initials while it loads.
+  const avatarSrc = "/default-avatar.svg";
 
   return (
     <div className="w-1/2">

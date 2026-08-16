@@ -185,6 +185,7 @@ const AwsRestartContent = () => {
             src="/Aws feature.webp"
             alt="AWS re/Start program feature"
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="object-cover"
           />
         </div>
@@ -197,6 +198,7 @@ const AwsRestartContent = () => {
             src="/Aws csr 2.webp"
             alt="AWS re/Start curriculum"
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="object-cover"
           />
         </div>
@@ -375,6 +377,7 @@ const AwsRestartContent = () => {
               src="/AWS journey.png"
               alt="AWS re/Start journey"
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
               className="object-cover object-top"
             />
           </div>
