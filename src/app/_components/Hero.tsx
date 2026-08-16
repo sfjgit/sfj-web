@@ -10,12 +10,13 @@ import Link from "next/link";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { trackCtaClick } from "@/lib/analytics";
 
-// hero-1.webm has its own baked-in title card ("AI Skilled Talent,
-// Engineered at Scale") burned into the footage. It's back in and plays
-// first, but the text overlay below is hidden for just that first video
-// (see TEXT_STARTS_AT_VIDEO) so it never overlaps that baked-in caption.
+// The opening clip used to carry its title card ("AI Skilled Talent,
+// Engineered at Scale") burned into the footage. hero-01.webm replaces it
+// with clean plates, so that line is typeset in the markup instead (see
+// OPENING_TITLE below) — selectable, translatable, and sharp at any
+// resolution rather than baked in at the clip's own 720p.
 const BACKGROUND_VIDEOS = [
-  "/home-hero/hero-1.webm",
+  "/home-hero/hero-01.webm",
   "/home-hero/hero-2.webm",
   "/home-hero/hero-3.webm",
   "/home-hero/hero-4.webm",
@@ -24,9 +25,13 @@ const BACKGROUND_VIDEOS = [
 ];
 
 // The overlay carousel only becomes visible once the background video has
-// advanced to this index (0-based) — i.e. hero-1 plays with no text, and
-// the heading/subheading start appearing from hero-2 on.
+// advanced to this index (0-based) — i.e. hero-01 plays under the title
+// card below, and the heading/subheading start appearing from hero-2 on.
 const TEXT_STARTS_AT_VIDEO = 1;
+
+// Title card shown over the opening clip only, replacing the text that used
+// to be burned into it.
+const OPENING_TITLE = ["Skilled Talent", "Engineered at Scale"];
 
 // Explicit video-index → text-slide-key mapping, keyed by BACKGROUND_VIDEOS
 // index. This makes the correspondence a direct lookup instead of an
@@ -40,7 +45,14 @@ const VIDEO_TO_SLIDE_KEY: Record<number, string> = {
   5: "ai-consulting", // hero-6
 };
 
-const TEXT_SHADOW = "0 2px 14px rgba(0,0,0,0.85)";
+// A drop shadow, not a dark plate behind the type. The previous value —
+// 0 2px 14px at 85% black — threw a 14px cloud in every direction around each
+// glyph, so it read as a grey smudge sitting behind the copy rather than a
+// shadow cast by it, which is especially obvious over the pale opening clip.
+// Two downward-offset layers replace it: a tight, low-blur one that keeps the
+// small eyebrow and subheading legible, and a wider, softer one that carries
+// the sense of elevation without haloing.
+const TEXT_SHADOW = "0 1px 2px rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.35)";
 
 // Dummy overlay copy for the 5 service categories — drafted via a
 // 3-angle-then-synthesize pass, meant to be refined later. Cycles
@@ -167,14 +179,44 @@ const HeroCarousel = () => {
       </video>
       <div className="absolute inset-0 bg-black/40 sm:bg-black/25" />
 
+      {/* Title card over the opening clip, cross-fading out as the slide
+          carousel below fades in — the two are mutually exclusive, so they
+          never overlap.
+
+          Sized in vw rather than at breakpoints so it holds the same
+          proportion of the frame on a 360px phone, a laptop and a TV, with a
+          rem floor that keeps it readable on the narrowest screens and a
+          ceiling that stops it outgrowing the hero's own max height on very
+          wide displays. */}
+      <div
+        aria-hidden={videoIndex >= TEXT_STARTS_AT_VIDEO}
+        className={`absolute inset-0 z-10 flex items-center justify-center px-5 sm:px-6 text-center transition-opacity duration-700 ${
+          videoIndex < TEXT_STARTS_AT_VIDEO
+            ? "opacity-100"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <p
+          className="text-white font-semibold tracking-tight leading-[1.15]"
+          style={{
+            fontSize: "clamp(1.75rem, 4.4vw, 6rem)",
+            textShadow: TEXT_SHADOW,
+          }}
+        >
+          {OPENING_TITLE.map((line) => (
+            <span key={line} className="block">
+              {line}
+            </span>
+          ))}
+        </p>
+      </div>
+
       {/* Pause / play for the auto-advancing background — WCAG 2.2.2. */}
       <button
         type="button"
         onClick={() => setPaused((v) => !v)}
         aria-label={
-          paused
-            ? "Play background animation"
-            : "Pause background animation"
+          paused ? "Play background animation" : "Pause background animation"
         }
         aria-pressed={paused}
         className="absolute bottom-4 right-4 z-20 rounded-full bg-black/50 p-2.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
