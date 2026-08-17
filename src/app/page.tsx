@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: COMPANY.name,
     images: [
       {
-        url: "/ind.png",
+        url: "/preview.png",
         width: 1200,
         height: 630,
         alt: "SFJ Business Solutions — enterprise upskilling and IT talent",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
-    images: ["/ind.png"],
+    images: ["/preview.png"],
   },
 
   other: {
