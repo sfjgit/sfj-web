@@ -212,7 +212,7 @@ export default function RootLayout({
         />
 
         {/* RB2B Script */}
-        <Script
+        {/* <Script
           id="rb2b-script"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -230,7 +230,7 @@ export default function RootLayout({
       }("QO92DHZ7PPN7");
     `,
           }}
-        />
+        /> */}
 
         {/* Organization + WebSite schema — one entity, one @id, emitted as
             real script tags in the delivered HTML (SD-01, SD-02, CR-07). */}

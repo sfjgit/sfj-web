@@ -1,15 +1,14 @@
 import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
-
-const SYLLABUS_PDF = "/fac/faculty-ai-enablement-programme.pdf";
+import { SYLLABUS_PDF, SYLLABUS_FILENAME } from "../constants";
 
 export default function FacultyCtaSection() {
   return (
     <section className="bg-gray-50 py-16">
-      {/* Same 110rem measure and padding as the CategoryChooser section
-          directly above, so the card's edges line up with the discipline grid
-          instead of sitting in a narrower column of their own. */}
-      <div className="max-w-[110rem] mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Inset a little from the 110rem measure the CategoryChooser section
+          above uses, so the dark card reads as a closing panel rather than
+          another full-bleed row of the discipline grid. */}
+      <div className="max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-slate-900 px-6 py-10 sm:px-12 sm:py-14">
           <h2 className="text-2xl sm:text-3xl font-bold text-white">
             Registrations are open for the next cohort
@@ -34,7 +33,7 @@ export default function FacultyCtaSection() {
                 would otherwise be what lands in the user's downloads. */}
             <a
               href={SYLLABUS_PDF}
-              download="SFJ Faculty AI Enablement Programme.pdf"
+              download={SYLLABUS_FILENAME}
               className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-white/40 text-white font-semibold transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <Download className="mr-2 h-4 w-4" aria-hidden="true" />
