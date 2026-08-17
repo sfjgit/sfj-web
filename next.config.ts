@@ -22,7 +22,12 @@ const nextConfig: NextConfig = {
         source: "/auth/:path*",
         destination: `${process.env.NEXT_PUBLIC_LMS_BASE_URL}/user/auth/:path*`,
       },
+      {
+        source: "/caspa/:path*",
+        destination: "https://caspa-internal.sfjbs.com/caspa/:path*",
+      },
     ];
+    
   },
   async redirects() {
     return [
