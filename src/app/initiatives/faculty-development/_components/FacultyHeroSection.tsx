@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
 import CapabilityStrip, {
   capabilityCards,
 } from "@/app/services/taas/_components/CapabilityStrip";
-import { SYLLABUS_PDF, SYLLABUS_FILENAME } from "../constants";
+// import { SYLLABUS_PDF, SYLLABUS_FILENAME } from "../constants";
+import FacultyRegistrationDialog from "./FacultyRegistrationDialog";
 
 // Real titles for the Faculty Development strip. Logos still borrow the
 // TaaS strip's as a placeholder — all 7 videos are now real.
@@ -82,25 +82,41 @@ const FacultyHeroSection = () => (
         </p>
 
         <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-          <Link
-            href="/contact?type=b2i"
-            className="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            Register now
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
+          <FacultyRegistrationDialog
+            trigger={
+              <button
+                type="button"
+                className="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                Register now
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </button>
+            }
+          />
 
           {/* Same download as the closing CTA. Solid dark fill rather than the
               CTA's translucent border, since this one sits over a photo where a
               see-through button loses its edges. */}
-          <a
+          {/* <a
             href={SYLLABUS_PDF}
             download={SYLLABUS_FILENAME}
             className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-slate-900/70 border border-white/40 text-white font-semibold hover:bg-slate-900/90 transition-colors"
           >
             <Download className="mr-2 h-4 w-4" aria-hidden="true" />
             Download syllabus
-          </a>
+          </a> */}
+          <FacultyRegistrationDialog
+            autoDownloadAfterRegistration
+            trigger={
+              <button
+                type="button"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-slate-900/70 border border-white/40 text-white font-semibold hover:bg-slate-900/90 transition-colors"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Download syllabus
+              </button>
+            }
+          />
         </div>
       </div>
     </div>
