@@ -7,6 +7,7 @@ import facultyRegistrationApi from "@/lib/facultyRegistrationApi";
 import {
   FACULTY_DISCIPLINE_OPTIONS,
   FACULTY_ROLE_OPTIONS,
+  FACULTY_STRENGTH_OPTIONS,
   SYLLABUS_FILENAME,
   // SYLLABUS_PDF,
 } from "../constants";
@@ -23,6 +24,7 @@ interface FormState {
   role: string;
   discipline: string;
   courseTaught: string;
+  facultyStrength: string;
   workEmail: string;
   mobile: string;
 }
@@ -32,6 +34,7 @@ const INITIAL_FORM: FormState = {
   institution: "",
   role: FACULTY_ROLE_OPTIONS[0],
   discipline: FACULTY_DISCIPLINE_OPTIONS[0],
+  facultyStrength: "",
   courseTaught: "",
   workEmail: "",
   mobile: "",
@@ -115,6 +118,7 @@ export default function FacultyRegistrationForm({
   const formValid =
     form.fullName.trim().length >= 2 &&
     form.institution.trim().length >= 2 &&
+    form.facultyStrength !== "" &&
     EMAIL_REGEX.test(form.workEmail) &&
     mobileValid &&
     otpStep === "verified";
@@ -177,6 +181,7 @@ export default function FacultyRegistrationForm({
         institution: form.institution.trim(),
         role: form.role,
         discipline: form.discipline,
+        facultyStrength: form.facultyStrength,
         courseTaught: form.courseTaught.trim() || undefined,
         workEmail: form.workEmail.trim(),
         mobile: form.mobile,
@@ -299,6 +304,23 @@ export default function FacultyRegistrationForm({
             placeholder="e.g. Strength of Materials"
             className={fieldClasses}
           />
+        </div>
+        <div>
+          <label className={labelClasses}>Approx. faculty strength</label>
+          <select
+            value={form.facultyStrength}
+            onChange={(e) => updateField("facultyStrength", e.target.value)}
+            className={fieldClasses}
+          >
+            <option value="" disabled className="bg-slate-900">
+              Select range...
+            </option>
+            {FACULTY_STRENGTH_OPTIONS.map((option) => (
+              <option key={option} value={option} className="bg-slate-900">
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 

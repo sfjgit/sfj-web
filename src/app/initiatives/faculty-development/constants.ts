@@ -12,6 +12,12 @@ export const FACULTY_ROLE_OPTIONS = [
   "Academic coordinator",
   "Trainer or instructor",
   "Principal or Director",
+  "Vice Chancellor / Director / Principal",
+  "Dean / Head of Department",
+  "Training & Placement Officer (TPO)",
+  "IQAC Coordinator",
+  "Registrar / Administration",
+  "Other academic leader",
 ] as const;
 
 export const FACULTY_DISCIPLINE_OPTIONS = [
@@ -23,4 +29,11 @@ export const FACULTY_DISCIPLINE_OPTIONS = [
   "Medical",
   "Paramedical & Allied Health",
   "Agriculture, Vet & Fisheries",
+] as const;
+
+export const FACULTY_STRENGTH_OPTIONS = [
+  "Under 50",
+  "50 – 150",
+  "150 – 400",
+  "400+",
 ] as const;
