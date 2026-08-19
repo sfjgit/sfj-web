@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
-import { SYLLABUS_PDF, SYLLABUS_FILENAME } from "../constants";
+// import { SYLLABUS_PDF, SYLLABUS_FILENAME } from "../constants";
+import FacultyRegistrationDialog from "./FacultyRegistrationDialog";
 
 export default function FacultyCtaSection() {
   return (
@@ -19,26 +19,42 @@ export default function FacultyCtaSection() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-            <Link
-              href="/contact?type=b2i"
-              className="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg transition-colors hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              Register now
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-            </Link>
+            <FacultyRegistrationDialog
+              trigger={
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg transition-colors hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Register now
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </button>
+              }
+            />
 
             {/* Same-origin file plus the download attribute, so it saves
                 rather than opening the browser's PDF viewer. The filename is
                 set here because the path is slugged for the asset checks and
                 would otherwise be what lands in the user's downloads. */}
-            <a
+            {/* <a
               href={SYLLABUS_PDF}
               download={SYLLABUS_FILENAME}
               className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-white/40 text-white font-semibold transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <Download className="mr-2 h-4 w-4" aria-hidden="true" />
               Download syllabus
-            </a>
+            </a> */}
+            <FacultyRegistrationDialog
+              autoDownloadAfterRegistration
+              trigger={
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-slate-900/70 border border-white/40 text-white font-semibold hover:bg-slate-900/90 transition-colors"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Download syllabus
+                </button>
+              }
+            />
           </div>
         </div>
       </div>

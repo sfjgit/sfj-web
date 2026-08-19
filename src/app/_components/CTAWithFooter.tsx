@@ -9,7 +9,11 @@ import * as Flags from "country-flag-icons/react/3x2";
 import { FaX } from "react-icons/fa6";
 import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { COMPANY, CONTACT, METRICS } from "@/config/site";
-import { trackCtaClick, trackEmailClick, trackPhoneClick } from "@/lib/analytics";
+import {
+  trackCtaClick,
+  trackEmailClick,
+  trackPhoneClick,
+} from "@/lib/analytics";
 
 const socialLinks = [
   {
@@ -115,28 +119,6 @@ const offices: Record<string, Office> = {
     phone: CONTACT.phoneDisplay,
     phoneHref: CONTACT.phoneHref,
     email: CONTACT.email,
-  },
-  uae: {
-    flag: "AE",
-    name: "UAE Office",
-    company: "SFJ Computers Consulting",
-    address: [
-      "214, Blue Tower, Sheikh Zayed Road,",
-      "(Next To Crown Plaza Hotel)",
-      "P.O. Box : 58575, Dubai, UAE",
-    ],
-    phone: "+971 4 342 5125",
-    phoneHref: "+97143425125",
-    fax: "+971 43 425126",
-  },
-  singapore: {
-    flag: "SG",
-    name: "Singapore Office",
-    company: "SFJ Business Solutions Pte. Ltd.",
-    address: ["2 KALLANG AVENUE,", "#08-16, CT HUB,", "Singapore – 339 407"],
-    phone: "+65 6293 5695",
-    phoneHref: "+6562935695",
-    fax: "+65 62935657",
   },
   usa: {
     flag: "US",
