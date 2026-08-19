@@ -8,7 +8,7 @@ import {
   FACULTY_DISCIPLINE_OPTIONS,
   FACULTY_ROLE_OPTIONS,
   FACULTY_STRENGTH_OPTIONS,
-  SYLLABUS_FILENAME,
+  // SYLLABUS_FILENAME,
   // SYLLABUS_PDF,
 } from "../constants";
 
@@ -149,26 +149,34 @@ export default function FacultyRegistrationForm({
   //   }
   // };
 
-  const handleDownloadSyllabus = async () => {
-    try {
-      const response = await facultyRegistrationApi.get("/syllabus/download");
+  // const handleDownloadSyllabus = async () => {
+  //   try {
+  //     const response = await facultyRegistrationApi.get("/syllabus/download");
 
-      const { downloadUrl } = response.data;
+  //     const { downloadUrl } = response.data;
 
-      if (!downloadUrl) {
-        throw new Error("Syllabus download URL not found");
-      }
+  //     if (!downloadUrl) {
+  //       throw new Error("Syllabus download URL not found");
+  //     }
 
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = SYLLABUS_FILENAME;
+  //     const link = document.createElement("a");
+  //     link.href = downloadUrl;
+  //     link.download = SYLLABUS_FILENAME;
 
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error("Syllabus download failed:", error);
-    }
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     link.remove();
+  //   } catch (error) {
+  //     console.error("Syllabus download failed:", error);
+  //   }
+  // };
+  const handleDownloadSyllabus = () => {
+    const link = document.createElement("a");
+    link.href = "/fac/faculty-ai-enablement-programme.pdf";
+    link.download = "faculty-development-syllabus.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleConfirm = async () => {
