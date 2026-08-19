@@ -42,6 +42,7 @@ import {
 } from "@/hooks/useAxios";
 import { useAxios } from "@/hooks/useAxios";
 import { CiLogin } from "react-icons/ci";
+import CaspaLoginDialog from "@/components/auth/CaspaLoginDialog";
 
 interface UserProfile {
   _id: string;
@@ -64,6 +65,9 @@ const Navigation = () => {
   );
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
+  // Shared by the desktop and mobile login buttons, so both open the same
+  // dialog instance rather than each rendering its own.
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const location = usePathname();
   const router = useRouter();
   const api = useAxios();
@@ -378,6 +382,7 @@ const Navigation = () => {
     value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
   return (
+    <>
     <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6">
       <div className="relative max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 px-6">
         <div className="flex items-center gap-4 py-2">
@@ -562,7 +567,7 @@ const Navigation = () => {
             ) : (
               <>
                 <Button
-                  // onClick={() => router.push("/signin")}
+                  onClick={() => setIsLoginOpen(true)}
                   aria-label="Login"
                   title="Login"
                   className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -919,8 +924,8 @@ const Navigation = () => {
                 <Button
                   className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
-                    // router.push("/signin");
                     closeMobileMenu();
+                    setIsLoginOpen(true);
                   }}
                 >
                   <CiLogin className="w-[1.15rem] h-[1.15rem]" />
@@ -941,6 +946,9 @@ const Navigation = () => {
         </div>
       </div>
     </nav>
+
+    <CaspaLoginDialog open={isLoginOpen} onOpenChange={setIsLoginOpen} />
+    </>
   );
 };
 

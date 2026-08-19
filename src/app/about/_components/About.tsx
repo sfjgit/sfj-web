@@ -134,22 +134,41 @@ const officesData: Office[] = [
 ];
 
 // Components
+// Same full-bleed pattern as the TaaS, KaaS and faculty heroes: the photo is
+// the background, a scrim carries the type, content sits on top.
 const HeroSection: React.FC = () => (
-  <section className="relative h-[60vh] sm:h-[70vh] pt-16 sm:pt-24 pb-8 sm:pb-16 text-gray-900 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-800 to-purple-900">
-    <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-      <div className="text-left">
-        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">
-          Our Journey
+  <section className="relative flex min-h-[30rem] w-full flex-col justify-center overflow-hidden bg-slate-900 px-4 pt-28 pb-40 sm:min-h-[34rem] sm:px-6 sm:pt-32 lg:h-[88dvh] lg:max-h-[56rem] lg:min-h-0 lg:px-8">
+    <Image
+      src="/About us Section.png"
+      alt="A softly lit white spiral receding inward"
+      fill
+      priority
+      sizes="100vw"
+      className="object-cover object-center"
+    />
+
+    {/* This photo is near-white, so the scrim carries the whole burden of
+        legibility — anything lighter and the heading dissolves into the bright
+        centre of the spiral. */}
+    <div className="absolute inset-0 bg-black/25" />
+
+    <div className="relative mx-auto w-full max-w-7xl">
+      <div className="max-w-3xl space-y-5">
+        <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          Our Story, Vision,
+          <br />
+          and Values
         </h1>
-        <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mb-4 rounded-full"></div>
-        <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-3xl leading-relaxed font-medium">
-          Empower AI-driven solutions. Accelerate agile growth. Elevate client
-          success through Generative AI expertise.
+
+        <p className="max-w-xl text-base leading-relaxed text-gray-200 sm:text-lg">
+          Learn about our commitment to excellence, innovation, and the
+          principles that guide our work every day.
         </p>
       </div>
     </div>
   </section>
 );
+
 const WhoWeAreSection: React.FC = () => (
   <section className="md:pt-14 max-w-7xl mx-auto text-gray-800 " id="WhoWe-Are">
     <div className="p-4 md:container flex flex-wrap gap-10 mx-auto">
@@ -158,13 +177,13 @@ const WhoWeAreSection: React.FC = () => (
           Who We Are
         </h2>
         <p className="prose pt-8 text-gray-800 text-lg leading-relaxed">
-          SFJ Business Solutions Pvt. Ltd. is a global technology and skilling
-          leader, established in 2011, dedicated to empowering individuals with
-          the skills needed for today's digital economy. We specialize in
-          delivering cutting-edge, industry-aligned training across critical
-          domains including IT, FinTech, Generative AI, Cloud, Cybersecurity,
-          and ERP, along with specialized programs that culminate in global
-          certifications.
+          SFJ Business Solutions Pvt. Ltd. SFJ stands for Simplified, Foster,
+          Jubilate is a global technology and skilling leader, established in
+          2011, dedicated to empowering individuals with the skills needed for
+          today's digital economy. We specialize in delivering cutting-edge,
+          industry-aligned training across critical domains including IT,
+          FinTech, Generative AI, Cloud, Cybersecurity, and ERP, along with
+          specialized programs that culminate in global certifications.
         </p>
         <p className="pt-8 text-gray-800 text-lg leading-relaxed">
           Our job-ready learning paths are delivered through a dynamic blended
@@ -179,7 +198,7 @@ const WhoWeAreSection: React.FC = () => (
           successful CSR collaborations with partners like NSDC, NASSCOM, and
           Microsoft, we are committed to driving scalable, inclusive skilling
           initiatives across India, the UAE, the US, and Singapore, preparing
-          diverse talent for the AI-powered future.
+          diverse talent for the AI-powered future
         </p>
       </div>
       <div className="w-full flex lg:flex-row flex-col gap-8 items-stretch justify-center max-w-6xl mx-auto px-4">
@@ -461,12 +480,12 @@ const AboutPage: React.FC = () => {
           if (entry.isIntersecting) {
             const target = entry.target as HTMLElement;
             setVisibleItems(
-              (prev) => new Set([...prev, target.dataset.index || ""])
+              (prev) => new Set([...prev, target.dataset.index || ""]),
             );
           }
         });
       },
-      { threshold: 0.2, rootMargin: "0px 0px -100px 0px" }
+      { threshold: 0.2, rootMargin: "0px 0px -100px 0px" },
     );
 
     return () => observerRef.current?.disconnect();
