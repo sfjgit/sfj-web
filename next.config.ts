@@ -40,6 +40,11 @@ const nextConfig: NextConfig = {
         destination:
           process.env.NEXT_PUBLIC_SFJ_BACKEND_URL + "/api/faculty/:path*",
       },
+      {
+        source: "/api/announcements/:path*",
+        destination:
+          process.env.NEXT_PUBLIC_SFJ_BACKEND_URL + "/api/announcements/:path*",
+      },
     ];
   },
 

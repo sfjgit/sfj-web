@@ -12,6 +12,7 @@ import {
   SOCIAL_PROFILES,
   WEBSITE_ID,
 } from "@/config/site";
+// import AnnouncementTicker from "@/components/AnnouncementTicker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -298,7 +299,10 @@ export default function RootLayout({
           className="fixed top-4 right-4 z-50"
         ></div> */}
 
-        <ClientProvider>{children}</ClientProvider>
+        <ClientProvider>
+          {/* <AnnouncementTicker /> */}
+          {children}
+        </ClientProvider>
       </body>
     </html>
   );

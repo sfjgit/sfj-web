@@ -11,6 +11,7 @@ import CookieBanner from "@/components/CookieBanner";
 import PushNotificationButton from "@/components/PushNotificationButton";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { rehydrateAuth } from "@/hooks/useAxios";
+import AnnouncementTicker from "@/components/AnnouncementTicker";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +63,7 @@ export default function ClientProvider({
                 visitor (or a social preview bot) saw on the homepage (P0-09,
                 PF-04). A fixed-height skeleton matching the header's
                 dimensions reserves the same space, so nothing shifts. */}
+            <AnnouncementTicker />
             <Suspense
               fallback={
                 <div
