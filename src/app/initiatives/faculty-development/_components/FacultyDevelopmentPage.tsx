@@ -13,6 +13,9 @@ const FACULTY_CATEGORIES = CATEGORIES.filter(
   (c) => c.title !== "SkillgenAI" && c.title !== "Faculty on Demand",
 );
 
+// Two in-page anchors, nothing more: #fdp-program on the hero section and
+// #fdp-webinar on the webinar section. Both are plain fragment targets, so a
+// link just scrolls the page — no section is hidden and no dialog is bound.
 export default function FacultyDevelopmentPage() {
   return (
     <div className="min-h-screen bg-white">

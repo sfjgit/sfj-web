@@ -40,7 +40,10 @@ const FACULTY_CAPABILITY_CARDS = capabilityCards.slice(0, 7).map((card, i) => ({
 // government-ssc-skilling/Hero.tsx, institutional-skilling/HeroSection.tsx,
 // the TaaS hero in taas/page.tsx).
 const FacultyHeroSection = () => (
-  <section className="relative w-full min-h-[26rem] sm:min-h-[30rem] lg:min-h-[88dvh] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 bg-slate-900">
+  <section
+    id="fdp-program"
+    className="relative w-full min-h-[26rem] sm:min-h-[30rem] lg:min-h-[88dvh] flex flex-col justify-start pt-28 sm:pt-32 lg:pt-40 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 bg-slate-900"
+  >
     <Image
       src="/fac/faculty-hero-3.webp"
       alt="Educators collaborating together in discussion, with a holographic globe representing global, technology-driven learning"

@@ -41,9 +41,9 @@ const INITIAL_FORM: FormState = {
 };
 
 const fieldClasses =
-  "w-full rounded-lg border border-white/15 bg-slate-800/70 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-transparent transition-colors disabled:opacity-50";
+  "w-full rounded-lg border border-gray-300! bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-transparent! transition-colors disabled:opacity-50";
 
-const labelClasses = "block text-sm font-medium text-slate-300 mb-1.5";
+const labelClasses = "block text-sm font-medium text-gray-700 mb-1.5";
 
 export default function FacultyRegistrationForm({
   onRegistered,
@@ -210,10 +210,12 @@ export default function FacultyRegistrationForm({
 
   if (registered) {
     return (
-      <div className="rounded-2xl bg-slate-900 px-6 py-10 text-center sm:px-10 sm:py-12">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" />
-        <h3 className="mt-4 text-xl font-bold text-white">You&apos;re in!</h3>
-        <p className="mt-2 text-sm text-slate-300">
+      <div className="rounded-2xl border border-gray-200! bg-white px-6 py-10 text-center shadow-2xl sm:px-10 sm:py-12">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" />
+        <h3 className="mt-4 text-xl font-bold text-slate-900">
+          You&apos;re in!
+        </h3>
+        <p className="mt-2 text-sm text-gray-600">
           {/* We&apos;ve reserved your seat. The joining link and follow-up material
           will reach {form.workEmail} and your mobile. */}
           Registration successful!
@@ -239,7 +241,7 @@ export default function FacultyRegistrationForm({
   }
 
   return (
-    <div className="rounded-2xl bg-slate-900 px-6 py-8 sm:px-10 sm:py-10">
+    <div className="rounded-2xl border border-gray-200! bg-white px-6 py-8 shadow-2xl sm:px-10 sm:py-10">
       <div className="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
         <div>
           <label className={labelClasses}>Your name</label>
@@ -270,7 +272,7 @@ export default function FacultyRegistrationForm({
             className={fieldClasses}
           >
             {FACULTY_ROLE_OPTIONS.map((option) => (
-              <option key={option} value={option} className="bg-slate-900">
+              <option key={option} value={option} className="bg-white">
                 {option}
               </option>
             ))}
@@ -284,7 +286,7 @@ export default function FacultyRegistrationForm({
             className={fieldClasses}
           >
             {FACULTY_DISCIPLINE_OPTIONS.map((option) => (
-              <option key={option} value={option} className="bg-slate-900">
+              <option key={option} value={option} className="bg-white">
                 {option}
               </option>
             ))}
@@ -304,7 +306,7 @@ export default function FacultyRegistrationForm({
         <div>
           <label className={labelClasses}>
             One course you teach{" "}
-            <span className="font-normal text-slate-500">— optional</span>
+            <span className="font-normal text-gray-500">— optional</span>
           </label>
           <input
             type="text"
@@ -321,11 +323,11 @@ export default function FacultyRegistrationForm({
             onChange={(e) => updateField("facultyStrength", e.target.value)}
             className={fieldClasses}
           >
-            <option value="" disabled className="bg-slate-900">
+            <option value="" disabled className="bg-white">
               Select range...
             </option>
             {FACULTY_STRENGTH_OPTIONS.map((option) => (
-              <option key={option} value={option} className="bg-slate-900">
+              <option key={option} value={option} className="bg-white">
                 {option}
               </option>
             ))}
@@ -336,13 +338,13 @@ export default function FacultyRegistrationForm({
       <div className="mt-5">
         <label className={labelClasses}>
           Mobile{" "}
-          <span className="font-normal text-slate-500">
+          <span className="font-normal text-gray-500">
             — verified by one-time code
           </span>
         </label>
         <div className="flex flex-col gap-3 sm:flex-row">
           <div className="flex flex-1 gap-3">
-            <span className="flex select-none items-center justify-center rounded-lg border border-white/15 bg-slate-800/70 px-4 text-sm text-slate-300">
+            <span className="flex select-none items-center justify-center rounded-lg border border-gray-300! bg-white px-4 text-sm text-gray-700">
               +91
             </span>
             <input
@@ -369,7 +371,7 @@ export default function FacultyRegistrationForm({
               otpStep === "verified" ||
               resendIn > 0
             }
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-600/40"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-700/70"
           >
             {otpStep === "sending" && (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -401,7 +403,7 @@ export default function FacultyRegistrationForm({
               type="button"
               onClick={handleVerifyCode}
               disabled={otp.length !== 6 || otpStep === "verifying"}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-600/40"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-700/70"
             >
               {otpStep === "verifying" && (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -412,15 +414,15 @@ export default function FacultyRegistrationForm({
         )}
 
         {otpStep === "verified" && (
-          <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-400">
+          <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-700">
             <CheckCircle2 className="h-3.5 w-3.5" /> Mobile verified
           </p>
         )}
-        {otpError && <p className="mt-2 text-xs text-red-400">{otpError}</p>}
+        {otpError && <p className="mt-2 text-xs text-red-600">{otpError}</p>}
       </div>
 
       {formError && (
-        <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-300">
+        <p className="mt-4 rounded-lg border border-red-300! bg-red-50 px-4 py-2 text-sm text-red-700">
           {formError}
         </p>
       )}
@@ -430,12 +432,12 @@ export default function FacultyRegistrationForm({
           type="button"
           onClick={handleConfirm}
           disabled={!formValid || submitting}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-6 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-amber-600 disabled:cursor-not-allowed disabled:bg-amber-500/40"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-900/70"
         >
           {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
           Confirm my seat
         </button>
-        <p className="text-xs text-slate-400 sm:max-w-xs">
+        <p className="text-xs text-gray-500 sm:max-w-xs">
           We use your email and number for the joining link and the follow-up
           material. Nothing else.
         </p>
