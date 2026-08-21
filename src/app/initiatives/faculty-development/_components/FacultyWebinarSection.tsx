@@ -123,7 +123,7 @@
 //   return (
 //     // Target for the "Reserve a seat" link in the syllabus sign-in dialog.
 //     <section
-//       id="reserve-your-seat"
+//       id="fdp-webinar"
 //       className="scroll-mt-28 bg-white py-10 sm:py-12"
 //     >
 //       {/* Same 96rem measure as FacultyCtaSection lower down the page, rather
@@ -710,6 +710,7 @@ export default function FacultyWebinarSection() {
         workEmail: email.trim(),
         mobile,
         otp,
+        registrationType: "FDP_WEBINAR",
       });
 
       console.log("Faculty registration successful:", response.data);
@@ -746,7 +747,7 @@ export default function FacultyWebinarSection() {
   if (registered) {
     return (
       <section
-        id="reserve-your-seat"
+        id="fdp-webinar"
         className="scroll-mt-28 bg-white py-10 sm:py-12"
       >
         <div className="mx-auto max-w-[96rem] px-4 sm:px-6 lg:px-8">
@@ -776,10 +777,7 @@ export default function FacultyWebinarSection() {
   // ------------------------------------------------------------
 
   return (
-    <section
-      id="reserve-your-seat"
-      className="scroll-mt-28 bg-white py-10 sm:py-12"
-    >
+    <section id="fdp-webinar" className="scroll-mt-28 bg-white py-10 sm:py-12">
       <div className="mx-auto max-w-[96rem] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
           {/* =====================================================
@@ -797,7 +795,7 @@ export default function FacultyWebinarSection() {
             </h2>
 
             <p className="mt-2 max-w-md text-[0.95rem] leading-relaxed text-gray-600">
-              A 75-minute executive briefing on clearing the AWS Academy
+              A 60-minute executive briefing on clearing the AWS Academy
               accreditation bottleneck, turning faculty upskilling into
               permanent NAAC/NBA evidence, and locking down student data before
               the DPDP rules bite.

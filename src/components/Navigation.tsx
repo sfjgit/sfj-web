@@ -42,7 +42,7 @@ import {
 } from "@/hooks/useAxios";
 import { useAxios } from "@/hooks/useAxios";
 import { CiLogin } from "react-icons/ci";
-import CaspaLoginDialog from "@/components/auth/CaspaLoginDialog";
+import CaspaLoginDialog from "./auth/CaspaLoginDialog";
 
 interface UserProfile {
   _id: string;
@@ -58,6 +58,7 @@ const Navigation = () => {
   const [isInitiativesOpen, setIsInitiativesOpen] = useState(false);
   const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   // Which mobile accordion section is expanded. Only one at a time, mirroring
   // the desktop behaviour where opening one mega-menu closes the other.
   const [openMobileSection, setOpenMobileSection] = useState<string | null>(
@@ -65,9 +66,6 @@ const Navigation = () => {
   );
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
-  // Shared by the desktop and mobile login buttons, so both open the same
-  // dialog instance rather than each rendering its own.
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const location = usePathname();
   const router = useRouter();
   const api = useAxios();
@@ -383,152 +381,517 @@ const Navigation = () => {
 
   return (
     <>
-    <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6">
-      <div className="relative max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 px-6">
-        <div className="flex items-center gap-4 py-2">
-          {/* Logo */}
-          <div className="flex items-center gap-3 flex-1">
-            <Link
-              href="/"
-              className="flex flex-col items-center group transition-transform hover:scale-105"
-            >
-              <div className="relative">
-                <Image
-                  src="/app/sfjlogo.png"
-                  alt="SFJ Logo"
-                  className="w-9 h-9 object-cover"
-                  quality={100}
-                  width={36}
-                  height={36}
-                />
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </div>
-            </Link>
-          </div>
+      <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6 mt-4.5">
+        {/* <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6"> */}
+        <div className="relative max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 px-6">
+          <div className="flex items-center gap-4 py-2">
+            {/* Logo */}
+            <div className="flex items-center gap-3 flex-1">
+              <Link
+                href="/"
+                className="flex flex-col items-center group transition-transform hover:scale-105"
+              >
+                <div className="relative">
+                  <Image
+                    src="/app/sfjlogo.png"
+                    alt="SFJ Logo"
+                    className="w-9 h-9 object-cover"
+                    quality={100}
+                    width={36}
+                    height={36}
+                  />
+                  <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              </Link>
+            </div>
 
-          {/* Desktop Navigation - center links */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0">
-            {navigationItems.map((item) => (
-              <div key={item.path} className="relative">
-                {item.label === "What We Do" ? (
-                  <button
-                    data-services-trigger
-                    onClick={() => setIsSolutionsOpen((v) => !v)}
-                    className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
-                      isActiveItem(item) || isSolutionsOpen
-                        ? "text-blue-600 bg-blue-50 shadow-sm"
-                        : isScrolled || isLocationBlack()
-                          ? "text-black"
-                          : "text-black"
-                    }`}
-                  >
-                    What We Do
-                    <ChevronDown
-                      className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                        isSolutionsOpen ? "rotate-180" : ""
+            {/* Desktop Navigation - center links */}
+            <div className="hidden md:flex items-center gap-2 lg:gap-4 flex-shrink-0">
+              {navigationItems.map((item) => (
+                <div key={item.path} className="relative">
+                  {item.label === "What We Do" ? (
+                    <button
+                      data-services-trigger
+                      onClick={() => setIsSolutionsOpen((v) => !v)}
+                      className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
+                        isActiveItem(item) || isSolutionsOpen
+                          ? "text-blue-600 bg-blue-50 shadow-sm"
+                          : isScrolled || isLocationBlack()
+                            ? "text-black"
+                            : "text-black"
                       }`}
-                    />
-                  </button>
-                ) : item.label === "Products" ? (
-                  <button
-                    data-products-trigger
-                    onClick={() => setIsProductsOpen((v) => !v)}
-                    className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
-                      isActiveItem(item) || isProductsOpen
-                        ? "text-blue-600 bg-blue-50 shadow-sm"
-                        : "text-black"
-                    }`}
-                  >
-                    Products
-                    <ChevronDown
-                      className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                        isProductsOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                ) : item.hasChildren ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
-                          isActiveItem(item)
-                            ? "text-blue-600 bg-blue-50 shadow-sm"
-                            : isScrolled || isLocationBlack()
-                              ? "text-black"
-                              : "text-black"
-                        }`}
-                      >
-                        {item.label}
-                        <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180 duration-200" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="start"
-                      className="w-80 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
                     >
-                      {item.children?.map((child: any) => (
-                        <DropdownMenuItem
-                          key={child.path}
-                          asChild
-                          className="p-0 hover:cursor-pointer"
-                        >
-                          <Link
-                            href={child.path}
-                            className="flex items-start p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
-                          >
-                            <div className="flex-1">
-                              <div className="font-medium text-gray-800 text-sm mb-1 group-hover:text-blue-600 transition-colors">
-                                {child.label}
-                              </div>
-                            </div>
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <Link
-                    href={item.path}
-                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
-                      isActiveItem(item)
-                        ? "text-blue-600 bg-blue-50 shadow-sm"
-                        : isScrolled || isLocationBlack()
-                          ? "text-black"
+                      What We Do
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                          isSolutionsOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  ) : item.label === "Products" ? (
+                    <button
+                      data-products-trigger
+                      onClick={() => setIsProductsOpen((v) => !v)}
+                      className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
+                        isActiveItem(item) || isProductsOpen
+                          ? "text-blue-600 bg-blue-50 shadow-sm"
                           : "text-black"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
+                      }`}
+                    >
+                      Products
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                          isProductsOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  ) : item.hasChildren ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          className={`flex items-center px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 group ${
+                            isActiveItem(item)
+                              ? "text-blue-600 bg-blue-50 shadow-sm"
+                              : isScrolled || isLocationBlack()
+                                ? "text-black"
+                                : "text-black"
+                          }`}
+                        >
+                          {item.label}
+                          <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180 duration-200" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align="start"
+                        className="w-80 p-2 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl"
+                      >
+                        {item.children?.map((child: any) => (
+                          <DropdownMenuItem
+                            key={child.path}
+                            asChild
+                            className="p-0 hover:cursor-pointer"
+                          >
+                            <Link
+                              href={child.path}
+                              className="flex items-start p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
+                            >
+                              <div className="flex-1">
+                                <div className="font-medium text-gray-800 text-sm mb-1 group-hover:text-blue-600 transition-colors">
+                                  {child.label}
+                                </div>
+                              </div>
+                            </Link>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <Link
+                      href={item.path}
+                      className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 ${
+                        isActiveItem(item)
+                          ? "text-blue-600 bg-blue-50 shadow-sm"
+                          : isScrolled || isLocationBlack()
+                            ? "text-black"
+                            : "text-black"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
 
-          {/* Desktop Navigation - right buttons */}
-          <div className="hidden md:flex items-center flex-1 justify-end">
-            {/* Auth Section — defaults to the logged-out state immediately
+            {/* Desktop Navigation - right buttons */}
+            <div className="hidden md:flex items-center flex-1 justify-end">
+              {/* Auth Section — defaults to the logged-out state immediately
                 rather than a loading skeleton, since confirming a session
                 always needs a network round trip (the refresh token lives
                 in an httpOnly cookie JS can't read synchronously). Swaps to
                 the avatar once/if that check confirms a user. */}
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="ml-4 flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-blue-50 transition-all duration-200 group">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-sm font-semibold">
-                      {getUserDisplayName().charAt(0).toUpperCase()}
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="ml-4 flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-blue-50 transition-all duration-200 group">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-sm font-semibold">
+                        {getUserDisplayName().charAt(0).toUpperCase()}
+                      </div>
+                      <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600">
+                        {getUserDisplayName()}
+                      </span>
+                      <ChevronDown className="w-4 h-4 text-gray-500 group-hover:text-blue-600" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-56 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl p-2"
+                  >
+                    <div className="px-3 py-2 border-b border-gray-100 mb-2">
+                      <p className="text-sm font-medium text-gray-900">
+                        {getUserDisplayName()}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {user.email}
+                      </p>
                     </div>
-                    <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600">
-                      {getUserDisplayName()}
-                    </span>
-                    <ChevronDown className="w-4 h-4 text-gray-500 group-hover:text-blue-600" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-56 bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl rounded-xl p-2"
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link
+                        href="/lms/dashboard"
+                        className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
+                      >
+                        <GraduationCap className="w-4 h-4" />
+                        My Courses
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                      <Link
+                        href="/lms/profile"
+                        className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
+                      >
+                        <User className="w-4 h-4" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Button
+                    onClick={() => setIsLoginOpen(true)}
+                    aria-label="Login"
+                    title="Login"
+                    className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                  >
+                    <CiLogin className="w-[1.15rem] h-[1.15rem]" />
+                    {/* <span></span> */}
+                  </Button>
+                  {/* <Button
+                  onClick={() => router.push("/contact")}
+                  className="ml-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 >
-                  <div className="px-3 py-2 border-b border-gray-100 mb-2">
+                  Contact Us
+                </Button> */}
+                </>
+              )}
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              {/* A11-01: this was an icon-only control with no accessible name —
+                a screen reader announced it as just "button". */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-navigation"
+                className="relative p-2 rounded-lg hover:bg-blue-50 transition-colors"
+              >
+                <div className="relative w-6 h-6">
+                  <Menu
+                    className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
+                      isMenuOpen
+                        ? "rotate-90 opacity-0"
+                        : "rotate-0 opacity-100"
+                    } ${
+                      isScrolled || isLocationBlack()
+                        ? "text-black"
+                        : "text-black"
+                    }`}
+                  />
+                  <X
+                    className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
+                      isMenuOpen
+                        ? "rotate-0 opacity-100"
+                        : "-rotate-90 opacity-0"
+                    } ${
+                      isScrolled || isLocationBlack()
+                        ? "text-black"
+                        : "text-black"
+                    }`}
+                  />
+                </div>
+              </Button>
+            </div>
+          </div>
+
+          {isSolutionsOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setIsSolutionsOpen(false)}
+              />
+              <div
+                data-services-menu
+                onMouseLeave={() => setIsSolutionsOpen(false)}
+                className="absolute left-0 right-0 top-full mt-2 p-5 bg-white border border-gray-200/50 shadow-xl rounded-xl z-50"
+              >
+                {/* Columns are sized to the number of groups, so removing a
+                  group never leaves an empty slot on the right. */}
+                <div
+                  className="grid gap-5 items-start"
+                  style={{
+                    gridTemplateColumns: `repeat(${serviceGroups.length}, minmax(0, 1fr))`,
+                  }}
+                >
+                  {serviceGroups.map((group: any) => (
+                    <div key={group.title} className="min-w-0">
+                      <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2 pb-2 border-b-2 border-gray-300">
+                        {group.title}
+                      </div>
+                      <div className="space-y-1">
+                        {group.items.map((child: any) => (
+                          <Link
+                            key={child.path}
+                            href={child.path}
+                            onClick={() => setIsSolutionsOpen(false)}
+                            className="block p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
+                          >
+                            <div className="font-medium text-gray-800 text-sm group-hover:text-blue-600 transition-colors">
+                              {child.label}
+                            </div>
+                            {child.description && (
+                              <div className="text-xs text-gray-500 mt-0.5">
+                                {child.description}
+                              </div>
+                            )}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          {isProductsOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setIsProductsOpen(false)}
+              />
+              <div
+                data-products-menu
+                onMouseLeave={() => setIsProductsOpen(false)}
+                className="absolute left-0 right-0 top-full mt-2 p-5 bg-white border border-gray-200/50 shadow-xl rounded-xl z-50"
+              >
+                <div
+                  className="grid divide-x divide-gray-200"
+                  style={{
+                    gridTemplateColumns: `repeat(${productItems.length}, minmax(0, 1fr))`,
+                  }}
+                >
+                  {productItems.map((child: any) => (
+                    <Link
+                      key={child.label}
+                      href={child.path}
+                      onClick={() => setIsProductsOpen(false)}
+                      className="flex flex-col items-start gap-2 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                    >
+                      <div className="w-11 h-11 rounded-xl bg-gray-100 text-gray-900 flex items-center justify-center">
+                        {child.icon && <child.icon className="w-6 h-6" />}
+                      </div>
+                      <div className="text-base font-bold text-gray-900">
+                        {child.label}
+                      </div>
+                      <div className="text-xs text-gray-600 leading-relaxed">
+                        {child.desc}
+                      </div>
+                      <div className="mt-1 h-0.5 w-6 rounded-full bg-gray-300" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Mobile Navigation — mirrors the desktop mega-menus. Each top-level
+            item is a collapsible accordion rather than an always-open flat
+            list: "What We Do" keeps its group headings and descriptions,
+            "Products" keeps its icon tiles and copy, and anything else falls
+            back to a plain link list. The drawer scrolls once the expanded
+            panel outgrows the viewport. */}
+          <div
+            id="mobile-navigation"
+            className={`md:hidden transition-all duration-300 ease-in-out ${
+              isMenuOpen
+                ? "max-h-[calc(100vh-7rem)] opacity-100 overflow-y-auto"
+                : "max-h-0 opacity-0 overflow-hidden"
+            }`}
+          >
+            <div className="px-2 pb-4 bg-white/95 backdrop-blur-md rounded-b-xl shadow-lg">
+              {navigationItems.map((item: any) => {
+                if (!item.hasChildren) {
+                  return (
+                    <div
+                      key={item.path}
+                      className="border-b border-gray-100 last:border-b-0"
+                    >
+                      <Link
+                        href={item.path}
+                        className={`block px-3 py-3 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                          location === item.path
+                            ? "text-blue-600 bg-blue-50"
+                            : "text-gray-800 hover:text-blue-600 hover:bg-gray-50"
+                        }`}
+                        onClick={closeMobileMenu}
+                      >
+                        {item.label}
+                      </Link>
+                    </div>
+                  );
+                }
+
+                const sectionId = slugify(item.label);
+                const isSectionOpen = openMobileSection === item.label;
+
+                return (
+                  <div
+                    key={item.path}
+                    className="border-b border-gray-100 last:border-b-0"
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenMobileSection(isSectionOpen ? null : item.label)
+                      }
+                      aria-expanded={isSectionOpen}
+                      aria-controls={`mobile-panel-${sectionId}`}
+                      className={`w-full flex items-center justify-between gap-2 px-3 py-3 text-sm font-semibold rounded-lg transition-colors duration-200 ${
+                        isSectionOpen || isActiveItem(item)
+                          ? "text-blue-600 bg-blue-50"
+                          : "text-gray-900 hover:bg-gray-50"
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown
+                        className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
+                          isSectionOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    <div
+                      id={`mobile-panel-${sectionId}`}
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isSectionOpen
+                          ? "max-h-[2000px] opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      {item.label === "What We Do" ? (
+                        <div className="px-1 pt-2 pb-3 space-y-4">
+                          {serviceGroups.map((group: any) => (
+                            <div key={group.title}>
+                              <div className="text-[11px] font-semibold text-blue-600 uppercase tracking-wide mb-2 pb-1.5 border-b-2 border-gray-200 px-1">
+                                {group.title}
+                              </div>
+                              <div className="space-y-1">
+                                {group.items.map((child: any) => (
+                                  <Link
+                                    key={child.path}
+                                    href={child.path}
+                                    onClick={closeMobileMenu}
+                                    className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-blue-50 active:bg-blue-50 transition-colors duration-200 group"
+                                  >
+                                    {child.icon && (
+                                      <child.icon className="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-500 group-hover:text-blue-600 transition-colors" />
+                                    )}
+                                    <div className="min-w-0">
+                                      <div
+                                        className={`text-sm font-medium transition-colors group-hover:text-blue-600 ${
+                                          location === child.path
+                                            ? "text-blue-600"
+                                            : "text-gray-800"
+                                        }`}
+                                      >
+                                        {child.label}
+                                      </div>
+                                      {child.description && (
+                                        <div className="text-xs text-gray-500 mt-0.5 leading-relaxed">
+                                          {child.description}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : item.label === "Products" ? (
+                        <div className="px-1 pt-2 pb-3 divide-y divide-gray-100">
+                          {productItems.map((child: any) => (
+                            <Link
+                              key={child.path}
+                              href={child.path}
+                              onClick={closeMobileMenu}
+                              className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 active:bg-gray-50 transition-colors duration-200 group"
+                            >
+                              <div className="w-10 h-10 rounded-xl bg-gray-100 text-gray-900 flex items-center justify-center flex-shrink-0">
+                                {child.icon && (
+                                  <child.icon className="w-5 h-5" />
+                                )}
+                              </div>
+                              <div className="min-w-0">
+                                <div
+                                  className={`text-sm font-bold transition-colors group-hover:text-blue-600 ${
+                                    location === child.path
+                                      ? "text-blue-600"
+                                      : "text-gray-900"
+                                  }`}
+                                >
+                                  {child.label}
+                                </div>
+                                <div className="text-xs text-gray-600 leading-relaxed mt-0.5">
+                                  {child.desc}
+                                </div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="px-1 pt-1 pb-3 space-y-1">
+                          {item.children?.map((child: any) => (
+                            <Link
+                              key={child.path}
+                              href={child.path}
+                              onClick={closeMobileMenu}
+                              className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-lg transition-all duration-200 ${
+                                location === child.path
+                                  ? "text-blue-600 bg-blue-50 font-medium"
+                                  : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                              }`}
+                            >
+                              {child.icon && (
+                                <child.icon className="w-4 h-4 flex-shrink-0" />
+                              )}
+                              <span className="truncate">{child.label}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Mobile Auth Section — same instant logged-out default as
+                the desktop auth section above. */}
+              {user ? (
+                <div className="pt-3 space-y-2">
+                  <div className="px-3 py-2 bg-blue-50 rounded-lg">
                     <p className="text-sm font-medium text-gray-900">
                       {getUserDisplayName()}
                     </p>
@@ -536,402 +899,46 @@ const Navigation = () => {
                       {user.email}
                     </p>
                   </div>
-                  <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link
-                      href="/lms/dashboard"
-                      className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
-                    >
-                      <GraduationCap className="w-4 h-4" />
-                      My Courses
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild className="cursor-pointer">
-                    <Link
-                      href="/lms/profile"
-                      className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
-                    >
-                      <User className="w-4 h-4" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleLogout}
-                    className="cursor-pointer flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors"
+                  <Link
+                    href="/lms/dashboard"
+                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
+                    onClick={closeMobileMenu}
+                  >
+                    <GraduationCap className="w-4 h-4" />
+                    My Courses
+                  </Link>
+                  <Link
+                    href="/lms/profile"
+                    className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
+                    onClick={closeMobileMenu}
+                  >
+                    <User className="w-4 h-4" />
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      closeMobileMenu();
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors text-left"
                   >
                     <LogOut className="w-4 h-4" />
                     Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <>
-                <Button
-                  onClick={() => setIsLoginOpen(true)}
-                  aria-label="Login"
-                  title="Login"
-                  className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
-                >
-                  <CiLogin className="w-[1.15rem] h-[1.15rem]" />
-                  {/* <span></span> */}
-                </Button>
-                {/* <Button
-                  onClick={() => router.push("/contact")}
-                  className="ml-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
-                >
-                  Contact Us
-                </Button> */}
-              </>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            {/* A11-01: this was an icon-only control with no accessible name —
-                a screen reader announced it as just "button". */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-navigation"
-              className="relative p-2 rounded-lg hover:bg-blue-50 transition-colors"
-            >
-              <div className="relative w-6 h-6">
-                <Menu
-                  className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
-                    isMenuOpen ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-                  } ${
-                    isScrolled || isLocationBlack()
-                      ? "text-black"
-                      : "text-black"
-                  }`}
-                />
-                <X
-                  className={`absolute inset-0 w-6 h-6 transition-all duration-300 ${
-                    isMenuOpen ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-                  } ${
-                    isScrolled || isLocationBlack()
-                      ? "text-black"
-                      : "text-black"
-                  }`}
-                />
-              </div>
-            </Button>
-          </div>
-        </div>
-
-        {isSolutionsOpen && (
-          <>
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsSolutionsOpen(false)}
-            />
-            <div
-              data-services-menu
-              onMouseLeave={() => setIsSolutionsOpen(false)}
-              className="absolute left-0 right-0 top-full mt-2 p-5 bg-white border border-gray-200/50 shadow-xl rounded-xl z-50"
-            >
-              {/* Columns are sized to the number of groups, so removing a
-                  group never leaves an empty slot on the right. */}
-              <div
-                className="grid gap-5 items-start"
-                style={{
-                  gridTemplateColumns: `repeat(${serviceGroups.length}, minmax(0, 1fr))`,
-                }}
-              >
-                {serviceGroups.map((group: any) => (
-                  <div key={group.title} className="min-w-0">
-                    <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2 pb-2 border-b-2 border-gray-300">
-                      {group.title}
-                    </div>
-                    <div className="space-y-1">
-                      {group.items.map((child: any) => (
-                        <Link
-                          key={child.path}
-                          href={child.path}
-                          onClick={() => setIsSolutionsOpen(false)}
-                          className="block p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
-                        >
-                          <div className="font-medium text-gray-800 text-sm group-hover:text-blue-600 transition-colors">
-                            {child.label}
-                          </div>
-                          {child.description && (
-                            <div className="text-xs text-gray-500 mt-0.5">
-                              {child.description}
-                            </div>
-                          )}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-
-        {isProductsOpen && (
-          <>
-            <div
-              className="fixed inset-0 z-40"
-              onClick={() => setIsProductsOpen(false)}
-            />
-            <div
-              data-products-menu
-              onMouseLeave={() => setIsProductsOpen(false)}
-              className="absolute left-0 right-0 top-full mt-2 p-5 bg-white border border-gray-200/50 shadow-xl rounded-xl z-50"
-            >
-              <div
-                className="grid divide-x divide-gray-200"
-                style={{
-                  gridTemplateColumns: `repeat(${productItems.length}, minmax(0, 1fr))`,
-                }}
-              >
-                {productItems.map((child: any) => (
-                  <Link
-                    key={child.label}
-                    href={child.path}
-                    onClick={() => setIsProductsOpen(false)}
-                    className="flex flex-col items-start gap-2 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
-                  >
-                    <div className="w-11 h-11 rounded-xl bg-gray-100 text-gray-900 flex items-center justify-center">
-                      {child.icon && <child.icon className="w-6 h-6" />}
-                    </div>
-                    <div className="text-base font-bold text-gray-900">
-                      {child.label}
-                    </div>
-                    <div className="text-xs text-gray-600 leading-relaxed">
-                      {child.desc}
-                    </div>
-                    <div className="mt-1 h-0.5 w-6 rounded-full bg-gray-300" />
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* Mobile Navigation — mirrors the desktop mega-menus. Each top-level
-            item is a collapsible accordion rather than an always-open flat
-            list: "What We Do" keeps its group headings and descriptions,
-            "Products" keeps its icon tiles and copy, and anything else falls
-            back to a plain link list. The drawer scrolls once the expanded
-            panel outgrows the viewport. */}
-        <div
-          id="mobile-navigation"
-          className={`md:hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen
-              ? "max-h-[calc(100vh-7rem)] opacity-100 overflow-y-auto"
-              : "max-h-0 opacity-0 overflow-hidden"
-          }`}
-        >
-          <div className="px-2 pb-4 bg-white/95 backdrop-blur-md rounded-b-xl shadow-lg">
-            {navigationItems.map((item: any) => {
-              if (!item.hasChildren) {
-                return (
-                  <div
-                    key={item.path}
-                    className="border-b border-gray-100 last:border-b-0"
-                  >
-                    <Link
-                      href={item.path}
-                      className={`block px-3 py-3 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                        location === item.path
-                          ? "text-blue-600 bg-blue-50"
-                          : "text-gray-800 hover:text-blue-600 hover:bg-gray-50"
-                      }`}
-                      onClick={closeMobileMenu}
-                    >
-                      {item.label}
-                    </Link>
-                  </div>
-                );
-              }
-
-              const sectionId = slugify(item.label);
-              const isSectionOpen = openMobileSection === item.label;
-
-              return (
-                <div
-                  key={item.path}
-                  className="border-b border-gray-100 last:border-b-0"
-                >
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setOpenMobileSection(isSectionOpen ? null : item.label)
-                    }
-                    aria-expanded={isSectionOpen}
-                    aria-controls={`mobile-panel-${sectionId}`}
-                    className={`w-full flex items-center justify-between gap-2 px-3 py-3 text-sm font-semibold rounded-lg transition-colors duration-200 ${
-                      isSectionOpen || isActiveItem(item)
-                        ? "text-blue-600 bg-blue-50"
-                        : "text-gray-900 hover:bg-gray-50"
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                    <ChevronDown
-                      className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
-                        isSectionOpen ? "rotate-180" : ""
-                      }`}
-                    />
                   </button>
-
-                  <div
-                    id={`mobile-panel-${sectionId}`}
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isSectionOpen
-                        ? "max-h-[2000px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
+                </div>
+              ) : (
+                <div className="pt-3 space-y-2">
+                  <Button
+                    className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
+                    onClick={() => {
+                      closeMobileMenu();
+                      setIsLoginOpen(true);
+                    }}
                   >
-                    {item.label === "What We Do" ? (
-                      <div className="px-1 pt-2 pb-3 space-y-4">
-                        {serviceGroups.map((group: any) => (
-                          <div key={group.title}>
-                            <div className="text-[11px] font-semibold text-blue-600 uppercase tracking-wide mb-2 pb-1.5 border-b-2 border-gray-200 px-1">
-                              {group.title}
-                            </div>
-                            <div className="space-y-1">
-                              {group.items.map((child: any) => (
-                                <Link
-                                  key={child.path}
-                                  href={child.path}
-                                  onClick={closeMobileMenu}
-                                  className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-blue-50 active:bg-blue-50 transition-colors duration-200 group"
-                                >
-                                  {child.icon && (
-                                    <child.icon className="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-500 group-hover:text-blue-600 transition-colors" />
-                                  )}
-                                  <div className="min-w-0">
-                                    <div
-                                      className={`text-sm font-medium transition-colors group-hover:text-blue-600 ${
-                                        location === child.path
-                                          ? "text-blue-600"
-                                          : "text-gray-800"
-                                      }`}
-                                    >
-                                      {child.label}
-                                    </div>
-                                    {child.description && (
-                                      <div className="text-xs text-gray-500 mt-0.5 leading-relaxed">
-                                        {child.description}
-                                      </div>
-                                    )}
-                                  </div>
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : item.label === "Products" ? (
-                      <div className="px-1 pt-2 pb-3 divide-y divide-gray-100">
-                        {productItems.map((child: any) => (
-                          <Link
-                            key={child.path}
-                            href={child.path}
-                            onClick={closeMobileMenu}
-                            className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-gray-50 active:bg-gray-50 transition-colors duration-200 group"
-                          >
-                            <div className="w-10 h-10 rounded-xl bg-gray-100 text-gray-900 flex items-center justify-center flex-shrink-0">
-                              {child.icon && <child.icon className="w-5 h-5" />}
-                            </div>
-                            <div className="min-w-0">
-                              <div
-                                className={`text-sm font-bold transition-colors group-hover:text-blue-600 ${
-                                  location === child.path
-                                    ? "text-blue-600"
-                                    : "text-gray-900"
-                                }`}
-                              >
-                                {child.label}
-                              </div>
-                              <div className="text-xs text-gray-600 leading-relaxed mt-0.5">
-                                {child.desc}
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="px-1 pt-1 pb-3 space-y-1">
-                        {item.children?.map((child: any) => (
-                          <Link
-                            key={child.path}
-                            href={child.path}
-                            onClick={closeMobileMenu}
-                            className={`flex items-center gap-2 px-3 py-2.5 text-sm rounded-lg transition-all duration-200 ${
-                              location === child.path
-                                ? "text-blue-600 bg-blue-50 font-medium"
-                                : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-                            }`}
-                          >
-                            {child.icon && (
-                              <child.icon className="w-4 h-4 flex-shrink-0" />
-                            )}
-                            <span className="truncate">{child.label}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-
-            {/* Mobile Auth Section — same instant logged-out default as
-                the desktop auth section above. */}
-            {user ? (
-              <div className="pt-3 space-y-2">
-                <div className="px-3 py-2 bg-blue-50 rounded-lg">
-                  <p className="text-sm font-medium text-gray-900">
-                    {getUserDisplayName()}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">{user.email}</p>
-                </div>
-                <Link
-                  href="/lms/dashboard"
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
-                  onClick={closeMobileMenu}
-                >
-                  <GraduationCap className="w-4 h-4" />
-                  My Courses
-                </Link>
-                <Link
-                  href="/lms/profile"
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-blue-50 transition-colors"
-                  onClick={closeMobileMenu}
-                >
-                  <User className="w-4 h-4" />
-                  Profile
-                </Link>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    closeMobileMenu();
-                  }}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors text-left"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="pt-3 space-y-2">
-                <Button
-                  className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
-                  onClick={() => {
-                    closeMobileMenu();
-                    setIsLoginOpen(true);
-                  }}
-                >
-                  <CiLogin className="w-[1.15rem] h-[1.15rem]" />
-                  <span>Login</span>
-                </Button>
-                {/* <Button
+                    <CiLogin className="w-[1.15rem] h-[1.15rem]" />
+                    <span>Login</span>
+                  </Button>
+                  {/* <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
                     router.push("/contact");
@@ -940,14 +947,14 @@ const Navigation = () => {
                 >
                   Contact Us
                 </Button> */}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
 
-    <CaspaLoginDialog open={isLoginOpen} onOpenChange={setIsLoginOpen} />
+      <CaspaLoginDialog open={isLoginOpen} onOpenChange={setIsLoginOpen} />
     </>
   );
 };

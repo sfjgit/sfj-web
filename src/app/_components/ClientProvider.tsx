@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 
 import Navigation from "@/components/Navigation";
 import CTAWithFooter from "./CTAWithFooter";
+import HeroLoginButton from "@/components/HeroLoginButton";
 import SFJContactForm from "./SFJContactForm";
 import CookieBanner from "@/components/CookieBanner";
 import PushNotificationButton from "@/components/PushNotificationButton";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { rehydrateAuth } from "@/hooks/useAxios";
+import AnnouncementTicker from "@/components/AnnouncementTicker";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +64,7 @@ export default function ClientProvider({
                 visitor (or a social preview bot) saw on the homepage (P0-09,
                 PF-04). A fixed-height skeleton matching the header's
                 dimensions reserves the same space, so nothing shifts. */}
+            <AnnouncementTicker />
             <Suspense
               fallback={
                 <div
@@ -74,6 +77,12 @@ export default function ClientProvider({
             </Suspense>
           </>
         )}
+
+        {/* The login button used to live inside the navbar. It now sits at the
+            top-right of the hero instead — absolutely positioned against this
+            wrapper rather than fixed, so it scrolls away with the hero the way
+            a hero element should. */}
+        {!hideLayout && <HeroLoginButton />}
 
         {children}
 
