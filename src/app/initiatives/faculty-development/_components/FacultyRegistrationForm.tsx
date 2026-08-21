@@ -194,6 +194,7 @@ export default function FacultyRegistrationForm({
         workEmail: form.workEmail.trim(),
         mobile: form.mobile,
         otp,
+        registrationType: "FDP",
       });
       setRegistered(true);
       onRegistered?.();
