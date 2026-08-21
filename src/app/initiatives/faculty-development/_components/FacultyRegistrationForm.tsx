@@ -432,7 +432,7 @@ export default function FacultyRegistrationForm({
           type="button"
           onClick={handleConfirm}
           disabled={!formValid || submitting}
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-900/70"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-900/70"
         >
           {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
           Confirm my seat
