@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 import Navigation from "@/components/Navigation";
 import CTAWithFooter from "./CTAWithFooter";
+import HeroLoginButton from "@/components/HeroLoginButton";
 import SFJContactForm from "./SFJContactForm";
 import CookieBanner from "@/components/CookieBanner";
 import PushNotificationButton from "@/components/PushNotificationButton";
@@ -76,6 +77,12 @@ export default function ClientProvider({
             </Suspense>
           </>
         )}
+
+        {/* The login button used to live inside the navbar. It now sits at the
+            top-right of the hero instead — absolutely positioned against this
+            wrapper rather than fixed, so it scrolls away with the hero the way
+            a hero element should. */}
+        {!hideLayout && <HeroLoginButton />}
 
         {children}
 

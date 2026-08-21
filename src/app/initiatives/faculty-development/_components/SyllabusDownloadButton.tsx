@@ -108,7 +108,7 @@ export default function SyllabusDownloadButton({
             <p className="mt-5 border-t border-[#1e2b2f]! pt-4 text-sm text-gray-500">
               Not registered yet?{" "}
               <a
-                href="#reserve-your-seat"
+                href="#fdp-webinar"
                 onClick={() => setOpen(false)}
                 className="underline underline-offset-2 transition-opacity hover:opacity-75"
                 style={{ color: GOLD }}
