@@ -710,6 +710,7 @@ export default function FacultyWebinarSection() {
         workEmail: email.trim(),
         mobile,
         otp,
+        registrationType: "FDP_WEBINAR",
       });
 
       console.log("Faculty registration successful:", response.data);
