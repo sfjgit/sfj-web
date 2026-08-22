@@ -329,7 +329,7 @@
 //           <div className="lg:col-span-1 space-y-4">
 //             <div className="flex items-center space-x-2">
 //               <Image
-//                 src="/logo/sfj-logo.png"
+//                 src="/SFJ-logo.png"
 //                 alt="SFJ Logo"
 //                 className="w-12 h-12 object-cover"
 //                 quality={100}
@@ -993,7 +993,7 @@ const Footer = () => {
           <div className="lg:col-span-1 space-y-4">
             <div className="flex items-center space-x-2">
               <Image
-                src="/logo/sfj-logo.png"
+                src="/SFJ-logo.png"
                 alt="SFJ Logo"
                 className="w-12 h-12 object-cover"
                 quality={100}

@@ -281,7 +281,7 @@ function downloadInvoice(purchase: UpdatedPurchase) {
   <!-- Header -->
   <div class="header">
     <div class="logo-block">
-      <img src="/logo/sfj-logo.png" alt="SFJ Business Solutions" onerror="this.style.display='none'" />
+      <img src="/SFJ-logo.png" alt="SFJ Business Solutions" onerror="this.style.display='none'" />
       <div class="company-name">bSkilling</div>
       <div class="company-sub">SFJ Business Solutions Pvt. Ltd.</div>
       <div class="company-sub">GSTIN: 29AAXCS1234F1Z5 · India</div>
