@@ -7,8 +7,26 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { Bell, Pause, Play, X } from "lucide-react";
+import { Pause, Play, X } from "lucide-react";
 
+// Mirrors the payload of GET /api/announcements. Verified against the live
+// backend: it sends `message`, NOT `description`, and carries isActive /
+// startAt / endAt / displayOrder, all of which decide whether and in what
+// order an item may appear.
+type ApiAnnouncement = {
+  id: string;
+  title: string;
+  message?: string | null;
+  link?: string | null;
+  linkText?: string | null;
+  isActive?: boolean;
+  displayOrder?: number;
+  startAt?: string | null;
+  endAt?: string | null;
+  createdAt?: string;
+};
+
+// What this component renders. `description` is fed from the API's `message`.
 type Announcement = {
   id: string;
   title: string;
@@ -21,12 +39,91 @@ type Announcement = {
 
 type AnnouncementResponse = {
   success?: boolean;
-  data?: Announcement[];
-  announcements?: Announcement[];
+  data?: ApiAnnouncement[];
+  announcements?: ApiAnnouncement[];
 };
+
+/**
+ * Turn the raw API list into what the bar should actually display.
+ *
+ * The backend publishes scheduling metadata that the ticker previously
+ * ignored, so deactivated and expired notices rendered anyway — at the time
+ * of writing the feed contains one item whose endAt has already passed.
+ * Honouring it here is the difference between "fetching" and "fetching
+ * properly".
+ *
+ *   isActive === false   -> hidden
+ *   startAt in future    -> not yet live, hidden
+ *   endAt in past        -> expired, hidden
+ *
+ * Ordering follows displayOrder, then newest first as a tiebreak, since the
+ * whole feed currently shares displayOrder 0.
+ */
+function toDisplayList(items: ApiAnnouncement[]): Announcement[] {
+  const now = Date.now();
+
+  return items
+    .filter((a) => {
+      if (a.isActive === false) return false;
+      if (a.startAt && new Date(a.startAt).getTime() > now) return false;
+      if (a.endAt && new Date(a.endAt).getTime() < now) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      const order = (a.displayOrder ?? 0) - (b.displayOrder ?? 0);
+      if (order !== 0) return order;
+      return (
+        new Date(b.createdAt ?? 0).getTime() -
+        new Date(a.createdAt ?? 0).getTime()
+      );
+    })
+    .map((a) => ({
+      id: a.id,
+      title: a.title,
+      // The field rename that kept every description invisible. Editors
+      // routinely paste the same text into both title and message; rendering
+      // both then prints the announcement twice on one line, so treat an
+      // identical message as absent.
+      description:
+        a.message && a.message.trim() !== a.title.trim() ? a.message : null,
+      link: a.link ?? null,
+      linkText: a.linkText ?? null,
+      createdAt: a.createdAt,
+    }));
+}
 
 // Marquee scrolls right -> left (translateX 0 to -50%). To reverse direction,
 // swap the keyframe's `from`/`to` values below.
+//
+// Off: the bar holds still. The animation code is intact, so flipping this
+// back to true restores scrolling.
+const MARQUEE_ENABLED = false;
+
+// With nothing scrolling there is only room for one notice on the line, so
+// the bar shows the top-ranked live announcement rather than cutting several
+// off mid-sentence. Ranking comes from toDisplayList (displayOrder, then
+// newest). Raise this if you shorten the announcement text.
+const MAX_VISIBLE = 1;
+
+/**
+ * Announcement text is authored in a plain-text CMS field, but editors write
+ * **like this** expecting emphasis. Without this the asterisks render
+ * literally. Deliberately only `**bold**` — the bar is one line of copy, not
+ * a markdown surface, and anything richer invites HTML injection from a
+ * field that is not sanitised.
+ */
+function renderEmphasis(text: string) {
+  return text.split(/(\*\*[^\*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+      <strong key={i} className="font-bold text-white">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+}
+
 const PIXELS_PER_SECOND = 30; // constant visual speed regardless of item count
 const MIN_DURATION_SECONDS = 20; // floor so a short list doesn't fly past
 
@@ -35,7 +132,7 @@ export default function AnnouncementTicker() {
   const [loading, setLoading] = useState(true);
   const [closed, setClosed] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [shouldAnimate, setShouldAnimate] = useState(true);
+  const [shouldAnimate, setShouldAnimate] = useState(MARQUEE_ENABLED);
   const [duration, setDuration] = useState(MIN_DURATION_SECONDS);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -63,7 +160,7 @@ export default function AnnouncementTicker() {
           : (result.data ?? result.announcements ?? []);
 
         if (!cancelled) {
-          setAnnouncements(items);
+          setAnnouncements(toDisplayList(items));
         }
       } catch (error) {
         console.error("Announcement fetch failed:", error);
@@ -110,7 +207,7 @@ export default function AnnouncementTicker() {
     const contentWidth = group.getBoundingClientRect().width;
     const fits = contentWidth <= container.clientWidth;
 
-    setShouldAnimate(!fits);
+    setShouldAnimate(MARQUEE_ENABLED && !fits);
     if (fits) return;
 
     const next = Math.max(
@@ -145,7 +242,9 @@ export default function AnnouncementTicker() {
     return null;
   }
 
-  const hasUrgent = announcements.some(
+  const visible = announcements.slice(0, MAX_VISIBLE);
+
+  const hasUrgent = visible.some(
     (a) => a.priority === "URGENT" || a.priority === "HIGH",
   );
 
@@ -219,30 +318,46 @@ export default function AnnouncementTicker() {
         )}
 
         {fresh && !urgent && (
-          <span className="shrink-0 rounded-full bg-white px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#07152f]">
+          <span className="shrink-0 rounded-full bg-white px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#0040E8]">
             New
           </span>
         )}
 
-        <span className="font-medium text-white">{a.title}</span>
+        <span className="font-medium text-white">
+          {renderEmphasis(a.title)}
+        </span>
 
         {a.description && (
           <span className="hidden text-white/60 lg:inline">
-            — {a.description}
+            — {renderEmphasis(a.description)}
           </span>
         )}
 
-        <span
-          aria-hidden
-          className="ml-3 h-1 w-1 shrink-0 rounded-full bg-white/20"
-        />
+        {a.linkText && (
+          <span className="ml-1 shrink-0 font-bold text-white underline underline-offset-2">
+            {a.linkText}
+          </span>
+        )}
+
+        {/* Separator between items in the marquee. With scrolling off there is
+            only one item, so the dot would just dangle after it. */}
+        {MARQUEE_ENABLED && (
+          <span
+            aria-hidden
+            className="ml-3 h-1 w-1 shrink-0 rounded-full bg-white/20"
+          />
+        )}
       </>
     );
 
     return (
       <div
         key={key}
-        className="flex shrink-0 items-center whitespace-nowrap text-sm"
+        className={
+          MARQUEE_ENABLED
+            ? "flex shrink-0 items-center whitespace-nowrap text-sm"
+            : "flex min-w-0 items-center whitespace-nowrap text-sm"
+        }
       >
         {a.link ? (
           <a
@@ -250,7 +365,7 @@ export default function AnnouncementTicker() {
             target={a.link.startsWith("http") ? "_blank" : undefined}
             rel={a.link.startsWith("http") ? "noopener noreferrer" : undefined}
             tabIndex={focusable ? 0 : -1}
-            className="flex items-center gap-2.5 px-6 transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#07152f]"
+            className="flex items-center gap-2.5 px-6 transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0040E8]"
           >
             {content}
           </a>
@@ -282,29 +397,21 @@ export default function AnnouncementTicker() {
         className={
           hasUrgent
             ? "bg-gradient-to-r from-red-600 via-rose-600 to-red-600"
-            : "bg-gradient-to-r from-[#07152f] via-[#0b2859] to-[#07152f]"
+            : "bg-gradient-to-r from-[#0040E8] via-[#2364EC] to-[#0040E8]"
         }
       >
-        <div className="mx-auto flex h-11 max-w-[1600px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-          {/* Icon + Label */}
-          <div className="flex shrink-0 items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/15">
-              <Bell className="h-3.5 w-3.5 text-white" />
-            </div>
-            <span className="hidden text-[11px] font-bold uppercase tracking-[0.16em] text-white/90 sm:block">
-              Updates
-            </span>
-          </div>
-
-          <span
-            aria-hidden
-            className="hidden h-4 w-px shrink-0 bg-white/20 sm:block"
-          />
-
+        <div className="mx-auto flex h-8 max-w-[1280px] items-center gap-3 px-4 sm:px-6 lg:px-8">
           {/* Marquee */}
           <div
             ref={containerRef}
-            className="relative min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent_0,black_24px,black_calc(100%-24px),transparent_100%)]"
+            className={
+              // The edge fade exists so marquee items slide in and out of
+              // view. Held still it just eats the first and last words, so
+              // it only applies while scrolling.
+              MARQUEE_ENABLED
+                ? "relative min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent_0,black_24px,black_calc(100%-24px),transparent_100%)]"
+                : "relative min-w-0 flex-1 overflow-hidden"
+            }
           >
             <div
               ref={trackRef}
@@ -316,12 +423,12 @@ export default function AnnouncementTicker() {
               }
             >
               <div ref={firstGroupRef} className="flex shrink-0 items-center">
-                {announcements.map((a, i) => renderItem(a, `a-${i}`, true))}
+                {visible.map((a, i) => renderItem(a, `a-${i}`, true))}
               </div>
 
               {shouldAnimate && (
                 <div aria-hidden="true" className="flex shrink-0 items-center">
-                  {announcements.map((a, i) => renderItem(a, `b-${i}`, false))}
+                  {visible.map((a, i) => renderItem(a, `b-${i}`, false))}
                 </div>
               )}
             </div>

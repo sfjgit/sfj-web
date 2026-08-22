@@ -802,12 +802,16 @@ export default function FacultyWebinarSection() {
               style={{ color: GOLD_TEXT }}
             />
 
-            <h2 className="mt-3 text-[1.7rem] font-bold leading-tight text-slate-900 sm:text-[1.85rem]">
+            <h3 className="mt-3 text-[1rem] font-semibold leading-tight text-slate-500 sm:text-[1.15rem]">
               Register for the Webinar to Reserve Your Seat
-            </h2>
+            </h3>
+            <h1 className="mt-3 text-[1.7rem] font-bold leading-tight text-slate-900 sm:text-[1.85rem]">
+              Bring AI & Cloud Skills to Your Campus Without Rewriting Your
+              Syllabus
+            </h1>
 
             <p className="mt-2 max-w-md text-[0.95rem] leading-relaxed text-gray-600">
-              A 60-minute executive briefing on clearing the AWS Academy
+              A 65-minute executive briefing on clearing the AWS Academy
               accreditation bottleneck, turning faculty upskilling into
               permanent NAAC/NBA evidence, and locking down student data before
               the DPDP rules bite.

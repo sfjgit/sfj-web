@@ -27,7 +27,7 @@ export const COMPANY = {
   shortName: "SFJBS",
   /** Served from our own domain — a Knowledge-Panel-critical asset must not
    *  depend on a third-party S3 bucket policy (SD-04). */
-  logo: `${SITE_URL}/logo/sfj-logo.png`,
+  logo: `${SITE_URL}/SFJ-logo.png`,
   description:
     "SFJBS is an enterprise upskilling and workforce transformation partner. We deliver AI, cloud and emerging-tech training, institutional and government skilling programmes, and IT talent services.",
 } as const;
