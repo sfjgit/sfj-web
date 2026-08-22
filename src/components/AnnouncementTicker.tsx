@@ -95,15 +95,9 @@ function toDisplayList(items: ApiAnnouncement[]): Announcement[] {
 // Marquee scrolls right -> left (translateX 0 to -50%). To reverse direction,
 // swap the keyframe's `from`/`to` values below.
 //
-// Off: the bar holds still. The animation code is intact, so flipping this
-// back to true restores scrolling.
-const MARQUEE_ENABLED = false;
-
-// With nothing scrolling there is only room for one notice on the line, so
-// the bar shows the top-ranked live announcement rather than cutting several
-// off mid-sentence. Ranking comes from toDisplayList (displayOrder, then
-// newest). Raise this if you shorten the announcement text.
-const MAX_VISIBLE = 1;
+// On: the bar scrolls. Set to false to hold it still — the still layout
+// (no edge fade, left-aligned) is wired up and comes back automatically.
+const MARQUEE_ENABLED = true;
 
 /**
  * Announcement text is authored in a plain-text CMS field, but editors write
@@ -124,8 +118,8 @@ function renderEmphasis(text: string) {
   );
 }
 
-const PIXELS_PER_SECOND = 30; // constant visual speed regardless of item count
-const MIN_DURATION_SECONDS = 20; // floor so a short list doesn't fly past
+const PIXELS_PER_SECOND = 15; // constant visual speed regardless of item count
+const MIN_DURATION_SECONDS = 40; // floor so a short list doesn't fly past
 
 export default function AnnouncementTicker() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
@@ -134,6 +128,12 @@ export default function AnnouncementTicker() {
   const [paused, setPaused] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(MARQUEE_ENABLED);
   const [duration, setDuration] = useState(MIN_DURATION_SECONDS);
+  // How many copies of the announcement list make up ONE marquee group. The
+  // track animates by translating -50%, i.e. exactly one group width. If a
+  // group is narrower than the visible strip, that translation ends before
+  // the copy behind it arrives and a blank gap crosses the bar every cycle.
+  // Repeating short content until a group outgrows the container closes it.
+  const [repeat, setRepeat] = useState(1);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -204,20 +204,31 @@ export default function AnnouncementTicker() {
     const container = containerRef.current;
     if (!group || !container) return;
 
-    const contentWidth = group.getBoundingClientRect().width;
-    const fits = contentWidth <= container.clientWidth;
+    const groupWidth = group.getBoundingClientRect().width;
+    const containerWidth = container.clientWidth;
 
-    setShouldAnimate(MARQUEE_ENABLED && !fits);
-    if (fits) return;
+    // Scroll unconditionally — a single short notice moves just like a long
+    // list. Previously this only animated when the content overflowed, so
+    // anything that fitted sat motionless.
+    setShouldAnimate(MARQUEE_ENABLED);
+    if (!MARQUEE_ENABLED || groupWidth <= 0 || containerWidth <= 0) return;
 
-    const next = Math.max(
-      MIN_DURATION_SECONDS,
-      contentWidth / PIXELS_PER_SECOND,
-    );
+    // Width of the list at a single repeat, used to work out how many copies
+    // are needed to cover the strip.
+    const unitWidth = groupWidth / repeat;
+    if (unitWidth <= 0) return;
+
+    const needed = Math.max(1, Math.ceil(containerWidth / unitWidth) + 1);
+    if (needed !== repeat) {
+      setRepeat(needed);
+      return; // re-measure once the extra copies are laid out
+    }
+
+    const next = Math.max(MIN_DURATION_SECONDS, groupWidth / PIXELS_PER_SECOND);
     // Ignore sub-pixel resize noise — changing animation-duration mid-flight
     // makes the track visibly jump.
     setDuration((prev) => (Math.abs(prev - next) < 0.5 ? prev : next));
-  }, []);
+  }, [repeat]);
 
   useEffect(() => {
     measure();
@@ -242,7 +253,7 @@ export default function AnnouncementTicker() {
     return null;
   }
 
-  const visible = announcements.slice(0, MAX_VISIBLE);
+  const visible = announcements;
 
   const hasUrgent = visible.some(
     (a) => a.priority === "URGENT" || a.priority === "HIGH",
@@ -423,12 +434,20 @@ export default function AnnouncementTicker() {
               }
             >
               <div ref={firstGroupRef} className="flex shrink-0 items-center">
-                {visible.map((a, i) => renderItem(a, `a-${i}`, true))}
+                {Array.from({ length: repeat }, (_, r) =>
+                  visible.map((a, i) =>
+                    // Only the first copy is reachable by keyboard; the rest
+                    // are visual padding and must not add tab stops.
+                    renderItem(a, `a-${r}-${i}`, r === 0),
+                  ),
+                )}
               </div>
 
               {shouldAnimate && (
                 <div aria-hidden="true" className="flex shrink-0 items-center">
-                  {visible.map((a, i) => renderItem(a, `b-${i}`, false))}
+                  {Array.from({ length: repeat }, (_, r) =>
+                    visible.map((a, i) => renderItem(a, `b-${r}-${i}`, false)),
+                  )}
                 </div>
               )}
             </div>

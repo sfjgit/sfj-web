@@ -392,10 +392,10 @@ const Navigation = () => {
                   <Image
                     src="/SFJ-logo.png"
                     alt="SFJ Business Solutions"
-                    className="h-4 w-auto object-contain"
+                    className="h-[30px] w-auto object-contain"
                     quality={100}
-                    width={67}
-                    height={16}
+                    width={125}
+                    height={50}
                   />
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
