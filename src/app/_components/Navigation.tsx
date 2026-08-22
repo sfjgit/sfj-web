@@ -28,7 +28,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center py-4">
           <Link href="/" className="flex items-center">
             <Image
-              src="/logo.png"
+              src="/SFJ-logo.png"
               alt="SFJ Business Solutions"
               width={40}
               height={40}

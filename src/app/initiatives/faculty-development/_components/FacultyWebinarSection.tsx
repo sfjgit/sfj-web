@@ -416,7 +416,10 @@ import { Fragment, useEffect, useState } from "react";
 import { Check, CheckCircle2, ChevronDown, Loader2 } from "lucide-react";
 import facultyRegistrationApi from "@/lib/facultyRegistrationApi";
 
-const REGISTRATION_CLOSES_AT = "2026-08-19T23:59:59+05:30";
+// How long the countdown runs for. It restarts from this value on every
+// mount, so the block always opens on 02 : 00 : 00 : 00 and never expires
+// the way the old fixed date did.
+const REGISTRATION_WINDOW_MS = 2 * 24 * 60 * 60 * 1000;
 
 const ROLES = [
   "Teaching Faculty",
@@ -469,11 +472,14 @@ const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-function useCountdown(target: string) {
+// Rolling urgency timer, not a real deadline — it resets on reload, so a
+// visitor who refreshes sees it jump back to two days. Swapping
+// `Date.now() + windowMs` for a fixed timestamp makes it a true deadline.
+function useCountdown(windowMs: number) {
   const [msLeft, setMsLeft] = useState<number | null>(null);
 
   useEffect(() => {
-    const deadline = new Date(target).getTime();
+    const deadline = Date.now() + windowMs;
 
     const tick = () => {
       setMsLeft(Math.max(0, deadline - Date.now()));
@@ -484,14 +490,20 @@ function useCountdown(target: string) {
     const id = setInterval(tick, 1000);
 
     return () => clearInterval(id);
-  }, [target]);
+  }, [windowMs]);
 
   if (msLeft === null) return null;
 
   const total = Math.floor(msLeft / 1000);
 
   return {
-    days: pad(Math.floor(total / 86400)),
+    // Rounded UP, not down. With 47h59m left, floor() gives 1 and the panel
+    // reads "01 DAYS" one second after opening; ceil() reads 2, which is what
+    // "2 days left" means in ordinary speech and what the panel is meant to
+    // say. Consequence: the DAYS figure and the HH:MM:SS beside it are not
+    // additive — HH:MM:SS counts down to the next drop in the day figure,
+    // not on top of it.
+    days: pad(Math.ceil(total / 86400)),
     hours: pad(Math.floor(total / 3600) % 24),
     minutes: pad(Math.floor(total / 60) % 60),
     seconds: pad(total % 60),
@@ -535,7 +547,7 @@ export default function FacultyWebinarSection() {
   // Countdown
   // ------------------------------------------------------------
 
-  const left = useCountdown(REGISTRATION_CLOSES_AT);
+  const left = useCountdown(REGISTRATION_WINDOW_MS);
 
   const units = [
     {
@@ -790,12 +802,16 @@ export default function FacultyWebinarSection() {
               style={{ color: GOLD_TEXT }}
             />
 
-            <h2 className="mt-3 text-[1.7rem] font-bold leading-tight text-slate-900 sm:text-[1.85rem]">
+            <h3 className="mt-3 text-[1rem] font-semibold leading-tight text-slate-500 sm:text-[1.15rem]">
               Register for the Webinar to Reserve Your Seat
-            </h2>
+            </h3>
+            <h1 className="mt-3 text-[1.7rem] font-bold leading-tight text-slate-900 sm:text-[1.85rem]">
+              Bring AI & Cloud Skills to Your Campus Without Rewriting Your
+              Syllabus
+            </h1>
 
             <p className="mt-2 max-w-md text-[0.95rem] leading-relaxed text-gray-600">
-              A 60-minute executive briefing on clearing the AWS Academy
+              A 65-minute executive briefing on clearing the AWS Academy
               accreditation bottleneck, turning faculty upskilling into
               permanent NAAC/NBA evidence, and locking down student data before
               the DPDP rules bite.

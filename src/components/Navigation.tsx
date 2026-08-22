@@ -41,8 +41,6 @@ import {
   clearAccessToken,
 } from "@/hooks/useAxios";
 import { useAxios } from "@/hooks/useAxios";
-import { CiLogin } from "react-icons/ci";
-import CaspaLoginDialog from "./auth/CaspaLoginDialog";
 
 interface UserProfile {
   _id: string;
@@ -58,7 +56,6 @@ const Navigation = () => {
   const [isInitiativesOpen, setIsInitiativesOpen] = useState(false);
   const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
   // Which mobile accordion section is expanded. Only one at a time, mirroring
   // the desktop behaviour where opening one mega-menu closes the other.
   const [openMobileSection, setOpenMobileSection] = useState<string | null>(
@@ -393,12 +390,12 @@ const Navigation = () => {
               >
                 <div className="relative">
                   <Image
-                    src="/app/sfjlogo.png"
-                    alt="SFJ Logo"
-                    className="w-9 h-9 object-cover"
+                    src="/SFJ-logo.png"
+                    alt="SFJ Business Solutions"
+                    className="h-[30px] w-auto object-contain"
                     quality={100}
-                    width={36}
-                    height={36}
+                    width={125}
+                    height={50}
                   />
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
@@ -565,15 +562,6 @@ const Navigation = () => {
                 </DropdownMenu>
               ) : (
                 <>
-                  <Button
-                    onClick={() => setIsLoginOpen(true)}
-                    aria-label="Login"
-                    title="Login"
-                    className="ml-4 flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-3 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
-                  >
-                    <CiLogin className="w-[1.15rem] h-[1.15rem]" />
-                    {/* <span></span> */}
-                  </Button>
                   {/* <Button
                   onClick={() => router.push("/contact")}
                   className="ml-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -928,16 +916,6 @@ const Navigation = () => {
                 </div>
               ) : (
                 <div className="pt-3 space-y-2">
-                  <Button
-                    className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
-                    onClick={() => {
-                      closeMobileMenu();
-                      setIsLoginOpen(true);
-                    }}
-                  >
-                    <CiLogin className="w-[1.15rem] h-[1.15rem]" />
-                    <span>Login</span>
-                  </Button>
                   {/* <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
@@ -953,8 +931,6 @@ const Navigation = () => {
           </div>
         </div>
       </nav>
-
-      <CaspaLoginDialog open={isLoginOpen} onOpenChange={setIsLoginOpen} />
     </>
   );
 };

@@ -287,12 +287,12 @@ const CTAWithFooter = () => {
               <div className="lg:col-span-1 space-y-4">
                 <div className="flex items-center space-x-2">
                   <Image
-                    src="/logo/sfj-logo.png"
-                    alt="SFJ Logo"
-                    className="w-12 h-12 object-cover"
+                    src="/SFJ-logo.png"
+                    alt="SFJ Business Solutions"
+                    className="h-4 w-auto shrink-0 object-contain"
                     quality={100}
-                    width={48}
-                    height={48}
+                    width={67}
+                    height={16}
                   />
                   <div>
                     <h3 className="text-sm font-bold leading-tight">
