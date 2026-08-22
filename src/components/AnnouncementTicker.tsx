@@ -7,7 +7,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { Bell, ExternalLink, Pause, Play, X } from "lucide-react";
+import { Bell, Pause, Play, X } from "lucide-react";
 
 type Announcement = {
   id: string;
@@ -154,15 +154,63 @@ export default function AnnouncementTicker() {
       ? Date.now() - new Date(createdAt).getTime() < 7 * 24 * 60 * 60 * 1000
       : false;
 
+  // const renderItem = (a: Announcement, key: string, focusable: boolean) => {
+  //   const urgent = a.priority === "URGENT" || a.priority === "HIGH";
+  //   const fresh = isNew(a.createdAt);
+
+  //   return (
+  //     <div
+  //       key={key}
+  //       className="flex shrink-0 items-center gap-2.5 whitespace-nowrap px-6 text-sm"
+  //     >
+  //       {urgent && (
+  //         <span className="relative flex h-1.5 w-1.5 shrink-0">
+  //           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-300 opacity-75" />
+  //           <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red-300" />
+  //         </span>
+  //       )}
+
+  //       {fresh && !urgent && (
+  //         <span className="shrink-0 rounded-full bg-white px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#07152f]">
+  //           New
+  //         </span>
+  //       )}
+
+  //       <span className="font-medium text-white">{a.title}</span>
+
+  //       {a.description && (
+  //         <span className="hidden text-white/60 lg:inline">
+  //           — {a.description}
+  //         </span>
+  //       )}
+
+  //       {a.link && (
+  //         <a
+  //           href={a.link}
+  //           target={a.link.startsWith("http") ? "_blank" : undefined}
+  //           rel={a.link.startsWith("http") ? "noopener noreferrer" : undefined}
+  //           tabIndex={focusable ? 0 : -1}
+  //           className="group inline-flex items-center gap-1 font-semibold text-white underline decoration-white/40 underline-offset-4 transition hover:decoration-white"
+  //         >
+  //           {a.linkText || "Learn more"}
+  //           <ExternalLink className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+  //         </a>
+  //       )}
+
+  //       <span
+  //         aria-hidden
+  //         className="ml-3 h-1 w-1 shrink-0 rounded-full bg-white/20"
+  //       />
+  //     </div>
+  //   );
+  // };
+
   const renderItem = (a: Announcement, key: string, focusable: boolean) => {
     const urgent = a.priority === "URGENT" || a.priority === "HIGH";
     const fresh = isNew(a.createdAt);
 
-    return (
-      <div
-        key={key}
-        className="flex shrink-0 items-center gap-2.5 whitespace-nowrap px-6 text-sm"
-      >
+    const content = (
+      <>
         {urgent && (
           <span className="relative flex h-1.5 w-1.5 shrink-0">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-300 opacity-75" />
@@ -184,23 +232,31 @@ export default function AnnouncementTicker() {
           </span>
         )}
 
-        {a.link && (
+        <span
+          aria-hidden
+          className="ml-3 h-1 w-1 shrink-0 rounded-full bg-white/20"
+        />
+      </>
+    );
+
+    return (
+      <div
+        key={key}
+        className="flex shrink-0 items-center whitespace-nowrap text-sm"
+      >
+        {a.link ? (
           <a
             href={a.link}
             target={a.link.startsWith("http") ? "_blank" : undefined}
             rel={a.link.startsWith("http") ? "noopener noreferrer" : undefined}
             tabIndex={focusable ? 0 : -1}
-            className="group inline-flex items-center gap-1 font-semibold text-white underline decoration-white/40 underline-offset-4 transition hover:decoration-white"
+            className="flex items-center gap-2.5 px-6 transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#07152f]"
           >
-            {a.linkText || "Learn more"}
-            <ExternalLink className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+            {content}
           </a>
+        ) : (
+          <div className="flex items-center gap-2.5 px-6">{content}</div>
         )}
-
-        <span
-          aria-hidden
-          className="ml-3 h-1 w-1 shrink-0 rounded-full bg-white/20"
-        />
       </div>
     );
   };
