@@ -6,6 +6,7 @@ import { MessageSquare, Send, Check } from "lucide-react";
 import { RiContactsLine } from "react-icons/ri";
 import Image from "next/image";
 import Link from "next/link";
+import { CiLogin } from "react-icons/ci";
 
 // Name tag for the two floating action buttons. Sits to the left of its
 // button and slides in on hover or keyboard focus, so each icon identifies
@@ -133,6 +134,16 @@ const SFJContactForm = () => {
     <>
       {/* Contact Button and Form */}
       <div className="fixed bottom-4 right-4 md:bottom-5 md:right-5 z-40 flex flex-col items-end gap-2">
+        {/* Login Button */}
+        <button
+          type="button"
+          aria-label="Login"
+          title="Login"
+          className="group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
+        >
+          <CiLogin className="w-6 h-6 md:w-7 md:h-7" />
+          <span className={LABEL_CLASS}>Login</span>
+        </button>
         {/* Moved down from the navbar — sits above the chat button.
             `group` drives the name tag: two identical dark squares are
             indistinguishable at a glance, so each one labels itself on

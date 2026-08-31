@@ -168,8 +168,20 @@ const AnimatedNumber = ({
 
 const ClientsSection = () => {
   const [hoveredService, setHoveredService] = React.useState(0);
+  const [showB2I, setShowB2I] = useState(false);
 
-  const clientLogos = [
+  useEffect(() => {
+    const interval = setInterval(
+      () => {
+        setShowB2I((prev) => !prev);
+      },
+      showB2I ? 6000 : 14000,
+    );
+
+    return () => clearInterval(interval);
+  }, [showB2I]);
+
+  const enterpriseClientLogos = [
     {
       src: "/logo1/Accenture.svg",
       name: "Accenture",
@@ -256,6 +268,106 @@ const ClientsSection = () => {
       name: "AWS",
       industry: "Cloud",
       description: "Cloud computing platform",
+    },
+  ];
+  const b2iClientLogos = [
+    {
+      src: "/logo1/B2I_1.webp",
+      name: "St. Francis College",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1.5,
+    },
+    {
+      src: "/logo1/B2I_2.png",
+      name: "Srirangam College",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1.5,
+    },
+    {
+      src: "/logo1/B2I_3.png",
+      name: "Rajarajeswari College",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1.5,
+    },
+    {
+      src: "/logo1/B2I_4.png",
+      name: "Jyothi Colege",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1.3,
+    },
+    {
+      src: "/logo1/B2I_5.png",
+      name: "Sathyameva Jayathe",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1.3,
+    },
+    {
+      src: "/logo1/B2I_6.png",
+      name: "B2I_6",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1.5,
+    },
+    {
+      src: "/logo1/B2I_7.png",
+      name: "B2I_7",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
+    },
+    {
+      src: "/logo1/B2I_8.png",
+      name: "B2I_8",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
+    },
+    {
+      src: "/logo1/B2I_9.png",
+      name: "B2I_9",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
+    },
+    {
+      src: "/logo1/B2I_10.png",
+      name: "B2I_10",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
+    },
+    {
+      src: "/logo1/B2I_11.png",
+      name: "B2I_11",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
+    },
+    {
+      src: "/logo1/B2I_12.png",
+      name: "B2I_12",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
+    },
+    {
+      src: "/logo1/B2I_13.jpeg",
+      name: "B2I_13",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
+    },
+    {
+      src: "/logo1/B2I_14.webp",
+      name: "B2I_14",
+      industry: "Software",
+      description: "Enterprise software solutions",
+      scale: 1,
     },
   ];
   const services = [
@@ -414,52 +526,63 @@ const ClientsSection = () => {
                     "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
                 }}
               >
-                <div className="client-marquee flex items-center w-max">
+                {/* <div className="client-marquee flex items-center w-max"> */}
+                <div
+                  className={`client-marquee flex items-center w-max ${
+                    showB2I ? "b2i-marquee" : ""
+                  }`}
+                >
                   <div className="flex items-center" aria-hidden="false">
-                    {clientLogos.map((client, index) => (
-                      <div
-                        key={`a-${index}`}
-                        className="flex items-center justify-center h-10 sm:h-11 lg:h-12 w-24 mx-6 flex-shrink-0"
-                      >
-                        <Image
-                          src={client.src}
-                          alt={`${client.name} logo`}
-                          width={96}
-                          height={36}
-                          className="h-full w-auto max-w-full object-contain"
-                          style={{
-                            filter:
-                              "grayscale(1) brightness(0.75) contrast(1.3)",
-                            transform: client.scale
-                              ? `scale(${client.scale})`
-                              : undefined,
-                          }}
-                        />
-                      </div>
-                    ))}
+                    {/* {enterpriseClientLogos.map((client, index) => ( */}
+                    {(showB2I ? b2iClientLogos : enterpriseClientLogos).map(
+                      (client, index) => (
+                        <div
+                          key={`a-${index}`}
+                          className="flex items-center justify-center h-10 sm:h-11 lg:h-12 w-24 mx-6 flex-shrink-0"
+                        >
+                          <Image
+                            src={client.src}
+                            alt={`${client.name} logo`}
+                            width={96}
+                            height={36}
+                            className="h-full w-auto max-w-full object-contain"
+                            style={{
+                              filter:
+                                "grayscale(1) brightness(0.75) contrast(1.3)",
+                              transform: client.scale
+                                ? `scale(${client.scale})`
+                                : undefined,
+                            }}
+                          />
+                        </div>
+                      ),
+                    )}
                   </div>
                   <div className="flex items-center" aria-hidden="true">
-                    {clientLogos.map((client, index) => (
-                      <div
-                        key={`b-${index}`}
-                        className="flex items-center justify-center h-10 sm:h-11 lg:h-12 w-24 mx-6 flex-shrink-0"
-                      >
-                        <Image
-                          src={client.src}
-                          alt=""
-                          width={96}
-                          height={36}
-                          className="h-full w-auto max-w-full object-contain"
-                          style={{
-                            filter:
-                              "grayscale(1) brightness(0.75) contrast(1.3)",
-                            transform: client.scale
-                              ? `scale(${client.scale})`
-                              : undefined,
-                          }}
-                        />
-                      </div>
-                    ))}
+                    {/* {enterpriseClientLogos.map((client, index) => ( */}
+                    {(showB2I ? b2iClientLogos : enterpriseClientLogos).map(
+                      (client, index) => (
+                        <div
+                          key={`b-${index}`}
+                          className="flex items-center justify-center h-10 sm:h-11 lg:h-12 w-24 mx-6 flex-shrink-0"
+                        >
+                          <Image
+                            src={client.src}
+                            alt=""
+                            width={96}
+                            height={36}
+                            className="h-full w-auto max-w-full object-contain"
+                            style={{
+                              filter:
+                                "grayscale(1) brightness(0.75) contrast(1.3)",
+                              transform: client.scale
+                                ? `scale(${client.scale})`
+                                : undefined,
+                            }}
+                          />
+                        </div>
+                      ),
+                    )}
                   </div>
                 </div>
               </div>
@@ -692,7 +815,10 @@ const ClientsSection = () => {
         }
 
         .client-marquee {
-          animation: clientScroll 25s linear infinite;
+          animation: clientScroll 20s linear infinite;
+        }
+        .client-marquee.b2i-marquee {
+          animation-duration: 15s;
         }
         .client-marquee:hover {
           animation-play-state: paused;
