@@ -23,9 +23,17 @@ const nextConfig: NextConfig = {
         destination: `${process.env.NEXT_PUBLIC_LMS_BASE_URL}/user/auth/:path*`,
       },
       {
+        source: "/caspa",
+        destination: "https://caspa-internal.sfjbs.com/caspa",
+      },
+      {
         source: "/caspa/:path*",
         destination: "https://caspa-internal.sfjbs.com/caspa/:path*",
       },
+      // {
+      //   source: "/caspa/:path*",
+      //   destination: "https://caspa-internal.sfjbs.com/caspa/:path*",
+      // },
       // {
       //   // Faculty registration OTP + confirm — proxied same-origin so the
       //   // browser never has to CORS against the notification service directly.
