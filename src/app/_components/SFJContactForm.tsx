@@ -1138,7 +1138,8 @@ const SFJContactForm = () => {
                             </>
                           )
                         ) : (
-                          "We reply within 24h"
+                          // "We reply within 24h"
+                          "Available Mon–Fri, 9 AM–6 PM"
                         )}
                       </p>
                     </div>
