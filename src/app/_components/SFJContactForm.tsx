@@ -1124,7 +1124,7 @@ const SFJContactForm = () => {
                     </div>
                     <div>
                       <p className="text-white text-sm font-semibold">
-                        SFJ Support
+                        Let's Chat
                       </p>
                       <p className="text-white/70 text-xs flex items-center gap-1">
                         {step === "chat" ? (
