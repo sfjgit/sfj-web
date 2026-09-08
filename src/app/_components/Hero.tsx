@@ -161,7 +161,7 @@ const HeroCarousel = () => {
   }, [api, videoIndex]);
 
   return (
-    <div className="relative overflow-hidden border-b bg-black h-[calc(100dvh-60px)] sm:h-[calc(100dvh-100px)] lg:h-[calc(100dvh-100px)] min-h-[32.5rem] max-h-[53.125rem] transition-all duration-500">
+    <div className="relative overflow-hidden border-b bg-black h-[calc(100dvh-40px)] sm:h-[calc(100dvh-80px)] lg:h-[calc(100dvh-80px)] min-h-[34rem] max-h-[56rem] transition-all duration-500">
       {/* `key` forces a fresh <video> per clip so autoPlay reliably fires
           on source change. */}
       <video
