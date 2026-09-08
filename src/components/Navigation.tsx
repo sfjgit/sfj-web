@@ -388,14 +388,15 @@ const Navigation = () => {
                 href="/"
                 className="flex flex-col items-center group transition-transform hover:scale-105"
               >
-                <div className="relative">
+                <div className="relative ml-2.5">
                   <Image
-                    src="/SFJ-logo.png"
+                    // src="/SFJ-logo.jpg"
+                    src="/SFJ-Logo(updated).png"
                     alt="SFJ Business Solutions"
-                    className="h-[30px] w-auto object-contain"
+                    className="h-[55px] w-auto object-contain rounded-md"
                     quality={100}
-                    width={125}
-                    height={50}
+                    width={200}
+                    height={100}
                   />
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
