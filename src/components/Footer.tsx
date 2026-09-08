@@ -993,9 +993,9 @@ const Footer = () => {
           <div className="lg:col-span-1 space-y-4">
             <div className="flex items-center space-x-2">
               <Image
-                src="/SFJ-logo.png"
+                src="/SFJ-Logo(updated).png"
                 alt="SFJ Logo"
-                className="w-12 h-12 object-cover"
+                className="w-12 h-12 object-contain"
                 quality={100}
                 width={48}
                 height={48}

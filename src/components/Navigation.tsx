@@ -381,7 +381,7 @@ const Navigation = () => {
       <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6 mt-4.5">
         {/* <nav className="fixed top-0 w-full z-50 transition-all duration-300 px-10 sm:px-16 lg:px-28 pt-6"> */}
         <div className="relative max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-200/50 px-6">
-          <div className="flex items-center gap-4 py-2">
+          <div className="flex items-center gap-4 py-1">
             {/* Logo */}
             <div className="flex items-center gap-3 flex-1">
               <Link
@@ -393,7 +393,7 @@ const Navigation = () => {
                     // src="/SFJ-logo.jpg"
                     src="/SFJ-Logo(updated).png"
                     alt="SFJ Business Solutions"
-                    className="h-[50px] w-auto object-contain rounded-md"
+                    className="h-9 w-auto object-contain rounded-md"
                     quality={100}
                     width={200}
                     height={100}
