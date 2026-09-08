@@ -393,7 +393,7 @@ const Navigation = () => {
                     // src="/SFJ-logo.jpg"
                     src="/SFJ-Logo(updated).png"
                     alt="SFJ Business Solutions"
-                    className="h-[55px] w-auto object-contain rounded-md"
+                    className="h-[50px] w-auto object-contain rounded-md"
                     quality={100}
                     width={200}
                     height={100}
