@@ -1,6 +1,6 @@
 "use client";
 import FacultyHeroSection from "./FacultyHeroSection";
-import FacultyWebinarSection from "./FacultyWebinarSection";
+// import FacultyWebinarSection from "./FacultyWebinarSection";
 import FacultyCtaSection from "./FacultyCtaSection";
 import CategoryChooser, {
   CATEGORIES,
@@ -21,7 +21,7 @@ export default function FacultyDevelopmentPage() {
     <div className="min-h-screen bg-white">
       <FacultyHeroSection />
 
-      <FacultyWebinarSection />
+      {/* <FacultyWebinarSection /> */}
 
       <CategoryChooser
         categories={FACULTY_CATEGORIES}

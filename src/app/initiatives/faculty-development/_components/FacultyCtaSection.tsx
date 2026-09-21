@@ -1,4 +1,4 @@
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 // import { SYLLABUS_PDF, SYLLABUS_FILENAME } from "../constants";
 import FacultyRegistrationDialog from "./FacultyRegistrationDialog";
 
@@ -25,7 +25,7 @@ export default function FacultyCtaSection() {
                   type="button"
                   className="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg transition-colors hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
-                  Register now
+                  Register and Download
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                 </button>
               }
@@ -43,7 +43,7 @@ export default function FacultyCtaSection() {
               <Download className="mr-2 h-4 w-4" aria-hidden="true" />
               Download syllabus
             </a> */}
-            <FacultyRegistrationDialog
+            {/* <FacultyRegistrationDialog
               autoDownloadAfterRegistration
               trigger={
                 <button
@@ -54,7 +54,7 @@ export default function FacultyCtaSection() {
                   Download syllabus
                 </button>
               }
-            />
+            /> */}
           </div>
         </div>
       </div>
