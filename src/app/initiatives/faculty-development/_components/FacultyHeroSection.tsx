@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import CapabilityStrip, {
   capabilityCards,
 } from "@/app/services/taas/_components/CapabilityStrip";
@@ -91,7 +91,7 @@ const FacultyHeroSection = () => (
                 type="button"
                 className="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-900 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
               >
-                Register now
+                Register and Download
                 <ArrowRight className="ml-2 h-4 w-4" />
               </button>
             }
@@ -108,7 +108,7 @@ const FacultyHeroSection = () => (
             <Download className="mr-2 h-4 w-4" aria-hidden="true" />
             Download syllabus
           </a> */}
-          <FacultyRegistrationDialog
+          {/* <FacultyRegistrationDialog
             autoDownloadAfterRegistration
             trigger={
               <button
@@ -119,7 +119,7 @@ const FacultyHeroSection = () => (
                 Download syllabus
               </button>
             }
-          />
+          /> */}
         </div>
       </div>
     </div>
