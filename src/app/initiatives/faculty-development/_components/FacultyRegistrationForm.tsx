@@ -179,10 +179,41 @@ export default function FacultyRegistrationForm({
     document.body.removeChild(link);
   };
 
+  // const handleConfirm = async () => {
+  //   if (!formValid) return;
+  //   setFormError("");
+  //   setSubmitting(true);
+  //   try {
+  //     await facultyRegistrationApi.post("/confirm", {
+  //       fullName: form.fullName.trim(),
+  //       institution: form.institution.trim(),
+  //       role: form.role,
+  //       discipline: form.discipline,
+  //       facultyStrength: form.facultyStrength,
+  //       courseTaught: form.courseTaught.trim() || undefined,
+  //       workEmail: form.workEmail.trim(),
+  //       mobile: form.mobile,
+  //       otp,
+  //       registrationType: "FDP",
+  //     });
+  //     setRegistered(true);
+  //     onRegistered?.();
+  //   } catch (err: any) {
+  //     setFormError(
+  //       err?.response?.data?.error ||
+  //         "Could not complete registration. Try again.",
+  //     );
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+
   const handleConfirm = async () => {
     if (!formValid) return;
+
     setFormError("");
     setSubmitting(true);
+
     try {
       await facultyRegistrationApi.post("/confirm", {
         fullName: form.fullName.trim(),
@@ -196,8 +227,12 @@ export default function FacultyRegistrationForm({
         otp,
         registrationType: "FDP",
       });
+
       setRegistered(true);
       onRegistered?.();
+
+      // Automatically download the syllabus after successful registration
+      handleDownloadSyllabus();
     } catch (err: any) {
       setFormError(
         err?.response?.data?.error ||
