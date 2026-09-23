@@ -1,4 +1,4 @@
-import { COMPANY, ORGANIZATION_ID, WEBSITE_ID, canonical } from "@/config/site";
+import { ORGANIZATION_ID, WEBSITE_ID, canonical } from "@/config/site";
 
 /**
  * Homepage FAQ — visible Q&A and FAQPage schema from ONE array.
@@ -67,9 +67,9 @@ export default function HomeFaq() {
   return (
     <section
       aria-labelledby="home-faq-heading"
-      className="mx-auto max-w-3xl px-6 py-20"
+      className="mx-auto max-w-3xl px-6"
     >
-      <div className="text-center">
+      {/* <div className="text-center">
         <h2
           id="home-faq-heading"
           className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
@@ -79,7 +79,7 @@ export default function HomeFaq() {
         <p className="mt-3 text-base text-gray-600">
           Everything you need to know about working with {COMPANY.shortName}.
         </p>
-      </div>
+      </div> */}
 
       {/*
         Native <details>/<summary> rather than a JS accordion: the answers stay
@@ -89,7 +89,7 @@ export default function HomeFaq() {
         exclusive accordion (opening one closes the others) in current
         browsers; older ones simply allow several open at once.
       */}
-      <div className="mt-12 space-y-3">
+      {/* <div className="mt-12 space-y-3">
         {FAQS.map(({ question, answer }, i) => (
           <details
             key={question}
@@ -125,7 +125,7 @@ export default function HomeFaq() {
             </div>
           </details>
         ))}
-      </div>
+      </div> */}
 
       <script
         type="application/ld+json"
