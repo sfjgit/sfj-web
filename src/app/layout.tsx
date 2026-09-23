@@ -116,6 +116,28 @@ const organizationSchema = {
     latitude: CONTACT.geo.latitude,
     longitude: CONTACT.geo.longitude,
   },
+  // add inside organizationSchema
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Training and talent services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Enterprise AI and cloud upskilling",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "Campus training programs" },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: "IT talent placement" },
+      },
+    ],
+  },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
