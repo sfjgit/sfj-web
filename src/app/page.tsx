@@ -4,6 +4,7 @@ import PartnersSection from "./_components/PartnersSection";
 import HeroCarousel from "./_components/Hero";
 import { Metadata } from "next";
 import { COMPANY, canonical } from "@/config/site";
+import HomeFaq from "./_components/homefaq";
 
 // Title is 48 chars, description 148 — both inside the limits Google
 // truncates at (~60 / ~155). See OP-03, OP-04.
@@ -127,6 +128,7 @@ export default function HomePage() {
 
       <PartnersSection />
       {/* <FloatingActionButton /> */}
+      <HomeFaq />
     </div>
   );
 }
