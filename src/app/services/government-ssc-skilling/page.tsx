@@ -6,6 +6,7 @@ import GovernmentTrainingRedesign from "./_components/GovernmentTrainingRedesign
 import ImageCarousel from "./_components/ImageCarousel";
 import SubscribeSection from "./_components/SubscribeSection";
 import { Metadata } from "next";
+import FaqSection from "@/app/_components/TaasFaq";
 
 export const metadata: Metadata = {
   title: "Government Programs & Skill Development | SFJBS Initiatives",
@@ -83,6 +84,11 @@ export default function page() {
         <div className="text-center -mt-10 mb-10">
           <SubscribeSection />
         </div>
+        <FaqSection
+          path="/services/government-ssc-skilling"
+          heading="Government Skilling Questions, Answered"
+          subheading="How SFJBS delivers skill development missions for government."
+        />
       </div>
     </>
   );
