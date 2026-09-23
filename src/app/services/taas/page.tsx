@@ -1,9 +1,10 @@
 import { Metadata } from "next";
-import Script from "next/script";
 import ITStaffingSolutions from "./_components/Section";
 import SFJStatsSection from "./_components/SFJStatsSection";
 import TaasScroller from "./_components/Taas";
 import CapabilityStrip from "./_components/CapabilityStrip";
+import FaqSection from "@/app/_components/TaasFaq";
+import { BreadcrumbSchema } from "@/app/_components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "IT Staffing & Talent as a Service (TaaS) | SFJBS",
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
 export default function ITStaffingPage() {
   return (
     <>
-      <Script
+      {/* <Script
         id="structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -68,7 +69,12 @@ export default function ITStaffingPage() {
               },
             ],
           }),
-        }}
+        }} */}
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", path: "/" },
+          { name: "IT Staffing & TaaS", path: "/services/taas" },
+        ]}
       />
 
       <div className=" ">
@@ -91,7 +97,7 @@ export default function ITStaffingPage() {
             {/* Single column now that the hero photo is gone. */}
             <div className="grid gap-8 items-center">
               <div className="space-y-4 sm:space-y-6 max-w-3xl">
-                <h1 className="hidden">IT Staffing & Services Company</h1>
+                <h1 className="sr-only">IT Staffing & Services Company</h1>
                 {/* Lower floors on the clamps than the desktop design would
                     suggest: on a 360px phone this copy ran to 3 heading lines
                     plus 9 body lines and pushed the capability strip off the
@@ -122,7 +128,6 @@ export default function ITStaffingPage() {
                   structured sourcing, assessment, onboarding and workforce
                   management.
                 </p>
-
               </div>
             </div>
           </div>
@@ -135,6 +140,11 @@ export default function ITStaffingPage() {
         <TaasScroller />
         <SFJStatsSection />
         <ITStaffingSolutions />
+        <FaqSection
+          path="/services/taas"
+          heading="IT staffing questions, answered"
+          subheading="How Talent as a Service works with SFJBS."
+        />
       </div>
     </>
   );
