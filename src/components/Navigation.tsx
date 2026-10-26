@@ -316,7 +316,7 @@ const Navigation = () => {
         // { path: "/jobs", label: "Careers", hasChildren: false },
         { path: "/careers", label: "Careers", hasChildren: false },
         { path: "/blog", label: "Blogs", hasChildren: false },
-        { path: "/life-at-sfjbs", label: "Life at SFJBS", hasChildren: false },
+        // { path: "/life-at-sfjbs", label: "Life at SFJBS", hasChildren: false },
       ],
     },
   ];
