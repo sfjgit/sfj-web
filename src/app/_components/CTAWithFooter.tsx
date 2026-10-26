@@ -9,6 +9,7 @@ import * as Flags from "country-flag-icons/react/3x2";
 import { FaX } from "react-icons/fa6";
 import { FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { COMPANY, CONTACT, METRICS } from "@/config/site";
+import { getContactHref, getContactType } from "@/lib/contactType";
 import {
   trackCtaClick,
   trackEmailClick,
@@ -131,53 +132,47 @@ const offices: Record<string, Office> = {
 // Same single-CTA layout/animation as before, but the copy now depends on
 // which service page it's rendered on (matched by path prefix, since
 // CTAWithFooter is shared and rendered on every page via ClientProvider).
-// type values match ContactPage.tsx's typeOptions so the link pre-selects
-// the right inquiry type on arrival.
+// The inquiry type the contact link pre-selects comes from getContactType
+// (src/lib/contactType.ts), shared with the other Contact Us links.
 const pageCtaMap: Record<
   string,
-  { heading: string; description: string; buttonLabel: string; type: string }
+  { heading: string; description: string; buttonLabel: string }
 > = {
   "/services/kaas": {
     heading: "Tell us where the gap is",
     description:
       "Send us a role, a technology or a team. We'll come back with a skills baseline and what it would take to close it.",
     buttonLabel: "Talk to our team",
-    type: "b2b",
   },
   "/services/taas": {
     heading: "Tell us the role you can't fill",
     description:
       "Send a job description, or just a technology and a start date. We'll come back with who we have and how fast they can start.",
     buttonLabel: "Talk to our team",
-    type: "it-staffing",
   },
   "/services/government-ssc-skilling": {
     heading: "Talk to us about your mission",
     description:
       "Send us the scheme, the districts and the target cohort. We'll come back with a delivery model, a mobilisation plan and how we report against it.",
     buttonLabel: "Contact our team",
-    type: "b2g",
   },
   "/initiatives/faculty-development": {
     heading: "Plan an FDP for your faculty",
     description:
       "Send us the department, the technologies and how many educators. We'll come back with a schedule that fits around teaching commitments.",
     buttonLabel: "Contact our team",
-    type: "b2i",
   },
   "/services/institutional-skilling": {
     heading: "Talk to us about your next batch",
     description:
       "Send us the department, the batch size and your timeline. We'll come back with a programme that fits your academic calendar.",
     buttonLabel: "Contact our team",
-    type: "b2i",
   },
   "/services/corporate-social-responsibility": {
     heading: "Talk to us about your CSR mandate",
     description:
       "Send us your focus area, budget cycle and geography. We'll come back with a programme design and an impact measurement plan.",
     buttonLabel: "Contact our team",
-    type: "csr",
   },
 };
 
@@ -185,7 +180,6 @@ const DEFAULT_CTA = {
   heading: "Ready to Transform Your Workforce?",
   description: `Join ${METRICS.professionalsTrainedLabel} professionals who have advanced their careers with ${COMPANY.name}`,
   buttonLabel: "Contact Our Team",
-  type: "",
 };
 
 const CTAWithFooter = () => {
@@ -202,6 +196,8 @@ const CTAWithFooter = () => {
     .filter((route) => pathname?.startsWith(route))
     .sort((a, b) => b.length - a.length)[0];
   const cta = matchedRoute ? pageCtaMap[matchedRoute] : DEFAULT_CTA;
+  const contactType = getContactType(pathname);
+  const contactHref = getContactHref(pathname);
 
   return (
     <div
@@ -251,7 +247,7 @@ const CTAWithFooter = () => {
                 viewport={{ once: true }}
               >
                 <Link
-                  href={cta.type ? `/contact?type=${cta.type}` : "/contact"}
+                  href={contactHref}
                   // AN-01: the primary CTA on every page now reports which
                   // service line generated the click, so enquiries can be
                   // attributed instead of landing in one undifferentiated
@@ -259,7 +255,7 @@ const CTAWithFooter = () => {
                   onClick={() =>
                     trackCtaClick({
                       label: cta.buttonLabel,
-                      serviceLine: cta.type || "general",
+                      serviceLine: contactType,
                       destination: "/contact",
                     })
                   }
@@ -459,7 +455,7 @@ const CTAWithFooter = () => {
                     </li>
                     <li>
                       <Link
-                        href="/contact"
+                        href={contactHref}
                         className="text-gray-700 hover:text-gray-900 transition-colors text-[11px]"
                       >
                         Contact Us

@@ -732,8 +732,10 @@ import {
 import { RiContactsLine } from "react-icons/ri";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { CiLogin } from "react-icons/ci";
 import { io, Socket } from "socket.io-client";
+import { getContactHref } from "@/lib/contactType";
 
 type MessageSender = "VISITOR" | "ADMIN";
 interface Message {
@@ -806,6 +808,7 @@ async function apiFetchConversation(id: string): Promise<Conversation | null> {
 }
 
 const SFJContactForm = () => {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState<ChatStep>("info");
   const [name, setName] = useState("");
@@ -1069,7 +1072,7 @@ const SFJContactForm = () => {
         </button>
 
         <Link
-          href="/contact"
+          href={getContactHref(pathname)}
           aria-label="Contact Us"
           className="group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
         >
