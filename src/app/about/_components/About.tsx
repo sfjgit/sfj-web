@@ -280,7 +280,7 @@ const FounderSection: React.FC = () => (
         </h2>
         <div className="flex justify-center mb-6">
           <Image
-            src="/CEO.jpg"
+            src="/CEO(1).jpeg"
             alt="Founder"
             width={240}
             height={240}
