@@ -1474,7 +1474,7 @@ const ClientsSection = () => {
                   Read More
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/contact?type=general"
                   className="inline-block bg-white border border-blue-900 text-blue-900 hover:bg-blue-50 font-semibold px-6 py-2.5 rounded-lg text-sm transition-colors duration-200"
                 >
                   Contact Us
