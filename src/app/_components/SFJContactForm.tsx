@@ -733,7 +733,6 @@ import { RiContactsLine } from "react-icons/ri";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CiLogin } from "react-icons/ci";
 import { io, Socket } from "socket.io-client";
 import { getContactHref } from "@/lib/contactType";
 
@@ -1062,24 +1061,6 @@ const SFJContactForm = () => {
   return (
     <>
       <div className="fixed bottom-4 right-4 md:bottom-5 md:right-5 z-40 flex flex-col items-end gap-2">
-        <button
-          type="button"
-          aria-label="Login"
-          className="group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
-        >
-          <CiLogin className="w-6 h-6 md:w-7 md:h-7" />
-          <span className={LABEL_CLASS}>Login</span>
-        </button>
-
-        <Link
-          href={getContactHref(pathname)}
-          aria-label="Contact Us"
-          className="group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
-        >
-          <RiContactsLine className="w-6 h-6 md:w-7 md:h-7" />
-          <span className={LABEL_CLASS}>Contact Us</span>
-        </Link>
-
         <div className="relative">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -1359,6 +1340,14 @@ const SFJContactForm = () => {
             </>
           )}
         </div>
+        <Link
+          href={getContactHref(pathname)}
+          aria-label="Contact Us"
+          className="group relative bg-slate-700 hover:bg-slate-800 text-white p-2.5 md:p-3 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105"
+        >
+          <RiContactsLine className="w-6 h-6 md:w-7 md:h-7" />
+          <span className={LABEL_CLASS}>Contact Us</span>
+        </Link>
       </div>
     </>
   );
