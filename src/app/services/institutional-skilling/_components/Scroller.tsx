@@ -42,7 +42,7 @@ const logoBoxOverrides: Record<string, string> = {
 
 const AIToolsBar = () => {
   return (
-    <nav className="w-full bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+    <nav className="w-full bg-white/90 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-30">
       <div className="w-full px-4 sm:px-6 py-3">
         <div className="flex items-center gap-3">
           <span className="flex-shrink-0 text-base font-semibold text-gray-700 whitespace-nowrap">
