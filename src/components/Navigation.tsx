@@ -565,12 +565,13 @@ const Navigation = () => {
                 </DropdownMenu>
               ) : (
                 <>
-                  <Link
-                    href="/signin"
+                  <button
+                    type="button"
+                    aria-label="Login"
                     className="ml-4 inline-flex items-center gap-2 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition-all duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-600/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
                     <LogIn className="h-4 w-4" />
-                  </Link>
+                  </button>
                   {/* <Button
                   onClick={() => router.push("/contact")}
                   className="ml-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -925,14 +926,13 @@ const Navigation = () => {
                 </div>
               ) : (
                 <div className="pt-3 space-y-2">
-                  <Link
-                    href="/signin"
-                    onClick={closeMobileMenu}
+                  <button
+                    type="button"
                     className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition-colors hover:from-blue-700 hover:to-indigo-700"
                   >
                     <LogIn className="h-4 w-4" />
                     Login
-                  </Link>
+                  </button>
                   {/* <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-2 rounded-lg shadow-md"
                   onClick={() => {
