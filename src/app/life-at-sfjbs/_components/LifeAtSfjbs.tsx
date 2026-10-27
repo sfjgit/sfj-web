@@ -75,7 +75,6 @@ const BLOCKS: CultureBlock[] = [
     ],
     photos: [
       photo("/fac/f2.jpeg", "Team members discussing ideas in a group workshop"),
-      photo("/fac/f4.jpeg", "A facilitator leading an internal workshop"),
       photo("/fac/f3.jpeg", "Colleagues working through a workshop exercise"),
       photo("/fac/f5.jpeg", "Team members presenting during a workshop"),
       photo("/fac/f6.jpeg", "A team session around the conference table"),
@@ -118,7 +117,6 @@ const BLOCKS: CultureBlock[] = [
       },
     ],
     photos: [
-      photo("/fac/f10.jpeg", "A festive pooja celebration at the office"),
       photo("/fac/f12.jpeg", "Colleagues celebrating Diwali with candles"),
       photo("/fac/f13.jpeg", "The team lighting candles together for Diwali"),
       photo("/fac/f14.jpeg", "Team members celebrating Diwali at the office"),
@@ -142,7 +140,6 @@ const BLOCKS: CultureBlock[] = [
       },
     ],
     photos: [
-      photo("/fac/f16.jpeg", "The SFJBS team on an offsite trip"),
       photo("/fac/f14.jpeg", "Team members spending time together"),
     ],
   },
@@ -454,17 +451,6 @@ const LifeAtSfjbs = () => {
           <p className="mt-4 text-lg font-semibold text-blue-200">
             Be part of something bigger, bolder, and full of heart.
           </p>
-        </div>
-        <div className="mx-auto mt-14 max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="relative aspect-[16/7] w-full overflow-hidden rounded-2xl">
-            <Image
-              src="/fac/f16.jpeg"
-              alt="The SFJBS team on an offsite trip"
-              fill
-              sizes="(max-width: 1152px) 100vw, 1152px"
-              className="object-cover"
-            />
-          </div>
         </div>
       </section>
 
