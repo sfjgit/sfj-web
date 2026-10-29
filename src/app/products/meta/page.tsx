@@ -309,7 +309,7 @@ function Hero() {
         // On md+ the photo sits in a narrower right-aligned box so object-cover
         // crops less (a slight zoom-out); its left edge fades into a gradient
         // sampled from the photo's wall colours.
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#CDB7A9] via-[#D9BCA2] to-[#8A7462]">
+        <div className="absolute inset-0 -z-9 bg-gradient-to-b from-[#CDB7A9] via-[#D9BCA2] to-[#8A7462]">
           <div className="absolute inset-y-0 right-0 w-full md:w-[85%] md:[mask-image:linear-gradient(to_right,transparent,black_20%)]">
             <Image
               src={HERO_IMAGE}
