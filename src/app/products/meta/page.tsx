@@ -343,7 +343,7 @@ function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              href="/contact"
+              href="/contact?type=general"
               className="rounded-md bg-[#1A66FF] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0F55E0]"
             >
               Request a Demo
@@ -966,7 +966,7 @@ function ReadyToExplore() {
             and institutions.
           </p>
           <Link
-            href="/contact"
+            href="/contact?type=general"
             className="mt-8 inline-block rounded-lg bg-[#3B82F6] px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2563EB]"
           >
             Request a Demo
