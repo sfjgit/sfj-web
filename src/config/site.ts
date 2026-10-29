@@ -104,6 +104,7 @@ export const PUBLIC_ROUTES = [
   "/blog",
   "/products/caspa",
   "/products/lms",
+  "/products/meta",
   "/products/talent-os",
   "/services/kaas",
   "/services/corporate-social-responsibility",
