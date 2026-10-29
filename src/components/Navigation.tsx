@@ -21,6 +21,7 @@ import {
   ClipboardList,
   Database,
   Globe,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -304,6 +305,13 @@ const Navigation = () => {
           label: "CASPA",
           desc: "AI-powered ERP for SMEs—automating sales, finance, HR, procurement and operations from one platform.",
           icon: Database,
+          hasChildren: false,
+        },
+        {
+          path: "/products/meta",
+          label: "META",
+          desc: "Education services on WhatsApp—results, admit cards, APAAR, scholarships and school updates in one simple conversation.",
+          icon: MessageCircle,
           hasChildren: false,
         },
       ],
