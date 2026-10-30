@@ -15,6 +15,8 @@ interface AnimatedBeamProps {
   pathWidth?: number;
   gradientStartColor?: string;
   gradientStopColor?: string;
+  /** Connect bottom edge to top edge instead of right edge to left edge. */
+  vertical?: boolean;
   className?: string;
 }
 
@@ -33,6 +35,7 @@ export function AnimatedBeam({
   pathWidth = 1.5,
   gradientStartColor = "#2BB3A3",
   gradientStopColor = "#5EEAD4",
+  vertical = false,
   className,
 }: AnimatedBeamProps) {
   const id = useId();
@@ -51,13 +54,23 @@ export function AnimatedBeam({
       const a = from.getBoundingClientRect();
       const b = to.getBoundingClientRect();
 
+      setSize({ width: c.width, height: c.height });
+
+      if (vertical) {
+        const sx = a.left + a.width / 2 - c.left;
+        const sy = a.bottom - c.top;
+        const ex = b.left + b.width / 2 - c.left;
+        const ey = b.top - c.top;
+        const my = (sy + ey) / 2;
+        setPath(`M ${sx},${sy} C ${sx},${my} ${ex},${my} ${ex},${ey}`);
+        return;
+      }
+
       const sx = a.right - c.left;
       const sy = a.top + a.height / 2 - c.top;
       const ex = b.left - c.left;
       const ey = b.top + b.height / 2 - c.top;
       const mx = (sx + ex) / 2;
-
-      setSize({ width: c.width, height: c.height });
       setPath(`M ${sx},${sy} C ${mx},${sy} ${mx},${ey} ${ex},${ey}`);
     };
 
@@ -65,7 +78,7 @@ export function AnimatedBeam({
     if (containerRef.current) observer.observe(containerRef.current);
     update();
     return () => observer.disconnect();
-  }, [containerRef, fromRef, toRef]);
+  }, [containerRef, fromRef, toRef, vertical]);
 
   return (
     <svg
@@ -95,12 +108,21 @@ export function AnimatedBeam({
               id={id}
               gradientUnits="userSpaceOnUse"
               initial={{ x1: "0%", x2: "0%", y1: "0%", y2: "0%" }}
-              animate={{
-                x1: ["10%", "110%"],
-                x2: ["0%", "100%"],
-                y1: ["0%", "0%"],
-                y2: ["0%", "0%"],
-              }}
+              animate={
+                vertical
+                  ? {
+                      x1: ["0%", "0%"],
+                      x2: ["0%", "0%"],
+                      y1: ["10%", "110%"],
+                      y2: ["0%", "100%"],
+                    }
+                  : {
+                      x1: ["10%", "110%"],
+                      x2: ["0%", "100%"],
+                      y1: ["0%", "0%"],
+                      y2: ["0%", "0%"],
+                    }
+              }
               transition={{
                 delay,
                 duration,
