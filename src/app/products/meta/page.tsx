@@ -304,12 +304,20 @@ export default function MetaProductPage() {
 
 function Hero() {
   return (
-    <section className="relative isolate flex min-h-[90vh] items-center overflow-hidden bg-[#1B1815]">
+    <section className="relative isolate flex items-center overflow-hidden bg-[#1B1815] md:min-h-[90vh]">
+      {/* Below md the photo can't sit behind the text without cropping to the
+          empty wall, so it moves into the column under the buttons instead. */}
+      {HERO_IMAGE && (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_70%_20%,#6B5D52_0%,#3A322B_45%,#16130F_100%)] md:hidden"
+        />
+      )}
       {HERO_IMAGE ? (
         // On md+ the photo sits in a narrower right-aligned box so object-cover
         // crops less (a slight zoom-out); its left edge fades into a gradient
         // sampled from the photo's wall colours.
-        <div className="absolute inset-0 -z-9 bg-gradient-to-b from-[#CDB7A9] via-[#D9BCA2] to-[#8A7462]">
+        <div className="absolute inset-0 -z-9 hidden bg-gradient-to-b from-[#CDB7A9] via-[#D9BCA2] to-[#8A7462] md:block">
           <div className="absolute inset-y-0 right-0 w-full md:w-[85%] md:[mask-image:linear-gradient(to_right,transparent,black_20%)]">
             <Image
               src={HERO_IMAGE}
@@ -332,9 +340,9 @@ function Hero() {
         className="absolute inset-0 -z-10 bg-gradient-to-r from-black/75 via-black/50 to-black/30 md:from-black/65 md:via-black/30 md:to-transparent"
       />
 
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-6 pb-20 pt-40 md:grid-cols-2 md:px-10 md:pb-40 md:pt-32 xl:px-0">
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 px-6 pb-12 pt-32 md:grid-cols-2 md:gap-12 md:px-10 md:pb-40 md:pt-32 xl:px-0">
         <div className="max-w-xl">
-          <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-[56px]">
+          <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-[3.5rem]">
             Access education services through a simple conversation.
           </h1>
           <p className="mt-5 max-w-md text-base leading-snug text-white/85 md:text-lg">
@@ -357,6 +365,22 @@ function Hero() {
           </div>
         </div>
 
+        {HERO_IMAGE && (
+          <div className="relative aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl shadow-xl sm:mx-auto md:hidden">
+            <Image
+              src={HERO_IMAGE}
+              alt=""
+              fill
+              // The 3:4 card crops the 16:10 photo to its height and then
+              // zooms 1.4×, so the image is drawn ~3× the card's width.
+              // `sizes` must say so or the browser fetches a file a third of
+              // the size it needs and the phone screen renders it blurry.
+              sizes="(min-width: 640px) 1150px, 300vw"
+              className="origin-[58%_50%] scale-[1.4] object-cover object-[58%_50%]"
+            />
+          </div>
+        )}
+
         {!HERO_IMAGE && (
           <div className="flex justify-center md:justify-start md:pl-6">
             <ChatPhone className="md:rotate-[8deg]" />
@@ -371,14 +395,14 @@ function ChatPhone({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "relative w-[272px] rounded-[46px] bg-[#111] p-[9px] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.65)] ring-1 ring-white/10",
+        "relative w-[17rem] rounded-[2.875rem] bg-[#111] p-[0.5625rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.65)] ring-1 ring-white/10",
         className,
       )}
     >
-      <div className="relative overflow-hidden rounded-[38px] bg-[#F3F3F1]">
-        <div className="relative flex items-center justify-between bg-white px-6 pb-1 pt-3 text-[11px] font-semibold">
+      <div className="relative overflow-hidden rounded-[2.375rem] bg-[#F3F3F1]">
+        <div className="relative flex items-center justify-between bg-white px-6 pb-1 pt-3 text-[0.6875rem] font-semibold">
           <span>15:15</span>
-          <span className="absolute left-1/2 top-2 h-[22px] w-[78px] -translate-x-1/2 rounded-full bg-black" />
+          <span className="absolute left-1/2 top-2 h-[1.375rem] w-[4.875rem] -translate-x-1/2 rounded-full bg-black" />
           <span className="flex items-center gap-1">
             <Signal className="h-3 w-3" />
             <Wifi className="h-3 w-3" />
@@ -392,22 +416,22 @@ function ChatPhone({ className }: { className?: string }) {
             <GraduationCap className="h-4 w-4" />
           </span>
           <div className="flex-1 leading-tight">
-            <p className="flex items-center gap-1 text-[11px] font-semibold">
+            <p className="flex items-center gap-1 text-[0.6875rem] font-semibold">
               Greenfield School
               <BadgeCheck className="h-3 w-3 fill-[#25D366] text-white" />
             </p>
-            <p className="text-[9px] text-gray-500">Online</p>
+            <p className="text-[0.5625rem] text-gray-500">Online</p>
           </div>
           <Video className="h-4 w-4" />
           <Phone className="h-3.5 w-3.5" />
         </div>
 
         <div className="space-y-2 px-3 py-3">
-          <div className="max-w-[78%] rounded-xl rounded-tl-sm bg-white px-3 py-2 text-[10px] leading-snug text-gray-800 shadow-sm">
+          <div className="max-w-[78%] rounded-xl rounded-tl-sm bg-white px-3 py-2 text-[0.625rem] leading-snug text-gray-800 shadow-sm">
             <p>Hi there! 👋</p>
             <p>How can we help you today?</p>
             <p>Choose a service below:</p>
-            <p className="mt-0.5 text-right text-[8px] text-gray-400">10:10</p>
+            <p className="mt-0.5 text-right text-[0.5rem] text-gray-400">10:10</p>
           </div>
           <div className="grid grid-cols-2 gap-1.5">
             {PHONE_SERVICES.map(({ label, icon: Icon, tint }) => (
@@ -423,7 +447,7 @@ function ChatPhone({ className }: { className?: string }) {
                 >
                   <Icon className="h-3.5 w-3.5" />
                 </span>
-                <span className="flex items-center justify-between text-[9.5px] font-semibold text-gray-800">
+                <span className="flex items-center justify-between text-[0.5938rem] font-semibold text-gray-800">
                   {label}
                   <ChevronRight className="h-3 w-3 text-gray-400" />
                 </span>
@@ -433,7 +457,7 @@ function ChatPhone({ className }: { className?: string }) {
         </div>
 
         <div className="flex items-center gap-2 px-2.5 pb-4 pt-1">
-          <div className="flex flex-1 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[9px] text-gray-400 shadow-sm">
+          <div className="flex flex-1 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[0.5625rem] text-gray-400 shadow-sm">
             <Smile className="h-3.5 w-3.5" />
             <span className="flex-1">Type a message...</span>
             <Paperclip className="h-3 w-3" />
@@ -460,9 +484,9 @@ function SectionHeading({
   desc?: string;
 }) {
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-3xl">
       <p className="text-xs font-bold uppercase">{eyebrow}</p>
-      <h2 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl md:text-[44px] md:leading-[1.1]">
+      <h2 className="mt-5 text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.75rem] md:leading-[1.1]">
         {title}
       </h2>
       {desc && (
@@ -499,14 +523,14 @@ function Platform() {
 
         <div
           ref={containerRef}
-          className="relative mx-auto mt-12 flex max-w-3xl items-center justify-between gap-6 md:mt-16"
+          className="relative mx-auto mt-12 flex max-w-3xl items-center justify-between gap-4 md:mt-16"
         >
           <div className="relative z-10 flex flex-col gap-3">
             {PLATFORM_SERVICES.map(({ icon: Icon, ...s }, i) => (
               <div
                 key={s.title}
                 ref={nodeRefs[i]}
-                className="flex w-[150px] items-center gap-2.5 rounded-xl border border-[#E4E4E7] bg-white px-2.5 py-2 sm:w-[200px] sm:px-3"
+                className="flex w-[10.5rem] items-center gap-2.5 rounded-xl border border-[#E4E4E7] bg-white px-2.5 py-2 sm:w-[12.5rem] sm:px-3"
               >
                 <span
                   className={cn(
@@ -517,10 +541,10 @@ function Platform() {
                   <Icon className="h-4 w-4" />
                 </span>
                 <span className="leading-tight">
-                  <span className="block text-[12px] font-semibold sm:text-[13px]">
+                  <span className="block text-[0.75rem] font-semibold sm:text-[0.8125rem]">
                     {s.title}
                   </span>
-                  <span className="block text-[10px] text-[#71717A] sm:text-[11px]">
+                  <span className="block whitespace-nowrap text-[0.625rem] text-[#71717A] sm:text-[0.6875rem]">
                     {s.desc}
                   </span>
                 </span>
@@ -528,32 +552,37 @@ function Platform() {
             ))}
           </div>
 
-          <div
-            ref={hubRef}
-            className="relative z-10 flex h-20 w-20 shrink-0 flex-col items-center justify-center gap-1 rounded-full border border-[#E4E4E7] bg-white shadow-sm sm:h-24 sm:w-24"
-          >
-            <FaWhatsapp className="h-7 w-7 text-[#25D366] sm:h-8 sm:w-8" />
+          {/* Hub and "Your Mobile" stack vertically on phones and sit in a row
+              from sm up, so the diagram keeps all three columns' content
+              without squeezing below ~360px. */}
+          <div className="relative z-10 flex shrink-0 flex-col items-center gap-14 sm:flex-1 sm:flex-row sm:justify-between sm:gap-4 sm:pl-16 md:pl-32">
+            <div
+              ref={hubRef}
+              className="relative z-10 flex h-20 w-20 shrink-0 flex-col items-center justify-center gap-1 rounded-full border border-[#E4E4E7] bg-white shadow-sm sm:h-24 sm:w-24"
+            >
+              <FaWhatsapp className="h-7 w-7 text-[#25D366] sm:h-8 sm:w-8" />
 
-            <span className="text-[11px] font-bold sm:text-[13px]">
-              WhatsApp
-            </span>
-          </div>
+              <span className="text-[0.6875rem] font-bold sm:text-[0.8125rem]">
+                WhatsApp
+              </span>
+            </div>
 
-          <div
-            ref={mobileRef}
-            className="relative z-10 hidden shrink-0 items-center gap-2.5 rounded-xl border border-[#E4E4E7] bg-white px-3 py-2.5 sm:flex sm:w-[200px]"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CCFBF1]">
-              <Smartphone className="h-4 w-4 text-[#0D9488]" />
-            </span>
-            <span className="leading-tight">
-              <span className="block text-[13px] font-semibold">
-                Your Mobile
+            <div
+              ref={mobileRef}
+              className="relative z-10 flex shrink-0 flex-col items-center gap-1.5 rounded-xl border border-[#E4E4E7] bg-white px-3 py-2.5 text-center sm:w-[11.25rem] sm:flex-row sm:gap-2.5 sm:text-left md:w-[12.5rem]"
+            >
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#CCFBF1]">
+                <Smartphone className="h-4 w-4 text-[#0D9488]" />
               </span>
-              <span className="block text-[11px] text-[#71717A]">
-                Connected
+              <span className="leading-tight">
+                <span className="block whitespace-nowrap text-[0.75rem] font-semibold sm:text-[0.8125rem]">
+                  Your Mobile
+                </span>
+                <span className="block text-[0.625rem] text-[#71717A] sm:text-[0.6875rem]">
+                  Connected
+                </span>
               </span>
-            </span>
+            </div>
           </div>
 
           {nodeRefs.map((ref, i) => (
@@ -573,6 +602,15 @@ function Platform() {
             duration={3}
             delay={1}
             className="hidden sm:block"
+          />
+          <AnimatedBeam
+            containerRef={containerRef}
+            fromRef={hubRef}
+            toRef={mobileRef}
+            duration={3}
+            delay={1}
+            vertical
+            className="sm:hidden"
           />
         </div>
       </div>
@@ -613,8 +651,8 @@ function HowItWorks() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-4 text-center text-white">
-                  <h3 className="text-[15px] font-semibold">{step.title}</h3>
-                  <p className="mt-0.5 text-[12px] text-white/85">
+                  <h3 className="text-[0.9375rem] font-semibold">{step.title}</h3>
+                  <p className="mt-0.5 text-[0.75rem] text-white/85">
                     {step.desc}
                   </p>
                 </div>
@@ -630,8 +668,8 @@ function HowItWorks() {
 function StepVisual({ step }: { step: number }) {
   return (
     <div className="absolute inset-0 flex items-start justify-center bg-[radial-gradient(ellipse_at_50%_20%,#F1ECE4_0%,#D8CFC2_55%,#B9AE9F_100%)] pt-5">
-      <div className="h-[150%] w-[38%] -rotate-[8deg] rounded-[22px] bg-[#111] p-[5px] shadow-xl">
-        <div className="h-full overflow-hidden rounded-[18px] bg-white px-2 pt-4">
+      <div className="h-[150%] w-[38%] -rotate-[8deg] rounded-[1.375rem] bg-[#111] p-[0.3125rem] shadow-xl">
+        <div className="h-full overflow-hidden rounded-[1.125rem] bg-white px-2 pt-4">
           <div className="mb-2 flex items-center gap-1.5">
             <span className="h-3 w-3 rounded-full bg-[#1F5F3A]" />
             <span className="h-1.5 w-12 rounded-full bg-gray-300" />
@@ -732,7 +770,7 @@ function Audiences() {
               className="grid gap-6 md:grid-cols-[1fr_1.4fr]"
             >
               <div className="md:pt-2">
-                <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#52525B]">
+                <p className="text-[0.6875rem] font-bold uppercase tracking-[0.15em] text-[#52525B]">
                   {audience.eyebrow}
                 </p>
                 <h3 className="mt-3 text-xl font-bold tracking-tight md:text-2xl">
@@ -746,11 +784,11 @@ function Audiences() {
                 {audience.items.map((item, i) => (
                   <div
                     key={item}
-                    className="flex min-h-[120px] flex-col justify-between rounded-2xl border border-[#E7E7E7] bg-[#FCFCFC] p-4 md:min-h-[150px]"
+                    className="flex min-h-[7.5rem] flex-col justify-between rounded-2xl border border-[#E7E7E7] bg-[#FCFCFC] p-4 md:min-h-[9.375rem]"
                   >
                     <span className="flex items-start justify-between">
                       <AudienceIcon item={item} />
-                      <span className="text-[11px] font-semibold text-[#A1A1AA]">
+                      <span className="text-[0.6875rem] font-semibold text-[#A1A1AA]">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </span>
@@ -779,7 +817,7 @@ function Languages() {
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <div className="grid overflow-hidden rounded-3xl border border-[#E7E7E7] bg-[#F7F7F7] md:grid-cols-2">
           <div className="p-6 md:p-10">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
+            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[#52525B]">
               Language &amp; accessibility
             </p>
             <h2 className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight md:text-5xl">
@@ -816,14 +854,14 @@ function Languages() {
             <div className="h-full rounded-2xl border border-[#E7E7E7] bg-[#FBFBFB] p-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
+                  <p className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[#52525B]">
                     Voice input
                   </p>
                   <p className="mt-1 text-sm font-semibold">
                     {selected.name} selected
                   </p>
                 </div>
-                <span className="rounded-full border border-[#F2CFC7] bg-white px-2.5 py-0.5 text-[11px] text-[#52525B]">
+                <span className="rounded-full border border-[#F2CFC7] bg-white px-2.5 py-0.5 text-[0.6875rem] text-[#52525B]">
                   Listening
                 </span>
               </div>
@@ -833,13 +871,13 @@ function Languages() {
                   <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#E4E4E7] bg-white sm:h-16 sm:w-16">
                     <Mic className="h-6 w-6 text-[#0D9488]" />
                   </span>
-                  <span className="text-[11px] text-[#71717A]">
+                  <span className="text-[0.6875rem] text-[#71717A]">
                     Speak naturally
                   </span>
                 </div>
                 <div className="relative mt-7 h-px flex-1 bg-[#D4D4D8] sm:mt-8 mx-4">
                   <motion.span
-                    className="absolute -top-[1.5px] h-1 w-3 rounded-full bg-[#2BB3A3]"
+                    className="absolute -top-[0.0938rem] h-1 w-3 rounded-full bg-[#2BB3A3]"
                     initial={{ left: "0%" }}
                     animate={
                       reduceMotion ? { left: "70%" } : { left: ["0%", "88%"] }
@@ -855,7 +893,7 @@ function Languages() {
                   <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#E4E4E7] bg-white sm:h-16 sm:w-16">
                     <FaWhatsapp className="h-7 w-7 text-[#25D366]" />
                   </span>
-                  <span className="text-[11px] text-[#71717A]">WhatsApp</span>
+                  <span className="text-[0.6875rem] text-[#71717A]">WhatsApp</span>
                 </div>
               </div>
 
@@ -881,10 +919,10 @@ function Languages() {
                 ))}
               </div>
 
-              <p className="mt-6 text-[11px] font-semibold uppercase text-[#52525B]">
+              <p className="mt-6 text-[0.6875rem] font-semibold uppercase text-[#52525B]">
                 Your request
               </p>
-              <div className="mt-2 min-h-[44px] rounded-xl border border-[#E4E4E7] bg-white px-4 py-3 text-sm">
+              <div className="mt-2 min-h-[2.75rem] rounded-xl border border-[#E4E4E7] bg-white px-4 py-3 text-sm">
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={selected.name}
@@ -898,7 +936,7 @@ function Languages() {
                   </motion.span>
                 </AnimatePresence>
               </div>
-              <p className="mt-4 text-center text-[11px] text-[#71717A]">
+              <p className="mt-4 text-center text-[0.6875rem] text-[#71717A]">
                 Voice → Understand → Service → Response
               </p>
             </div>
@@ -915,7 +953,7 @@ function Trust() {
   return (
     <section className="py-12 md:py-16">
       <div className="mx-auto max-w-6xl px-6 md:px-10">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
+        <p className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[#52525B]">
           Trust
         </p>
         <h2 className="mt-3 text-2xl font-bold tracking-tight md:text-3xl">
@@ -936,7 +974,7 @@ function Trust() {
                 <Icon className="h-5 w-5" />
               </span>
               <h3 className="mt-6 text-base font-semibold">{t.title}</h3>
-              <p className="mt-2 text-[13px] leading-relaxed text-[#71717A]">
+              <p className="mt-2 text-[0.8125rem] leading-relaxed text-[#71717A]">
                 {t.desc}
               </p>
             </div>
@@ -955,10 +993,10 @@ function ReadyToExplore() {
     <section className="pb-20 md:pb-28">
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <div className="rounded-3xl border border-[#E7E7E7] bg-[#F7F7F7] px-6 py-12 text-center md:py-14">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-[#52525B]">
             Ready to explore?
           </p>
-          <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-[44px]">
+          <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-bold leading-tight tracking-tight md:text-[2.75rem]">
             Make education services easier to access.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm text-[#71717A] md:text-base">
